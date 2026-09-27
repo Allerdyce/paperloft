@@ -43,3 +43,10 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 - Separate diagnostic uses standard Window > Paperloft Receipts to distinguish scene creation from the menu-bar action. Existing acceptance assertions and timeout thresholds are unchanged.
 
 - Follow-up isolated diagnostic proved Window-menu priming reaches the actual failing Open Inbox interaction on the intended executable. Re-evaluated only the prior captured OpenWindowAction idea against that failure: MailCapturedWindowAction FAIL30.606s at unchanged main reopen assertion. Reverted narrow source experiment and parked; no additional product repairs or drag acceptance claim.
+
+## Isolated promised-file native drag
+
+- Separate Window-menu-primed test successfully reaches synthetic source setup without changing original launch tests.
+- Approach1: XCUITest source window center to recipient window coordinates; no source drag-start callback.
+- Approach2: custom source view AX identifier, explicit source activation, native acceptsFirstMouse, hittable assertion and mouseDown logging; no mouseDown/drag-start callback.
+- Approach3: cache recipient screen point before source activation, use only source-owned XCUICoordinates; no callback observed after gesture. Complete result retained in evidence/mail-promises.md. No recipient failure inferred without source callback. Delivery/manual-review acceptance remains parked.
