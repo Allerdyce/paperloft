@@ -2,6 +2,17 @@
 
 You are building **Paperloft Receipts**, a Mac App Store app, from `SPEC.md` to an uploaded, review-ready build with no human help. Ali set up this machine in advance so nothing should need a person until the end. Follow this file exactly. This file is frozen; what you learn goes in `LESSONS.md`, which you read at the start of every session.
 
+## Owner-authorized local development exception (2026-09-26)
+
+Ali explicitly approved local development while EvidencePair membership is pending. This exception takes precedence over the setup ordering in SPEC.md and the startup rule below, only for local development.
+
+- Use `scripts/preflight_check.sh --local --log` at session start. Use `--fast` only for setup diagnostics; it does not verify Apple Intelligence. All remaining FAIL/TFAIL results still block work. Deferred prerequisites are not passes.
+- Allow project creation, local compilation, unit tests and local UI testing. Use unsigned or ad-hoc signing where supported; never use the placeholder Team ID as a real team. If a feature requires membership, record it in HANDOFF.md and continue independent work. Do not claim an unrun test passed.
+- Work on `run/1`. Do not execute the distribution/upload steps in the shakedown or use the submission-ready run prompt yet. No distribution signing, release archives, App Store Connect uploads, submission, or release/final gate claims. Local build numbers are provisional and must be reconciled against App Store Connect before any future upload.
+- Keep `acceptance-v1` postponed. Until it exists, check protected files against kit commit `640eab51a302cef28e57cd17f481673043c7dc9d` (except this owner-approved AGENTS.md amendment); verify every existing ACCEPTANCE.lock hash and its append-only history. Missing tag is deferred, not a lock-verification pass. Do not issue phase-completion tags before the acceptance baseline is established. Once the tag exists, use the unmodified `scripts/verify_lock.sh` and stop on any failure.
+- Acceptance criteria, product scope, scoring thresholds and frozen verifier code are unchanged. This exception does not authorize weakening them.
+- Before distribution work: complete membership and credentials, perform the full supervised shakedown, establish the acceptance tag as planned, and pass `scripts/preflight_check.sh --log` without `--local` or `--fast`, plus `scripts/verify_lock.sh`. Confirm all manual checks. A local GO never satisfies this release gate.
+
 ## 1. Sources of truth, highest first
 
 1. `ACCEPTANCE.md`, frozen at the `acceptance-v1` tag, and every test or fixture file listed in the append-only `ACCEPTANCE.lock`.

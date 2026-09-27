@@ -5,7 +5,9 @@
 # says how to fix it. The agent runs this at the start of every session and
 # must not start work while anything FAILs.
 #
-# Usage: scripts/preflight_check.sh [--fast] [--log]
+# Usage: scripts/preflight_check.sh [--local] [--fast] [--log]
+#   --local defer membership, distribution signing and acceptance-tag checks
+#           for local development only; never authorizes release or upload
 #   --fast  skip the Swift checks (App Store Connect record and products,
 #           Foundation Models availability); about 20 seconds faster
 #   --log   also write the output to evidence/preflight-latest.txt
@@ -21,10 +23,12 @@
 
 set -u
 
+LOCAL=0
 FAST=0
 LOG=0
 for arg in "$@"; do
   case "$arg" in
+    --local) LOCAL=1 ;;
     --fast) FAST=1 ;;
     --log) LOG=1 ;;
     -h|--help) sed -n '2,17p' "$0"; exit 0 ;;
@@ -54,6 +58,15 @@ report() { # level message
     TFAIL) n_tfail=$((n_tfail + 1)) ;;
     MANUAL) n_manual=$((n_manual + 1)) ;;
   esac
+}
+
+# Only explicitly designated release prerequisites may be deferred.
+release_report() {
+  if [ "$LOCAL" -eq 1 ]; then
+    report MANUAL "DEFERRED (local development only): $2"
+  else
+    report "$1" "$2"
+  fi
 }
 
 section() { printf '\n== %s ==\n' "$1"; }
@@ -268,13 +281,13 @@ for name in "Apple Development" "Apple Distribution"; do
   if echo "$ids" | grep -q "\"$name"; then
     report PASS "identity: $name"
   else
-    report FAIL "no valid '$name' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)"
+    release_report FAIL "no valid '$name' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)"
   fi
 done
 if echo "$all_ids" | grep -Eq "3rd Party Mac Developer Installer|Mac Installer Distribution"; then
   report PASS "identity: Mac Installer Distribution"
 else
-  report FAIL "no Mac Installer Distribution identity; create it in Xcode > Settings > Accounts > Manage Certificates"
+  release_report FAIL "no Mac Installer Distribution identity; create it in Xcode > Settings > Accounts > Manage Certificates"
 fi
 
 keychain="$HOME/Library/Keychains/login.keychain-db"
@@ -290,7 +303,7 @@ fi
 
 # The most common hidden prompt: codesign asking to use the private key.
 dev_hash="$(echo "$ids" | awk '/"Apple Development/ { print $2; exit }')"
-if [ -n "$dev_hash" ]; then
+if [ "$LOCAL" -eq 0 ] && [ -n "$dev_hash" ]; then
   probe_dir="$(mktemp -d)"
   cp /usr/bin/true "$probe_dir/probe"
   if with_timeout 30 codesign --force --sign "$dev_hash" "$probe_dir/probe" >/dev/null 2>&1; then
@@ -320,6 +333,13 @@ if [ -f "$ENV_FILE" ]; then
   . "$ENV_FILE"
   set +a
   for var in ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_PATH TEAM_ID BUNDLE_ID APP_NAME SUPPORT_EMAIL SITE_DOMAIN LEGAL_ENTITY; do
+    if [ "$LOCAL" -eq 1 ]; then
+      case "$var" in
+        ASC_KEY_ID|ASC_ISSUER_ID|ASC_KEY_PATH|TEAM_ID)
+          release_report FAIL "$var requires active membership before release"
+          continue ;;
+      esac
+    fi
     val="${!var:-}"
     case "$val" in
       "") report FAIL "$var missing from $ENV_FILE" ;;
@@ -337,15 +357,16 @@ if [ -f "$ENV_FILE" ]; then
   if [ -n "$key_file" ] && [ -f "$key_file" ]; then
     report PASS "App Store Connect key file present"
   else
-    report FAIL "App Store Connect key file not found at '${ASC_KEY_PATH:-}'"
+    release_report FAIL "App Store Connect key file not found at '${ASC_KEY_PATH:-}'"
   fi
   if [ -n "${TEAM_ID:-}" ] && ! echo "$ids" | grep -q "($TEAM_ID)"; then
-    report FAIL "no signing identity for team $TEAM_ID"
+    release_report FAIL "no signing identity for team $TEAM_ID"
   fi
 else
   report FAIL "secrets file not found at $ENV_FILE (section 3.4)"
 fi
 
+if [ "$LOCAL" -eq 0 ]; then
 code="$(with_timeout 20 curl -sS -o /dev/null -w '%{http_code}' https://api.appstoreconnect.apple.com/v1/apps 2>/dev/null)"
 if [ "$code" = "401" ] || [ "$code" = "200" ]; then
   report PASS "App Store Connect API reachable"
@@ -386,7 +407,12 @@ if [ "$FAST" -eq 0 ] && [ -f "$ENV_FILE" ]; then
   esac
 fi
 
+fi # release-only App Store Connect checks
+
 # ---------------------------------------------------------------------------
+if [ "$LOCAL" -eq 1 ]; then
+  release_report FAIL "App Store Connect API, app record and products require full preflight before release"
+fi
 section "Apple Intelligence"
 
 if [ "$FAST" -eq 0 ]; then
@@ -432,7 +458,7 @@ if git -C "$REPO_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   if git -C "$REPO_DIR" rev-parse -q --verify "refs/tags/acceptance-v1" >/dev/null 2>&1; then
     report PASS "tag acceptance-v1 present"
   else
-    report FAIL "tag acceptance-v1 missing; commit the kit, tag it and push (section 3.5)"
+    release_report FAIL "tag acceptance-v1 missing; commit the kit, tag it and push (section 3.5)"
   fi
 else
   report FAIL "$REPO_DIR is not a git repository"
@@ -498,5 +524,9 @@ if [ "$n_tfail" -gt 0 ]; then
   echo "WAIT: only transient failures; re-run in about 5 minutes."
   exit 3
 fi
-echo "GO"
+if [ "$LOCAL" -eq 1 ]; then
+  echo "GO: LOCAL DEVELOPMENT ONLY. Distribution signing, upload and release remain blocked."
+else
+  echo "GO"
+fi
 exit 0

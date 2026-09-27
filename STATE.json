@@ -1,0 +1,10 @@
+{
+  "phase": "P0",
+  "step": "Local CI green; independent P0 review next",
+  "last_green_commit": null,
+  "parked": [
+    "Membership, distribution signing and ASC upload",
+    "acceptance-v1 and formal phase gates"
+  ],
+  "updated": "2026-09-27T01:57:58.460941+00:00"
+}
