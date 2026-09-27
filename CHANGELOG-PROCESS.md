@@ -66,3 +66,8 @@ P2 gate now requires whole-target xccov>=75% with every library source represent
 ## P3 diagnostic evidence — 2026-09-26
 
 All 34 tests passed in the first two complete app runs, but runtime priority inversion warnings correctly kept CI red. Exported xcresult diagnostics and symbolicated their AppKit addresses rather than suppressing the checker. The stack is AppKit Services-menu data detection during accessibility inspection (`evidence/ci/P3-priority-inversion.txt`). Moving index initialization off-main and public NSDataDetector background warmup did not remove that framework warning. Removed the warmup experiment and the optional automatic Services command group; normal editing and explicit receipt commands remain. Unchanged NavigationTests then passed without warnings (`build/P3-services-diagnostic.xcresult`). Full CI pending. No acceptance threshold, locked test, warning scan, or runtime check was weakened.
+
+## 2026-09-27 — Independent local export-engine subtask
+- Added `ExportTests.swift` with independent CSV parsing, PDFKit inspection, SHA-256 checks and system ZIP extraction; this makes AC-12 output assertions independent of exporter totals.
+- Added local subtask evidence under `evidence/export/`; SwiftPM unit/Release checks avoid GUI contention with parent UI work. These do not replace the parent P4 gate or independent verifier.
+- The first ZIP test exposed Foundation retaining the `/var` alias even after URL symlink resolution. Canonicalized only the Apple-coordinated temporary archive with `realpath`; user library/destination ancestry and document components still reject symlinks through descriptor-relative no-follow opens.

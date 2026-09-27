@@ -1,0 +1,101 @@
+Building for debugging...
+[3 / 21] PaperloftKit
+[5 / 23] PaperloftKit
+[8 / 20] PaperloftKit
+[14 / 16] PaperloftCrashWorker-product
+[16 / 18] PaperloftKitTests-product
+Build complete! (1.64 sec)
+Test Suite 'All tests' started at 2026-09-26 23:12:43.102.
+Test Suite 'PaperloftKitTests.xctest' started at 2026-09-26 23:12:43.103.
+Test Suite 'ExportTests' started at 2026-09-26 23:12:43.103.
+Test Case '-[PaperloftKitTests.ExportTests testCollisionUnicodeCategoriesAndRepeatedExportNeverOverwrite]' started.
+Test Case '-[PaperloftKitTests.ExportTests testCollisionUnicodeCategoriesAndRepeatedExportNeverOverwrite]' passed (0.074 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testEmptyAndMultipageSummary]' started.
+Test Case '-[PaperloftKitTests.ExportTests testEmptyAndMultipageSummary]' passed (0.112 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testHashChangesDuplicateIDsAndTraversalAreRejected]' started.
+Test Case '-[PaperloftKitTests.ExportTests testHashChangesDuplicateIDsAndTraversalAreRejected]' passed (0.009 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testInclusiveRangeCSVExactCurrencyTotalsPDFAndOriginalHashes]' started.
+Test Case '-[PaperloftKitTests.ExportTests testInclusiveRangeCSVExactCurrencyTotalsPDFAndOriginalHashes]' passed (0.011 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testOptionalSystemZIPContainsCSVAndOriginalBytes]' started.
+Test Case '-[PaperloftKitTests.ExportTests testOptionalSystemZIPContainsCSVAndOriginalBytes]' passed (0.084 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testOverflowRejectedAndCurrenciesWithDifferentPrecision]' started.
+Test Case '-[PaperloftKitTests.ExportTests testOverflowRejectedAndCurrenciesWithDifferentPrecision]' passed (0.008 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testSymlinkFilesDirectoriesAndDestinationRejected]' started.
+Test Case '-[PaperloftKitTests.ExportTests testSymlinkFilesDirectoriesAndDestinationRejected]' passed (0.004 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testYearQuarterLeapCustomAndInvalidRanges]' started.
+Test Case '-[PaperloftKitTests.ExportTests testYearQuarterLeapCustomAndInvalidRanges]' passed (0.005 seconds).
+Test Suite 'ExportTests' passed at 2026-09-26 23:12:43.411.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.307 (0.308) seconds
+Test Suite 'PaperloftKitTests.xctest' passed at 2026-09-26 23:12:43.411.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.307 (0.308) seconds
+Test Suite 'All tests' passed at 2026-09-26 23:12:43.411.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.307 (0.309) seconds
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test parserRecognizesNonFinancialText() started.
+◇ Test filenameDoesNotTraversePaths() started.
+◇ Test calendarValidation() started.
+◇ Test parserUsesFinalTotalRatherThanTenderedCash() started.
+◇ Suite ResilienceTests started.
+◇ Test cardPaymentAndAmountDueAreRecognized() started.
+◇ Test copyCollisionsAndUndoPreserveExistingFiles() started.
+◇ Test separateColumnsPreserveAmountsOnTheirRows() started.
+◇ Test engineReviewFileSearchUndoAndSourceChange() started.
+◇ Test stubReturnsInjectedFields() started.
+◇ Test indexRebuildRestoresSearchFromLibraryAlone() started.
+◇ Test duplicatesAndModifiedDestinationsAreNeverOverwritten() started.
+◇ Test parserPrefersIssueDateOverDueDate() started.
+◇ Test extractionPayloadWithoutClassificationDiagnosticRemainsReadable() started.
+◇ Test emptyAndInvalidFragmentsDoNotCreateText() started.
+◇ Test moveAndUndoRestoreOriginalIdentityAndBytes() started.
+◇ Test invoiceOpticalCharacterConfusionIsRecognized() started.
+◇ Test randomizedThousandFileOperationsPreserveEveryOriginal() started.
+◇ Test rotatedRowsAreNotMistakenForAdjacentLines() started.
+◇ Test currencyPrecisionAndUnicodeFilenames() started.
+◇ Test assessmentRequiresAgreementAndValidFields() started.
+◇ Test amountsKeepTheirCents() started.
+◇ Test symlinkedCategoryCannotEscapeLibrary() started.
+◇ Test exactMoneyRejectsRoundingAndOverflow() started.
+◇ Test adjacentHeaderDoesNotBecomePartOfVendor() started.
+◇ Test partialClassificationFailurePreservesReviewButNeverAutoFiles() started.
+◇ Test savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals() started.
+◇ Test decodedDatesAreValidated() started.
+◇ Test emptyCorruptLockedAndLongPDFsFailClearly() started.
+✔ Test stubReturnsInjectedFields() passed after 0.008 seconds.
+✔ Test filenameDoesNotTraversePaths() passed after 0.009 seconds.
+✔ Test calendarValidation() passed after 0.009 seconds.
+✔ Test extractionPayloadWithoutClassificationDiagnosticRemainsReadable() passed after 0.009 seconds.
+✔ Test emptyAndInvalidFragmentsDoNotCreateText() passed after 0.008 seconds.
+✔ Test parserRecognizesNonFinancialText() passed after 0.009 seconds.
+✔ Test invoiceOpticalCharacterConfusionIsRecognized() passed after 0.009 seconds.
+✔ Test separateColumnsPreserveAmountsOnTheirRows() passed after 0.009 seconds.
+✔ Test rotatedRowsAreNotMistakenForAdjacentLines() passed after 0.009 seconds.
+✔ Test cardPaymentAndAmountDueAreRecognized() passed after 0.009 seconds.
+✔ Test currencyPrecisionAndUnicodeFilenames() passed after 0.009 seconds.
+✔ Test amountsKeepTheirCents() passed after 0.009 seconds.
+✔ Test parserPrefersIssueDateOverDueDate() passed after 0.009 seconds.
+✔ Test parserUsesFinalTotalRatherThanTenderedCash() passed after 0.009 seconds.
+✔ Test assessmentRequiresAgreementAndValidFields() passed after 0.010 seconds.
+✔ Test exactMoneyRejectsRoundingAndOverflow() passed after 0.010 seconds.
+✔ Test decodedDatesAreValidated() passed after 0.010 seconds.
+✔ Test partialClassificationFailurePreservesReviewButNeverAutoFiles() passed after 0.010 seconds.
+✔ Test adjacentHeaderDoesNotBecomePartOfVendor() passed after 0.010 seconds.
+✔ Test savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals() passed after 0.011 seconds.
+CoreGraphics PDF has logged an error. Set environment variable "CG_PDF_VERBOSE" to learn more.
+✔ Test symlinkedCategoryCannotEscapeLibrary() passed after 0.012 seconds.
+✔ Test duplicatesAndModifiedDestinationsAreNeverOverwritten() passed after 0.024 seconds.
+✔ Test emptyCorruptLockedAndLongPDFsFailClearly() passed after 0.019 seconds.
+◇ Test fiftyMegapixelImageIsRejectedBeforeOCR() started.
+✔ Test moveAndUndoRestoreOriginalIdentityAndBytes() passed after 0.028 seconds.
+✔ Test indexRebuildRestoresSearchFromLibraryAlone() passed after 0.037 seconds.
+✔ Test copyCollisionsAndUndoPreserveExistingFiles() passed after 0.041 seconds.
+✔ Test engineReviewFileSearchUndoAndSourceChange() passed after 0.056 seconds.
+✔ Test fiftyMegapixelImageIsRejectedBeforeOCR() passed after 0.357 seconds.
+◇ Test ordinaryImageAndPDFCompleteWithoutCrashing() started.
+✔ Test ordinaryImageAndPDFCompleteWithoutCrashing() passed after 0.386 seconds.
+◇ Test missingLibraryAndInvalidPermissionHaveActionableErrors() started.
+✔ Test missingLibraryAndInvalidPermissionHaveActionableErrors() passed after 0.001 seconds.
+✔ Suite ResilienceTests passed after 0.771 seconds.
+✔ Test randomizedThousandFileOperationsPreserveEveryOriginal() passed after 21.873 seconds.
+✔ Test run with 31 tests in 1 suite passed after 21.873 seconds.
