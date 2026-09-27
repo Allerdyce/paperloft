@@ -66,3 +66,9 @@ P2 gate now requires whole-target xccov>=75% with every library source represent
 ## P3 diagnostic evidence — 2026-09-26
 
 All 34 tests passed in the first two complete app runs, but runtime priority inversion warnings correctly kept CI red. Exported xcresult diagnostics and symbolicated their AppKit addresses rather than suppressing the checker. The stack is AppKit Services-menu data detection during accessibility inspection (`evidence/ci/P3-priority-inversion.txt`). Moving index initialization off-main and public NSDataDetector background warmup did not remove that framework warning. Removed the warmup experiment and the optional automatic Services command group; normal editing and explicit receipt commands remain. Unchanged NavigationTests then passed without warnings (`build/P3-services-diagnostic.xcresult`). Full CI pending. No acceptance threshold, locked test, warning scan, or runtime check was weakened.
+
+## 2026-09-26 — Independent accessibility diagnostic
+
+Added Tools/AccessibilityProbe as a separate Apple-only app/UI-test project to distinguish native macOS 27 audit findings from product code. Default all-issues audit keeps handler false and reproduces host Group, TouchBar, emoji popup and Picker failures. No checks weakened. Evidence: evidence/a11y-probe/report.md and Probe.xcresult. Diagnostic only, no acceptance claim.
+
+- Extended the isolated native probe with PDF accessibility labeling and ordinary Settings overlap cases. Public page labels preserve native PDF text children; the Settings probe reproduces inactive History contrast findings but not the foreground caption issue. Reports retain failing audits without suppressions or phase acceptance claims.
