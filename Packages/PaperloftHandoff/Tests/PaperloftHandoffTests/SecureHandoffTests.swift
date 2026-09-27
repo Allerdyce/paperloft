@@ -81,6 +81,38 @@ final class SecureHandoffTests: XCTestCase, @unchecked Sendable {
         XCTAssertEqual(try Data(contentsOf: replacement), unexpected)
     }
 
+    func testCopyThroughTraversalOnlyParents() throws {
+        let root = try workspace()
+        let sourceParent = root.appendingPathComponent("selected-parent")
+        let destinationParent = root.appendingPathComponent("destination-parent")
+        for parent in [sourceParent, destinationParent] {
+            try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: false)
+        }
+        defer {
+            _ = chmod(sourceParent.path, 0o700)
+            _ = chmod(destinationParent.path, 0o700)
+        }
+        let source = sourceParent.appendingPathComponent("selected.pdf")
+        let destination = destinationParent.appendingPathComponent("copy.pdf")
+        let original = Data("synthetic selected receipt".utf8)
+        try original.write(to: source)
+        // Read the selected file by name, without permission to list its parent.
+        XCTAssertEqual(chmod(sourceParent.path, 0o100), 0)
+        // Creating a known destination needs write + search, not directory read.
+        XCTAssertEqual(chmod(destinationParent.path, 0o300), 0)
+        for parent in [sourceParent, destinationParent] {
+            let forbidden = Darwin.open(parent.path, O_RDONLY | O_DIRECTORY)
+            let savedError = errno
+            if forbidden >= 0 { Darwin.close(forbidden) }
+            XCTAssertEqual(forbidden, -1, "Fixture must actually deny listing access")
+            XCTAssertEqual(savedError, EACCES)
+        }
+        let copied = try HandoffFileCopy.copy(source: source, destination: destination)
+        XCTAssertEqual(copied, Int64(original.count))
+        XCTAssertEqual(try Data(contentsOf: destination), original)
+        XCTAssertEqual(try Data(contentsOf: source), original)
+    }
+
     func testOpenedFileMutationIsRejected() throws {
         let root = try workspace(), source = root.appendingPathComponent("source.pdf")
         try Data("before".utf8).write(to: source)
