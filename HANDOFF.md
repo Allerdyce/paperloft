@@ -37,3 +37,9 @@ Icon Composer opens successfully but requires first-use Icon Composer Agreement 
 ## Native Computer Use review blocked
 
 Current QA app selection/screenshot worked, but the first Settings click returned “Sky Computer Use native pipe closed before response”. Partial independent critique: evidence/design/2026-09-27-critique.md. Only visible dark review design was scored4/5; all unobserved screen/appearance/keyboard/persona checks remain unverified. No repeat/bypass, no product defect inferred from the bridge failure. Automated UI tests remain operational.
+
+## Rejected isolated classifier-prewarm experiment
+
+Candidate ed8b84e passed43 optimized core tests and the frozen150-document system accuracy evaluation. Parent independently compared parsed predictions: all150 exactly equal accepted baseline, including16classification fallbacks. One fresh system timing attempt then completed/persisted80/100 withsystem80 at360.001s cutoff, versus baseline100/100 in358.972s. One Foundation Models error was recorded. Peak439.63MB/max heartbeat220.70ms are observations; later assertions were not reached after fail-fast. No speed benefit established, no causal slowdown conclusion. Candidate source is restored exactly at local/performance1a7309c (parent verified empty Extraction.swift diff against1eff99b); root never received it. Accuracy/timing evidence is retained there. No blind rerun.
+
+Current root menu-bar Open Inbox independently passes on reviewed product13db8a4, now regression test in daef890; see evidence/menu-reopen/README.md. This does not clear native Mail wrapper failures.

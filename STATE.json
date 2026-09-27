@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Root1d1bff7 regression:83 core tests,8 functional UI tests and strict Release PASS; accessibility FAIL14 findings. Independent design review active; isolated prewarm ed8b84e undergoing accuracy checks before timing. No phase/release acceptance; uploads blocked.",
+  "step": "Local checkpoint: reviewed product unchanged from1d1bff7; root daef890 includes menu reopen regression.83 core +8 functional UI +strict Release/QA pass; accessibility FAIL14. Prewarm quality exact150/150 but timing80/100 at360s, rejected/no root integration. Isolated evidence+exact source restoration pushed at1a7309c; all processes/GUI released. Remaining external/tool/acceptance blockers recorded; no release/uploads or background schedule.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -8,7 +8,10 @@
     "System accessibility audit findings reproduced independently; AC-13 remains open",
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
     "AppIntentsTesting metadata discovery fails; adapter independently passes16tests, AC15 unverified",
-    "Icon Composer first-use agreement EA1954 unaccepted; native icon assembly blocked"
+    "Icon Composer first-use agreement EA1954 unaccepted; native icon assembly blocked",
+    "Native Computer Use click bridge failure blocks complete design/persona review",
+    "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
+    "System throughput exceeds240s; required signpost collection unavailable after three approaches"
   ],
-  "updated": "2026-09-27T08:38:07.661081+00:00"
+  "updated": "2026-09-27T08:56:32.760320+00:00"
 }

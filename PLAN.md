@@ -50,3 +50,10 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 - Run combined root package tests, native UI suite and strict Release; record failures without weakening checks.
 - Fresh system performance358.972s exceeds240s; inspect existing timing/source for a justified repair before any repeat. Required signposts remain blocked.
 - Keep Mail promises, framework discovery, StoreKit SDK and native icon agreement parked; no routine owner approval.
+
+## Resumable local checkpoint
+
+- Combined core83 and functionalUI8 pass, accessibility14findings persists; strictRelease/QA and protectedbaseline pass. Current-root menuOpenInbox independently passes; regression added.
+- Prewarm experiment preserved150 predictions exactly but failed100-document completion at360s. Reject/revert isolated source; retain evidence; no repeat without new justified repair.
+- Full design/persona work is parked on native Computer Use pipe failure. Native icon agreement, AppIntents discovery, StoreKit SDK, Mail promise gesture, system throughput/signpost and accessibility remain recorded blockers.
+- No current heavy process, distribution, upload or background scheduling is planned after evidence is saved. Resume from STATE when a concrete blocker changes or a justified new approach becomes available.
