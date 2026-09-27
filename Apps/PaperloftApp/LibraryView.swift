@@ -6,6 +6,16 @@ import PaperloftKit
 import SwiftUI
 import UniformTypeIdentifiers
 
+private func inboxDisplayStatus(_ item: InboxItem) -> String {
+    if item.review?.duplicate != nil { return "Duplicate" }
+    if item.status == "failed" { return "Issue" }
+    if item.status == "ready" {
+        if item.review?.assessment.canAutoFile != true || (try? item.draft.receipt()) == nil { return "Issue" }
+        return "Ready"
+    }
+    return "Processing"
+}
+
 struct LibraryView: View {
     @Bindable var model: AppModel
     @State private var targeted = false
@@ -58,10 +68,10 @@ struct LibraryView: View {
                         .font(.system(size: 28, weight: .semibold, design: .serif)).accessibilityIdentifier("content.title")
                     Spacer()
                     if model.selection == "Inbox", model.inboxCount > 0 {
-                        let ready = model.items.filter { $0.status == "ready" }.count
+                        let ready = model.items.filter { $0.status != "aside" && inboxDisplayStatus($0) == "Ready" }.count
                         let pending = model.items.filter { $0.status == "processing" || $0.status == "waiting" }.count
                         if pending > 0 { ReceiptStatusPill(title: "Processing · \(pending)", symbol: "clock.fill", color: .blue).accessibilityIdentifier("inbox.processingCount") }
-                        if ready > 0 { ReceiptStatusPill(title: "Ready to review · \(ready)", symbol: "checkmark.circle.fill", color: .green).accessibilityIdentifier("inbox.readyCount") }
+                        if ready > 0 { ReceiptStatusPill(title: "Ready · \(ready)", symbol: "checkmark.circle.fill", color: .green).accessibilityIdentifier("inbox.readyCount") }
                     }
                     if model.busy || model.processing { ProgressView().controlSize(.small).accessibilityLabel("Working") }
                 }.padding(.horizontal, 24).padding(.top, 22).padding(.bottom, 16)
@@ -109,23 +119,25 @@ struct LibraryView: View {
 struct InboxView: View {
     @Bindable var model: AppModel
     @State private var filter = "All"
-    private let filters = ["All", "Ready", "Processing", "Duplicates", "Needs attention"]
+    @State private var pinnedReviewID: UUID?
+    private let filters = ["All", "Ready", "Processing", "Duplicates", "Issues"]
     private func matches(_ item: InboxItem, _ choice: String) -> Bool {
         guard item.status != "aside" else { return false }
         switch choice {
-        case "Ready": return item.status == "ready" && item.review?.duplicate == nil
-        case "Processing": return item.status == "processing" || item.status == "waiting"
+        case "Ready": return inboxDisplayStatus(item) == "Ready"
+        case "Processing": return inboxDisplayStatus(item) == "Processing"
         case "Duplicates": return item.review?.duplicate != nil
-        case "Needs attention": return item.status == "failed"
+        case "Issues": return inboxDisplayStatus(item) == "Issue"
         default: return true
         }
     }
-    private var visibleItems: [InboxItem] { model.items.filter { matches($0, filter) } }
+    private var visibleItems: [InboxItem] { model.items.filter { matches($0, filter) || ($0.status != "aside" && $0.id == pinnedReviewID) } }
     private func syncSelection() {
         if !visibleItems.contains(where: { $0.id == model.selectedItemID }) { model.selectedItemID = visibleItems.first?.id }
+        pinnedReviewID = model.items.first(where: { $0.id == model.selectedItemID && $0.status == "ready" })?.id
     }
     private func filterColor(_ value: String) -> Color {
-        switch value { case "Ready": return .green; case "Processing": return .blue; case "Duplicates", "Needs attention": return .orange; default: return .accentColor }
+        switch value { case "Ready": return .green; case "Processing": return .blue; case "Duplicates", "Issues": return .orange; default: return .accentColor }
     }
     var body: some View {
         if model.libraryURL == nil {
@@ -157,7 +169,7 @@ struct InboxView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
                         ForEach(filters, id: \.self) { value in
-                            Button { filter = value } label: {
+                            Button { pinnedReviewID = nil; model.selectedItemID = nil; filter = value; syncSelection() } label: {
                                 HStack(spacing: 5) {
                                     if filter == value { Image(systemName: "checkmark") }
                                     Text(value)
@@ -174,7 +186,7 @@ struct InboxView: View {
             HSplitView {
                 List(selection: $model.selectedItemID) {
                     ForEach(visibleItems) { item in
-                        InboxRow(id: item.id, name: item.name, status: item.status, duplicate: item.review?.duplicate != nil)
+                        InboxRow(id: item.id, name: item.name, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil)
                             .equatable().tag(item.id)
                     }
                     Button { Task { await model.importFiles() } } label: {
@@ -206,7 +218,7 @@ struct InboxView: View {
                                 Image(systemName: "exclamationmark.triangle").font(.largeTitle).foregroundStyle(.orange).accessibilityHidden(true)
                                 Text("This document needs attention").font(.headline)
                                 Text(item.issue ?? "Import the document again.").foregroundStyle(.primary).multilineTextAlignment(.center)
-                                Button("Set Aside") { model.setAside(item.id) }.accessibilityIdentifier("inbox.setAsideError")
+                                Button("Remove") { model.setAside(item.id) }.foregroundStyle(.red).help("Remove from Inbox. The original file stays in place.").accessibilityIdentifier("inbox.setAsideError")
                             } else { ProgressView("Reading your document…").accessibilityIdentifier("inbox.reading") }
                         }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
@@ -232,12 +244,12 @@ struct InboxRow: View, Equatable {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(name).lineLimit(2).font(.callout.weight(.medium))
-            ReceiptStatusPill(title: statusLabel, symbol: status == "failed" ? "exclamationmark.triangle.fill" : status == "ready" ? "checkmark.circle.fill" : "clock.fill", color: duplicate || status == "failed" ? .orange : status == "ready" ? .green : .blue)
+            ReceiptStatusPill(title: statusLabel, symbol: status == "Issue" ? "exclamationmark.triangle.fill" : status == "Ready" ? "checkmark.circle.fill" : duplicate ? "doc.on.doc.fill" : "clock.fill", color: duplicate || status == "Issue" ? .orange : status == "Ready" ? .green : .blue)
         }.padding(.vertical, 8).accessibilityIdentifier("inbox.item." + id.uuidString)
     }
     private var statusLabel: String {
         if duplicate { return "Duplicate" }
-        switch status { case "ready": return "Ready to review"; case "processing": return "Processing"; case "failed": return "Needs attention"; default: return "Waiting" }
+        return status
     }
 }
 
@@ -259,6 +271,8 @@ struct ReviewView: View {
     @Bindable var model: AppModel
     let item: InboxItem
     @State private var draft: ReceiptDraft
+    @State private var showDatePicker = false
+    @State private var calendarDate = Date()
     private enum Field: Hashable { case vendor, date, total, tax, currency }
     @FocusState private var focusedField: Field?
     init(model: AppModel, item: InboxItem) { self.model = model; self.item = item; _draft = State(initialValue: item.draft) }
@@ -266,19 +280,28 @@ struct ReviewView: View {
         guard let review = item.review else { return true }
         return !review.assessment.canAutoFile
     }
-    private func highlight(_ field: String) -> Bool {
-        guard let review = item.review else { return true }
-        let reasons = review.assessment.reasons
-        if reasons.contains(.lowConfidence) || reasons.contains(.notReceipt) { return true }
+    private func fieldMessage(_ field: String) -> String? {
+        let currency = draft.currency.uppercased().trimmingCharacters(in: .whitespaces)
+        let validCurrency = (try? Money(minorUnits: 0, currency: currency)) != nil
+        let total = try? Money(decimal: draft.total, currency: validCurrency ? currency : "USD")
         switch field {
-        case "vendor": return reasons.contains(.missingVendor)
-        case "date": return reasons.contains(.invalidDate) || reasons.contains(.parserDisagreement) || reasons.contains(.parserUnavailable)
-        case "total": return reasons.contains(.invalidTotal) || reasons.contains(.parserDisagreement) || reasons.contains(.parserUnavailable)
-        case "tax": return reasons.contains(.invalidTax) || reasons.contains(.taxSourceUnverified)
-        case "currency": return reasons.contains(.invalidCurrency)
-        case "category": return reasons.contains(.missingCategory)
-        case "kind": return reasons.contains(.invalidKind) || reasons.contains(.classificationUnavailable)
-        default: return false
+        case "vendor":
+            return draft.vendor.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Enter the merchant name." : nil
+        case "date":
+            return (try? ReceiptDate(iso8601: draft.date)) == nil ? "Choose a valid receipt date." : nil
+        case "total":
+            return total == nil ? "Enter the total shown on the receipt." : nil
+        case "currency":
+            return validCurrency ? nil : "Enter a supported currency code, such as USD."
+        case "tax":
+            if draft.tax.trimmingCharacters(in: .whitespaces).isEmpty { return nil }
+            guard let tax = try? Money(decimal: draft.tax, currency: validCurrency ? currency : "USD") else { return "Enter a valid tax amount, or leave it empty." }
+            if let total, tax.minorUnits > total.minorUnits { return "Tax cannot exceed the total." }
+            if item.review?.fields.taxNeedsReview == true && draft.tax == item.review?.fields.tax { return "Check this tax against the receipt; the source did not verify it." }
+            return nil
+        case "category":
+            return draft.category.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Choose a category." : nil
+        default: return nil
         }
     }
     var body: some View {
@@ -298,7 +321,7 @@ struct ReviewView: View {
                     if let duplicate = item.review?.duplicate {
                         Label("Already filed: \(duplicate)", systemImage: "doc.on.doc").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.duplicate")
                     } else if item.review?.fields.kind == "not_receipt" {
-                        Label("This may not be a receipt. Check it or set it aside.", systemImage: "questionmark.circle").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.warning")
+                        Label("This may not be a receipt. Check the details or remove it from the Inbox.", systemImage: "questionmark.circle").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.warning")
                     } else if needsReview {
                         Label("Check the suggested fields before filing.", systemImage: "checkmark.circle").font(.callout).foregroundStyle(.primary).accessibilityIdentifier("review.warning")
                     }
@@ -309,36 +332,62 @@ struct ReviewView: View {
                         .accessibilityIdentifier("review.taxSourceWarning")
                 }
                 Form {
-                    TextField("Vendor", text: $draft.vendor).focused($focusedField, equals: .vendor).accessibilityIdentifier("review.vendor").modifier(ReviewHighlight(needed: highlight("vendor")))
-                    TextField("Date", text: $draft.date, prompt: Text("YYYY-MM-DD")).focused($focusedField, equals: .date).accessibilityIdentifier("review.date").modifier(ReviewHighlight(needed: highlight("date")))
-                    TextField("Total", text: $draft.total).monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(needed: highlight("total")))
-                    TextField("Tax (optional)", text: $draft.tax).monospacedDigit().focused($focusedField, equals: .tax).accessibilityIdentifier("review.tax").modifier(ReviewHighlight(needed: highlight("tax")))
-                    TextField("Currency", text: $draft.currency).focused($focusedField, equals: .currency).accessibilityIdentifier("review.currency").modifier(ReviewHighlight(needed: highlight("currency")))
+                    TextField("Vendor", text: $draft.vendor).focused($focusedField, equals: .vendor).accessibilityIdentifier("review.vendor").modifier(ReviewHighlight(message: fieldMessage("vendor")))
+                    HStack {
+                        TextField("Date", text: $draft.date, prompt: Text("YYYY-MM-DD")).focused($focusedField, equals: .date).accessibilityIdentifier("review.date")
+                        Button {
+                            let formatter = DateFormatter()
+                            formatter.locale = Locale(identifier: "en_US_POSIX")
+                            formatter.dateFormat = "yyyy-MM-dd"
+                            formatter.isLenient = false
+                            calendarDate = formatter.date(from: draft.date) ?? Date()
+                            showDatePicker = true
+                        } label: { Image(systemName: "calendar") }
+                        .accessibilityLabel("Choose receipt date").accessibilityIdentifier("review.chooseDate")
+                        .popover(isPresented: $showDatePicker) {
+                            VStack(alignment: .leading, spacing: 12) {
+                                DatePicker("Receipt date", selection: $calendarDate, displayedComponents: .date)
+                                    .datePickerStyle(.graphical)
+                                Button("Use date") {
+                                    let formatter = DateFormatter()
+                                    formatter.locale = Locale(identifier: "en_US_POSIX")
+                                    formatter.dateFormat = "yyyy-MM-dd"
+                                    draft.date = formatter.string(from: calendarDate)
+                                    showDatePicker = false
+                                }.buttonStyle(.borderedProminent).accessibilityIdentifier("review.useDate")
+                            }.padding().frame(width: 300)
+                        }
+                    }.modifier(ReviewHighlight(message: fieldMessage("date")))
+                    TextField("Total", text: $draft.total).monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(message: fieldMessage("total")))
+                    TextField("Tax (optional)", text: $draft.tax).monospacedDigit().focused($focusedField, equals: .tax).accessibilityIdentifier("review.tax").modifier(ReviewHighlight(message: fieldMessage("tax")))
+                    TextField("Currency", text: $draft.currency).focused($focusedField, equals: .currency).accessibilityIdentifier("review.currency").modifier(ReviewHighlight(message: fieldMessage("currency")))
                     AccessiblePicker(label: "Category", identifier: "review.category", choices: Array(Set(model.categories + [draft.category])).sorted(), selection: $draft.category)
-                        .modifier(ReviewHighlight(needed: highlight("category")))
+                        .modifier(ReviewHighlight(message: fieldMessage("category")))
                     AccessiblePicker(label: "Document type", identifier: "review.kind", choices: ["Receipt", "Invoice", "Bill"], selection: Binding(get: { draft.kind.rawValue.capitalized }, set: { draft.kind = DocumentKind(rawValue: $0.lowercased()) ?? .receipt }))
-                        .modifier(ReviewHighlight(needed: highlight("kind")))
+                        .modifier(ReviewHighlight(message: fieldMessage("kind")))
                 }
                 .textFieldStyle(.roundedBorder)
                 .onSubmit { Task { await model.fileSelected() } }
-                if let error = validationMessage ?? model.templateError {
+                if let error = model.templateError {
                     Text(error).font(.caption).foregroundStyle(.orange).accessibilityIdentifier("review.validation")
                 }
                 Spacer(minLength: 0)
                 Text("Files into \(String(draft.date.prefix(4)))/\(draft.category)/")
                     .font(.caption).foregroundStyle(.primary).lineLimit(2).accessibilityIdentifier("review.destination")
+                Text(model.mode == .copy ? "Saves a copy to your library. Your original stays in place." : "Moves the original to your library. You can undo this in History.")
+                    .font(.caption).foregroundStyle(.secondary)
                 HStack {
-                    Button("Not a Receipt · Set Aside") { model.setAside(item.id) }.accessibilityIdentifier("review.setAside")
+                    Button("Remove") { model.setAside(item.id) }.foregroundStyle(.red).help("Remove from Inbox. The original file stays in place.").accessibilityIdentifier("review.setAside")
                     Spacer()
-                    Button(model.mode == .copy ? "File Copy" : "Move & File") { Task { await model.fileSelected() } }
+                    Button("Confirm") { Task { await model.fileSelected() } }
                         .buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
                         .disabled(!model.canFile).accessibilityIdentifier("review.file")
                 }
-                if let reason = model.filingUnavailableReason {
+                if let reason = model.filingUnavailableReason, ["vendor", "date", "total", "tax", "currency", "category"].allSatisfy({ fieldMessage($0) == nil }) {
                     Text(reason).font(.caption).foregroundStyle(.primary)
                         .accessibilityIdentifier("review.filingUnavailableReason")
                 }
-                Text("Return to file · Tab to move between fields").font(.caption).foregroundStyle(.primary)
+                Text("Return to confirm · Tab to move between fields").font(.caption).foregroundStyle(.primary)
             }.padding(22).frame(minWidth: 290, idealWidth: 340, maxWidth: 400)
                 .background(WindowAccessibility(label: "Receipt fields and filing actions", target: .splitPane))
         }
@@ -350,9 +399,7 @@ struct ReviewView: View {
         .onChange(of: draft.kind) { save() }
     }
     private func save() { model.edit(draft, id: item.id) }
-    private var validationMessage: String? {
-        do { _ = try draft.receipt(); return nil } catch { return error.localizedDescription }
-    }
+
 }
 
 struct DocumentPreview: View {
@@ -699,17 +746,22 @@ struct PaperloftSettings: View {
 }
 
 private struct ReviewHighlight: ViewModifier {
-    let needed: Bool
+    let message: String?
     func body(content: Content) -> some View {
-        content
-            .padding(3)
-            .background {
-                if needed { RoundedRectangle(cornerRadius: 5).fill(Color.orange.opacity(0.09)) }
+        VStack(alignment: .leading, spacing: 4) {
+            content.padding(3)
+                .background {
+                    if message != nil { RoundedRectangle(cornerRadius: 5).fill(Color.orange.opacity(0.09)) }
+                }
+                .overlay {
+                    if message != nil { RoundedRectangle(cornerRadius: 5).stroke(Color.orange, lineWidth: 1) }
+                }
+            if let message {
+                Label(message, systemImage: "exclamationmark.circle")
+                    .font(.caption).foregroundStyle(.primary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .overlay {
-                if needed { RoundedRectangle(cornerRadius: 5).stroke(Color.orange, lineWidth: 1) }
-            }
-            .accessibilityHint(needed ? "Check this suggested field against the document before filing." : "")
+        }
     }
 }
 

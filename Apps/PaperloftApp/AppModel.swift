@@ -120,7 +120,20 @@ final class FileGrant: @unchecked Sendable {
     var batches: [FilingBatch] = []
     var libraryURL: URL?
     var isSampleLibrary = false
-    var busy = false
+    enum OperationKind { case libraryMutation, background }
+    private var manualBusy = false
+    private var activeOperations: [UUID: OperationKind] = [:]
+    var busy: Bool {
+        get { manualBusy || !activeOperations.isEmpty }
+        set { manualBusy = newValue }
+    }
+    private var filingBlocked: Bool {
+        manualBusy || activeOperations.values.contains { $0 == .libraryMutation }
+    }
+    @discardableResult func beginOperation(_ kind: OperationKind) -> UUID {
+        let token = UUID(); activeOperations[token] = kind; return token
+    }
+    func endOperation(_ token: UUID) { activeOperations[token] = nil }
     var processing = false
     var activity = ""
     var message: String?
@@ -149,6 +162,8 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var watchedScanning = false
     @ObservationIgnored private var watchedDeliveries: [String: WatchedDeliveryProof] = [:]
     @ObservationIgnored private var watchedDeliverySequence: Int64 = 0
+    @ObservationIgnored private var watchedLedgerTask: Task<Void, any Error>?
+    @ObservationIgnored private var watchedLedgerToken: UUID?
     let testMode: Bool
     let support: URL
     @ObservationIgnored private let preferences: UserDefaults
@@ -160,6 +175,7 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var processingTask: Task<Void, Never>?
     @ObservationIgnored private var searchTask: Task<Void, Never>?
     @ObservationIgnored private var generation = UUID()
+    @ObservationIgnored private var refreshGeneration = UUID()
     @ObservationIgnored private var inboxMayBeMutated = false
     @ObservationIgnored private var startupTask: Task<Void, any Error>?
     @ObservationIgnored private let proEntitlement: @MainActor () -> Bool
@@ -183,10 +199,11 @@ final class FileGrant: @unchecked Sendable {
     var selectedItem: InboxItem? { items.first { $0.id == selectedItemID } ?? items.first { $0.status != "aside" } }
     var inboxCount: Int { items.filter { $0.status != "aside" }.count }
     var filingUnavailableReason: String? {
-        if busy { return "Finishing another operation. Filing will be available when it completes." }
+        if filingBlocked { return "Finishing a library change. Filing will be available when it completes." }
+        guard inboxMayBeMutated, engine != nil else { return "Choose a library before filing a receipt." }
         guard let item = selectedItem else { return "Select a receipt to file." }
         guard item.status == "ready" else { return "Wait for this receipt to finish processing." }
-        if item.review?.duplicate != nil { return "This receipt is already in your library. Set the duplicate aside." }
+        if item.review?.duplicate != nil { return "This receipt is already in your library. Remove the duplicate from the Inbox." }
         do { _ = try item.draft.receipt() }
         catch { return error.localizedDescription }
         return templateError
@@ -220,7 +237,7 @@ final class FileGrant: @unchecked Sendable {
         try await task.value
     }
     private func loadStartupState() async throws {
-        busy = true; defer { busy = false }
+        let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
         inboxMayBeMutated = false
         let support = support
         // Parsing restored assessments and reading the snapshot must not block UI.
@@ -316,7 +333,7 @@ final class FileGrant: @unchecked Sendable {
         do { try await awaitRestoredInbox() }
         catch { message = error.localizedDescription; return }
         guard !busy else { return }
-        busy = true; defer { busy = false }
+        let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
         let panel = NSOpenPanel(); panel.title = "Choose your Paperloft library"
         panel.message = "Choose a folder, or create a Paperloft folder in Documents. Your filed documents stay here as ordinary files."
         panel.canChooseDirectories = true; panel.canChooseFiles = false; panel.canCreateDirectories = true
@@ -335,7 +352,7 @@ final class FileGrant: @unchecked Sendable {
         guard !busy else { throw AppIssue("Wait for the current operation to finish before changing libraries.") }
         try await awaitRestoredInbox()
         guard !busy else { throw AppIssue("Wait for the current operation to finish before changing libraries.") }
-        busy = true; defer { busy = false }
+        let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
         try await createSampleLibrary(discardInbox: discardInbox)
     }
     private func createSampleLibrary(discardInbox: Bool) async throws {
@@ -460,9 +477,9 @@ final class FileGrant: @unchecked Sendable {
         selectedItemID = items.first { $0.status != "aside" }?.id; persist()
     }
     func fileSelected() async {
-        guard !busy, let engine, let item = selectedItem, item.status == "ready", let stored = item.review else { return }
-        guard stored.duplicate == nil else { message = "This document is already in the library. Set this duplicate aside."; return }
-        busy = true; defer { busy = false }
+        guard !filingBlocked, inboxMayBeMutated, let engine, let item = selectedItem, item.status == "ready", let stored = item.review else { return }
+        guard stored.duplicate == nil else { message = "This document is already in the library. Remove this duplicate from the Inbox."; return }
+        let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
         let sourceAccess = sourceGrants[item.id], activeLibraryAccess = libraryAccess
         defer { withExtendedLifetime(sourceAccess) {}; withExtendedLifetime(activeLibraryAccess) {} }
         do {
@@ -474,7 +491,8 @@ final class FileGrant: @unchecked Sendable {
             let reviewed = ReviewedDocument(id: item.id, source: item.source, contentHash: stored.hash, text: stored.text, fields: stored.fields, duplicateOf: stored.duplicate)
             let outcome = try await engine.file(reviewed, confirmed: receipt, mode: mode, filenameTemplate: filenameTemplate)
             items.removeAll { $0.id == item.id }; sourceGrants[item.id] = nil
-            selectedItemID = items.first { $0.status != "aside" }?.id; persist(); await refresh()
+            if selectedItemID == item.id { selectedItemID = items.first { $0.status != "aside" }?.id }
+            persist(); await refresh()
             if outcome.indexNeedsRebuild { message = "The document was filed. Rebuild the search index in Settings to update search." }
         } catch { message = error.localizedDescription }
     }
@@ -493,7 +511,7 @@ final class FileGrant: @unchecked Sendable {
         } catch { message = error.localizedDescription; return false }
     }
     func undo(_ batch: FilingBatch) async {
-        guard let engine, !busy else { return }; busy = true; defer { busy = false }
+        guard let engine, !busy else { return }; let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
         let access = libraryAccess
         defer { withExtendedLifetime(access) {} }
         do {
@@ -503,7 +521,7 @@ final class FileGrant: @unchecked Sendable {
     }
     func deleteDocument(_ document: FiledDocument) async {
         guard inboxMayBeMutated, !busy, let engine else { return }
-        busy = true; defer { busy = false }
+        let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
         let access = libraryAccess
         defer { withExtendedLifetime(access) {} }
         do {
@@ -516,7 +534,7 @@ final class FileGrant: @unchecked Sendable {
     }
     func restoreDocument(_ receipt: DeletedReceipt) async {
         guard inboxMayBeMutated, !busy, let engine else { return }
-        busy = true; defer { busy = false }
+        let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
         let access = libraryAccess
         defer { withExtendedLifetime(access) {} }
         do {
@@ -528,13 +546,14 @@ final class FileGrant: @unchecked Sendable {
     }
     func refresh() async {
         guard inboxMayBeMutated, let engine else { return }
-        let token = generation
+        let token = generation, request = UUID()
+        refreshGeneration = request
         do {
             let history = try await engine.library.history()
             let deleted = try await engine.library.deletedDocuments()
             let records = try await engine.library.documents()
             let results = try await engine.index.search(query)
-            guard token == generation, !Task.isCancelled else { return }
+            guard token == generation, request == refreshGeneration, !Task.isCancelled else { return }
             deletedDocuments = deleted
             batches = history
             allDocuments = records
@@ -546,7 +565,7 @@ final class FileGrant: @unchecked Sendable {
             persist()
             let activeByID = Dictionary(records.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
             documents = results.filter { activeByID[$0.id] == $0 }
-        } catch { if token == generation, !Task.isCancelled { message = error.localizedDescription } }
+        } catch { if token == generation, request == refreshGeneration, !Task.isCancelled { message = error.localizedDescription } }
     }
     private var query: ReceiptQuery {
         ReceiptQuery(text: search, year: Int(yearFilter), category: categoryFilter == "All categories" ? nil : categoryFilter, kind: DocumentKind(rawValue: kindFilter))
@@ -559,7 +578,8 @@ final class FileGrant: @unchecked Sendable {
         }
     }
     func rebuildIndex() async {
-        guard let engine, !busy else { return }; busy = true; defer { busy = false; activity = "" }
+        guard let engine, !busy else { return }
+        let operation = beginOperation(.background); defer { endOperation(operation); activity = "" }
         activity = "Rebuilding search index…"
         do {
             let report = try await engine.index.rebuild(from: engine.library); await refresh()
@@ -572,7 +592,7 @@ final class FileGrant: @unchecked Sendable {
     }
     func export(range: ExportDateRange, zipped: Bool) async {
         guard !busy, let engine else { return }
-        busy = true; defer { busy = false }
+        let operation = beginOperation(.background); defer { endOperation(operation) }
         exportError = nil
         let sourceAccess = libraryAccess
         defer { withExtendedLifetime(sourceAccess) {} }
@@ -745,7 +765,7 @@ final class FileGrant: @unchecked Sendable {
         guard ["pdf", "png", "jpg", "jpeg", "heic"].contains((candidate.filename as NSString).pathExtension.lowercased()) else {
             throw AppIssue("Watched folders support PDF, PNG, JPEG and HEIC documents.")
         }
-        busy = true; defer { busy = false }
+        let operation = beginOperation(.background); defer { endOperation(operation) }
         let key = SHA256.hash(data: Data((root.path + "\0" + candidate.filename).utf8)).map { String(format: "%02x", $0) }.joined()
         if watchedDeliveries[key]?.contentHash == candidate.contentHash { return }
         if let pending = items.compactMap(\.watchedDelivery).filter({ $0.sourceKey == key }).max(by: { $0.sequence < $1.sequence }),
@@ -778,6 +798,21 @@ final class FileGrant: @unchecked Sendable {
     }
 
     private func recordWatchedDeliveries(_ proofs: [WatchedDeliveryProof]) async throws {
+        // A watched intake and receipt confirmation may overlap. Serialize durable
+        // ledger snapshots so the later writer always includes the earlier proof.
+        let predecessor = watchedLedgerTask, token = UUID()
+        let task = Task { @MainActor in
+            if let predecessor { _ = try? await predecessor.value }
+            try await self.commitWatchedDeliveries(proofs)
+        }
+        watchedLedgerTask = task; watchedLedgerToken = token
+        defer {
+            if watchedLedgerToken == token { watchedLedgerTask = nil; watchedLedgerToken = nil }
+        }
+        try await task.value
+    }
+
+    private func commitWatchedDeliveries(_ proofs: [WatchedDeliveryProof]) async throws {
         var updated = watchedDeliveries
         for proof in proofs {
             guard proof.sourceKey.count == 64, proof.contentHash.count == 64, proof.sequence > 0,
