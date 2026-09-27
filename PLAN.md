@@ -32,3 +32,5 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 - Screenshot confirms Category contrast finding is overlapping native popup intrinsic width, not simply color. Constrain native popup proposed size/compression and preserve fixed label width. PDF document view receives public accessibility label. QA compilation passes; audit verification pending GUI lock.
 
 - Latest fullCI Tests-20260926-234415:45unit+5functional UI tests pass; accessibility remains15findings. Source/permission regressions pass, traverse-only ancestor case passes. External real-panel ZIP export and subsequent PDF Quick Look verified. Current Release and QA compile zero warnings. Save as unfinished checkpoint with last_green=d9454df; keep P3 active.
+
+- PDF public-protocol workaround independently demonstrated and integrated; targeted audit removes PDF missing-description while preserving native text. Result build/P3-pdf-label.xcresult remainsFAIL with14system/contrast findings. No root page-label failures remain; fullAC13 is not accepted.

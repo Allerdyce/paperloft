@@ -260,11 +260,32 @@ struct DocumentPreview: View {
 }
 struct PDFPreview: NSViewRepresentable {
     let url: URL
-    func makeNSView(context: Context) -> PDFView { let view = PDFView(); view.autoScales = true; view.displayMode = .singlePageContinuous; return view }
-    func updateNSView(_ view: PDFView, context: Context) {
+    func makeNSView(context: Context) -> AccessiblePDFView { let view = AccessiblePDFView(); view.autoScales = true; view.displayMode = .singlePageContinuous; return view }
+    func updateNSView(_ view: AccessiblePDFView, context: Context) {
         if view.document?.documentURL != url { view.document = PDFDocument(url: url) }
         view.setAccessibilityLabel("Document preview")
         view.documentView?.setAccessibilityLabel("PDF document pages")
+        view.labelDocumentContent()
+    }
+}
+
+final class AccessiblePDFView: PDFView {
+    override func layout() { super.layout(); labelDocumentContent() }
+    func labelDocumentContent() {
+        var seen = Set<ObjectIdentifier>()
+        func visit(_ object: Any) {
+            guard let element = object as? any NSAccessibilityProtocol,
+                  seen.insert(ObjectIdentifier(element)).inserted else { return }
+            if element.accessibilityRole() == .pageRole {
+                if (element.accessibilityLabel() ?? "").isEmpty {
+                    // The page role is announced separately; retain all native text descendants.
+                    element.setAccessibilityLabel("Receipt document content")
+                }
+                return
+            }
+            for child in element.accessibilityChildren() ?? [] { visit(child) }
+        }
+        visit(self)
     }
 }
 
