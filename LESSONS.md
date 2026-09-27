@@ -8,3 +8,9 @@
 
 - Effective chat Full Access resolved SwiftPM sandbox failures. The custom package-cache option independently hid the local package; removing it restored CLI builds.
 - Do not infer that unrelated windows in XCTest interruption logs prove a permission prompt is the cause; inspect the hit-point failure itself.
+
+- XCTest macOS text content is exposed through value; wait for foreground state before clicking.
+- App Intents metadata warnings are outside Swift warnings-as-errors; scan complete build logs too.
+- A clean checkout caught reproducibility requirements independently of cached builds.
+- Privacy checks must enforce absence of Package.resolved, not merely inspect current dependencies.
+- Local readiness and formal distribution gates are separate under the owner-approved exception.

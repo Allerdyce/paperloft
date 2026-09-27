@@ -1,0 +1,1 @@
+PASS: sandbox, no outgoing network entitlement, privacy manifest, no Package.resolved and Apple system libraries.

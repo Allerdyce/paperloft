@@ -1,3 +1,3 @@
 # Paperloft status
 
-Autonomous local phase progression approved. P0 local self-check passes: warning-free Debug/Release builds, five tests, privacy and source integrity. Independent fresh-clone review next. Release/uploads remain blocked.
+P0 local readiness independently passed. Five tests, warning-free fresh-clone Debug/Release builds, privacy and integrity verified. Accepted P0 tests locked. Now building P1 receipt fixtures and extraction evaluation. Formal gates and release/uploads remain deferred.

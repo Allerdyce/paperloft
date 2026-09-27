@@ -1,16 +1,9 @@
-# Autonomous local development plan
+# P1 local fixtures and evaluation
 
-Owner approval for local phase progression is recorded in AGENTS.md. Never request it again. Distribution/upload remain blocked.
+P0 local readiness independently passed; formal release prerequisites remain deferred.
 
-## Resume P0 after transient preflight clears
-1. Add the required App Intents framework dependency; verify that metadata extraction no longer warns.
-2. Extend CI to reject all emitted build warnings, not only Swift warnings. Keep all test flows and assertions.
-3. Run clean Debug/Release builds and all tests.
-4. Independent verifier: fresh-clone builds, raw tests, settings and integrity checks. Record local readiness separately from formal P0 failure caused by deferred prerequisites.
-5. Lock accepted tests and save/push the checkpoint, without phase-completion tags.
-
-## Next local phase: P1
-Plan tasks no longer than two hours for generated receipts and labels, extraction backend protocol, evaluation CLI and frozen-scorer integration. Independent verifier owns holdout generation and fixture-difficulty review. Do not progress past failed applicable checks.
-
-## Current temporary hold
-Local preflight returns exit 3 on battery power. Automatic five-minute retries are active. No additional owner approval is required.
+1. Define extraction records and backend protocol; implement initial parser, deterministic stub and on-device backend (under two hours).
+2. Add image/PDF OCR and a directory evaluation command; never read labels in extraction (under two hours).
+3. Generate 150 synthetic documents across 12 layouts and 40 vendors, with required photo/long/non-receipt/confusable mix (under two hours).
+4. Connect eval.sh to the frozen scorer, run parser/system evaluations, record honest scores (under two hours).
+5. Independent verifier owns holdout generation and fixture difficulty review. Fix applicable findings before P2; lock accepted fixtures/tests append-only.

@@ -1,10 +1,10 @@
 {
-  "phase": "P0",
-  "step": "P0 local self-check passes; independent fresh-clone review next",
-  "last_green_commit": "fac180cd3021c12d23b9398b3df4781911a2d1b5",
+  "phase": "P1",
+  "step": "P0 local readiness independently passed; build receipt fixtures and extraction evaluation",
+  "last_green_commit": "3f29e10",
   "parked": [
     "Membership, distribution signing and ASC upload",
     "Formal acceptance tag and gates deferred"
   ],
-  "updated": "2026-09-27T02:26:01.762465+00:00"
+  "updated": "2026-09-27T02:33:39.738511+00:00"
 }
