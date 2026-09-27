@@ -1,4 +1,5 @@
 import AppKit
+import Darwin
 import CryptoKit
 import Foundation
 import Observation
@@ -46,10 +47,16 @@ struct StoredReview: Codable {
     let fields: ExtractedFields
     var duplicate: String?
 }
+struct WatchedDeliveryProof: Codable, Equatable, Sendable {
+    let sourceKey: String
+    let contentHash: String
+    let sequence: Int64
+}
 struct InboxItem: Codable, Identifiable {
     let id: UUID
     var source: URL
     var bookmark: Data?
+    var watchedDelivery: WatchedDeliveryProof?
     var review: StoredReview?
     var draft = ReceiptDraft()
     var status = "waiting"
@@ -110,6 +117,20 @@ final class FileGrant: @unchecked Sendable {
     var showExport = false
     var exportResult: AccountantPackResult?
     var exportError: String?
+    var watchedFolderURL: URL?
+    var watchedEnabled = false
+    var watchedStatus = "Choose a folder to send new documents to review."
+    var watchedIssues: [String] = []
+    @ObservationIgnored private var watchedAccess: LibraryAccess?
+    @ObservationIgnored private var watchedScanner: WatchedFolderScanner?
+    @ObservationIgnored private var watchedTask: Task<Void, Never>?
+    @ObservationIgnored private var watchedGeneration = UUID()
+    @ObservationIgnored private var watchedConfiguration = UUID()
+    @ObservationIgnored private(set) var watchedConfigurationPending = false
+    @ObservationIgnored private var watchedStoppingTask: Task<Void, Never>?
+    @ObservationIgnored private var watchedScanning = false
+    @ObservationIgnored private var watchedDeliveries: [String: WatchedDeliveryProof] = [:]
+    @ObservationIgnored private var watchedDeliverySequence: Int64 = 0
     let testMode: Bool
     let support: URL
     @ObservationIgnored private let preferences: UserDefaults
@@ -177,6 +198,24 @@ final class FileGrant: @unchecked Sendable {
         if FileManager.default.fileExists(atPath: inboxURL.path) {
             items = try JSONDecoder().decode([InboxItem].self, from: Data(contentsOf: inboxURL))
         }
+        let deliveryURL = support.appendingPathComponent("watched-deliveries.json")
+        var deliveryInfo = stat()
+        let deliveryExists = lstat(deliveryURL.path, &deliveryInfo) == 0
+        guard deliveryExists || errno == ENOENT else { throw AppIssue("Watched-folder delivery history could not be inspected.") }
+        if deliveryExists {
+            let restored = try await Task.detached(priority: .utility) {
+                let data = try Self.readWatchedLedger(deliveryURL)
+                let records = try JSONDecoder().decode([String: WatchedDeliveryProof].self, from: data)
+                guard records.count <= 25_000, records.allSatisfy({ key, proof in
+                    key == proof.sourceKey && key.count == 64 && proof.contentHash.count == 64 && proof.sequence > 0
+                        && (key + proof.contentHash).utf8.allSatisfy { (48...57).contains($0) || (97...102).contains($0) }
+                }) else { throw AppIssue("Watched-folder delivery history is corrupt. Documents were preserved.") }
+                return (records, records.values.map(\.sequence).max() ?? 0)
+            }.value
+            watchedDeliveries = restored.0; watchedDeliverySequence = restored.1
+        }
+        // A crash after inbox commit but before scanner acknowledgment must not enqueue it twice.
+        try await recordWatchedDeliveries(items.compactMap(\.watchedDelivery))
         for i in items.indices where items[i].status != "aside" {
             do {
                 let grant: FileGrant
@@ -198,6 +237,13 @@ final class FileGrant: @unchecked Sendable {
             try await configure(URL(fileURLWithPath: path), sample: true)
         } else if testMode { try await createSampleLibrary(discardInbox: false) }
         selectedItemID = items.first { $0.status != "aside" }?.id
+        if preferences.bool(forKey: "watchedFolderEnabled"), !watchedConfigurationPending {
+            let configuration = watchedConfiguration
+            Task { [weak self] in
+                guard let self, self.watchedConfiguration == configuration else { return }
+                await self.restoreWatchedFolder()
+            }
+        }
     }
     private func configure(_ url: URL, sample: Bool) async throws {
         processingTask?.cancel(); generation = UUID(); processing = false
@@ -342,6 +388,7 @@ final class FileGrant: @unchecked Sendable {
         let sourceAccess = sourceGrants[item.id], activeLibraryAccess = libraryAccess
         defer { withExtendedLifetime(sourceAccess) {}; withExtendedLifetime(activeLibraryAccess) {} }
         do {
+            if let proof = item.watchedDelivery { try await recordWatchedDelivery(proof) }
             let receipt = try item.draft.receipt()
             if mode == .move, !FileGrant.isInternal(item.source), moveGrants[item.source.deletingLastPathComponent().path] == nil {
                 guard await grantMoveFolder(required: item.source.deletingLastPathComponent()) else { return }
@@ -523,6 +570,222 @@ final class FileGrant: @unchecked Sendable {
         if let openInboxWindow { openInboxWindow() }
         NSApplication.shared.activate()
         NSApplication.shared.windows.first(where: { $0.title == "Paperloft Receipts" })?.makeKeyAndOrderFront(nil)
+    }
+
+    func chooseWatchedFolder() async {
+        guard isPro else { watchedStatus = "Watched folders require Pro."; return }
+        guard !busy else { watchedStatus = "Wait for the current operation to finish."; return }
+        let panel = NSOpenPanel()
+        panel.title = "Choose a watched folder"
+        panel.message = "New PDF and image documents will be copied into the review inbox. Originals stay here."
+        panel.canChooseDirectories = true; panel.canChooseFiles = false; panel.allowsMultipleSelection = false
+        guard await panel.begin() == .OK, let url = panel.url else { return }
+        do {
+            let bookmark = try LibraryAccess.bookmark(for: url)
+            let access = try LibraryAccess(bookmark: bookmark)
+            try await installWatchedFolder(at: access.url, access: access)
+            preferences.set(bookmark, forKey: "watchedFolderBookmark")
+        } catch is CancellationError { return }
+        catch { watchedStatus = error.localizedDescription }
+    }
+
+    func restoreWatchedFolder() async {
+        guard isPro else { watchedStatus = "Paused: watched folders require Pro."; return }
+        do {
+            guard let bookmark = preferences.data(forKey: "watchedFolderBookmark") else {
+                throw AppIssue("Choose a watched folder to grant access.")
+            }
+            let access = try LibraryAccess(bookmark: bookmark)
+            try await installWatchedFolder(at: access.url, access: access)
+        } catch is CancellationError { return }
+        catch { watchedEnabled = false; watchedStatus = "Choose the watched folder again to renew access. " + error.localizedDescription }
+    }
+
+    func disableWatchedFolder() async {
+        let request = UUID(); watchedConfiguration = request; watchedConfigurationPending = false
+        guard await stopWatchedFolder(for: request) else { return }
+        watchedStatus = "Watched folder is off. Existing inbox documents are unchanged."
+    }
+
+    private func stopWatchedFolder(for request: UUID) async -> Bool {
+        guard watchedConfiguration == request else { return false }
+        watchedEnabled = false; preferences.set(false, forKey: "watchedFolderEnabled")
+        watchedGeneration = UUID()
+        let task = watchedTask ?? watchedStoppingTask
+        watchedStoppingTask = task; watchedTask = nil; task?.cancel()
+        await task?.value
+        // A newer configuration owns the scanner now; an older continuation cannot clear it.
+        guard watchedConfiguration == request else { return false }
+        watchedStoppingTask = nil; watchedScanner = nil; watchedAccess = nil
+        return true
+    }
+
+    /// The production caller supplies a retained security grant. Ordinary path injection supports local coordinator tests.
+    func installWatchedFolder(at url: URL, access: LibraryAccess? = nil, schedule: Bool = true,
+                              stableInterval: Duration = .seconds(2)) async throws {
+        let request = UUID(); watchedConfiguration = request; watchedConfigurationPending = true
+        defer { if watchedConfiguration == request { watchedConfigurationPending = false } }
+        do { try await awaitStartup() }
+        catch {
+            guard watchedConfiguration == request else { throw CancellationError() }
+            throw error
+        }
+        guard watchedConfiguration == request else { throw CancellationError() }
+        guard isPro else { throw PaperloftIntentError.proRequired }
+        guard await stopWatchedFolder(for: request) else { throw CancellationError() }
+        let physical = url.resolvingSymlinksInPath()
+        let folder = support.appendingPathComponent("Watched-State", isDirectory: true)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let name = SHA256.hash(data: Data(physical.path.utf8)).map { String(format: "%02x", $0) }.joined()
+        let scanner = try WatchedFolderScanner(root: physical, stateURL: folder.appendingPathComponent(name + ".json"), minimumStableInterval: stableInterval)
+        guard isPro else { throw PaperloftIntentError.proRequired }
+        watchedScanner = scanner; watchedAccess = access; watchedFolderURL = physical
+        watchedEnabled = true; preferences.set(true, forKey: "watchedFolderEnabled")
+        watchedStatus = "Watching for stable documents. Every document needs review."
+        let token = watchedGeneration
+        if schedule {
+            watchedTask = Task { [weak self] in
+                while !Task.isCancelled {
+                    guard let self, self.watchedGeneration == token else { return }
+                    await self.scanWatchedFolder()
+                    do { try await Task.sleep(for: .seconds(3)) } catch { return }
+                }
+            }
+        }
+    }
+
+    func scanWatchedFolder() async {
+        guard watchedEnabled, !watchedScanning, let scanner = watchedScanner else { return }
+        guard isPro else { watchedStatus = "Paused: watched folders require Pro."; return }
+        guard !busy else { watchedStatus = "Waiting for the current operation to finish."; return }
+        watchedScanning = true; defer { watchedScanning = false }
+        let token = watchedGeneration, grant = watchedAccess
+        defer { withExtendedLifetime(grant) {} }
+        do {
+            let result = try await scanner.scan()
+            guard watchedEnabled, watchedGeneration == token, isPro else { return }
+            watchedIssues = result.issues.map { $0.filename.isEmpty ? $0.message : $0.filename + ": " + $0.message }
+            var queued = 0
+            for candidate in result.candidates {
+                guard watchedEnabled, watchedGeneration == token, isPro, !Task.isCancelled else { break }
+                if (candidate.filename as NSString).pathExtension.lowercased() == "eml" {
+                    watchedIssues.append(candidate.filename + ": Mail import is not connected to watched folders yet. This file remains unacknowledged.")
+                    continue
+                }
+                do {
+                    try await queueWatchedCandidate(candidate, generation: token)
+                    guard watchedEnabled, watchedGeneration == token, isPro else { break }
+                    try await scanner.acknowledge(candidate)
+                    queued += 1
+                } catch {
+                    guard watchedEnabled, watchedGeneration == token else { break }
+                    watchedIssues.append(candidate.filename + ": " + error.localizedDescription)
+                }
+            }
+            watchedStatus = watchedIssues.isEmpty ? (queued > 0 ? "Copied \(queued) documents to review. Originals are unchanged." : "Watching for stable documents. Every document needs review.") : "Some documents need attention; they will be checked again."
+        } catch {
+            guard watchedEnabled, watchedGeneration == token else { return }
+            watchedStatus = "Watched folder paused: " + error.localizedDescription
+        }
+    }
+
+    func queueWatchedCandidate(_ candidate: WatchedFolderScanner.Candidate, generation token: UUID? = nil) async throws {
+        try await awaitStartup()
+        guard isPro else { throw PaperloftIntentError.proRequired }
+        guard !busy else { throw AppIssue("Wait for the current operation to finish before importing.") }
+        guard watchedEnabled, token == nil || token == watchedGeneration, let root = watchedFolderURL else {
+            throw AppIssue("The watched folder was turned off or changed. This document remains pending.")
+        }
+        guard ["pdf", "png", "jpg", "jpeg", "heic"].contains((candidate.filename as NSString).pathExtension.lowercased()) else {
+            throw PaperloftIntentError.unsupportedDocument
+        }
+        busy = true; defer { busy = false }
+        let key = SHA256.hash(data: Data((root.path + "\0" + candidate.filename).utf8)).map { String(format: "%02x", $0) }.joined()
+        if watchedDeliveries[key]?.contentHash == candidate.contentHash { return }
+        if let pending = items.compactMap(\.watchedDelivery).filter({ $0.sourceKey == key }).max(by: { $0.sequence < $1.sequence }),
+           pending.sequence > (watchedDeliveries[key]?.sequence ?? 0), pending.contentHash == candidate.contentHash {
+            try await recordWatchedDelivery(pending); return
+        }
+        guard watchedDeliverySequence < Int64.max else { throw AppIssue("Watched-folder delivery history is full.") }
+        let proof = WatchedDeliveryProof(sourceKey: key, contentHash: candidate.contentHash, sequence: watchedDeliverySequence + 1)
+        let folder = support.appendingPathComponent("Watched-Imports", isDirectory: true).appendingPathComponent(UUID().uuidString, isDirectory: true)
+        // Copying large immutable inputs never blocks the main actor. Inbox metadata is
+        // committed only after returning, using the current items so concurrent edits survive.
+        let source = folder.appendingPathComponent(candidate.filename), storage = support
+        try await Task.detached(priority: .utility) {
+            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+            try Self.writeWatchedData(candidate.data, to: source)
+            try Self.synchronizeWatchedDirectory(folder.deletingLastPathComponent())
+            try Self.synchronizeWatchedDirectory(storage)
+        }.value
+        guard watchedEnabled, token == nil || token == watchedGeneration, isPro else { throw CancellationError() }
+        let item = InboxItem(id: UUID(), source: source, watchedDelivery: proof)
+        let updated = items + [item]
+        try Self.writeWatchedData(JSONEncoder().encode(updated), to: support.appendingPathComponent("inbox.json"))
+        items = updated; selectedItemID = item.id; selection = "Inbox"
+        try await recordWatchedDelivery(proof)
+        processWaiting()
+    }
+
+    private func recordWatchedDelivery(_ proof: WatchedDeliveryProof) async throws {
+        try await recordWatchedDeliveries([proof])
+    }
+
+    private func recordWatchedDeliveries(_ proofs: [WatchedDeliveryProof]) async throws {
+        var updated = watchedDeliveries
+        for proof in proofs {
+            guard proof.sourceKey.count == 64, proof.contentHash.count == 64, proof.sequence > 0,
+                  (proof.sourceKey + proof.contentHash).utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }) else {
+                throw AppIssue("A watched-folder delivery record is corrupt. The inbox was preserved.")
+            }
+            watchedDeliverySequence = max(watchedDeliverySequence, proof.sequence)
+            if let existing = updated[proof.sourceKey], existing.sequence == proof.sequence, existing != proof {
+                throw AppIssue("Watched-folder delivery records disagree. The inbox was preserved.")
+            }
+            guard (updated[proof.sourceKey]?.sequence ?? 0) < proof.sequence else { continue }
+            guard updated[proof.sourceKey] != nil || updated.count < 25_000 else { throw AppIssue("Watched-folder delivery history is full. No document was acknowledged.") }
+            updated[proof.sourceKey] = proof
+        }
+        guard updated != watchedDeliveries else { return }
+        let destination = support.appendingPathComponent("watched-deliveries.json"), snapshot = updated
+        try await Task.detached(priority: .utility) {
+            let data = try JSONEncoder().encode(snapshot)
+            guard data.count <= 8 * 1024 * 1024 else { throw AppIssue("Watched-folder delivery history is full. No document was acknowledged.") }
+            try Self.writeWatchedData(data, to: destination)
+        }.value
+        watchedDeliveries = updated
+    }
+
+    private nonisolated static func readWatchedLedger(_ url: URL) throws -> Data {
+        let descriptor = open(url.path, O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
+        guard descriptor >= 0 else { throw AppIssue("Watched-folder delivery history could not be read.") }
+        let handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
+        defer { try? handle.close() }
+        var info = stat()
+        guard fstat(descriptor, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_size <= 8 * 1024 * 1024 else {
+            throw AppIssue("Watched-folder delivery history is invalid or exceeds 8 MB.")
+        }
+        var data = Data()
+        while let chunk = try handle.read(upToCount: min(65_536, 8 * 1024 * 1024 - data.count + 1)), !chunk.isEmpty {
+            data.append(chunk)
+            guard data.count <= 8 * 1024 * 1024 else { throw AppIssue("Watched-folder delivery history exceeds 8 MB.") }
+        }
+        return data
+    }
+
+    private nonisolated static func synchronizeWatchedDirectory(_ url: URL) throws {
+        let descriptor = open(url.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard descriptor >= 0 else { throw AppIssue("The inbox folder could not be synchronized. Nothing was acknowledged.") }
+        defer { close(descriptor) }
+        guard fsync(descriptor) == 0 else { throw AppIssue("The inbox folder could not be synchronized. Nothing was acknowledged.") }
+    }
+
+    private nonisolated static func writeWatchedData(_ data: Data, to url: URL) throws {
+        try data.write(to: url, options: .atomic)
+        let handle = try FileHandle(forWritingTo: url)
+        defer { try? handle.close() }
+        try handle.synchronize()
+        try synchronizeWatchedDirectory(url.deletingLastPathComponent())
     }
 
     private func persist() {

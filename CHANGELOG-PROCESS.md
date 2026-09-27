@@ -100,3 +100,9 @@ Added new WatchedFolderTests for the independent P4 scanner: stable observations
 ## 2026-09-26 — production intent adapter checks
 
 Added real AppModel adapter tests using ordinary constructor dependency injection for storage/preferences/entitlement, with no new launch hooks. Tests cover concurrent startup/durable intake, failed persistence, corrupt-inbox preservation and repaired-startup retry, full-library totals and persistent ZIP output. Added genuine framework File/Pro-export success tests and free-export rejection, kept enabled despite the metadata/signing prerequisite. Bounded input regression uses a sparse file and fresh filesystem attributes to avoid URL resource-value caching. Debug and optimized QA (testability enabled for existing @testable package imports) pass 16 scoped tests; real framework checks remain failures. See `evidence/intents-integration.md`.
+
+## Watched-folder app integration checks (2026-09-27)
+
+Added actual-AppModel tests through ordinary constructor/path/entitlement injection, without new launch hooks. They target crash gaps between immutable input copy, inbox commit, delivery proof and scanner acknowledgment, plus restart and Pro/disable behavior. Existing frozen tests remain unchanged. Scope and limits: evidence/watched-folder/app-integration.md. Builds paused during independent machine performance measurements rather than contaminating those timings.
+
+Early independent review requested main-actor I/O and configuration-overlap checks. Moved immutable input copy and bounded delivery-ledger work off-main while keeping the inbox metadata snapshot/commit ordered on-main; configuration generations protect newer choices from stale continuations. Added an overlap regression and a separate quiet-machine worst-case heartbeat test. Evidence: watched-folder/app-integration.md; maximum measured heartbeat gap 13.51 ms with 32 MB inputs and a near-capacity ledger.
