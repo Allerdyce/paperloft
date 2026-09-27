@@ -162,3 +162,5 @@ Added TaxExportTests alongside unchanged export verification to check newly requ
 2026-09-27: Expanded unlocked calendar UI check for month navigation and cancelling a changed date; EntryCalendar.xcresult PASS. Frozen files unchanged.
 
 2026-09-27: Added synthetic empty Inbox screenshot capture to existing unlocked UX test for card design verification.
+
+2026-09-27: Extended privacy_check.sh to inspect embedded Share extension sandbox/network entitlements, privacy manifest, activation rules and dynamic dependencies. Signed local Release passes; source review separately checks static package dependencies. Frozen verifier files unchanged.

@@ -4,6 +4,7 @@ import CryptoKit
 import Foundation
 import Observation
 import PaperloftKit
+import PaperloftHandoff
 import UniformTypeIdentifiers
 
 struct ReceiptDraft: Codable, Sendable {
@@ -83,7 +84,8 @@ struct InboxItem: Codable, Identifiable, Sendable {
     var importNotices: [String]?
     var intakeSource: String?
     var receivedAt: Date?
-    var name: String { source.lastPathComponent }
+    var displayName: String?
+    var name: String { displayName ?? source.lastPathComponent }
 }
 /// Owns a user-granted file's sandbox extension for its entire review lifetime.
 final class FileGrant: @unchecked Sendable {
@@ -177,6 +179,9 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var exportAccess: LibraryAccess?
     @ObservationIgnored private var sourceGrants: [UUID: FileGrant] = [:]
     @ObservationIgnored private var moveGrants: [String: LibraryAccess] = [:]
+    @ObservationIgnored private var sharedIntakeTask: Task<Void, Never>?
+    @ObservationIgnored private var sharedIntakeBusy = false
+    @ObservationIgnored private var sharedAcceptedIDs: Set<UUID> = []
     @ObservationIgnored private var engine: ReceiptEngine?
     @ObservationIgnored private var processingTask: Task<Void, Never>?
     @ObservationIgnored private var searchTask: Task<Void, Never>?
@@ -225,7 +230,7 @@ final class FileGrant: @unchecked Sendable {
         } catch { return error.localizedDescription }
     }
     func start() async {
-        do { try await awaitStartup() }
+        do { try await awaitStartup(); startSharedIntake() }
         catch { message = error.localizedDescription }
     }
     private func awaitStartup() async throws {
@@ -243,9 +248,24 @@ final class FileGrant: @unchecked Sendable {
         startupTask = task
         try await task.value
     }
+    // The app owns one model. Retain the store lock for the process lifetime,
+    // before restoring any snapshot, so another running app cannot overwrite it
+    // with stale state between handoff batches. Same-process restoration tests
+    // may create another model; they share this process ownership.
+    private static var inboxProcessLeases: [String: HandoffConsumerLease] = [:]
+    private func acquireInboxProcessOwnership() async throws {
+        let key = support.standardizedFileURL.path
+        if Self.inboxProcessLeases[key] != nil { return }
+        let ownership = try HandoffStore(containerURL: support.appendingPathComponent(".ownership", isDirectory: true))
+        guard let lease = try await ownership.acquireConsumerLease() else {
+            throw AppIssue("Paperloft is already using this inbox in another window or app. Quit the other copy, then reopen Paperloft.")
+        }
+        Self.inboxProcessLeases[key] = lease
+    }
     private func loadStartupState() async throws {
         let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
         inboxMayBeMutated = false
+        try await acquireInboxProcessOwnership()
         let support = support
         // Parsing restored assessments and reading the snapshot must not block UI.
         // Publish only after the entire snapshot has decoded successfully.
@@ -262,6 +282,16 @@ final class FileGrant: @unchecked Sendable {
             }
         }.value
         items = restored
+        let sharedLedger = support.appendingPathComponent("shared-accepted.json")
+        var sharedInfo = stat()
+        let sharedExists = lstat(sharedLedger.path, &sharedInfo) == 0
+        guard sharedExists || errno == ENOENT else { throw AppIssue("Shared receipt history could not be inspected.") }
+        if sharedExists {
+            sharedAcceptedIDs = Set(try JSONDecoder().decode([UUID].self, from: Self.readWatchedLedger(sharedLedger)))
+        }
+        for index in items.indices where items[index].status == "receiving" && sharedAcceptedIDs.contains(items[index].id) {
+            items[index].status = "waiting"
+        }
         let deliveryURL = support.appendingPathComponent("watched-deliveries.json")
         var deliveryInfo = stat()
         let deliveryExists = lstat(deliveryURL.path, &deliveryInfo) == 0
@@ -416,6 +446,85 @@ final class FileGrant: @unchecked Sendable {
         }
         selection = "Inbox"; persist(); processWaiting()
     }
+    private func startSharedIntake() {
+        guard sharedIntakeTask == nil, !testMode,
+              Bundle.main.object(forInfoDictionaryKey: "PaperloftAppGroupEnabled") as? String == "YES",
+              let identifier = Bundle.main.object(forInfoDictionaryKey: "PaperloftAppGroupIdentifier") as? String,
+              identifier.range(of: "^[A-Z0-9]{10}\\.app\\.paperloft\\.receipts$", options: .regularExpression) != nil,
+              let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: identifier) else { return }
+        do {
+            let store = try HandoffStore(containerURL: container)
+            sharedIntakeTask = Task { @MainActor [weak self] in
+                while !Task.isCancelled {
+                    guard self != nil else { break }
+                    await self?.receiveSharedItems(from: store)
+                    try? await Task.sleep(for: .seconds(1))
+                }
+            }
+        } catch { message = "Shared receipts could not be opened. " + error.localizedDescription }
+    }
+
+    /// Commit the owned copy and inbox before acknowledging the shared handoff.
+    /// Receiving items cannot be confirmed until the durable deduplication ledger exists.
+    func receiveSharedItems(from store: HandoffStore) async {
+        guard !sharedIntakeBusy else { return }
+        sharedIntakeBusy = true; defer { sharedIntakeBusy = false }
+        do {
+            try await awaitStartup()
+            guard inboxMayBeMutated, !filingBlocked else { return }
+            guard let lease = try await store.acquireConsumerLease() else { return }
+            defer { withExtendedLifetime(lease) {} }
+            var claims = try await store.outstandingClaims()
+            for available in try await store.availableItems() {
+                if let claim = try await store.claim(available.id) { claims.append(claim) }
+            }
+            for claim in claims {
+                let id = claim.item.id
+                if !sharedAcceptedIDs.contains(id) {
+                    if !items.contains(where: { $0.id == id }) {
+                        let directory = support.appendingPathComponent("Shared", isDirectory: true).appendingPathComponent(id.uuidString, isDirectory: true)
+                        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+                        let owned = directory.appendingPathComponent(claim.item.payloadName)
+                        // An orphaned copy after a crash is safe to replace only inside this UUID directory.
+                        if !FileManager.default.fileExists(atPath: owned.path) {
+                            try await Task.detached(priority: .utility) {
+                                let temporary = directory.appendingPathComponent(".incoming-payload")
+                                if FileManager.default.fileExists(atPath: temporary.path) { try FileManager.default.removeItem(at: temporary) }
+                                _ = try ScanImport.capture(claim.fileURL, destination: temporary)
+                                try FileManager.default.moveItem(at: temporary, to: owned)
+                            }.value
+                        }
+                        var source = owned
+                        if claim.item.type == .tiff {
+                            source = try await Task.detached(priority: .utility) {
+                                let data = try Data(contentsOf: owned)
+                                return try ScanImport.materialize(data: data, typeIdentifier: UTType.tiff.identifier, pages: .combined, destination: directory)[0]
+                            }.value
+                        }
+                        let grant = try FileGrant(url: source)
+                        let label = claim.item.sourceApp.map { "Shared from " + $0 } ?? "Shared to Paperloft"
+                        let item = InboxItem(id: id, source: source, bookmark: grant.bookmark, status: "receiving", intakeSource: label, receivedAt: claim.item.createdAt, displayName: claim.item.originalName)
+                        items.append(item); sourceGrants[id] = grant
+                        do { try writeInboxSnapshot() }
+                        catch { items.removeAll { $0.id == id }; sourceGrants[id] = nil; throw error }
+                    }
+                    var accepted = sharedAcceptedIDs; accepted.insert(id)
+                    let ledger = try JSONEncoder().encode(Array(accepted))
+                    guard ledger.count <= 8 * 1024 * 1024 else { throw AppIssue("Shared receipt history is full. No document was acknowledged.") }
+                    try ledger.write(to: support.appendingPathComponent("shared-accepted.json"), options: .atomic)
+                    sharedAcceptedIDs = accepted
+                }
+                if let index = items.firstIndex(where: { $0.id == id && $0.status == "receiving" }) {
+                    items[index].status = "waiting"
+                    try writeInboxSnapshot()
+                }
+                try await store.acknowledge(claim)
+            }
+            if selectedItemID == nil { selectedItemID = items.first(where: { $0.status != "aside" })?.id }
+            processWaiting()
+        } catch { message = "Shared receipts are waiting safely. " + error.localizedDescription }
+    }
+
     var scanProviderDirectory: URL { support.appendingPathComponent("ScanProviders", isDirectory: true) }
     func importScan(_ data: Data, typeIdentifier: String) async {
         do {
@@ -464,7 +573,8 @@ final class FileGrant: @unchecked Sendable {
                         var replacements: [InboxItem] = []
                         for url in imported.documents {
                             let access = try FileGrant(url: url)
-                            let item = InboxItem(id: UUID(), source: url, bookmark: access.bookmark, sample: sample, importNotices: imported.notices)
+                            let subject = imported.envelope?.subject ?? source.lastPathComponent
+                            let item = InboxItem(id: UUID(), source: url, bookmark: access.bookmark, sample: sample, importNotices: imported.notices, intakeSource: "From Mail: " + subject, receivedAt: Date())
                             sourceGrants[item.id] = access; replacements.append(item)
                         }
                         items.replaceSubrange(index...index, with: replacements)
@@ -908,9 +1018,13 @@ final class FileGrant: @unchecked Sendable {
         return true
     }
 
+    private func writeInboxSnapshot() throws {
+        guard inboxMayBeMutated else { throw AppIssue("The saved Inbox has not finished opening.") }
+        try JSONEncoder().encode(items).write(to: support.appendingPathComponent("inbox.json"), options: .atomic)
+    }
     private func persist() {
         guard canMutateRestoredInbox() else { return }
-        do { try JSONEncoder().encode(items).write(to: support.appendingPathComponent("inbox.json"), options: .atomic) }
+        do { try writeInboxSnapshot() }
         catch { message = "The inbox could not be saved. Your originals are unchanged. " + error.localizedDescription }
     }
 }

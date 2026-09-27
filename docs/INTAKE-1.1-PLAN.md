@@ -26,3 +26,11 @@ AC-115–117: new surfaces accessibility/design/privacy pending.
 AC-118–119: release/final gates blocked by owner boundary and missing shipped baseline.
 
 No source receipt values or private screenshots belong in this plan.
+
+## 2026-09-27 — 1.1 local intake testing
+
+Implemented scan page modes, bounded provider copying, an embedded Share extension and durable shared Inbox delivery. Added bounded forwarded-mail parsing and watched-file identity regressions. Independent scoped code review passed after fixing provider races, traversal permissions and process-lifetime Inbox ownership.
+
+Verified: Intake11OwnershipUnit.xcresult passes 41 XCTest + 79 Swift tests; signed development Release and deep signature/privacy checks pass. Handoff package independently passes 14 strict tests; headless provider smoke passes. These are local checks, not full CI or acceptance.
+
+Still open: real Finder/Preview/Photos sharing (system Share menu displayed “Unlock Mac to continue with Siri request”), actual iPhone scan, complete Mail candidate/rendering/scoring work, watched app-level rename identity and existing accessibility/performance gates. No release or upload.
