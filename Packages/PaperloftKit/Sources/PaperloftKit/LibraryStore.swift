@@ -21,6 +21,18 @@ public struct FilingBatch: Identifiable, Sendable {
     public let documents: [FiledDocument]
 }
 
+public struct DeletedReceipt: Codable, Equatable, Identifiable, Sendable {
+    public let id: UUID
+    public let document: FiledDocument
+    public let deletedAt: Date
+}
+private enum DeletionState: String, Codable { case deleting, deleted, restoring, restored, undone }
+private struct DeletionJournal: Codable {
+    let version: Int
+    let receipt: DeletedReceipt
+    var state: DeletionState
+}
+
 private enum EntryState: String, Codable { case planned, staged, published, complete, undone }
 private struct JournalEntry: Codable {
     let id: UUID
@@ -52,6 +64,7 @@ public actor LibraryStore {
     private let historyDirectory: URL
     private let stagingDirectory: URL
     private let recoveryDirectory: URL
+    private let deletedDirectory: URL
 
     public init(root: URL) throws {
         let root = root.standardizedFileURL.resolvingSymlinksInPath()
@@ -62,13 +75,14 @@ public actor LibraryStore {
         historyDirectory = control.appendingPathComponent("history", isDirectory: true)
         stagingDirectory = control.appendingPathComponent("staging", isDirectory: true)
         recoveryDirectory = control.appendingPathComponent("recovery", isDirectory: true)
-        for directory in [control, historyDirectory, stagingDirectory, recoveryDirectory] { try LibraryFiles.createDirectory(directory) }
+        deletedDirectory = control.appendingPathComponent("deleted", isDirectory: true)
+        for directory in [control, historyDirectory, stagingDirectory, recoveryDirectory, deletedDirectory] { try LibraryFiles.createDirectory(directory) }
     }
 
     private func lock() throws -> Int32 {
         guard LibraryFiles.exists(root) else { throw LibraryError.missingLibrary }
         try LibraryFiles.directory(root)
-        for directory in [control, historyDirectory, stagingDirectory, recoveryDirectory] { try LibraryFiles.directory(directory) }
+        for directory in [control, historyDirectory, stagingDirectory, recoveryDirectory, deletedDirectory] { try LibraryFiles.directory(directory) }
         let descriptor = open(control.appendingPathComponent("lock").path, O_CREAT | O_RDWR | O_NOFOLLOW, 0o600)
         guard descriptor >= 0 else { throw LibraryError.unsafePath }
         guard flock(descriptor, LOCK_EX | LOCK_NB) == 0 else { close(descriptor); throw LibraryError.busy }
@@ -101,6 +115,96 @@ public actor LibraryStore {
             records.append(metadata)
         }
         return records.sorted { $0.relativePath < $1.relativePath }
+    }
+
+    private func deletionURL(_ id: UUID) -> URL { deletedDirectory.appendingPathComponent(id.uuidString + ".json") }
+    private func deletedPayload(_ id: UUID) -> URL { deletedDirectory.appendingPathComponent(id.uuidString + ".receipt") }
+    private func syncDeletionDirectory(_ url: URL) throws {
+        let descriptor = open(url.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW)
+        guard descriptor >= 0 else { throw LibraryError.unsafePath }
+        defer { close(descriptor) }
+        guard fsync(descriptor) == 0 else { throw POSIXError(POSIXErrorCode(rawValue: errno) ?? .EIO) }
+    }
+    private func saveDeletion(_ journal: DeletionJournal) throws {
+        try LibraryFiles.persist(journal, at: deletionURL(journal.receipt.id))
+        try syncDeletionDirectory(deletedDirectory)
+    }
+    private func deletionDestination(_ document: FiledDocument) throws -> URL {
+        let pieces = document.relativePath.split(separator: "/", omittingEmptySubsequences: false)
+        guard pieces.count == 3, pieces.first == Substring(String(document.receipt.date.year)),
+              pieces.allSatisfy({ !$0.hasPrefix(".") }) else { throw LibraryError.unsafePath }
+        return try destination(document.relativePath, allowMissingDirectories: true)
+    }
+    private func deletionJournals() throws -> [DeletionJournal] {
+        try FileManager.default.contentsOfDirectory(at: deletedDirectory, includingPropertiesForKeys: nil)
+            .filter { $0.pathExtension == "json" }.map { url in
+                _ = try LibraryFiles.identity(url)
+                guard let value = try? JSONDecoder().decode(DeletionJournal.self, from: Data(contentsOf: url)),
+                      value.version == 1, url.deletingPathExtension().lastPathComponent == value.receipt.id.uuidString else { throw LibraryError.corruptJournal }
+                _ = try deletionDestination(value.receipt.document)
+                return value
+            }
+    }
+    private func matches(_ document: FiledDocument, at url: URL) throws -> Bool {
+        guard LibraryFiles.exists(url) else { return false }
+        guard try LibraryFiles.metadata(url) == document,
+              try LibraryFiles.hash(url) == document.contentHash else { throw LibraryError.conflict(url.path) }
+        return true
+    }
+    private func finishDeletion(_ journal: inout DeletionJournal) throws {
+        let document = journal.receipt.document
+        let target = try deletionDestination(document)
+        let payload = deletedPayload(journal.receipt.id)
+        if journal.state == .deleting {
+            if LibraryFiles.exists(payload) {
+                guard try matches(document, at: payload), !LibraryFiles.exists(target) else { throw LibraryError.conflict(target.path) }
+            } else {
+                guard try matches(document, at: target) else { throw LibraryError.conflict(target.path) }
+                try LibraryFiles.renameExclusive(target, payload)
+                try syncDeletionDirectory(target.deletingLastPathComponent())
+                try syncDeletionDirectory(deletedDirectory)
+            }
+            journal.state = .deleted; try saveDeletion(journal)
+        } else if journal.state == .restoring {
+            if LibraryFiles.exists(payload) {
+                guard try matches(document, at: payload), !LibraryFiles.exists(target) else { throw LibraryError.conflict(target.path) }
+                guard try !documentsUnlocked().contains(where: { $0.id == document.id || $0.contentHash == document.contentHash }) else { throw LibraryError.conflict(target.path) }
+                var directory = root
+                for component in document.relativePath.split(separator: "/").dropLast() {
+                    directory.appendPathComponent(String(component)); try LibraryFiles.createDirectory(directory)
+                }
+                try LibraryFiles.renameExclusive(payload, target)
+                try syncDeletionDirectory(target.deletingLastPathComponent())
+                try syncDeletionDirectory(deletedDirectory)
+            } else {
+                guard try matches(document, at: target) else { throw LibraryError.conflict(target.path) }
+            }
+            journal.state = .restored; try saveDeletion(journal)
+        }
+    }
+    public func deletedDocuments() throws -> [DeletedReceipt] {
+        let descriptor = try lock(); defer { unlock(descriptor) }
+        try recoverUnlocked()
+        return try deletionJournals().filter { $0.state == .deleted }.map(\.receipt).sorted { $0.deletedAt > $1.deletedAt }
+    }
+    public func delete(_ document: FiledDocument) throws {
+        let descriptor = try lock(); defer { unlock(descriptor) }
+        try recoverUnlocked()
+        guard try matches(document, at: deletionDestination(document)) else { throw LibraryError.conflict(document.relativePath) }
+        var journal = DeletionJournal(version: 1, receipt: DeletedReceipt(id: UUID(), document: document, deletedAt: Date()), state: .deleting)
+        try saveDeletion(journal); try finishDeletion(&journal)
+    }
+    public func restore(_ receipt: DeletedReceipt) throws {
+        let descriptor = try lock(); defer { unlock(descriptor) }
+        try recoverUnlocked()
+        guard var journal = try deletionJournals().first(where: { $0.receipt == receipt }) else { throw LibraryError.corruptJournal }
+        if journal.state == .restored { return }
+        guard journal.state == .deleted else { throw LibraryError.conflict(receipt.document.relativePath) }
+        let active = try documentsUnlocked()
+        guard !active.contains(where: { $0.id == receipt.document.id || $0.contentHash == receipt.document.contentHash }),
+              !LibraryFiles.exists(try destination(receipt.document.relativePath, allowMissingDirectories: true)),
+              try matches(receipt.document, at: deletedPayload(receipt.id)) else { throw LibraryError.conflict(receipt.document.relativePath) }
+        journal.state = .restoring; try saveDeletion(journal); try finishDeletion(&journal)
     }
 
     public func documents() throws -> [FiledDocument] {
@@ -250,6 +354,7 @@ public actor LibraryStore {
         try recoverUnlocked()
     }
     private func recoverUnlocked() throws {
+        for var deletion in try deletionJournals() { try finishDeletion(&deletion) }
         for var journal in try journals().sorted(by: { $0.createdAt < $1.createdAt }) {
             if journal.state == .filing { try finish(&journal) }
             else if journal.state == .undoing { try finishUndo(&journal) }
@@ -258,6 +363,7 @@ public actor LibraryStore {
 
     public func undo(batch id: UUID) throws {
         let descriptor = try lock(); defer { unlock(descriptor) }
+        try recoverUnlocked()
         guard var journal = try journals().first(where: { $0.id == id }) else { throw LibraryError.corruptJournal }
         if journal.state == .undone { return }
         journal.state = .undoing; try save(journal)
@@ -279,6 +385,14 @@ public actor LibraryStore {
             }
             let target = try destination(entry.document.relativePath, allowMissingDirectories: true)
             let recovered = recoveryDirectory.appendingPathComponent(entry.id.uuidString + ".undone")
+            if var deletion = try deletionJournals().first(where: { $0.receipt.document == entry.document && $0.state == .deleted }) {
+                let payload = deletedPayload(deletion.receipt.id)
+                if LibraryFiles.exists(payload) {
+                    guard try matches(entry.document, at: payload) else { throw LibraryError.conflict(payload.path) }
+                    try LibraryFiles.renameExclusive(payload, recovered)
+                } else { guard try isPublished(entry, at: recovered) else { throw LibraryError.conflict(recovered.path) } }
+                deletion.state = .undone; try saveDeletion(deletion)
+            }
             if LibraryFiles.exists(target) {
                 if try isPublished(entry, at: target) { try LibraryFiles.renameExclusive(target, recovered) }
                 else if entry.state == .published || entry.state == .complete { throw LibraryError.conflict(target.path) }
