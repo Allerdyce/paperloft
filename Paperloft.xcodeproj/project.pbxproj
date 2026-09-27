@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B30000000000000000000001 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000002; };
 		A00000000000000000000022 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
 		A00000000000000000000039 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
+		B30000000000000000000001 /* Apps/PaperloftApp/AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000002 /* Apps/PaperloftApp/AppModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,17 +23,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B30000000000000000000002 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/AppModel.swift; sourceTree = SOURCE_ROOT; };
 		A00000000000000000000006 /* Paperloft Receipts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Paperloft Receipts.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000031 /* PaperloftKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PaperloftKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000041 /* PaperloftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PaperloftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B30000000000000000000002 /* Apps/PaperloftApp/AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/AppModel.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B30000000000000000000003 /* Tests/PaperloftAppTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftAppTests; sourceTree = "<group>"; };
 		A00000000000000000000004 /* Apps/PaperloftApp */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Apps/PaperloftApp; sourceTree = "<group>"; };
 		A00000000000000000000038 /* Packages/PaperloftKit/Tests/PaperloftKitTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Packages/PaperloftKit/Tests/PaperloftKitTests; sourceTree = "<group>"; };
 		A00000000000000000000048 /* Tests/PaperloftUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftUITests; sourceTree = "<group>"; };
+		B30000000000000000000003 /* Tests/PaperloftAppTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftAppTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +63,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A144B953068F146000C8402 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				B30000000000000000000002 /* Apps/PaperloftApp/AppModel.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		A00000000000000000000002 = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +79,7 @@
 				B30000000000000000000003 /* Tests/PaperloftAppTests */,
 				A00000000000000000000004 /* Apps/PaperloftApp */,
 				A00000000000000000000003 /* Products */,
+				5A144B953068F146000C8402 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -206,7 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B30000000000000000000001 /* AppModel.swift in Sources */,
+				B30000000000000000000001 /* Apps/PaperloftApp/AppModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
