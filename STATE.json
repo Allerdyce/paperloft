@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Independent P3 local FAIL at d17b2bf: 50 tests pass, default accessibility audit retains14findings, whole-kit coverage90.23%. Continue isolated Mail promise delivery, watched-folder app integration and actual-pipeline performance harness; no phase acceptance.",
+  "step": "P3 independently FAILS with14accessibility findings. Reviewed scanner core merged at fb0ad90; combined root regression pending. Isolated work: native Mail promise UI diagnostics, watched-folder app race/durability checks, performance timing/responsiveness failures, resilience independent review and draft icon layers. Release blocked.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -9,5 +9,5 @@
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
     "AppIntentsTesting metadata discovery fails; adapter independently passes16tests, AC15 unverified"
   ],
-  "updated": "2026-09-27T07:13:15.756344+00:00"
+  "updated": "2026-09-27T07:26:20.374537+00:00"
 }
