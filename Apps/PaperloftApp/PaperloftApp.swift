@@ -1,50 +1,82 @@
-import SwiftUI
 import AppIntents
-import PaperloftKit
+import SwiftUI
+import UniformTypeIdentifiers
 
-@main
+@main @MainActor
 struct PaperloftApp: App {
+    @State private var model = AppModel()
     var body: some Scene {
-        WindowGroup("Paperloft Receipts") { LibraryView() }
-        Settings { Text("Paperloft Receipts\n© 2026 EvidencePair LLC")
-            .multilineTextAlignment(.center).padding(40) }
+        Window("Paperloft Receipts", id: "main") {
+            LibraryView(model: model)
+                .task { await model.start() }
+                .onOpenURL { model.intake([$0]) }
+        }
+        .defaultSize(width: 1180, height: 760)
+        .commands {
+            // AppKit's automatic Services scanner blocks accessibility inspection on macOS 27.
+            // Keep standard editing commands; receipt actions are explicit commands below.
+            CommandGroup(replacing: .systemServices) {}
+            CommandGroup(after: .newItem) {
+                Button("Import Receipts…") { Task { await model.importFiles() } }
+                    .keyboardShortcut("i", modifiers: [.command])
+                    .accessibilityIdentifier("command.import")
+                Button("Try with Samples") { Task { await model.trySamples() } }
+                    .accessibilityIdentifier("command.samples")
+            }
+            CommandGroup(after: .pasteboard) {
+                Button("Paste Image") { model.pasteImage() }
+                    .keyboardShortcut("v", modifiers: [.command, .shift])
+                    .accessibilityIdentifier("command.pasteImage")
+            }
+            CommandGroup(replacing: .undoRedo) {
+                Button("Undo Last Filing") {
+                    if let batch = model.batches.first(where: { $0.state == .complete }) { Task { await model.undo(batch) } }
+                }
+                .keyboardShortcut("z", modifiers: .command)
+                .disabled(model.busy || !model.batches.contains(where: { $0.state == .complete }))
+                .accessibilityIdentifier("command.undo")
+            }
+        }
+        Settings { PaperloftSettings(model: model) }
+        MenuBarExtra {
+            MenuBarInbox(model: model)
+        } label: {
+            Label("Paperloft · \(model.inboxCount) in inbox", systemImage: "tray")
+                .accessibilityIdentifier("menubar.status")
+        }
+        .menuBarExtraStyle(.window)
     }
 }
 
-struct LibraryView: View {
-    @State private var selection = "Inbox"
-    private func navigationButton(_ title: String, symbol: String) -> some View {
-        Button { selection = title } label: {
-            Label(title, systemImage: symbol).frame(maxWidth: .infinity, alignment: .leading)
+@MainActor func acceptDrop(_ providers: [NSItemProvider], model: AppModel) -> Bool {
+    var accepted = false
+    for provider in providers where provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
+        accepted = true
+        _ = provider.loadObject(ofClass: NSURL.self) { item, _ in
+            if let url = item as? URL { Task { @MainActor in model.intake([url]) } }
         }
-        .buttonStyle(.plain)
-        .padding(.vertical, 6)
-        .listRowBackground(selection == title ? Color.accentColor.opacity(0.15) : Color.clear)
-        .accessibilityIdentifier("sidebar." + title.lowercased())
     }
+    return accepted
+}
+
+struct MenuBarInbox: View {
+    @Bindable var model: AppModel
+    @Environment(\.openWindow) private var openWindow
+    @State private var targeted = false
     var body: some View {
-        NavigationSplitView {
-            List {
-                navigationButton("Inbox", symbol: "tray")
-                navigationButton("Library", symbol: "folder")
-                navigationButton("History", symbol: "clock.arrow.circlepath")
-            }
-            .navigationTitle("Paperloft")
-        } detail: {
-            VStack(spacing: 12) {
-                Image(systemName: selection == "Inbox" ? "tray" : "folder")
-                    .font(.system(size: 40)).foregroundStyle(.secondary)
-                    .accessibilityHidden(true)
-                Text(selection == "Inbox" ? "A place for your paperwork" : selection)
-                    .font(.title2.bold())
-                    .accessibilityIdentifier("content.title")
-                Text("Paperloft is being built. Receipt import and library setup are coming next.")
-                    .foregroundStyle(.secondary)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .navigationTitle(selection)
+        VStack(alignment: .leading, spacing: 14) {
+            Label("Paperloft", systemImage: "tray.fill").font(.headline)
+            Text("\(model.inboxCount) documents in your inbox").foregroundStyle(.secondary)
+            Text("Drop PDF or image receipts here").padding(20)
+                .frame(maxWidth: .infinity)
+                .background(targeted ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
+                .onDrop(of: [.fileURL], isTargeted: $targeted) { acceptDrop($0, model: model) }
+                .accessibilityIdentifier("menubar.drop")
+            Button("Open Inbox") { model.selection = "Inbox"; openWindow(id: "main"); NSApplication.shared.activate() }
+                .accessibilityIdentifier("menubar.open")
+            Button("Import Receipts…") { openWindow(id: "main"); NSApplication.shared.activate(); Task { await model.importFiles() } }
+                .accessibilityIdentifier("menubar.import")
         }
-        .tint(Color(red: 0.06, green: 0.29, blue: 0.18))
-        .frame(minWidth: 800, minHeight: 520)
+        .padding(20).frame(width: 300)
     }
 }

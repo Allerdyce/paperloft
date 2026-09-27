@@ -58,3 +58,11 @@ P2 gate now requires whole-target xccov>=75% with every library source represent
 - Follow-up coverage ordering correction: clean test also removes earlier Release output, causing privacy_check.sh to correctly fail its missing-app assertion. Run coverage-enabled clean tests first, then standalone clean Debug/Release builds, keeping Release as the final artifact. All prior checks and warning failures remain active. Evidence: gates/P2-coverage-order/first-clean-test-gate.md.
 
 - Final coverage diagnosis: xccov needs the coverage-built binaries after tests finish. Reordering alone still removes those binaries during subsequent clean builds, causing the kit target to disappear from the report. Independent dedicated-DerivedData test yielded88.08%. ci.sh now keeps each coverage run in its own retained build/CoverageDerivedData-* directory and ordinary builds in build/DerivedData. All targets/tests remain included; no scoring changes.
+
+- P3 adds a separate five-document synthetic onboarding sample generator (scripts/generate_samples.swift); accepted accuracy fixtures remain unchanged. App document-type registration uses a partial Configuration/Info.plist merged with generated build metadata.
+
+- P3 adds CoreFlowTests: real bundled samples through OCR plus documented stub understanding, keyboard edit/confirm, library search, history undo, and invalid-money blocking. Samples must reach a filed document within60seconds. Locked navigation tests remain unchanged.
+
+## P3 diagnostic evidence — 2026-09-26
+
+All 34 tests passed in the first two complete app runs, but runtime priority inversion warnings correctly kept CI red. Exported xcresult diagnostics and symbolicated their AppKit addresses rather than suppressing the checker. The stack is AppKit Services-menu data detection during accessibility inspection (`evidence/ci/P3-priority-inversion.txt`). Moving index initialization off-main and public NSDataDetector background warmup did not remove that framework warning. Removed the warmup experiment and the optional automatic Services command group; normal editing and explicit receipt commands remain. Unchanged NavigationTests then passed without warnings (`build/P3-services-diagnostic.xcresult`). Full CI pending. No acceptance threshold, locked test, warning scan, or runtime check was weakened.

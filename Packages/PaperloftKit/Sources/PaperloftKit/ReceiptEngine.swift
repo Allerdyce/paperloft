@@ -8,6 +8,12 @@ public struct ReviewedDocument: Identifiable, Sendable {
     public let fields: ExtractedFields
     public let assessment: ExtractionAssessment
     public let duplicateOf: String?
+
+    public init(id: UUID = UUID(), source: URL, contentHash: String, text: String, fields: ExtractedFields, duplicateOf: String? = nil) {
+        self.id = id; self.source = source; self.contentHash = contentHash; self.text = text
+        self.fields = fields; self.duplicateOf = duplicateOf
+        self.assessment = ExtractionAssessment(fields: fields, parser: ParserBackend.parse(text))
+    }
 }
 public struct FilingOutcome: Sendable {
     public let batch: FilingBatch
@@ -34,10 +40,8 @@ public actor ReceiptEngine {
             return (before, text)
         }.value
         let fields = try await backend.extract(text: text)
-        let assessment = ExtractionAssessment(fields: fields, parser: ParserBackend.parse(text))
         let duplicate = try await library.documents().first { $0.contentHash == hash }?.relativePath
-        return ReviewedDocument(id: UUID(), source: source, contentHash: hash, text: text,
-                                fields: fields, assessment: assessment, duplicateOf: duplicate)
+        return ReviewedDocument(source: source, contentHash: hash, text: text, fields: fields, duplicateOf: duplicate)
     }
 
     /// Explicit review can correct any field; the source hash still must match what was reviewed.

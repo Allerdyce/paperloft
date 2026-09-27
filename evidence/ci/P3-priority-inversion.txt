@@ -1,0 +1,50 @@
+From Tests-20260926-225133.xcresult NavigationTests runtime warning. AppKit symbolication of unslid addresses:
+0x18202fba8
+_getDataDetectorsScanner (in AppKit) + 292
+-[_NSMenuContext filterEntriesByDataDetectors:] (in AppKit) + 204
+-[_NSMenuContext filterEntriesByTheirFilters:] (in AppKit) + 504
+-[_NSMenuContext _preconcurrentPortionOfQualifyEntries:returningEntriesNeedingURLTypecheckingIntoSet:] (in AppKit) + 220
+-[_NSMenuContext qualifyEntries:withCompletionHandler:] (in AppKit) + 328
+-[_NSServicesPrincipalMenuUpdater updateVisibilityOfServicesItemsForMenu:isForDisplay:] (in AppKit) + 260
+-[_NSServicesMenuUpdater insertServicesIntoMenu:withKeyEvent:isForDisplay:] (in AppKit) + 200
+-[_NSServicesMenuUpdater updateMenu:withEvent:withFlags:] (in AppKit) + 68
+-[_NSServicesPrincipalMenuUpdater updateMenu:withEvent:withFlags:] (in AppKit) + 228
+-[NSMenu _populateFromDelegateWithEventProvider:] (in AppKit) + 336
+-[NSMenu _populateWithEventProvider:] (in AppKit) + 236
+-[NSMenu _populateWithEventRef:] (in AppKit) + 96
+__49-[NSMenu _populateWithFlags:eventRef:incomplete:]_block_invoke (in AppKit) + 32
+-[NSMenu _withUpdateFlags:do:] (in AppKit) + 72
+-[NSMenu _populateWithFlags:eventRef:incomplete:] (in AppKit) + 272
+__27-[NSMenu _simulateOpening:]_block_invoke (in AppKit) + 116
+-[NSMenu _forEachLinkedMenu:] (in AppKit) + 68
+-[NSMenu _simulateOpening:] (in AppKit) + 120
+-[NSMenu(Accessibility) _openForInspection:] (in AppKit) + 260
+-[NSMenu(Accessibility) _accessibilityArrayAttributeCount:] (in AppKit) + 228
+-[NSMenu(Accessibility) accessibilityArrayAttributeCount:] (in AppKit) + 60
+-[NSObject(NSAccessibilityInternal) _accessibilityArrayAttributeCount:clientError:] (in AppKit) + 120
+GetAttributeValueCount (in AppKit) + 180
+0x187eadc7c
+0x187eabde0
+0x187ea5a00
+0x20a809b94
+0x20a81174c
+0x20a8118e0
+0x20a811290
+0x20a82ccdc
+0x18094e4b0
+0x18094e3f0
+0x18094d7fc
+0x180a2782c
+0x18dd80590
+0x18dd8391c
+0x18df06380
+_DPSBlockUntilNextEventMatchingListInMode (in AppKit) + 292
+_DPSNextEvent (in AppKit) + 580
+-[NSApplication(NSEventRouting) _nextEventMatchingEventMask:untilDate:inMode:dequeue:] (in AppKit) + 780
+-[NSApplication(NSEventRouting) nextEventMatchingMask:untilDate:inMode:dequeue:] (in AppKit) + 292
+-[NSApplication run] (in AppKit) + 396
+NSApplicationMain (in AppKit) + 880
+0x1b8f08c84
+0x1b931bc68
+0x1b95f68b8
+0x1804b7e80
