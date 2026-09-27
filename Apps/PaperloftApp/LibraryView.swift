@@ -126,6 +126,17 @@ struct InboxView: View {
         if !visibleItems.contains(where: { $0.id == model.selectedItemID }) { model.selectedItemID = visibleItems.first?.id }
         pinnedReviewID = model.items.first(where: { $0.id == model.selectedItemID && $0.status == "ready" })?.id
     }
+    private func inboxEntry(_ title: String, symbol: String, identifier: String, action: @escaping () async -> Void) -> some View {
+        Button { Task { await action() } } label: {
+            Label(title, systemImage: symbol)
+                .font(.callout.weight(.semibold))
+                .frame(minWidth: 76).padding(.horizontal, 12).padding(.vertical, 12)
+                .foregroundStyle(Color.accentColor)
+                .background(Color.accentColor.opacity(0.05), in: RoundedRectangle(cornerRadius: 10))
+                .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.accentColor.opacity(0.35)))
+                .contentShape(RoundedRectangle(cornerRadius: 10))
+        }.buttonStyle(.plain).accessibilityIdentifier(identifier)
+    }
     private func revealPastedImage() {
         guard let id = model.pastedItemID, model.items.contains(where: { $0.id == id && $0.status != "aside" }) else { return }
         filter = "All"
@@ -177,12 +188,9 @@ struct InboxView: View {
                         }
                     }.padding(.vertical, 12)
                 }
-                    HStack(spacing: 8) {
-                        Button("Paste") { Task { await model.pasteImage() } }
-                            .accessibilityIdentifier("inbox.paste")
-                            .help("Paste a copied image into the Inbox (Shift-Command-V)")
-                        Button("Import") { Task { await model.importFiles() } }
-                            .accessibilityIdentifier("inbox.addMore")
+                    HStack(spacing: 10) {
+                        inboxEntry("Import", symbol: "square.and.arrow.down", identifier: "inbox.addMore") { await model.importFiles() }
+                        inboxEntry("Paste", symbol: "doc.on.clipboard", identifier: "inbox.paste") { await model.pasteImage() }
                     }.fixedSize()
                 }.padding(.horizontal, 20)
                 HStack(spacing: 12) {
@@ -403,8 +411,7 @@ struct ReviewView: View {
                         .accessibilityLabel("Choose receipt date").accessibilityIdentifier("review.chooseDate")
                         .popover(isPresented: $showDatePicker, arrowEdge: .leading) {
                             VStack(alignment: .leading, spacing: 12) {
-                                DatePicker("Receipt date", selection: $calendarDate, displayedComponents: .date)
-                                    .datePickerStyle(.graphical).labelsHidden().fixedSize()
+                                ReceiptCalendar(selection: $calendarDate)
                                 HStack {
                                     Button("Cancel") { showDatePicker = false }
                                     Spacer()
@@ -416,7 +423,7 @@ struct ReviewView: View {
                                     showDatePicker = false
                                     }.buttonStyle(.borderedProminent).accessibilityIdentifier("review.useDate")
                                 }
-                            }.padding(12).fixedSize()
+                            }.padding(18).frame(width: 320)
                         }
                     }.modifier(ReviewHighlight(message: fieldMessage("date")))
                     TextField("Total", text: $draft.total).monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(message: fieldMessage("total")))
@@ -866,4 +873,76 @@ private struct LibrarySelectionStyle: NSViewRepresentable {
     }
     func makeNSView(context: Context) -> Marker { Marker() }
     func updateNSView(_ nsView: Marker, context: Context) {}
+}
+
+/// A readable calendar with direct month/year navigation for older receipts.
+private struct ReceiptCalendar: View {
+    @Environment(\.colorScheme) private var colorScheme
+    @Binding var selection: Date
+    @State private var month: Date
+    private var calendar: Calendar { Calendar(identifier: .gregorian) }
+    init(selection: Binding<Date>) {
+        _selection = selection
+        _month = State(initialValue: selection.wrappedValue)
+    }
+    private var start: Date { calendar.date(from: calendar.dateComponents([.year, .month], from: month))! }
+    private var days: Int { calendar.range(of: .day, in: .month, for: start)!.count }
+    private var offset: Int { (calendar.component(.weekday, from: start) - calendar.firstWeekday + 7) % 7 }
+    private func moveMonth(_ amount: Int) { month = calendar.date(byAdding: .month, value: amount, to: start)! }
+    private func setComponent(_ component: Calendar.Component, _ value: Int) {
+        var parts = calendar.dateComponents([.year, .month], from: start)
+        if component == .year { parts.year = value } else { parts.month = value }
+        month = calendar.date(from: parts)!
+    }
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text("Receipt date").font(.headline)
+            HStack(spacing: 8) {
+                Button { moveMonth(-1) } label: { Image(systemName: "chevron.left") }
+                    .accessibilityLabel("Previous month")
+                Menu {
+                    ForEach(1...12, id: \.self) { value in
+                        Button(calendar.monthSymbols[value - 1]) { setComponent(.month, value) }
+                    }
+                } label: { Text(calendar.monthSymbols[calendar.component(.month, from: month) - 1]) }
+                Menu {
+                    ForEach(1900...max(2100, calendar.component(.year, from: month)), id: \.self) { value in
+                        Button(String(value)) { setComponent(.year, value) }
+                    }
+                } label: { Text(String(calendar.component(.year, from: month))) }
+                Button { moveMonth(1) } label: { Image(systemName: "chevron.right") }
+                    .accessibilityLabel("Next month")
+            }.buttonStyle(.borderless)
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 4), count: 7), spacing: 5) {
+                ForEach(0..<7, id: \.self) { index in
+                    Text(calendar.shortStandaloneWeekdaySymbols[(index + calendar.firstWeekday - 1) % 7])
+                        .font(.caption.weight(.medium)).foregroundStyle(.secondary).frame(height: 22)
+                        .accessibilityHidden(true)
+                }
+                ForEach(0..<(offset + days), id: \.self) { index in
+                    if index < offset { Color.clear.frame(height: 32).accessibilityHidden(true) }
+                    else {
+                        let date = calendar.date(byAdding: .day, value: index - offset, to: start)!
+                        let chosen = calendar.isDate(date, inSameDayAs: selection)
+                        Button { selection = date } label: {
+                            Text(String(index - offset + 1)).font(.callout.weight(chosen ? .semibold : .regular))
+                                .frame(maxWidth: .infinity).frame(height: 32)
+                                .foregroundStyle(chosen ? (colorScheme == .dark ? Color.black : Color.white) : Color.primary)
+                                .background(chosen ? Color.accentColor : Color.clear, in: RoundedRectangle(cornerRadius: 7))
+                                .overlay(RoundedRectangle(cornerRadius: 7).strokeBorder(calendar.isDateInToday(date) ? Color.accentColor : Color.clear))
+                                .contentShape(Rectangle())
+                        }.buttonStyle(.plain)
+                            .accessibilityLabel(date.formatted(date: .complete, time: .omitted))
+                            .accessibilityAddTraits(chosen ? [.isSelected] : [])
+                    }
+                }
+            }
+            HStack {
+                Text(selection.formatted(date: .abbreviated, time: .omitted)).font(.caption).foregroundStyle(.secondary)
+                Spacer()
+                Button("Today") { selection = Date(); month = selection }.buttonStyle(.borderless)
+            }
+            Divider()
+        }
+    }
 }

@@ -158,3 +158,5 @@ Added TaxExportTests alongside unchanged export verification to check newly requ
 2026-09-27: Updated unlocked Inbox UI check to require reachable Add receipts in top creation area. InboxCreation.xcresult PASS; protected tests unchanged.
 
 2026-09-27: Unlocked Inbox layout assertions updated for requested filter-row Paste/Import alignment; native InboxActionRow PASS.
+
+2026-09-27: Expanded unlocked calendar UI check for month navigation and cancelling a changed date; EntryCalendar.xcresult PASS. Frozen files unchanged.

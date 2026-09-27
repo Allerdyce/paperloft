@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Inbox action row: Paste then Import aligned side by side at far right of filter row, outside horizontal filter scroll. Removed left creation header; paste feedback retained beneath actions. Strict Release, protected baseline, independent source review and InboxActionRow.xcresult PASS. Native assertions verify labels, ordering and vertical alignment; screenshot inspected. Owner running process preserved. Release/uploads blocked.",
+  "step": "Entry/calendar design pass: Import and Paste are distinct outlined icon boxes at right of filter row. Replaced compact graphical picker with spacious seven-column calendar, direct month/year menus, month arrows, Today and selected-date footer, retaining Cancel/Use date. Gregorian month heading matches grid; selected-day text adapts to dark mode. Strict Release and baseline PASS. EntryCalendar.xcresult native UI PASS including month navigation, Today/Cancel preserves draft and Use date; screenshot inspected. Leap-day selection and final dark-mode contrast tweak source reviewed, not separately UI exercised. No release/upload.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -13,5 +13,5 @@
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
     "Real receipts: OCR loses visible totals; unsupported total, merchant and transaction-date errors require follow-up. Tax safeguard is partial mitigation only."
   ],
-  "updated": "2026-09-27T21:11:55.785261+00:00"
+  "updated": "2026-09-27T21:17:52.531170+00:00"
 }
