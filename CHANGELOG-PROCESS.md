@@ -133,3 +133,7 @@ Ported only the scalar Equatable InboxRow rendering change from373d4ca after ind
 - Owner explicitly authorized a standing Apple-agreement exception on2026-09-27. Added that scoped exception to AGENTS.md; release/uploads and all other restrictions remain. No acceptance criteria, locked test or baseline verifier changes.
 
 - Ported only reviewed native AppIcon.icon package and three app-icon buildsettings fromdaf145d. Independent critic accepted faithful native reconstruction for scoped local integration;16px polish3/5 and AC16 remainopen. One translucency-only candidate did not improve16px and was discarded; original artwork/colors retained. Root strictRelease verification follows; no engine/source logic changed.
+
+## 2026-09-27 — Tax export regression coverage
+
+Added TaxExportTests alongside unchanged export verification to check newly requested recorded-tax summaries: missing versus zero, multicurrency precision, inclusive period boundaries, overflow rejection, PDF/CSV values and source preservation. Strict targeted test run passed12 tests; evidence/tax-export/implementation.md records scope and outstanding independent UI review.

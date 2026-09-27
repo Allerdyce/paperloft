@@ -21,7 +21,7 @@ struct ExportView: View {
     }
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text("Accountant pack").font(.title2.weight(.semibold))
+            Label("Tax & Accountant Export", systemImage: "doc.text").font(.title2.weight(.semibold))
             if let error = model.exportError {
                 Text(error).foregroundStyle(.primary).accessibilityIdentifier("export.error")
             }
@@ -36,10 +36,18 @@ struct ExportView: View {
                     Button("Reveal Pack") { model.revealExport() }.accessibilityIdentifier("export.reveal")
                 }
             } else {
-                Text("Create a folder containing your documents, a CSV of transactions, and a PDF summary by category and month.")
+                Text("Share your filed receipts and recorded amounts with your accountant.")
+                    .foregroundStyle(.secondary)
+                GroupBox("Included in your export") {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Label("Transactions CSV — dates, merchants, categories, totals and recorded tax", systemImage: "tablecells")
+                        Label("Summary PDF — category, month and recorded-tax totals", systemImage: "doc.richtext")
+                        Label("Receipt files — copies of your filed originals, grouped by category", systemImage: "folder")
+                    }.frame(maxWidth: .infinity, alignment: .leading).padding(6)
+                }
                 Form {
                     Picker("Period", selection: $period) {
-                        Text("Tax year").tag("Year"); Text("Quarter").tag("Quarter"); Text("Custom dates").tag("Custom")
+                        Text("Calendar year").tag("Year"); Text("Quarter").tag("Quarter"); Text("Custom dates").tag("Custom")
                     }.pickerStyle(.segmented).accessibilityIdentifier("export.period")
                     if period != "Custom" {
                         TextField("Year", text: $year).accessibilityIdentifier("export.year")
@@ -54,7 +62,9 @@ struct ExportView: View {
                     }
                     Toggle("Also create a ZIP archive", isOn: $zipped).accessibilityIdentifier("export.zip")
                 }
-                Text("Dates are inclusive. Currencies stay separate; no conversion or tax advice.").font(.callout)
+                Text("Only filed receipts dated within this period are included. Dates are inclusive; finish reviewing and filing inbox receipts first.").font(.callout)
+                Text("Currencies stay separate. Missing tax stays blank in the CSV and is counted as unknown in the summary. This pack does not calculate deductions or file a tax return.")
+                    .font(.callout).foregroundStyle(.secondary)
                 if range == nil { Text("Enter a valid year or date range.").foregroundStyle(.orange).accessibilityIdentifier("export.validation") }
             }
             HStack {
@@ -68,7 +78,7 @@ struct ExportView: View {
                         .disabled(range == nil || model.busy).accessibilityIdentifier("export.create")
                 }
             }
-        }.padding(28).frame(width: 520)
-            .accessibilityElement(children: .contain).accessibilityLabel("Accountant pack export")
+        }.padding(28).frame(width: 600)
+            .accessibilityElement(children: .contain).accessibilityLabel("Tax and accountant export")
     }
 }
