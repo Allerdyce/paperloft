@@ -159,13 +159,11 @@ struct ReviewView: View {
     init(model: AppModel, item: InboxItem) { self.model = model; self.item = item; _draft = State(initialValue: item.draft) }
     private var needsReview: Bool {
         guard let review = item.review else { return true }
-        return !ExtractionAssessment(fields: review.fields, parser: ParserBackend.parse(review.text)).canAutoFile
+        return !review.assessment.canAutoFile
     }
     private func highlight(_ field: String) -> Bool {
         guard let review = item.review else { return true }
-        let fields = review.fields
-        let assessment = ExtractionAssessment(fields: fields, parser: ParserBackend.parse(review.text))
-        let reasons = assessment.reasons
+        let reasons = review.assessment.reasons
         if reasons.contains(.lowConfidence) || reasons.contains(.notReceipt) { return true }
         switch field {
         case "vendor": return reasons.contains(.missingVendor)

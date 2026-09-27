@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "P3 independently FAILS with 14 accessibility findings. Reviewed scanner core and local email file import merged at a17e86a; combined package regression passes 64 tests and strict Release build passes. Native promised Mail drop/window reopening remains isolated after three unsuccessful repair approaches. Watched-folder app validation and independent assessment-cache regression continue; parser responsiveness remains FAIL. Release blocked.",
+  "step": "P3 remains independently FAIL with 14 accessibility findings. Reviewed saved-email/scanner core integrated; assessment reuse port passes 69 combined app/core tests, strict Release and protected baseline. Watched-folder native UI fallback, native Mail menu lifecycle diagnostics and performance profiling continue in isolated branches. No phase advancement; release blocked.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -9,5 +9,5 @@
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
     "AppIntentsTesting metadata discovery fails; adapter independently passes16tests, AC15 unverified"
   ],
-  "updated": "2026-09-27T07:43:34.304660+00:00"
+  "updated": "2026-09-27T07:52:48.503241+00:00"
 }
