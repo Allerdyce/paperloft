@@ -28,6 +28,13 @@ public struct ExportTotal: Equatable, Sendable {
     public let currency: String
     public let minorUnits: Int64
 }
+/// A missing tax value is counted separately from a recorded zero.
+public struct ExportTaxTotal: Equatable, Sendable {
+    public let currency: String
+    public let recordedMinorUnits: Int64
+    public let recordedCount: Int
+    public let unknownCount: Int
+}
 public struct AccountantPackResult: Sendable {
     public let folderURL: URL
     public let zipURL: URL?
@@ -53,6 +60,26 @@ public enum AccountantPackExporter {
         }
     }
 
+    public static func taxTotals(documents: [FiledDocument], range: ExportDateRange) throws -> [ExportTaxTotal] {
+        var values: [String: (amount: Int64, recorded: Int, unknown: Int)] = [:]
+        for document in documents where range.contains(document.receipt.date) {
+            let receipt = document.receipt
+            var value = values[receipt.currency] ?? (0, 0, 0)
+            if let tax = receipt.taxMinorUnits {
+                let sum = value.amount.addingReportingOverflow(tax)
+                guard !sum.overflow else { throw ReceiptError.invalidAmount }
+                value.amount = sum.partialValue
+                value.recorded += 1
+            } else { value.unknown += 1 }
+            values[receipt.currency] = value
+        }
+        return values.keys.sorted().map { currency in
+            let value = values[currency]!
+            return ExportTaxTotal(currency: currency, recordedMinorUnits: value.amount,
+                                  recordedCount: value.recorded, unknownCount: value.unknown)
+        }
+    }
+
     public static func export(documents: [FiledDocument], libraryRoot: URL, destination: URL,
                               range: ExportDateRange, zip: Bool = false) throws -> AccountantPackResult {
         let selected = documents.filter { range.contains($0.receipt.date) }.sorted {
@@ -61,6 +88,7 @@ public enum AccountantPackExporter {
         guard Set(selected.map(\.id)).count == selected.count else { throw LibraryError.conflict("duplicate receipt identifiers") }
         let categories = try totals(documents: selected, range: range)
         let months = try totals(documents: selected, range: range, byMonth: true)
+        let taxes = try taxTotals(documents: selected, range: range)
         let source = try ExportDirectory(url: libraryRoot)
         let parent = try ExportDirectory(url: destination)
         let name = "Accountant Pack \(range.start.formatted) to \(range.end.formatted) \(UUID().uuidString)"
@@ -89,7 +117,7 @@ public enum AccountantPackExporter {
         }
         let csv = rows.map { $0.map { "\"" + $0.replacingOccurrences(of: "\"", with: "\"\"") + "\"" }.joined(separator: ",") }.joined(separator: "\r\n") + "\r\n"
         try output.write(Data(csv.utf8), name: "transactions.csv")
-        try output.write(summary(range: range, count: selected.count, categories: categories, months: months), name: "summary.pdf")
+        try output.write(summary(range: range, count: selected.count, categories: categories, months: months, taxes: taxes), name: "summary.pdf")
         guard renameatx_np(parent.fd, stagingName, parent.fd, name, UInt32(RENAME_EXCL)) == 0 else {
             throw LibraryError.conflict(name)
         }
@@ -114,7 +142,7 @@ public enum AccountantPackExporter {
         return AccountantPackResult(folderURL: folder, zipURL: zipURL, documentCount: selected.count, categoryTotals: categories, monthTotals: months)
     }
 
-    private static func summary(range: ExportDateRange, count: Int, categories: [ExportTotal], months: [ExportTotal]) throws -> Data {
+    private static func summary(range: ExportDateRange, count: Int, categories: [ExportTotal], months: [ExportTotal], taxes: [ExportTaxTotal]) throws -> Data {
         let data = NSMutableData()
         var box = CGRect(x: 0, y: 0, width: 612, height: 792)
         guard let consumer = CGDataConsumer(data: data), let context = CGContext(consumer: consumer, mediaBox: &box, nil) else { throw LibraryError.conflict("PDF creation failed") }
@@ -123,6 +151,12 @@ public enum AccountantPackExporter {
         for total in categories { lines.append("\(total.label) | \(total.currency) | \(try Money(minorUnits: total.minorUnits, currency: total.currency).decimal)") }
         lines += ["", "Totals by month"]
         for total in months { lines.append("\(total.label) | \(total.currency) | \(try Money(minorUnits: total.minorUnits, currency: total.currency).decimal)") }
+        lines += ["", "Recorded tax by currency", "Missing tax is unknown, not zero. Recorded tax is not a deduction calculation."]
+        if taxes.isEmpty { lines.append("No documents in this date range.") }
+        for total in taxes {
+            let amount = total.recordedCount == 0 ? "Unknown" : try Money(minorUnits: total.recordedMinorUnits, currency: total.currency).decimal
+            lines.append("\(total.currency) | \(amount) | \(total.recordedCount) recorded | \(total.unknownCount) unknown")
+        }
         let font = CTFontCreateWithName("Helvetica" as CFString, 11, nil)
         var y: CGFloat = 744
         context.beginPDFPage(nil)
