@@ -90,3 +90,7 @@ AGENTS section2 permits independent parallel work fromP3 in separate worktrees. 
 - Added P3 dispatch to gate_check.py with unchanged full CI/privacy/baseline checks plus QA build and coverage. No failed audit is excluded or downgraded. The self-gate is expected to remain FAIL while current accessibility findings persist.
 
 - Independent synthetic PDF probe proved public NSAccessibilityProtocol page-role labels preserve native text and remove missing-description audit failure. Applied only within owned PDFView after layout/document updates, without changing roles/children/actions. Targeted real-app audit build/P3-pdf-label.xcresult removes PDF issue:14remaining findings, stillFAIL.
+
+## Watched-folder component verification (2026-09-27)
+
+Added new WatchedFolderTests for the independent P4 scanner: stable observations, acknowledgment crash boundary/restart, changed bytes, unsafe paths, corrupt/tampered state, denied writes, memory/entry bounds and fair progress. Existing frozen tests/fixtures and thresholds are unchanged. Test files live below the package build directory so symlink aliases in system temporary paths are not mistaken for approved physical roots. Component evidence: evidence/watched-folder/README.md and build/watched-{debug,release}.log. App integration, Pro gating and independent review are separate requirements.
