@@ -41,3 +41,5 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 - Approach 2: disable main-scene restoration in addition to presented launch. MailReopen2 fails identically; no repair proven.
 - Approach 3: propagate context.environment into the nested NSHostingView root. MailReopen3 compiles strictly but still has no main window at launch. All experimental product changes reverted after three approaches. Native promised-file interaction remains blocked before drag execution.
 - Separate diagnostic uses standard Window > Paperloft Receipts to distinguish scene creation from the menu-bar action. Existing acceptance assertions and timeout thresholds are unchanged.
+
+- Follow-up isolated diagnostic proved Window-menu priming reaches the actual failing Open Inbox interaction on the intended executable. Re-evaluated only the prior captured OpenWindowAction idea against that failure: MailCapturedWindowAction FAIL30.606s at unchanged main reopen assertion. Reverted narrow source experiment and parked; no additional product repairs or drag acceptance claim.
