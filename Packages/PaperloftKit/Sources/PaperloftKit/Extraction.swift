@@ -12,14 +12,17 @@ public struct ExtractedFields: Codable, Equatable, Sendable {
     public var confidence: Double
     public var backend: String
     public var classificationError: String?
+    /// Tax was not matched to a single unambiguous printed tax amount.
+    public var taxNeedsReview: Bool?
 
     public init(kind: String = "receipt", vendor: String? = nil, date: String? = nil,
                 total: String? = nil, tax: String? = nil, currency: String? = nil, category: String? = nil,
-                confidence: Double = 0, backend: String, classificationError: String? = nil) {
+                confidence: Double = 0, backend: String, classificationError: String? = nil, taxNeedsReview: Bool? = nil) {
         self.kind = kind; self.vendor = vendor; self.date = date; self.total = total
         self.tax = tax; self.currency = currency; self.category = category; self.confidence = confidence
         self.backend = backend
         self.classificationError = classificationError
+        self.taxNeedsReview = taxNeedsReview
     }
 }
 
@@ -178,7 +181,9 @@ public struct SystemBackend: ExtractionBackend {
         if kind != fields.kind { confidence = min(confidence, 0.5) }
         if let date = parser.date, date != fields.date { confidence = min(confidence, 0.5) }
         if let total = parser.total, Decimal(string: total) != known(fields.total).flatMap({ Decimal(string: $0) }) { confidence = min(confidence, 0.5) }
-        return ExtractedFields(kind: kind, vendor: known(fields.vendor), date: known(fields.date), total: known(fields.total),
+        var result = ExtractedFields(kind: kind, vendor: known(fields.vendor), date: known(fields.date), total: known(fields.total),
                                tax: known(fields.tax), currency: known(fields.currency), category: known(fields.category), confidence: confidence, backend: "system", classificationError: classificationError)
+        TaxSourceEvidence.requireReviewIfNeeded(fields: &result, text: text)
+        return result
     }
 }
