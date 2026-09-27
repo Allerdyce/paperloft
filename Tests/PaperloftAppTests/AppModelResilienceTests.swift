@@ -77,10 +77,17 @@ import XCTest
         XCTAssertEqual(restored.items.map(\.status), Array(repeating: "failed", count: 5))
         XCTAssertTrue(restored.allDocuments.isEmpty)
     }
+    private func persistedInbox(_ root: URL) throws -> Data {
+        let source = root.appendingPathComponent("previous.pdf")
+        try Data("previous unreadable document".utf8).write(to: source)
+        var item = InboxItem(id: UUID(), source: source)
+        item.status = "failed"; item.issue = "Previous review must be preserved"
+        return try JSONEncoder().encode([item])
+    }
     func testMissingLibraryPreservesInboxAndReportsRecoveryAction() async throws {
         let (root, defaults) = try workspace()
         let inbox = root.appendingPathComponent("inbox.json")
-        let original = Data("[]".utf8); try original.write(to: inbox)
+        let original = try persistedInbox(root); try original.write(to: inbox)
         defaults.set(root.appendingPathComponent("MissingLibrary").path, forKey: "paperloft.demoLibraryPath")
         let model = AppModel(support: root, preferences: defaults)
         await model.start()
@@ -88,12 +95,14 @@ import XCTest
         XCTAssertNil(model.libraryURL)
         XCTAssertFalse(model.busy)
         XCTAssertEqual(try Data(contentsOf: inbox), original)
+        XCTAssertEqual(model.items.count, 1)
+        XCTAssertEqual(model.items.first?.issue, "Previous review must be preserved")
         XCTAssertFalse(FileManager.default.fileExists(atPath: root.appendingPathComponent("MissingLibrary").path))
     }
     func testInvalidBookmarkPreservesInboxAndRequestsFolderRenewal() async throws {
         let (root, defaults) = try workspace()
         let inbox = root.appendingPathComponent("inbox.json")
-        let original = Data("[]".utf8); try original.write(to: inbox)
+        let original = try persistedInbox(root); try original.write(to: inbox)
         defaults.set(Data("invalid bookmark".utf8), forKey: "paperloft.libraryBookmark")
         let model = AppModel(support: root, preferences: defaults)
         await model.start()
@@ -101,5 +110,7 @@ import XCTest
         XCTAssertNil(model.libraryURL)
         XCTAssertFalse(model.busy)
         XCTAssertEqual(try Data(contentsOf: inbox), original)
+        XCTAssertEqual(model.items.count, 1)
+        XCTAssertEqual(model.items.first?.issue, "Previous review must be preserved")
     }
 }

@@ -9,3 +9,5 @@ The other tests check a missing library and invalid bookmark: startup releases b
 Fresh strict Debug build/test passed all3tests, zero warning/error diagnostics: build/AppResilienceFinal.xcresult and build/app-resilience-final.log. Earlier run also passed; final run strengthened missing-library message verification and bounded the assertion loop. Local preflight38PASS,1WARN,0FAIL/TFAIL; protected baseline/hashes pass. No frozen tests changed.
 
 Limits: this is actual app-model behavior, not a visible UI interaction or literal process relaunch. A newly instantiated model reads the persisted inbox. Real stale security-scoped bookmark renewal, non-receipt review UI, in-flight missing-source recovery and actual app crash/relaunch remain outside this evidence. No full AC-09/P6 acceptance or release claim. Independent review is pending.
+
+Independent review noted the missing-library/bookmark tests initially preserved only an empty inbox. They now start with a populated failed inbox and assert its prior item/message survives, as well as byte-identical JSON. This strengthening awaits the independent rerun; earlier3test PASS applies to the prior assertions.
