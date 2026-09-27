@@ -1,0 +1,1 @@
+{"result": "PASS", "documents": 120, "file_process_signal": "SIGKILL", "filed_before_kill": 1, "undo_process_signal": "SIGKILL", "undone_before_kill": 2, "original_hashes_restored": 120, "seconds": 16.49}

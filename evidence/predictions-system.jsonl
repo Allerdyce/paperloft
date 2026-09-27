@@ -5,13 +5,13 @@
 {"backend":"system","category":"Office supplies","date":"2026-05-11","id":"document-005","kind":"receipt","total":"105.46","vendor":"Elm Office Depot"}
 {"backend":"system","category":"Meals","date":"2026-08-18","id":"document-006","kind":"receipt","total":"132.38","vendor":"Fern Cafe"}
 {"backend":"system","category":"Meals","date":"2026-03-09","id":"document-007","kind":"invoice","total":"111.76","vendor":"Grove Restaurant"}
-{"backend":"system","category":"Meals","date":"2026-02-18","id":"document-008","kind":"receipt","total":"492.47","vendor":"Harbor Coffee"}
+{"backend":"system","category":"Meals","date":"2026-02-18","id":"document-008","kind":"receipt","total":"514.44","vendor":"Harbor Coffee"}
 {"backend":"system","category":"Meals","date":"2026-03-21","id":"document-009","kind":"invoice","total":"154.02","vendor":"Iris Diner"}
 {"backend":"system","id":"document-010","kind":"not_receipt"}
 {"backend":"system","category":"Meals","date":"2026-09-19","id":"document-011","kind":"receipt","total":"150.07","vendor":"Juniper Bakery"}
 {"backend":"system","category":"Travel","date":"2026-07-06","id":"document-012","kind":"invoice","total":"335.81","vendor":"Kestrel Hotel"}
 {"backend":"system","category":"Travel","date":"2026-02-02","id":"document-013","kind":"receipt","total":"437.18","vendor":"Larch Airline"}
-{"backend":"system","category":"Travel","date":"2026-02-21","id":"document-014","kind":"bill","total":"319.77","vendor":"Meadow Lodging"}
+{"backend":"system","category":"Travel","date":"2026-02-21","id":"document-014","kind":"invoice","total":"319.77","vendor":"Meadow Lodging"}
 {"backend":"system","category":"Travel","date":"2026-08-25","id":"document-015","kind":"receipt","total":"370.39","vendor":"North Taxi"}
 {"backend":"system","category":"Travel","date":"2026-08-18","id":"document-016","kind":"invoice","total":"82.16","vendor":"Orchard Rail"}
 {"backend":"system","category":"Utilities","date":"2026-06-18","id":"document-017","kind":"bill","total":"312.21","vendor":"Pine Electric"}
@@ -26,22 +26,22 @@
 {"backend":"system","category":"Advertising","date":"2026-06-27","id":"document-026","kind":"invoice","total":"377.95","vendor":"Xenia Advertising"}
 {"backend":"system","category":"Advertising","date":"2026-09-13","id":"document-027","kind":"receipt","total":"325.47","vendor":"Yarrow Marketing"}
 {"backend":"system","category":"Software","date":"2026-07-04","id":"document-028","kind":"invoice","total":"153.07","vendor":"Zenith Software"}
-{"backend":"system","category":"Software","date":"2026-02-20","id":"document-029","kind":"receipt","total":"71.65","vendor":"Amber Hosting"}
+{"backend":"system","category":"Software","date":"2026-02-20","id":"document-029","kind":"receipt","total":"71.66","vendor":"Amber Hosting"}
 {"backend":"system","id":"document-030","kind":"not_receipt"}
 {"backend":"system","category":"Software","date":"2026-06-19","id":"document-031","kind":"invoice","total":"137.85","vendor":"Beacon Cloud"}
-{"backend":"system","category":"Software","date":"2026-05-06","id":"document-032","kind":"receipt","total":"105.7","vendor":"Copper Software"}
+{"backend":"system","category":"Software","date":"2026-05-06","id":"document-032","kind":"receipt","total":"158.05","vendor":"Copper Software"}
 {"backend":"system","category":"Software","date":"2026-09-25","id":"document-033","kind":"invoice","total":"366.17","vendor":"Dawn Hosting"}
 {"backend":"system","category":"Vehicle","date":"2026-08-10","id":"document-034","kind":"receipt","total":"29.67","vendor":"Evergreen Fuel"}
-{"backend":"system","category":"Vehicle","date":"2026-06-06","id":"document-035","kind":"receipt","total":"295.78","vendor":"Falcon Gas Station"}
+{"backend":"system","category":"Utilities","date":"2026-06-06","id":"document-035","kind":"receipt","total":"295.78","vendor":"Falcon Gas Station"}
 {"backend":"system","category":"Vehicle","date":"2026-01-07","id":"document-036","kind":"invoice","total":"238.52","vendor":"Granite Auto Service"}
 {"backend":"system","category":"Vehicle","date":"2026-07-07","id":"document-037","kind":"receipt","total":"249.15","vendor":"Hearth Fuel"}
 {"backend":"system","category":"Vehicle","date":"2026-07-25","id":"document-038","kind":"invoice","total":"350.36","vendor":"Indigo Auto Service"}
-{"backend":"system","category":"Other expenses","date":"2026-04-24","id":"document-039","kind":"receipt","total":"375.09","vendor":"Jasper Workshop"}
+{"backend":"system","category":"Other expenses","date":"2026-04-24","id":"document-039","kind":"receipt","total":"0.00","vendor":"Jasper Workshop"}
 {"backend":"system","id":"document-040","kind":"not_receipt"}
 {"backend":"system","category":"Other expenses","date":"2026-07-19","id":"document-041","kind":"receipt","total":"269.40","vendor":"Keystone Repair"}
 {"backend":"system","category":"Other expenses","date":"2026-06-08","id":"document-042","kind":"receipt","total":"364.70","vendor":"Lantern Services"}
 {"backend":"system","category":"Other expenses","date":"2026-03-24","id":"document-043","kind":"invoice","total":"289.40","vendor":"Marble Rentals"}
-{"backend":"system","category":"Other expenses","date":"2026-02-22","id":"document-044","kind":"receipt","total":"41.65","vendor":"Noble Studio"}
+{"backend":"system","category":"Other expenses","date":"2026-02-22","id":"document-044","kind":"receipt","total":"39.31","vendor":"Noble Studio"}
 {"backend":"system","category":"Office supplies","date":"2026-03-06","id":"document-045","kind":"invoice","total":"359.09","vendor":"Acorn Office"}
 {"backend":"system","category":"Office supplies","date":"2026-04-07","id":"document-046","kind":"receipt","total":"406.64","vendor":"Birch Stationery"}
 {"backend":"system","category":"Office supplies","date":"2026-07-07","id":"document-047","kind":"receipt","total":"49.43","vendor":"Cedar Paper"}
@@ -65,25 +65,25 @@
 {"backend":"system","category":"Utilities","date":"2026-03-02","id":"document-065","kind":"bill","total":"384.27","vendor":"Spruce Utility"}
 {"backend":"system","category":"Utilities","date":"2026-02-12","id":"document-066","kind":"bill","total":"409.62","vendor":"Tamarack Electric"}
 {"backend":"system","category":"Advertising","date":"2026-06-04","id":"document-067","kind":"invoice","total":"306.43","vendor":"Union Advertising"}
-{"backend":"system","category":"Advertising","date":"2026-03-15","id":"document-068","kind":"receipt","total":"54.98","vendor":"Vista Marketing"}
+{"backend":"system","category":"Advertising","date":"2026-03-15","id":"document-068","kind":"receipt","total":"84.58","vendor":"Vista Marketing"}
 {"backend":"system","category":"Advertising","date":"2026-08-08","id":"document-069","kind":"invoice","total":"210.62","vendor":"Willow Print Studio"}
 {"backend":"system","id":"document-070","kind":"not_receipt"}
 {"backend":"system","category":"Advertising","date":"2026-09-04","id":"document-071","kind":"receipt","total":"408.24","vendor":"Xenia Advertising"}
 {"backend":"system","category":"Advertising","date":"2026-09-13","id":"document-072","kind":"invoice","total":"142.28","vendor":"Yarrow Marketing"}
 {"backend":"system","category":"Software","date":"2026-04-07","id":"document-073","kind":"receipt","total":"412.66","vendor":"Zenith Software"}
 {"backend":"system","category":"Software","date":"2026-01-13","id":"document-074","kind":"invoice","total":"133.85","vendor":"Amber Hosting"}
-{"backend":"system","category":"Software","date":"2026-05-02","id":"document-075","kind":"receipt","total":"84.81","vendor":"Beacon Cloud"}
+{"backend":"system","category":"Software","date":"2026-05-02","id":"document-075","kind":"receipt","total":"84.89","vendor":"Beacon Cloud"}
 {"backend":"system","category":"Software","date":"2026-01-20","id":"document-076","kind":"invoice","total":"437.88","vendor":"Copper Software"}
 {"backend":"system","category":"Software","date":"2026-05-12","id":"document-077","kind":"receipt","total":"359.65","vendor":"Dawn Hosting"}
 {"backend":"system","category":"Vehicle","date":"2026-04-24","id":"document-078","kind":"receipt","total":"362.14","vendor":"Evergreen Fuel"}
-{"backend":"system","category":"Vehicle","date":"2026-03-17","id":"document-079","kind":"invoice","total":"252.23","vendor":"Falcon Gas Station"}
+{"backend":"system","category":"Utilities","date":"2026-03-17","id":"document-079","kind":"invoice","total":"252.23","vendor":"Falcon Gas Station"}
 {"backend":"system","id":"document-080","kind":"not_receipt"}
 {"backend":"system","category":"Vehicle","date":"2026-08-15","id":"document-081","kind":"invoice","total":"119.06","vendor":"Granite Auto Service"}
 {"backend":"system","category":"Vehicle","date":"2026-08-24","id":"document-082","kind":"receipt","total":"254.87","vendor":"Hearth Fuel"}
 {"backend":"system","category":"Vehicle","date":"2026-01-12","id":"document-083","kind":"receipt","total":"269.21","vendor":"Indigo Auto Service"}
 {"backend":"system","category":"Other expenses","date":"2026-02-15","id":"document-084","kind":"invoice","total":"209.49","vendor":"Jasper Workshop"}
 {"backend":"system","category":"Other expenses","date":"2026-09-02","id":"document-085","kind":"receipt","total":"63.78","vendor":"Keystone Repair"}
-{"backend":"system","category":"Other expenses","date":"2026-08-11","id":"document-086","kind":"invoice","total":"184.7","vendor":"Lantern Services"}
+{"backend":"system","category":"Other expenses","date":"2026-08-11","id":"document-086","kind":"invoice","total":"184.70","vendor":"Lantern Services"}
 {"backend":"system","category":"Other expenses","date":"2026-09-06","id":"document-087","kind":"receipt","total":"145.88","vendor":"Marble Rentals"}
 {"backend":"system","category":"Other expenses","date":"2026-07-19","id":"document-088","kind":"invoice","total":"325.06","vendor":"Noble Studio"}
 {"backend":"system","category":"Office supplies","date":"2026-04-12","id":"document-089","kind":"receipt","total":"77.79","vendor":"Acorn Office"}
@@ -108,10 +108,10 @@
 {"backend":"system","category":"Utilities","date":"2026-05-14","id":"document-108","kind":"bill","total":"143.18","vendor":"River Water Service"}
 {"backend":"system","category":"Utilities","date":"2026-06-12","id":"document-109","kind":"bill","total":"358.64","vendor":"Spruce Utility"}
 {"backend":"system","id":"document-110","kind":"not_receipt"}
-{"backend":"system","category":"Utilities","date":"2026-04-21","id":"document-111","kind":"bill","total":"106.5","vendor":"Tamarack Electric"}
+{"backend":"system","category":"Utilities","date":"2026-04-21","id":"document-111","kind":"bill","total":"0.00","vendor":"Tamarack Electric"}
 {"backend":"system","category":"Advertising","date":"2026-01-22","id":"document-112","kind":"invoice","total":"401.44","vendor":"Union Advertising"}
 {"backend":"system","category":"Advertising","date":"2026-05-06","id":"document-113","kind":"receipt","total":"150.02","vendor":"Vista Marketing"}
-{"backend":"system","category":"Advertising","date":"2026-02-11","id":"document-114","kind":"receipt","total":"384.7","vendor":"Willow Print Studio"}
+{"backend":"system","category":"Advertising","date":"2026-02-11","id":"document-114","kind":"receipt","total":"384.70","vendor":"Willow Print Studio"}
 {"backend":"system","category":"Advertising","date":"2026-06-06","id":"document-115","kind":"invoice","total":"204.84","vendor":"Xenia Advertising"}
 {"backend":"system","category":"Advertising","date":"2026-02-02","id":"document-116","kind":"receipt","total":"163.46","vendor":"Yarrow Marketing"}
 {"backend":"system","category":"Software","date":"2026-08-17","id":"document-117","kind":"invoice","total":"259.38","vendor":"Zenith Software"}
@@ -121,7 +121,7 @@
 {"backend":"system","category":"Software","date":"2026-02-25","id":"document-121","kind":"receipt","total":"114.48","vendor":"Copper Software"}
 {"backend":"system","category":"Software","date":"2026-06-26","id":"document-122","kind":"invoice","total":"251.43","vendor":"Dawn Hosting"}
 {"backend":"system","category":"Vehicle","date":"2026-08-04","id":"document-123","kind":"receipt","total":"356.86","vendor":"Evergreen Fuel"}
-{"backend":"system","category":"Vehicle","date":"2026-02-07","id":"document-124","kind":"invoice","total":"163.79","vendor":"Falcon Gas Station"}
+{"backend":"system","category":"Utilities","date":"2026-02-07","id":"document-124","kind":"invoice","total":"163.79","vendor":"Falcon Gas Station"}
 {"backend":"system","category":"Vehicle","date":"2026-09-08","id":"document-125","kind":"receipt","total":"70.38","vendor":"Granite Auto Service"}
 {"backend":"system","category":"Vehicle","date":"2026-04-16","id":"document-126","kind":"receipt","total":"286.24","vendor":"Hearth Fuel"}
 {"backend":"system","category":"Vehicle","date":"2026-05-07","id":"document-127","kind":"invoice","total":"229.37","vendor":"Indigo Auto Service"}
@@ -143,7 +143,7 @@
 {"backend":"system","category":"Meals","date":"2026-05-23","id":"document-143","kind":"receipt","total":"449.76","vendor":"Iris Diner"}
 {"backend":"system","category":"Meals","date":"2026-09-13","id":"document-144","kind":"invoice","total":"217.91","vendor":"Juniper Bakery"}
 {"backend":"system","category":"Travel","date":"2026-08-22","id":"document-145","kind":"receipt","total":"167.65","vendor":"Kestrel Hotel"}
-{"backend":"system","category":"Travel","date":"2026-02-02","id":"document-146","kind":"invoice","total":"204.6","vendor":"Larch Airline"}
+{"backend":"system","category":"Travel","date":"2026-02-02","id":"document-146","kind":"invoice","total":"204.60","vendor":"Larch Airline"}
 {"backend":"system","category":"Travel","date":"2026-01-15","id":"document-147","kind":"receipt","total":"359.03","vendor":"Meadow Lodging"}
 {"backend":"system","category":"Travel","date":"2026-07-14","id":"document-148","kind":"invoice","total":"199.72","vendor":"North Taxi"}
 {"backend":"system","category":"Travel","date":"2026-09-04","id":"document-149","kind":"receipt","total":"376.40","vendor":"Orchard Rail"}

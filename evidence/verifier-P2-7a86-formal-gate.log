@@ -1,4 +1,4 @@
-Paperloft factory pre-flight  2026-09-26 21:40:26  user=builder  repo=/Users/builder/Factory/paperloft
+Paperloft factory pre-flight  2026-09-26 21:36:34  user=builder  repo=/Users/builder/Factory/paperloft/evidence/checkouts/p2-checkpoint7a86
 
 == Machine ==
 PASS   macOS 27.0
@@ -31,34 +31,35 @@ PASS   builder is in _developer
 PASS   UI automation needs no password
 
 == Signing and keychain ==
-MANUAL DEFERRED (local development only): no valid 'Apple Development' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
-MANUAL DEFERRED (local development only): no valid 'Apple Distribution' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
-MANUAL DEFERRED (local development only): no Mac Installer Distribution identity; create it in Xcode > Settings > Accounts > Manage Certificates
+FAIL   no valid 'Apple Development' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
+FAIL   no valid 'Apple Distribution' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
+FAIL   no Mac Installer Distribution identity; create it in Xcode > Settings > Accounts > Manage Certificates
 PASS   login keychain does not auto-lock
 
 == Secrets and App Store Connect ==
 PASS   secrets file present, mode 600
-MANUAL DEFERRED (local development only): ASC_KEY_ID requires active membership before release
-MANUAL DEFERRED (local development only): ASC_ISSUER_ID requires active membership before release
-MANUAL DEFERRED (local development only): ASC_KEY_PATH requires active membership before release
-MANUAL DEFERRED (local development only): TEAM_ID requires active membership before release
+FAIL   ASC_KEY_ID still has the example value from asc.env.example
+FAIL   ASC_ISSUER_ID still has the example value from asc.env.example
+FAIL   ASC_KEY_PATH still has the example value from asc.env.example
+FAIL   TEAM_ID still has the example value from asc.env.example
 PASS   BUNDLE_ID set
 PASS   APP_NAME set
 PASS   SUPPORT_EMAIL set
 PASS   SITE_DOMAIN set
 PASS   LEGAL_ENTITY set
-MANUAL DEFERRED (local development only): App Store Connect key file not found at '/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8'
-MANUAL DEFERRED (local development only): no signing identity for team ABCDE12345
-MANUAL DEFERRED (local development only): App Store Connect API, app record and products require full preflight before release
+FAIL   App Store Connect key file not found at '/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8'
+FAIL   no signing identity for team ABCDE12345
+PASS   App Store Connect API reachable
+FAIL   App Store Connect check failed (exit 2): ASC_ERROR could not build a token from the key file: Error Domain=NSCocoaErrorDomain Code=260 "The file “AuthKey_ABC123DEFG.p8” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8, NSURL=file:///Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8, NSUnderlyingError=0x10c3b0c00 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}
 
 == Apple Intelligence ==
-MANUAL Foundation Models check skipped (--fast)
+PASS   on-device model available
 
 == Repo and GitHub ==
 PASS   repo is under /Users/builder/Factory
 PASS   git repository
-PASS   origin uses the github-paperloft deploy key
-MANUAL DEFERRED (local development only): tag acceptance-v1 missing; commit the kit, tag it and push (section 3.5)
+WARN   origin is '/Users/builder/Factory/paperloft'; expected git@github-paperloft:<owner>/paperloft.git
+FAIL   tag acceptance-v1 missing; commit the kit, tag it and push (section 3.5)
 PASS   ssh github-paperloft
 PASS   ssh github-paperloft-site
 PASS   site repo cloned at /Users/builder/Factory/paperloft-site
@@ -73,5 +74,5 @@ MANUAL Computer Use: Screen Recording and Accessibility granted; Locked use on; 
 MANUAL GitHub rulesets: no force-push to main; acceptance-* tags cannot be updated or deleted
 MANUAL App Store Connect: Paid Apps Agreement active; Small Business Program enrolled
 
-Summary: 37 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 17 MANUAL
-GO: LOCAL DEVELOPMENT ONLY. Distribution signing, upload and release remain blocked.
+Summary: 38 PASS, 2 WARN, 11 FAIL, 0 TFAIL, 5 MANUAL
+NO-GO: fix every FAIL before starting a run.
