@@ -123,3 +123,5 @@ Ported only the scalar Equatable InboxRow rendering change from373d4ca after ind
 - Native selective integration run1 reached normal bookmark/restart intake but macOS reopened main, invalidating the added windowless-launch precondition. Preserved that result. With parent review, revised only the new diagnostic to close restored main and verify background intake; run2 passed82.31s. No product or frozen-test change, and no claim that a Window task never ran at launch.
 
 - Combined integration verification after1d1bff7 runs all root core tests and the full interface suite, plus a strict Release build. Independent scoped component passes do not replace the failing P3 gate. Preserve fresh system358.972s timing failure and missing signpost evidence; no threshold/test changes.
+
+- Draft FACTORY_NOTES.md from observed setup, test-infrastructure, startup, watcher and performance evidence. This records recommendations for a future kit; it changes no current acceptance criterion or frozen file.
