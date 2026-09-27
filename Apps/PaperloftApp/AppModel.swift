@@ -81,6 +81,8 @@ struct InboxItem: Codable, Identifiable, Sendable {
     var issue: String?
     var sample = false
     var importNotices: [String]?
+    var intakeSource: String?
+    var receivedAt: Date?
     var name: String { source.lastPathComponent }
 }
 /// Owns a user-granted file's sandbox extension for its entire review lifetime.
@@ -146,6 +148,7 @@ final class FileGrant: @unchecked Sendable {
     var kindFilter = "All types"
     var categories: [String]
     var filenameTemplate: String { didSet { preferences.set(filenameTemplate, forKey: "filenameTemplate") } }
+    var scannedPages: ScannedPages { didSet { preferences.set(scannedPages.rawValue, forKey: "scannedPages") } }
     var mode: FilingMode { didSet { preferences.set(mode.rawValue, forKey: "filingMode") } }
     var quickLookURL: URL?
     var showExport = false
@@ -195,6 +198,7 @@ final class FileGrant: @unchecked Sendable {
         self.proEntitlement = proEntitlement
         categories = preferences.stringArray(forKey: "categories") ?? ["Advertising", "Contract labor", "Insurance", "Legal and professional services", "Meals", "Office supplies", "Rent", "Repairs", "Software", "Taxes and licenses", "Travel", "Utilities", "Vehicle", "Other expenses"]
         filenameTemplate = preferences.string(forKey: "filenameTemplate") ?? ReceiptNameTemplate.defaultPattern
+        scannedPages = ScannedPages(rawValue: preferences.string(forKey: "scannedPages") ?? "") ?? .separate
         mode = FilingMode(rawValue: preferences.string(forKey: "filingMode") ?? "copy") ?? .copy
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         support = suppliedSupport ?? base.appendingPathComponent(testMode ? "Paperloft-UI" : "Paperloft", isDirectory: true)
@@ -391,7 +395,7 @@ final class FileGrant: @unchecked Sendable {
         panel.allowedContentTypes = [.pdf, .png, .jpeg, .heic, UTType(filenameExtension: "eml") ?? .emailMessage]
         if await panel.begin() == .OK { await intake(panel.urls) }
     }
-    func intake(_ urls: [URL], sample: Bool = false) async {
+    func intake(_ urls: [URL], sample: Bool = false, sourceLabel: String? = nil) async {
         // Acquire permissions before the first suspension. A drag/open URL's
         // temporary sandbox access must survive the startup wait.
         var grants: [FileGrant] = []
@@ -406,11 +410,22 @@ final class FileGrant: @unchecked Sendable {
         catch { message = error.localizedDescription; return }
         for grant in grants {
             guard !items.contains(where: { $0.source == grant.url && $0.status != "aside" }) else { continue }
-            let item = InboxItem(id: UUID(), source: grant.url, bookmark: grant.bookmark, sample: sample)
+            let item = InboxItem(id: UUID(), source: grant.url, bookmark: grant.bookmark, sample: sample, intakeSource: sourceLabel, receivedAt: sourceLabel == nil ? nil : Date())
             sourceGrants[item.id] = grant; items.append(item)
             if selectedItemID == nil { selectedItemID = item.id }
         }
         selection = "Inbox"; persist(); processWaiting()
+    }
+    var scanProviderDirectory: URL { support.appendingPathComponent("ScanProviders", isDirectory: true) }
+    func importScan(_ data: Data, typeIdentifier: String) async {
+        do {
+            let destination = support.appendingPathComponent("Scans", isDirectory: true)
+            let mode = scannedPages
+            let urls = try await Task.detached(priority: .userInitiated) {
+                try ScanImport.materialize(data: data, typeIdentifier: typeIdentifier, pages: mode, destination: destination)
+            }.value
+            await intake(urls, sourceLabel: "Scanned from iPhone or iPad")
+        } catch { message = error.localizedDescription }
     }
     func pasteImage() async {
         do {
@@ -419,7 +434,7 @@ final class FileGrant: @unchecked Sendable {
             let folder = support.appendingPathComponent("Pasted", isDirectory: true)
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             let url = folder.appendingPathComponent(UUID().uuidString + ".png"); try png.write(to: url, options: .atomic)
-            await intake([url])
+            await intake([url], sourceLabel: "Pasted image")
             if let item = items.first(where: { $0.source == url && $0.status != "aside" }) {
                 selectedItemID = item.id
                 pastedItemID = item.id

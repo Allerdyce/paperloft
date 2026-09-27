@@ -74,3 +74,6 @@ Implement warm adaptive library canvas, distinct rounded rows with category docu
 
 ## Inbox action and header cleanup
 Provide Paste image in empty and populated Inbox; remove owner-facing sample actions; show only Processing while pending in header. Keep filter counts authoritative. Strict Release, scoped native Inbox test, protected baseline and independent review before committing.
+
+## Local intake 1.1 and regression testing
+See docs/INTAKE-1.1-PLAN.md. Prioritize scan staging tests, atomic share handoff and Mail/watch regressions in isolated worktrees; no frozen contract changes or distribution.
