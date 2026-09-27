@@ -17,3 +17,11 @@ Isolated local/intents at db1a3f3 now includes the production adapter;16direct l
 ## Accessibility remains open
 
 All-types audit still FAILS. Independent standalone native reproduction documents system TouchBar/emoji and parent-child findings; native PDF Page description is fixed; native/inactive window contrast remains unresolved. Independent P3 verdict at d17b2bf is FAIL with14findings (evidence/gates/P3.md). No issue filtering, skipped tests or acceptance waiver. Current state is resumable but not a green CI checkpoint; last green is d9454df.
+
+## Mail native promise lifecycle diagnostic
+
+local/mail at75e19b6 preserves native promise wrapper and public test harness, but no current end-to-end promise PASS. Root's first independent test reached Open Inbox after closing main and failed to reopen. Subsequent runs restore a windowless app and fail before the action/drag; three speculative fixes were reverted. Standard Window menu opens the live main window. Next separate diagnostic will use that observed menu to establish its starting state, then test Open Inbox without changing original acceptance tests. Exact process-path logging added but not yet exercised. Saved EML import is separately integrated on run/1; native promise wrapper is not.
+
+## Local performance checks
+
+local/performance atdb8194b retains a scoped independently reviewed assessment reuse repair (61 fresh tests pass). Fresh actual parser batch persists100/100 in17.145s at419.48MB but297.13ms heartbeat gap exceeds250ms; AC10 remains FAIL. Initial100-file intake independently isolated at5.97ms by the implementation agent, so no speculative intake optimization. Rendering/persistence profiling continues. System100-document timing and native signpost evidence remain unresolved.

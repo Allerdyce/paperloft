@@ -36,3 +36,10 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 - PDF public-protocol workaround independently demonstrated and integrated; targeted audit removes PDF missing-description while preserving native text. Result build/P3-pdf-label.xcresult remainsFAIL with14system/contrast findings. No root page-label failures remain; fullAC13 is not accepted.
 
 - Independent P3 verdict at d17b2bf is FAIL:14audit findings retained;50other tests pass, coverage90.23%. Source freeze released. Continue separately gated Mail promise delivery, watched-folder app integration and actual-pipeline performance harness. Native probe source preserved on local/audit-probe e5889f4; no automatic waiver or repeated approval request.
+
+## Current independent work
+
+- Combined saved EML/scanner root checkpoint a17e86a:64 package tests and strictRelease build PASS, no new fullCI/phase acceptance.
+- Watched-folder model a90fd3e independently passes16tests; native folder grant/relaunch verification remains next. Parent report6ca0453 on isolated branch.
+- Assessment cache914afc8 independently passes61tests; diagnostic responsiveness still FAIL. Profile rendering/persistence before further repair.
+- Mail promise lifecycle diagnostic will separate restored-windowless launch from Open Inbox behavior, preserving original tests and exact executable provenance. Native wrapper remains isolated.
