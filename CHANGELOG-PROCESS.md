@@ -72,6 +72,9 @@ All 34 tests passed in the first two complete app runs, but runtime priority inv
 - Added local subtask evidence under `evidence/export/`; SwiftPM unit/Release checks avoid GUI contention with parent UI work. These do not replace the parent P4 gate or independent verifier.
 - The first ZIP test exposed Foundation retaining the `/var` alias even after URL symlink resolution. Canonicalized only the Apple-coordinated temporary archive with `realpath`; user library/destination ancestry and document components still reject symlinks through descriptor-relative no-follow opens.
 
+## 2026-09-26 — isolated App Intents component checks
+
+Added a non-hosted `PaperloftIntentLogicTests` target that compiles the shipping intent source and injects the public service contract. This permits deterministic local logic checks independently of Apple's out-of-process signing prerequisite. Added genuine AppIntentsTesting tests to the existing UI bundle; they remain enabled and currently fail metadata lookup. Eight logic tests pass; none is treated as AC-15. Details and three runtime approaches: `evidence/intents-component.md`. No frozen verifier or criterion changed.
 ## P3 QA configuration and expanded flows
 
 Added an optimized QA configuration with explicit QA compilation condition and `scripts/build_qa.sh`; Debug now explicitly defines DEBUG. The QA script preserves warnings-as-errors, scans warnings, produces only an ad-hoc local app, and never archives/uploads. New unlocked UI checks cover persisted draft edits, duplicate state after filing/undo, and unfiltered accessibility audits of core screens. The samples timer now begins before launch/setup rather than after setup. No locked tests modified.
@@ -94,3 +97,6 @@ AGENTS section2 permits independent parallel work fromP3 in separate worktrees. 
 ## Watched-folder component verification (2026-09-27)
 
 Added new WatchedFolderTests for the independent P4 scanner: stable observations, acknowledgment crash boundary/restart, changed bytes, unsafe paths, corrupt/tampered state, denied writes, memory/entry bounds and fair progress. Existing frozen tests/fixtures and thresholds are unchanged. Test files live below the package build directory so symlink aliases in system temporary paths are not mistaken for approved physical roots. Component evidence: evidence/watched-folder/README.md and build/watched-{debug,release}.log. App integration, Pro gating and independent review are separate requirements.
+## 2026-09-26 — production intent adapter checks
+
+Added real AppModel adapter tests using ordinary constructor dependency injection for storage/preferences/entitlement, with no new launch hooks. Tests cover concurrent startup/durable intake, failed persistence, corrupt-inbox preservation and repaired-startup retry, full-library totals and persistent ZIP output. Added genuine framework File/Pro-export success tests and free-export rejection, kept enabled despite the metadata/signing prerequisite. Bounded input regression uses a sparse file and fresh filesystem attributes to avoid URL resource-value caching. Debug and optimized QA (testability enabled for existing @testable package imports) pass 16 scoped tests; real framework checks remain failures. See `evidence/intents-integration.md`.

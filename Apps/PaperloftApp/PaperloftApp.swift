@@ -4,12 +4,21 @@ import UniformTypeIdentifiers
 
 @main @MainActor
 struct PaperloftApp: App {
-    @State private var model = AppModel()
+    @State private var model: AppModel
+    @Environment(\.openWindow) private var openWindow
+    init() {
+        let model = AppModel()
+        _model = State(initialValue: model)
+        PaperloftIntentRuntime.service = model
+    }
     var body: some Scene {
         Window("Paperloft Receipts", id: "main") {
             LibraryView(model: model)
                 .background(WindowAccessibility(label: "Paperloft workspace"))
-                .task { await model.start() }
+                .task {
+                    model.openInboxWindow = { openWindow(id: "main") }
+                    await model.start()
+                }
                 .onOpenURL { model.intake([$0]) }
         }
         .defaultSize(width: 1180, height: 760)

@@ -1,10 +1,10 @@
-Paperloft factory pre-flight  2026-09-26 23:50:41  user=builder  repo=/Users/builder/Factory/paperloft-intents
+Paperloft factory pre-flight  2026-09-26 23:36:12  user=builder  repo=/Users/builder/Factory/paperloft-intents
 
 == Machine ==
 PASS   macOS 27.0
 PASS   Apple silicon
 PASS   user 'builder' is a Standard user
-PASS   235 GB free
+PASS   237 GB free
 PASS   Retina-class display connected
 
 == Power, sleep, lock, updates ==

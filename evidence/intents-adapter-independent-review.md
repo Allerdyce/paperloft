@@ -1,0 +1,7 @@
+# Independent App Intents adapter review
+
+Scoped PASS for adapter behavior at 8a3fa13; AC-15 and system transport remain FAIL/unverified. Root independently reviewed the production startup and intake/export adapter and ran a fresh strict Debug build with 16 targeted tests (9 intent logic, 5 actual AppModel adapter, 2 operation serialization), all passing with no warning/error diagnostics. Evidence: build/RootIntentReview.xcresult and build/root-intent-review.log.
+
+Review found two issues during development: failed startup was permanently cached, and incoming IntentFile data lacked a bounded URL-backed read. Both were repaired before this checkpoint, with retry/no-overwrite and bounded-input regression coverage. Reinspection confirms failed startup clears its own task, durable inbox commit precedes reported intake success, totals read the complete committed library, and export preserves its source grant and durable ZIP while enforcing the injected Pro state.
+
+Limits: this targeted run is not full CI or a phase gate. Seven genuine AppIntentsTesting tests still fail framework metadata discovery before executing their assertions. Real Shortcuts dispatch, cross-process file transfer and window reopening remain unverified. Production Pro defaults to false pending verified commerce integration. The original independent component review is historical; this report supersedes its missing-adapter statement only. No release, upload or phase acceptance is authorized by this scoped result.

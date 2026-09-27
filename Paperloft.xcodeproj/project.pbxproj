@@ -10,6 +10,9 @@
 		B30000000000000000000001 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000002; };
 		A00000000000000000000022 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
 		A00000000000000000000039 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
+		B00000000000000000000039 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
+		B00000000000000000000060 = {isa = PBXBuildFile; fileRef = B00000000000000000000061; };
+		B30000000000000000000004 = {isa = PBXBuildFile; fileRef = B00000000000000000000061; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,13 +29,16 @@
 		B30000000000000000000002 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/AppModel.swift; sourceTree = SOURCE_ROOT; };
 		A00000000000000000000006 /* Paperloft Receipts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Paperloft Receipts.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000031 /* PaperloftKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PaperloftKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B00000000000000000000031 /* PaperloftIntentLogicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PaperloftIntentLogicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000041 /* PaperloftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PaperloftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B00000000000000000000061 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/PaperloftIntents.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B30000000000000000000003 /* Tests/PaperloftAppTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftAppTests; sourceTree = "<group>"; };
 		A00000000000000000000004 /* Apps/PaperloftApp */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Apps/PaperloftApp; sourceTree = "<group>"; };
 		A00000000000000000000038 /* Packages/PaperloftKit/Tests/PaperloftKitTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Packages/PaperloftKit/Tests/PaperloftKitTests; sourceTree = "<group>"; };
+		B00000000000000000000038 /* Tests/PaperloftIntentLogicTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftIntentLogicTests; sourceTree = "<group>"; };
 		A00000000000000000000048 /* Tests/PaperloftUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftUITests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -53,6 +59,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B00000000000000000000033 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B00000000000000000000039 /* PaperloftKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A00000000000000000000043 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -66,6 +80,7 @@
 		A00000000000000000000002 = {
 			isa = PBXGroup;
 			children = (
+				B00000000000000000000038,
 				A00000000000000000000048 /* Tests/PaperloftUITests */,
 				A00000000000000000000038 /* Packages/PaperloftKit/Tests/PaperloftKitTests */,
 				B30000000000000000000003 /* Tests/PaperloftAppTests */,
@@ -133,6 +148,28 @@
 			productReference = A00000000000000000000031 /* PaperloftKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		B00000000000000000000030 /* PaperloftIntentLogicTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B00000000000000000000034 /* Build configuration list for PBXNativeTarget "PaperloftIntentLogicTests" */;
+			buildPhases = (
+				B00000000000000000000032 /* Sources */,
+				B00000000000000000000033 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B00000000000000000000038 /* Tests/PaperloftIntentLogicTests */,
+			);
+			name = PaperloftIntentLogicTests;
+			packageProductDependencies = (
+				A00000000000000000000021 /* PaperloftKit */,
+			);
+			productName = PaperloftIntentLogicTests;
+			productReference = B00000000000000000000031 /* PaperloftIntentLogicTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A00000000000000000000040 /* PaperloftUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A00000000000000000000044 /* Build configuration list for PBXNativeTarget "PaperloftUITests" */;
@@ -177,6 +214,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				B00000000000000000000030,
 				A00000000000000000000005 /* PaperloftApp */,
 				A00000000000000000000030 /* PaperloftKitTests */,
 				A00000000000000000000040 /* PaperloftUITests */,
@@ -207,6 +245,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				B30000000000000000000001 /* AppModel.swift in Sources */,
+				B30000000000000000000004,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B00000000000000000000032 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B00000000000000000000060,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +354,17 @@
 			};
 			name = Debug;
 		};
+		B00000000000000000000035 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftIntentLogicTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
 		A00000000000000000000036 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -317,6 +375,28 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
+		};
+		B00000000000000000000036 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftIntentLogicTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		B00000000000000000000037 /* QA */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftIntentLogicTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = QA;
 		};
 		A00000000000000000000045 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -429,6 +509,16 @@
 				A00000000000000000000035 /* Debug */,
 				A00000000000000000000036 /* Release */,
 				A00000000000000000000062 /* QA */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B00000000000000000000034 /* Build configuration list for PBXNativeTarget "PaperloftIntentLogicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B00000000000000000000037 /* QA */,
+				B00000000000000000000035 /* Debug */,
+				B00000000000000000000036 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
