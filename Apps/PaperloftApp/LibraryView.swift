@@ -160,6 +160,7 @@ struct InboxView: View {
             }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             VStack(spacing: 0) {
+                HStack(spacing: 16) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
                         ForEach(filters, id: \.self) { value in
@@ -174,8 +175,16 @@ struct InboxView: View {
                             }.buttonStyle(.plain).accessibilityIdentifier("inbox.filter." + value)
                                 .accessibilityAddTraits(filter == value ? [.isSelected] : [])
                         }
-                    }.padding(.horizontal, 20).padding(.vertical, 12)
+                    }.padding(.vertical, 12)
                 }
+                    HStack(spacing: 8) {
+                        Button("Paste") { Task { await model.pasteImage() } }
+                            .accessibilityIdentifier("inbox.paste")
+                            .help("Paste a copied image into the Inbox (Shift-Command-V)")
+                        Button("Import") { Task { await model.importFiles() } }
+                            .accessibilityIdentifier("inbox.addMore")
+                    }.fixedSize()
+                }.padding(.horizontal, 20)
                 HStack(spacing: 12) {
                     Button("Select all") { removalSelection = Set(visibleItems.map(\.id)) }.disabled(visibleItems.isEmpty)
                         .accessibilityIdentifier("inbox.selectAll")
@@ -191,24 +200,16 @@ struct InboxView: View {
                             .help("Remove selected Inbox entries. Original files stay in place.")
                     }
                     Spacer()
-                }.padding(.horizontal, 20).padding(.bottom, 10)
-                Divider()
-            HSplitView {
-                VStack(spacing: 0) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Button("Add receipts…", systemImage: "plus") { Task { await model.importFiles() } }
-                            .accessibilityIdentifier("inbox.addMore")
-                        Button("Paste image", systemImage: "doc.on.clipboard") { Task { await model.pasteImage() } }
-                            .accessibilityIdentifier("inbox.paste")
-                            .help("Paste a copied image into the Inbox (Shift-Command-V)")
                         if let pastedID = model.pastedItemID, model.selectedItemID == pastedID,
                            model.items.contains(where: { $0.id == pastedID && $0.status != "aside" }) {
                             Label("Image added", systemImage: "checkmark.circle.fill")
                                 .font(.caption).foregroundStyle(Color.accentColor)
                                 .accessibilityIdentifier("inbox.pasteFeedback")
                         }
-                    }.frame(maxWidth: .infinity, alignment: .leading).padding(12)
-                    Divider()
+                }.padding(.horizontal, 20).padding(.bottom, 10)
+                Divider()
+            HSplitView {
+                VStack(spacing: 0) {
                     ScrollViewReader { proxy in
                         List(selection: $model.selectedItemID) {
                     ForEach(visibleItems) { item in

@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Inbox creation controls: Add receipts and Paste image now fixed above left receipt list, replacing bottom add row and global paste action. Successful paste selects new item, reveals All filter, scrolls to it and shows Image added. Returning to Inbox preserves selection/filter. Strict Release, local preflight and protected baseline PASS; independent source review PASS. InboxCreation.xcresult native Inbox flow PASS; screenshot inspected confirms fixed top-left controls. Actual long-list clipboard paste/scroll was source-reviewed, not exercised end-to-end; owner clipboard untouched. Full launch gates unchanged.",
+  "step": "Inbox action row: Paste then Import aligned side by side at far right of filter row, outside horizontal filter scroll. Removed left creation header; paste feedback retained beneath actions. Strict Release, protected baseline, independent source review and InboxActionRow.xcresult PASS. Native assertions verify labels, ordering and vertical alignment; screenshot inspected. Owner running process preserved. Release/uploads blocked.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -13,5 +13,5 @@
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
     "Real receipts: OCR loses visible totals; unsupported total, merchant and transaction-date errors require follow-up. Tax safeguard is partial mitigation only."
   ],
-  "updated": "2026-09-27T21:07:01.139488+00:00"
+  "updated": "2026-09-27T21:11:55.785261+00:00"
 }

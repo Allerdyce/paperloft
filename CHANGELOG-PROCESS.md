@@ -156,3 +156,5 @@ Added TaxExportTests alongside unchanged export verification to check newly requ
 2026-09-27: Owner removed sample onboarding. Unlocked UI tests load diagnostic receipts through DEBUG-only File > Load Development Receipts; production sample menu and reset controls removed. Frozen tests unchanged. Scoped Inbox test now checks Paste image in populated/empty states and absence of redundant header Ready badge.
 
 2026-09-27: Updated unlocked Inbox UI check to require reachable Add receipts in top creation area. InboxCreation.xcresult PASS; protected tests unchanged.
+
+2026-09-27: Unlocked Inbox layout assertions updated for requested filter-row Paste/Import alignment; native InboxActionRow PASS.
