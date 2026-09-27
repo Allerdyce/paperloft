@@ -23,3 +23,10 @@ Added native test targets, shared test scheme, local Debug/Release/test CI comma
 - Gate runner now writes formal/local self-reports and fingerprints source files before/after checks, excluding evidence and BUGS.md. Local mode uses the owner-approved pre-tag integrity check; default formal mode retains strict prerequisites.
 
 - Independent P0 review found the privacy helper omitted its required Package.resolved check. Added an explicit absence assertion across the repository before inspecting the built app.
+
+## P1 evaluation scaffolding
+- Added deterministic synthetic receipt generation, local OCR/extraction runner, and eval.sh wiring to the frozen scorer. Labels never enter the extraction executable. Missing predictions remain failures; private/holdout runs emit totals only and remove temporary prediction files.
+- Generator refuses existing output directories. Initial generation was archived under ignored build/ after a coverage check found only 36 represented merchants; financial-document indexing fixes the set to 40 actual merchants.
+- Xcode normalized project formatting/object version and added a target proxy; semantic comparison found no build-setting or target-scope changes. Retained that edit.
+
+- Added P1 self-gate: checks fixture structure and runs both evaluation backends through the frozen scorer. P1 enforces mix/difficulty and real system predictions; P2 accuracy failures remain explicitly reported because SPEC.md P1 permits low initial scores. No scoring thresholds changed.

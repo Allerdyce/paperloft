@@ -1,10 +1,10 @@
 {
   "phase": "P1",
-  "step": "P0 local readiness independently passed; build receipt fixtures and extraction evaluation",
+  "step": "P1 OCR/backends and 150 fixtures implemented; system evaluation running",
   "last_green_commit": "3f29e10",
   "parked": [
     "Membership, distribution signing and ASC upload",
     "Formal acceptance tag and gates deferred"
   ],
-  "updated": "2026-09-27T02:33:39.738511+00:00"
+  "updated": "2026-09-27T02:45:32.031380+00:00"
 }

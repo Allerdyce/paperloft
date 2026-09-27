@@ -1,0 +1,9 @@
+Processed 150 documents; failures 0; backends ["parser": 150]
+mode=parser documents=150 missing_predictions=0
+PASS   date      100.00%  135/135  (needs 90.0%)
+FAIL   total      87.41%  118/135  (needs 90.0%)
+REPORT vendor     97.04%  131/135
+REPORT kind       97.33%  146/150
+REPORT category  100.00%  135/135
+PASS   difficulty: parser total 87.41% (fixtures are too easy above 98%)
+SCORE parser: FAIL

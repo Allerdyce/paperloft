@@ -9,3 +9,7 @@ xcuserdata/
 evidence/**/*.xcresult
 
 evidence/checkouts/
+
+.build/
+
+__pycache__/
