@@ -4,13 +4,20 @@ import UniformTypeIdentifiers
 
 @main @MainActor
 struct PaperloftApp: App {
-    @State private var model = AppModel()
+    @State private var model: AppModel
+    init() {
+        let sharedModel = AppModel()
+        _model = State(initialValue: sharedModel)
+        // Menu-only launches must restore the watched folder even when no main
+        // window is visible. Window tasks share this same coalesced startup.
+        Task { await sharedModel.start() }
+    }
     var body: some Scene {
         Window("Paperloft Receipts", id: "main") {
             LibraryView(model: model)
                 .background(WindowAccessibility(label: "Paperloft workspace"))
                 .task { await model.start() }
-                .onOpenURL { model.intake([$0]) }
+                .onOpenURL { url in Task { await model.intake([url]) } }
         }
         .defaultSize(width: 1180, height: 760)
         .commands {
@@ -25,7 +32,7 @@ struct PaperloftApp: App {
                     .accessibilityIdentifier("command.samples")
             }
             CommandGroup(after: .pasteboard) {
-                Button("Paste Image") { model.pasteImage() }
+                Button("Paste Image") { Task { await model.pasteImage() } }
                     .keyboardShortcut("v", modifiers: [.command, .shift])
                     .accessibilityIdentifier("command.pasteImage")
             }
@@ -54,7 +61,7 @@ struct PaperloftApp: App {
     for provider in providers where provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
         accepted = true
         _ = provider.loadObject(ofClass: NSURL.self) { item, _ in
-            if let url = item as? URL { Task { @MainActor in model.intake([url]) } }
+            if let url = item as? URL { Task { @MainActor in await model.intake([url]) } }
         }
     }
     return accepted

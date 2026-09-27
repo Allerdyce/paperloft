@@ -114,7 +114,7 @@ struct InboxView: View {
                     Button("Import Receipts…") { Task { await model.importFiles() } }.accessibilityIdentifier("inbox.import")
                     Button("Try Samples") { Task { await model.trySamples() } }.accessibilityIdentifier("inbox.samples")
                 }
-                Button("Paste an Image") { model.pasteImage() }.buttonStyle(.link).accessibilityIdentifier("inbox.paste")
+                Button("Paste an Image") { Task { await model.pasteImage() } }.buttonStyle(.link).accessibilityIdentifier("inbox.paste")
             }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             HSplitView {
@@ -371,6 +371,24 @@ struct PaperloftSettings: View {
                         Button("Start Fresh Sample Library") {
                             Task { do { try await model.newSampleLibrary(discardInbox: true) } catch { model.message = error.localizedDescription } }
                         }.disabled(model.busy).accessibilityIdentifier("settings.newSampleLibrary")
+                    }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+                }
+                GroupBox("Watched folder · Pro") {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(model.watchedFolderURL?.path ?? "No watched folder chosen").font(.callout).textSelection(.enabled)
+                        Text(model.watchedStatus).accessibilityIdentifier("settings.watchedStatus")
+                        HStack {
+                            Button("Choose Watched Folder…") { Task { await model.chooseWatchedFolder() } }
+                                .disabled(model.busy || !model.isPro).accessibilityIdentifier("settings.chooseWatchedFolder")
+                            if model.watchedEnabled {
+                                Button("Turn Off") { Task { await model.disableWatchedFolder() } }.accessibilityIdentifier("settings.disableWatchedFolder")
+                            } else {
+                                Button("Turn On") { Task { await model.restoreWatchedFolder() } }
+                                    .disabled(!model.isPro).accessibilityIdentifier("settings.enableWatchedFolder")
+                            }
+                        }
+                        Text("PDFs and images are copied to the inbox for review. Originals are never moved. Mail files remain pending until watched Mail import is available.").font(.caption)
+                        ForEach(Array(model.watchedIssues.enumerated()), id: \.offset) { _, issue in Text(issue).font(.caption).foregroundStyle(.orange) }
                     }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
                 }
                 GroupBox("Filing") {

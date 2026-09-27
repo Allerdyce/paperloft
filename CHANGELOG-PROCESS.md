@@ -109,3 +109,11 @@ Added bounded email-file reading and app-owned PDF materialization tests, a back
 Ported only the three product/test files from914afc8 after parent independent review atdb8194b: immutable extraction assessment is reused on screen refresh; legacy persistence keys stay unchanged. Performance harness and unresolved intent framework work remain on their isolated branch. Parent review passed61 scoped tests; combined root regression is required after this port. This removes repeated work but does not claim the297ms batch responsiveness failure resolved.
 
 Xcode normalized the UI-test resource phase comment/format in the open root project during this work; preserved the equivalent project representation after reviewing the diff. No target, source membership or build behavior changed.
+
+## Selective watched-folder integration onto reviewed Mail baseline
+
+- Ported reviewed watcher AppModel/Settings and new watcher tests from local/watched-folder onto 4cab99e in local/watch-integration. Kept the reviewed scanner already present in root, saved EML import behavior, import notices and cached immutable extraction assessment.
+- Intentionally excluded unresolved App Intents framework, service conformance, dispatch and adapter methods. Watch errors use AppIssue and the conservative production entitlement remains false; only the existing documented Debug/QA mock grants test Pro.
+- Shared coalesced startup/readiness work is coordinated with the separate startup-restoration fix. This integration requires fresh combined tests and independent source review before root merge; prior component reviews do not establish combined acceptance.
+- Ported shared startup core from 3a1a3a0: Sendable off-main inbox decoding, precise missing-file handling, coalesced readiness, guarded persistence/mutations/library replacement, and async intake/paste with grants retained before startup suspension. Watched delivery history must validate/recover before mutation readiness becomes true.
+- App-owned startup now begins from App initialization as well as the idempotent main-window task. A closed-main/menu-only launch must resume the watcher; the extended native lifecycle test verifies new intake via the menu count before reopening the main window, separately from the parked Open Inbox action.
