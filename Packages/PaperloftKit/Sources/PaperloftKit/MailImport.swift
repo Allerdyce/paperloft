@@ -9,6 +9,7 @@ public enum MailImport {
     public struct Result: Sendable {
         public let documents: [URL]
         public let notices: [String]
+        public let envelope: MailEnvelope?
     }
     public static func materialize(source: URL, destination: URL) throws -> Result {
         let mail = try MailDocument.parse(readBounded(source))
@@ -34,7 +35,7 @@ public enum MailImport {
             let url = folder.appendingPathComponent("Attachment-" + UUID().uuidString + ".pdf")
             try pdf.data.write(to: url, options: .withoutOverwriting); urls.append(url)
         }
-        return Result(documents: urls, notices: ["Imported from \(source.lastPathComponent). The original email is unchanged. Review each document before filing."] + mail.notices)
+        return Result(documents: urls, notices: ["Imported from \(source.lastPathComponent). The original email is unchanged. Review each document before filing."] + mail.notices, envelope: mail.envelope)
     }
 
     public static func readBounded(_ source: URL) throws -> Data {
@@ -45,12 +46,12 @@ public enum MailImport {
         defer { try? file.close() }
         var info = stat()
         guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFREG else { throw MailDocument.Failure.unsupported("choose a regular .eml file") }
-        guard info.st_size <= MailDocument.maximumBytes else { throw MailDocument.Failure.limit("32 MB message; save the receipt as a PDF from Mail") }
+        guard info.st_size <= MailDocument.maximumBytes else { throw MailDocument.Failure.limit("50 MB message; save the receipt as a PDF from Mail") }
         var data = Data()
         // The extra byte catches a file growing after fstat without allocating unbounded input.
         while let chunk = try file.read(upToCount: min(65_536, MailDocument.maximumBytes + 1 - data.count)), !chunk.isEmpty {
             data.append(chunk)
-            guard data.count <= MailDocument.maximumBytes else { throw MailDocument.Failure.limit("32 MB message; save the receipt as a PDF from Mail") }
+            guard data.count <= MailDocument.maximumBytes else { throw MailDocument.Failure.limit("50 MB message; save the receipt as a PDF from Mail") }
         }
         return data
     }
