@@ -1,0 +1,24 @@
+[
+  {
+    "persistedCompleted": 80,
+    "iteration": 1,
+    "finalLayoutSeconds": 0.0012513749970821664,
+    "recordedBackends": {
+      "system": 80
+    },
+    "priorInboxCount": 0,
+    "lifetimePeakPhysicalBytes": 439633552,
+    "inputCount": 100,
+    "synchronousIntakeSeconds": 0.005164041664102115,
+    "backend": "system",
+    "memoryReadFailures": 0,
+    "completed": 80,
+    "longestGapEndedAtSeconds": 5.0927624166652095,
+    "failures": [
+      "The operation couldn\u2019t be completed. (FoundationModels.LanguageModelError error -1.)"
+    ],
+    "maximumMainHeartbeatGapSeconds": 0.22070183333562454,
+    "seconds": 360.0012709583316,
+    "heartbeatCount": 35520
+  }
+]

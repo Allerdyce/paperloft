@@ -121,3 +121,7 @@ Ran one fresh actual100-document system workload at reviewed row/startup checkpo
 ## 2026-09-27 — isolated classifier prewarm candidate
 
 After fresh system timing failure, prepare the existing independent classifier before field generation using documented prewarm(promptPrefix:). Prompts, schemas, generation order/options and refusal handling are unchanged. Parent source review found no blocking preservation issue; compile, accuracy and timing evidence remain required before integration. The anticipated one-second preparation window is not guaranteed per document and no artificial delay is added. See evidence/classifier-prewarm-candidate.md; no claim of benefit or AC-10 pass.
+
+## 2026-09-27 — classifier prewarm rejected after one timing attempt
+
+Strict optimized core tests passed (43), and the unchanged public scorer passed all 150 fixtures with exact baseline prediction equality, including classification refusals. Actual app timing did not demonstrate benefit: 80 of 100 completed at the unchanged 360-second cutoff, with one model error. Restored the original extraction source exactly in a new commit; retained the candidate, baseline snapshots, append-only score history, and raw failures. No repeated benchmark or root integration. AC-10 remains FAIL.

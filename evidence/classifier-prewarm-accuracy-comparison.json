@@ -1,0 +1,337 @@
+{
+  "baseline_count": 150,
+  "candidate_count": 150,
+  "missing_ids": [],
+  "new_ids": [],
+  "changed": [],
+  "baseline_backends": {
+    "system": 150
+  },
+  "candidate_backends": {
+    "system": 150
+  },
+  "baseline_classification_errors": [
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-06-18",
+      "id": "document-017",
+      "kind": "bill",
+      "total": "312.21",
+      "vendor": "Pine Electric"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-02-24",
+      "id": "document-018",
+      "kind": "bill",
+      "total": "386.94",
+      "vendor": "Quartz Internet"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-06-02",
+      "id": "document-019",
+      "kind": "bill",
+      "total": "141.49",
+      "vendor": "River Water Service"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-09-23",
+      "id": "document-021",
+      "kind": "bill",
+      "total": "270.21",
+      "vendor": "Spruce Utility"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-03-18",
+      "id": "document-022",
+      "kind": "bill",
+      "total": "142.19",
+      "vendor": "Tamarack Electric"
+    },
+    {
+      "backend": "system",
+      "category": "Travel",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-08-03",
+      "id": "document-057",
+      "kind": "invoice",
+      "total": "73.88",
+      "vendor": "Larch Airline"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-08-28",
+      "id": "document-062",
+      "kind": "bill",
+      "total": "159.75",
+      "vendor": "Pine Electric"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-06-11",
+      "id": "document-063",
+      "kind": "bill",
+      "total": "301.75",
+      "vendor": "Quartz Internet"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-08-28",
+      "id": "document-064",
+      "kind": "bill",
+      "total": "217.91",
+      "vendor": "River Water Service"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-03-02",
+      "id": "document-065",
+      "kind": "bill",
+      "total": "384.27",
+      "vendor": "Spruce Utility"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-02-12",
+      "id": "document-066",
+      "kind": "bill",
+      "total": "409.62",
+      "vendor": "Tamarack Electric"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-03-04",
+      "id": "document-106",
+      "kind": "bill",
+      "total": "385.91",
+      "vendor": "Pine Electric"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-09-12",
+      "id": "document-107",
+      "kind": "bill",
+      "total": "246.38",
+      "vendor": "Quartz Internet"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-05-14",
+      "id": "document-108",
+      "kind": "bill",
+      "total": "143.18",
+      "vendor": "River Water Service"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-06-12",
+      "id": "document-109",
+      "kind": "bill",
+      "total": "358.64",
+      "vendor": "Spruce Utility"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-04-21",
+      "id": "document-111",
+      "kind": "bill",
+      "total": "106.5",
+      "vendor": "Tamarack Electric"
+    }
+  ],
+  "candidate_classification_errors": [
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-06-18",
+      "id": "document-017",
+      "kind": "bill",
+      "total": "312.21",
+      "vendor": "Pine Electric"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-02-24",
+      "id": "document-018",
+      "kind": "bill",
+      "total": "386.94",
+      "vendor": "Quartz Internet"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-06-02",
+      "id": "document-019",
+      "kind": "bill",
+      "total": "141.49",
+      "vendor": "River Water Service"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-09-23",
+      "id": "document-021",
+      "kind": "bill",
+      "total": "270.21",
+      "vendor": "Spruce Utility"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-03-18",
+      "id": "document-022",
+      "kind": "bill",
+      "total": "142.19",
+      "vendor": "Tamarack Electric"
+    },
+    {
+      "backend": "system",
+      "category": "Travel",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-08-03",
+      "id": "document-057",
+      "kind": "invoice",
+      "total": "73.88",
+      "vendor": "Larch Airline"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-08-28",
+      "id": "document-062",
+      "kind": "bill",
+      "total": "159.75",
+      "vendor": "Pine Electric"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-06-11",
+      "id": "document-063",
+      "kind": "bill",
+      "total": "301.75",
+      "vendor": "Quartz Internet"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-08-28",
+      "id": "document-064",
+      "kind": "bill",
+      "total": "217.91",
+      "vendor": "River Water Service"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-03-02",
+      "id": "document-065",
+      "kind": "bill",
+      "total": "384.27",
+      "vendor": "Spruce Utility"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-02-12",
+      "id": "document-066",
+      "kind": "bill",
+      "total": "409.62",
+      "vendor": "Tamarack Electric"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-03-04",
+      "id": "document-106",
+      "kind": "bill",
+      "total": "385.91",
+      "vendor": "Pine Electric"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.guardrailViolation",
+      "date": "2026-09-12",
+      "id": "document-107",
+      "kind": "bill",
+      "total": "246.38",
+      "vendor": "Quartz Internet"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-05-14",
+      "id": "document-108",
+      "kind": "bill",
+      "total": "143.18",
+      "vendor": "River Water Service"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-06-12",
+      "id": "document-109",
+      "kind": "bill",
+      "total": "358.64",
+      "vendor": "Spruce Utility"
+    },
+    {
+      "backend": "system",
+      "category": "Utilities",
+      "classificationError": "FoundationModels.LanguageModelError.refusal",
+      "date": "2026-04-21",
+      "id": "document-111",
+      "kind": "bill",
+      "total": "106.5",
+      "vendor": "Tamarack Electric"
+    }
+  ]
+}
