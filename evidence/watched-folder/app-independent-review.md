@@ -1,0 +1,7 @@
+# Independent watched-folder app review
+
+Scoped model/integration PASS at a90fd3e. Parent read configuration-generation guards, retained folder grant, durable inbox/proof/ledger sequencing, bounded non-following ledger reads, off-main large copy/ledger work, entitlement checks, and all nine watcher regressions. Originals remain unchanged; scanner acknowledgment follows durable inbox and delivery proof. Restart proof reconciliation and increasing sequences preserve latest-content semantics, including A→B→A. Generation checks prevent stale stop continuations from clearing newer configurations.
+
+Fresh strict Debug validation in separate build/RootWatchReview data: 16 tests PASS (9 watched-folder, 5 intent adapter, 2 operation), zero compiler warnings, none skipped. Bundle build/RootWatchReview.xcresult; log build/root-watch-review.log. This independently confirms corrupt/broken-symlink history rejection, failed inbox/ledger/ack retry, entitlement changes, disable/install overlap, source preservation and pending unsupported EML. Xcode launch diagnostics are not represented as compiler warnings or silently suppressed.
+
+Native folder panel/security-bookmark UI and process relaunch remain pending; ordinary model reconstruction tests do not establish those. Author's worst-case heartbeat results are scoped measurements, not independently repeated here or accepted as AC10. Production Pro is conservatively false pending commerce; EML watch delivery remains explicitly unimplemented. This is not P4 acceptance and does not authorize release or upload.
