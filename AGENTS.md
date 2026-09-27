@@ -22,6 +22,14 @@ Ali explicitly approved: “Yes—continue through local development phases afte
 - Preserve acceptance criteria, frozen verifier code and protected-file baseline checks. Append verifier-accepted tests and fixtures to ACCEPTANCE.lock as required; all formal gates must pass before distribution.
 - Do not ask Ali to reconfirm this scope. Resolve routine development choices autonomously; park genuinely unavailable external prerequisites and continue independent authorized work.
 
+## Owner-approved Apple agreements exception (2026-09-27)
+
+Ali explicitly instructed: “Change agreement to always allow agreements from Apple.”
+
+- Standing authorization permits accepting Apple agreements encountered while performing this project's authorized work, including first-use developer-tool agreements. Do not seek routine reconfirmation solely because of the earlier project prohibition.
+- This exception supersedes the agreement prohibition and Apple-agreement handoff examples below. Any mandatory confirmation imposed by the active execution tool still applies.
+- This does not authorize purchases, price changes, account creation, distribution, uploads, submission or release. Existing restrictions on those actions remain in force.
+
 ## 1. Sources of truth, highest first
 
 1. `ACCEPTANCE.md`, frozen at the `acceptance-v1` tag, and every test or fixture file listed in the append-only `ACCEPTANCE.lock`.

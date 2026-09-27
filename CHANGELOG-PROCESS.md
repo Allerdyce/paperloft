@@ -129,3 +129,5 @@ Ported only the scalar Equatable InboxRow rendering change from373d4ca after ind
 
 - Added separate MenuReopenDiagnosticTests without changing existing acceptance tests or product source. The real status-item/Open Inbox path passed17.485s on13db8a4 after selectingLibrary and closingmain; main returned withInbox heading.
 - Preserved before/after accessibility trees and screenshots in evidence/menu-reopen and localxcresult. Prior failed native-Mail-wrapper experiments were read but not repeated; no speculative repair was added and this result is scoped to the current root product.
+
+- Owner explicitly authorized a standing Apple-agreement exception on2026-09-27. Added that scoped exception to AGENTS.md; release/uploads and all other restrictions remain. No acceptance criteria, locked test or baseline verifier changes.
