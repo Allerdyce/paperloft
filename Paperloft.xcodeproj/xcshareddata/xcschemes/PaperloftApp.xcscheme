@@ -29,6 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
+<TestableReference skipped="NO"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="C00000000000000000000000" BuildableName="PaperloftStoreTests.xctest" BlueprintName="PaperloftStoreTests" ReferencedContainer="container:Paperloft.xcodeproj"/></TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
