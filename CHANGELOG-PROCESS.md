@@ -94,3 +94,5 @@ AGENTS section2 permits independent parallel work fromP3 in separate worktrees. 
 ## Watched-folder component verification (2026-09-27)
 
 Added new WatchedFolderTests for the independent P4 scanner: stable observations, acknowledgment crash boundary/restart, changed bytes, unsafe paths, corrupt/tampered state, denied writes, memory/entry bounds and fair progress. Existing frozen tests/fixtures and thresholds are unchanged. Test files live below the package build directory so symlink aliases in system temporary paths are not mistaken for approved physical roots. Component evidence: evidence/watched-folder/README.md and build/watched-{debug,release}.log. App integration, Pro gating and independent review are separate requirements.
+
+- Prepared four1024pxSVG icon layers from the supplied artwork, preserving SPEC colors/composition for native Icon Composer authoring. No mask/shadow baked in, no source artwork changed. XML parses; native .icon packaging, visual review and16/32/128px independent critic remain pending. See design/icon-layers/README.md.
