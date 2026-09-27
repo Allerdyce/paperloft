@@ -256,7 +256,7 @@ public actor WatchedFolderScanner {
     }
 
     private func acknowledged(name: String, identity: String, hash: String) -> Bool {
-        if history.identities?[identity] == hash { return true }
+        if let acknowledgedHash = history.identities?[identity] { return acknowledgedHash == hash }
         // Old history files have no identities. Preserve their prior filename
         // behavior; new acknowledgments additionally survive rename and restart.
         return history.hashes[name] == hash
