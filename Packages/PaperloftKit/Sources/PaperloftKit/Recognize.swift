@@ -8,6 +8,9 @@ public enum RecognitionError: Error { case unreadableDocument, tooManyPages, ove
 public struct DocumentRecognizer: Sendable {
     public init() {}
     public func text(at url: URL) throws -> String {
+        try autoreleasepool { try readText(at: url) }
+    }
+    private func readText(at url: URL) throws -> String {
         if url.pathExtension.lowercased() == "pdf" {
             guard let document = CGPDFDocument(url as CFURL) else { throw RecognitionError.unreadableDocument }
             guard document.numberOfPages <= 200 else { throw RecognitionError.tooManyPages }

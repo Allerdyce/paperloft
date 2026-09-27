@@ -20,6 +20,10 @@ if [ "$mode" = private ] && [ ! -f "$input/labels.jsonl" ]; then
 fi
 [ -f "$input/labels.jsonl" ] || { echo 'Evaluation labels missing' >&2; exit 2; }
 mkdir -p build evidence
+evaluation_commit="$(git rev-parse HEAD)"
+if [ -n "$(git status --porcelain -- Packages scripts Tests/Fixtures)" ]; then
+  evaluation_commit="$evaluation_commit-dirty"
+fi
 swift build --package-path Packages/PaperloftKit -c release --product PaperloftEval > build/eval-build.log 2>&1
 bin="$(swift build --package-path Packages/PaperloftKit -c release --show-bin-path)"
 temporary="$(mktemp -d "$PWD/build/eval-XXXXXX")"
@@ -38,6 +42,6 @@ score_mode="$mode"
 args=(--labels "$input/labels.jsonl" --predictions "$temporary/predictions.jsonl" --mode "$score_mode")
 if [ "$mode" = fixtures ]; then
   cp "$temporary/predictions.jsonl" "evidence/predictions-$model.jsonl"
-  args+=(--history evidence/eval-history.csv --commit "$(git rev-parse HEAD)")
+  args+=(--history evidence/eval-history.csv --commit "$evaluation_commit")
 fi
 python3 scripts/score_eval.py "${args[@]}"

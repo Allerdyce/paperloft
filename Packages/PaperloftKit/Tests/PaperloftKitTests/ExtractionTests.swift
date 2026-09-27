@@ -7,6 +7,7 @@ import Testing
     #expect(fields.vendor == "Maple Stationery")
     #expect(fields.date == "2026-03-14")
     #expect(fields.total == "19.44")
+    #expect(fields.tax == "1.44")
     #expect(fields.category == "Office supplies")
 }
 @Test func parserRecognizesNonFinancialText() async throws {

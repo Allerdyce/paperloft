@@ -30,3 +30,9 @@ Added native test targets, shared test scheme, local Debug/Release/test CI comma
 - Xcode normalized project formatting/object version and added a target proxy; semantic comparison found no build-setting or target-scope changes. Retained that edit.
 
 - Added P1 self-gate: checks fixture structure and runs both evaluation backends through the frozen scorer. P1 enforces mix/difficulty and real system predictions; P2 accuracy failures remain explicitly reported because SPEC.md P1 permits low initial scores. No scoring thresholds changed.
+
+- On-device default reasoning processed only ten documents in several minutes. Interrupted that unscored experiment and selected macOS 27 light reasoning with a 512-token response bound for extraction. Full-set accuracy will still be measured unchanged. Evaluation output now streams rows and records the source revision at startup (including dirty status), rather than attributing a long run to a later commit.
+
+- The light-reasoning experiment failed all 150 requests with unsupportedCapability on this installed model. A one-document diagnostic confirmed it. Removed the unsupported context option; retained the response bound and aggregate error-type reporting. This failed run is recorded, not a passing score.
+
+- Bounded system smoke test initially returned only kind while omitting optional extraction fields. Required explicit field responses (empty for unknown) and normalized empties to nil. The same synthetic sample then returned its correct vendor/date/total/category. Added tax to the extraction schema and bounded OCR autorelease lifetime per document.
