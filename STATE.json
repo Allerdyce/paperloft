@@ -1,10 +1,12 @@
 {
   "phase": "P3",
-  "step": "P3 core UI clean checkpoint; next QA configuration, duplicate/filter fixes and first accessibility tests",
-  "last_green_commit": "47fdb2c",
+  "step": "P3: PDF page accessibility repaired; targeted audit retains14system/contrast findings. Last fullCI45unit+5functional PASS, auditFAIL. External sandbox export verified. Isolated Mail parser and AppIntents integration progressing; no phase advancement.",
+  "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
-    "Formal acceptance tag and release gates deferred"
+    "Formal acceptance tag and release gates deferred",
+    "System accessibility audit findings reproduced independently; AC-13 remains open",
+    "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch"
   ],
-  "updated": "2026-09-27T06:06:08.596563+00:00"
+  "updated": "2026-09-27T06:51:12.201912+00:00"
 }

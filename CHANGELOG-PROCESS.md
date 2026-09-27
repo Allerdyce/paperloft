@@ -72,3 +72,26 @@ All 34 tests passed in the first two complete app runs, but runtime priority inv
 Added synthetic MailDocumentTests for the independent P4 MIME parser, including all resource limits, transfer encodings, exact PDF bytes, multipart alternatives, remote-HTML avoidance and unsafe names. No fixture, frozen test, or acceptance threshold changed. Component evidence: evidence/mail/README.md and build/mail-{debug,release}.log. App integration and independent review remain separate gates.
 
 Independent review identified two scope gaps before merge: HTML-only message bodies and generic binary PDF attachments. Added bounded non-rendering HTML text extraction and filename-plus-signature generic PDF detection with two new tests; no browser, network or HTML document loader.
+## 2026-09-27 — Independent local export-engine subtask
+- Added `ExportTests.swift` with independent CSV parsing, PDFKit inspection, SHA-256 checks and system ZIP extraction; this makes AC-12 output assertions independent of exporter totals.
+- Added local subtask evidence under `evidence/export/`; SwiftPM unit/Release checks avoid GUI contention with parent UI work. These do not replace the parent P4 gate or independent verifier.
+- The first ZIP test exposed Foundation retaining the `/var` alias even after URL symlink resolution. Canonicalized only the Apple-coordinated temporary archive with `realpath`; user library/destination ancestry and document components still reject symlinks through descriptor-relative no-follow opens.
+
+## P3 QA configuration and expanded flows
+
+Added an optimized QA configuration with explicit QA compilation condition and `scripts/build_qa.sh`; Debug now explicitly defines DEBUG. The QA script preserves warnings-as-errors, scans warnings, produces only an ad-hoc local app, and never archives/uploads. New unlocked UI checks cover persisted draft edits, duplicate state after filing/undo, and unfiltered accessibility audits of core screens. The samples timer now begins before launch/setup rather than after setup. No locked tests modified.
+
+AGENTS section2 permits independent parallel work fromP3 in separate worktrees. Export engine and commerce components branch from clean checkpoint d9454df in Factory-owned worktrees. Each must pass its own subtask tests and parent review before integration; full phase independent verification remains separate. Managed worktree tools were unavailable, so standard git worktrees were used.
+
+## P3 expanded checks and independent diagnostic evidence
+- Added draft relaunch, duplicate-after-undo and complete default accessibility audit to new CoreFlowTests; issue handler records evidence and never ignores issues. Kept all protected tests intact. Functional tests expose sidebar hit-region bug and confirm its fix.
+- Added optimized QA build configuration/script with warnings-as-errors and log scan. Added filename-template tests for safe required tokens, currency formatting and UTF-8 bounds.
+- Independently reviewed export component merged for local integration; real sandbox UI flow passes. Full UI result remains FAIL due accessibility findings; last_green_commit is unchanged.
+- Minimal standalone native probe reproduces framework audit findings; recorded as diagnostic failures, not acceptance passes. Picker screenshot reveals overlapping layout; fixing source instead of weakening audit.
+
+- Independent app review found operation serialization and export grant lifetime defects. Added two AppModelOperationTests using the actual app model in the existing unit target (no launch-hook simulation); guarded library switches and retained grants. External real-panel QA export/preview now verified.
+- External sandbox export exposed overly broad ancestor directory-read requests. O_SEARCH traversal preserves descriptor/no-symlink safety; added traverse-only ancestor regression and retained symlink rejection. Export errors now appear inline in the active sheet.
+
+- Added P3 dispatch to gate_check.py with unchanged full CI/privacy/baseline checks plus QA build and coverage. No failed audit is excluded or downgraded. The self-gate is expected to remain FAIL while current accessibility findings persist.
+
+- Independent synthetic PDF probe proved public NSAccessibilityProtocol page-role labels preserve native text and remove missing-description audit failure. Applied only within owned PDFView after layout/document updates, without changing roles/children/actions. Targeted real-app audit build/P3-pdf-label.xcresult removes PDF issue:14remaining findings, stillFAIL.

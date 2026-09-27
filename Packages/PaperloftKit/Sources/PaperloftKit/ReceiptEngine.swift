@@ -45,8 +45,8 @@ public actor ReceiptEngine {
     }
 
     /// Explicit review can correct any field; the source hash still must match what was reviewed.
-    public func file(_ reviewed: ReviewedDocument, confirmed receipt: Receipt, mode: FilingMode = .copy) async throws -> FilingOutcome {
-        let batch = try await library.file([FilingRequest(source: reviewed.source, receipt: receipt, mode: mode, expectedContentHash: reviewed.contentHash)])
+    public func file(_ reviewed: ReviewedDocument, confirmed receipt: Receipt, mode: FilingMode = .copy, filenameTemplate: String = ReceiptNameTemplate.defaultPattern) async throws -> FilingOutcome {
+        let batch = try await library.file([FilingRequest(source: reviewed.source, receipt: receipt, mode: mode, expectedContentHash: reviewed.contentHash, filenameTemplate: filenameTemplate)])
         do {
             for document in batch.documents { try await index.upsert(document, text: reviewed.text) }
             return FilingOutcome(batch: batch, indexNeedsRebuild: false)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B30000000000000000000001 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000002; };
 		A00000000000000000000022 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
 		A00000000000000000000039 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
 /* End PBXBuildFile section */
@@ -22,12 +23,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B30000000000000000000002 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/AppModel.swift; sourceTree = SOURCE_ROOT; };
 		A00000000000000000000006 /* Paperloft Receipts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Paperloft Receipts.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000031 /* PaperloftKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PaperloftKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000041 /* PaperloftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PaperloftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B30000000000000000000003 /* Tests/PaperloftAppTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftAppTests; sourceTree = "<group>"; };
 		A00000000000000000000004 /* Apps/PaperloftApp */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Apps/PaperloftApp; sourceTree = "<group>"; };
 		A00000000000000000000038 /* Packages/PaperloftKit/Tests/PaperloftKitTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Packages/PaperloftKit/Tests/PaperloftKitTests; sourceTree = "<group>"; };
 		A00000000000000000000048 /* Tests/PaperloftUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftUITests; sourceTree = "<group>"; };
@@ -65,6 +68,7 @@
 			children = (
 				A00000000000000000000048 /* Tests/PaperloftUITests */,
 				A00000000000000000000038 /* Packages/PaperloftKit/Tests/PaperloftKitTests */,
+				B30000000000000000000003 /* Tests/PaperloftAppTests */,
 				A00000000000000000000004 /* Apps/PaperloftApp */,
 				A00000000000000000000003 /* Products */,
 			);
@@ -119,6 +123,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				A00000000000000000000038 /* Packages/PaperloftKit/Tests/PaperloftKitTests */,
+				B30000000000000000000003 /* Tests/PaperloftAppTests */,
 			);
 			name = PaperloftKitTests;
 			packageProductDependencies = (
@@ -201,6 +206,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B30000000000000000000001 /* AppModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +235,7 @@
 				ENABLE_TESTABILITY = YES;
 				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -252,6 +259,7 @@
 		A00000000000000000000014 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Apps/PaperloftApp/Paperloft.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
@@ -271,6 +279,7 @@
 		A00000000000000000000015 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Apps/PaperloftApp/Paperloft.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
@@ -333,6 +342,64 @@
 			};
 			name = Release;
 		};
+		A00000000000000000000060 /* QA */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ENABLE_TESTABILITY = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = QA;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = QA;
+		};
+		A00000000000000000000061 /* QA */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Apps/PaperloftApp/Paperloft.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Configuration/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 EvidencePair LLC";
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts;
+				PRODUCT_NAME = "Paperloft Receipts";
+			};
+			name = QA;
+		};
+		A00000000000000000000062 /* QA */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = QA;
+		};
+		A00000000000000000000063 /* QA */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = PaperloftApp;
+			};
+			name = QA;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -341,6 +408,7 @@
 			buildConfigurations = (
 				A00000000000000000000012 /* Debug */,
 				A00000000000000000000013 /* Release */,
+				A00000000000000000000060 /* QA */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -350,6 +418,7 @@
 			buildConfigurations = (
 				A00000000000000000000014 /* Debug */,
 				A00000000000000000000015 /* Release */,
+				A00000000000000000000061 /* QA */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -359,6 +428,7 @@
 			buildConfigurations = (
 				A00000000000000000000035 /* Debug */,
 				A00000000000000000000036 /* Release */,
+				A00000000000000000000062 /* QA */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -368,6 +438,7 @@
 			buildConfigurations = (
 				A00000000000000000000045 /* Debug */,
 				A00000000000000000000046 /* Release */,
+				A00000000000000000000063 /* QA */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

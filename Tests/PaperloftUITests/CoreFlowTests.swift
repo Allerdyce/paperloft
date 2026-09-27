@@ -19,8 +19,8 @@ final class CoreFlowTests: XCTestCase {
     @MainActor
     func testSamplesKeyboardEditFileSearchAndUndo() throws {
         continueAfterFailure = false
-        let app = try freshApp(); defer { app.terminate() }
         let started = Date()
+        let app = try freshApp(); defer { app.terminate() }
         app.buttons["inbox.samples"].click()
         let vendor = app.textFields["review.vendor"]
         XCTAssertTrue(vendor.waitForExistence(timeout: 60))
@@ -35,12 +35,20 @@ final class CoreFlowTests: XCTestCase {
         app.typeKey(.return, modifierFlags: [])
         app.buttons["sidebar.library"].click()
         XCTAssertTrue(app.staticTexts["Keyboard Desk"].waitForExistence(timeout: 15))
-        XCTAssertLessThan(Date().timeIntervalSince(started), 60, "Samples must reach a filed document within60seconds")
+        XCTAssertLessThan(Date().timeIntervalSince(started), 60, "Samples must reach a filed document within 60 seconds from launch")
         XCTAssertTrue(app.staticTexts["USD 42.35"].exists)
         let search = app.textFields["library.search"]; search.click(); search.typeText("Keyboard")
         XCTAssertTrue(app.staticTexts["Keyboard Desk"].waitForExistence(timeout: 5))
         search.typeKey("a", modifierFlags: .command); search.typeText("no-such-vendor")
         XCTAssertTrue(app.staticTexts["No matching documents"].waitForExistence(timeout: 5))
+        app.buttons["library.export"].click()
+        XCTAssertTrue(app.textFields["export.year"].waitForExistence(timeout: 5))
+        let exportYear = app.textFields["export.year"]; exportYear.click()
+        exportYear.typeKey("a", modifierFlags: .command); exportYear.typeText("2026")
+        app.buttons["export.create"].click()
+        XCTAssertTrue(app.staticTexts["Export complete"].waitForExistence(timeout: 15))
+        XCTAssertEqual(app.staticTexts["export.result"].value as? String, "1 documents copied, with transactions.csv and summary.pdf.")
+        app.buttons["export.close"].click()
         app.buttons["sidebar.history"].click()
         let undo = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "history.undo.")).firstMatch
         XCTAssertTrue(undo.waitForExistence(timeout: 5)); undo.click()
@@ -62,4 +70,66 @@ final class CoreFlowTests: XCTestCase {
         XCTAssertTrue(app.textFields["review.total"].waitForExistence(timeout: 30))
         XCTAssertEqual(app.textFields["review.total"].value as? String, "12.50")
     }
+    @MainActor
+    func testDuplicateStateFollowsFilingAndUndo() throws {
+        continueAfterFailure = false
+        let app = try freshApp(); defer { app.terminate() }
+        app.buttons["inbox.samples"].click()
+        XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
+        app.buttons["review.file"].click()
+        app.buttons["sidebar.library"].click()
+        XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 15))
+        app.buttons["toolbar.samples"].click()
+        let repeatDocument = app.staticTexts["01-office.pdf"]
+        XCTAssertTrue(repeatDocument.waitForExistence(timeout: 10)); repeatDocument.click()
+        XCTAssertTrue(app.staticTexts["review.duplicate"].waitForExistence(timeout: 60))
+        XCTAssertFalse(app.buttons["review.file"].isEnabled)
+        app.buttons["sidebar.history"].click()
+        app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "history.undo.")).firstMatch.click()
+        XCTAssertTrue(app.staticTexts["Undone"].waitForExistence(timeout: 10))
+        app.buttons["sidebar.inbox"].click()
+        XCTAssertTrue(app.buttons["review.file"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.staticTexts["review.duplicate"].exists)
+        XCTAssertTrue(app.buttons["review.file"].isEnabled)
+    }
+    @MainActor
+    func testDraftSurvivesRelaunch() throws {
+        continueAfterFailure = false
+        let app = try freshApp(); defer { app.terminate() }
+        app.buttons["inbox.samples"].click()
+        let vendor = app.textFields["review.vendor"]
+        XCTAssertTrue(vendor.waitForExistence(timeout: 60)); vendor.click()
+        vendor.typeKey("a", modifierFlags: .command); vendor.typeText("Saved Draft")
+        app.terminate(); app.launch(); app.activate()
+        XCTAssertTrue(vendor.waitForExistence(timeout: 20))
+        XCTAssertEqual(vendor.value as? String, "Saved Draft")
+    }
+    @MainActor
+    func testCoreScreensAccessibilityAudit() throws {
+        continueAfterFailure = true
+        let app = try freshApp(); defer { app.terminate() }
+        try audit(app)
+        for section in ["library", "history"] {
+            app.buttons["sidebar." + section].click()
+            try audit(app)
+        }
+        app.buttons["toolbar.settings"].click()
+        XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
+        try audit(app)
+        app.typeKey("w", modifierFlags: .command)
+        app.buttons["sidebar.inbox"].click(); app.buttons["inbox.samples"].click()
+        XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
+        try audit(app)
+    }
+
+    @MainActor
+    private func audit(_ app: XCUIApplication) throws {
+        try app.performAccessibilityAudit { issue in
+            let detail = XCTAttachment(string: issue.detailedDescription + "\n" + (issue.element?.debugDescription ?? "No element"))
+            detail.name = "Accessibility issue details"; detail.lifetime = .keepAlways
+            self.add(detail)
+            return false
+        }
+    }
+
 }
