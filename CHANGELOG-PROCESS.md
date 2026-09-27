@@ -66,3 +66,7 @@ P2 gate now requires whole-target xccov>=75% with every library source represent
 ## P3 diagnostic evidence — 2026-09-26
 
 All 34 tests passed in the first two complete app runs, but runtime priority inversion warnings correctly kept CI red. Exported xcresult diagnostics and symbolicated their AppKit addresses rather than suppressing the checker. The stack is AppKit Services-menu data detection during accessibility inspection (`evidence/ci/P3-priority-inversion.txt`). Moving index initialization off-main and public NSDataDetector background warmup did not remove that framework warning. Removed the warmup experiment and the optional automatic Services command group; normal editing and explicit receipt commands remain. Unchanged NavigationTests then passed without warnings (`build/P3-services-diagnostic.xcresult`). Full CI pending. No acceptance threshold, locked test, warning scan, or runtime check was weakened.
+
+## Mail parser component tests (2026-09-27)
+
+Added synthetic MailDocumentTests for the independent P4 MIME parser, including all resource limits, transfer encodings, exact PDF bytes, multipart alternatives, remote-HTML avoidance and unsafe names. No fixture, frozen test, or acceptance threshold changed. Component evidence: evidence/mail/README.md and build/mail-{debug,release}.log. App integration and independent review remain separate gates.

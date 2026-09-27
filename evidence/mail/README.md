@@ -1,0 +1,15 @@
+# Local Mail parsing component
+
+Scope: Foundation-only parsing of caller-supplied `.eml` bytes. No mailbox access, files, network, HTML rendering, remote resources, app integration, or phase acceptance.
+
+API: `try MailDocument.parse(data)` returns `body`, `pdfs` (`name` display hint and exact `data`), and `notices`. Callers must preserve notices in review; use independently generated unique destination names inside a granted folder, validate PDFs with the document reader, and never interpret the display hint as a path. The parser checks the PDF signature, not full PDF validity. Caller must bound file reads to `maximumBytes` before allocating the input. The byte parser itself rejects larger input.
+
+Supported: text/plain in ASCII, UTF-8, ISO-8859-1 and Windows-1252; 7bit/8bit/binary, strict base64, quoted-printable; folded headers; multipart mixed, related and alternative. Alternative text chooses one body, preventing duplicate body imports. PDF attachments retain bytes exactly. Unsupported media produces notices. HTML-only mail without PDFs returns a useful error advising a PDF saved from Mail. HTML is never rendered. Encrypted/signed/other multipart containers, unsupported character sets and transfer encodings return errors. RFC 2231 extended filenames are not decoded; attachment data is retained under a safe fallback name.
+
+Limits: message 32 MB, PDF 16 MB, total decoded body 1 MB, headers per entity 64 KB, 100 parts, depth 8, 20 PDFs. Header duplicates and malformed parameters/encodings/incomplete boundaries are rejected. Attachment display names allow only letters, numbers, spaces, underscore and hyphen, capped at 100 UTF-8 bytes plus `.pdf`.
+
+Implementation references: [RFC 2045](https://www.rfc-editor.org/rfc/rfc2045), [RFC 2046](https://www.rfc-editor.org/rfc/rfc2046). This is a bounded supported subset, not a general mail client.
+
+Verification: `swift test --package-path Packages/PaperloftKit -Xswiftc -warnings-as-errors` and the same with `-c release`. Debug: 38 tests passed, zero warning lines. Release: 38 tests passed, zero warning lines. Logs retained in `build/mail-debug.log` and `build/mail-release.log`. Seven new synthetic tests cover exact PDF bytes/path safety, alternative bodies/remote HTML, encodings/charsets/folded headers, malformed headers/base64/quoted-printable/containers, whole-line boundaries/binary payload, every resource bound, and unsupported attachments. Existing protected test/fixture hashes and pre-tag baseline passed via `scripts/verify_local_baseline.sh`; local preflight passed with distribution prerequisites deferred.
+
+Independent review and app integration remain required. Distribution and uploads remain blocked.
