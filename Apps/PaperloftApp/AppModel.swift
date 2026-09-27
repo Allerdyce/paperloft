@@ -115,6 +115,7 @@ final class FileGrant: @unchecked Sendable {
     var items: [InboxItem] = []
     var selectedItemID: UUID?
     var documents: [FiledDocument] = []
+    var deletedDocuments: [DeletedReceipt] = []
     var allDocuments: [FiledDocument] = []
     var batches: [FilingBatch] = []
     var libraryURL: URL?
@@ -491,14 +492,41 @@ final class FileGrant: @unchecked Sendable {
             if !indexed { message = "Undo completed. Rebuild the search index in Settings." }
         } catch { message = error.localizedDescription }
     }
+    func deleteDocument(_ document: FiledDocument) async {
+        guard inboxMayBeMutated, !busy, let engine else { return }
+        busy = true; defer { busy = false }
+        let access = libraryAccess
+        defer { withExtendedLifetime(access) {} }
+        do {
+            try await engine.library.delete(document)
+            do { try await engine.index.remove(ids: [document.id]) }
+            catch { message = "Receipt deleted. Rebuild search in Settings if needed." }
+            quickLookURL = nil
+            await refresh()
+        } catch { message = error.localizedDescription }
+    }
+    func restoreDocument(_ receipt: DeletedReceipt) async {
+        guard inboxMayBeMutated, !busy, let engine else { return }
+        busy = true; defer { busy = false }
+        let access = libraryAccess
+        defer { withExtendedLifetime(access) {} }
+        do {
+            try await engine.library.restore(receipt)
+            do { _ = try await engine.index.rebuild(from: engine.library) }
+            catch { message = "Receipt restored. Rebuild search in Settings to find it." }
+            await refresh()
+        } catch { message = error.localizedDescription }
+    }
     func refresh() async {
         guard inboxMayBeMutated, let engine else { return }
         let token = generation
         do {
             let history = try await engine.library.history()
+            let deleted = try await engine.library.deletedDocuments()
             let records = try await engine.library.documents()
             let results = try await engine.index.search(query)
             guard token == generation, !Task.isCancelled else { return }
+            deletedDocuments = deleted
             batches = history
             allDocuments = records
             for i in items.indices {
@@ -507,7 +535,7 @@ final class FileGrant: @unchecked Sendable {
                 }
             }
             persist()
-            documents = results
+            documents = results.filter { result in records.contains { $0 == result } }
         } catch { if token == generation, !Task.isCancelled { message = error.localizedDescription } }
     }
     private var query: ReceiptQuery {
