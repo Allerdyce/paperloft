@@ -1,0 +1,28 @@
+[
+  {
+    "inputCount": 100,
+    "persistedCompleted": 100,
+    "memoryReadFailures": 0,
+    "failures": [],
+    "seconds": 19.14640841666551,
+    "lifetimePeakPhysicalBytes": 419907168,
+    "iteration": 1,
+    "backend": "parser",
+    "heartbeatCount": 970,
+    "maximumMainHeartbeatGapSeconds": 0.2625650416666758,
+    "completed": 100
+  },
+  {
+    "completed": 100,
+    "persistedCompleted": 100,
+    "maximumMainHeartbeatGapSeconds": 0.2803121666656807,
+    "failures": [],
+    "inputCount": 100,
+    "backend": "parser",
+    "heartbeatCount": 952,
+    "seconds": 19.205538500005787,
+    "lifetimePeakPhysicalBytes": 441910976,
+    "iteration": 2,
+    "memoryReadFailures": 0
+  }
+]

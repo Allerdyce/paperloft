@@ -1,0 +1,16 @@
+{
+  "reason": "Root requested no repeat of an already-failed warmup; report retained, metric harvest may be incomplete.",
+  "first_iteration": {
+    "persistedCompleted": 86,
+    "iteration": 1,
+    "heartbeatCount": 35224,
+    "failures": [],
+    "backend": "system",
+    "maximumMainHeartbeatGapSeconds": 0.3476891250029439,
+    "lifetimePeakPhysicalBytes": 441943552,
+    "inputCount": 100,
+    "memoryReadFailures": 0,
+    "completed": 86,
+    "seconds": 360.00880045833037
+  }
+}

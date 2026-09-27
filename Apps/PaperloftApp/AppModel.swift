@@ -2,6 +2,7 @@ import AppKit
 import CryptoKit
 import Foundation
 import Observation
+import os
 import PaperloftKit
 import UniformTypeIdentifiers
 
@@ -306,7 +307,13 @@ final class FileGrant: @unchecked Sendable {
         guard !processing, let engine else { return }
         let token = generation; processing = true
         processingTask = Task {
-            defer { if generation == token { processing = false; activity = "" } }
+            let log = OSLog(subsystem: "app.paperloft.receipts", category: "Pipeline")
+            let interval = OSSignpostID(log: log)
+            os_signpost(.begin, log: log, name: "UnderstandInboxBatch", signpostID: interval)
+            defer {
+                os_signpost(.end, log: log, name: "UnderstandInboxBatch", signpostID: interval)
+                if generation == token { processing = false; activity = "" }
+            }
             while let position = items.firstIndex(where: { $0.status == "waiting" }) {
                 if Task.isCancelled || generation != token { return }
                 let id = items[position].id, source = items[position].source
