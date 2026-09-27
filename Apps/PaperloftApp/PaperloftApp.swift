@@ -5,6 +5,8 @@ import UniformTypeIdentifiers
 @main @MainActor
 struct PaperloftApp: App {
     @State private var model: AppModel
+    @AppStorage("appearance") private var appearance = "System"
+    private var colorScheme: ColorScheme? { appearance == "Light" ? .light : appearance == "Dark" ? .dark : nil }
     init() {
         let sharedModel = AppModel()
         _model = State(initialValue: sharedModel)
@@ -15,6 +17,7 @@ struct PaperloftApp: App {
     var body: some Scene {
         Window("Paperloft Receipts", id: "main") {
             LibraryView(model: model)
+                .preferredColorScheme(colorScheme)
                 .background(WindowAccessibility(label: "Paperloft workspace"))
                 .task { await model.start() }
                 .onOpenURL { url in Task { await model.intake([url]) } }
@@ -45,9 +48,9 @@ struct PaperloftApp: App {
                 .accessibilityIdentifier("command.undo")
             }
         }
-        Settings { PaperloftSettings(model: model).background(WindowAccessibility(label: "Paperloft settings")) }
+        Settings { PaperloftSettings(model: model).preferredColorScheme(colorScheme).background(WindowAccessibility(label: "Paperloft settings")) }
         MenuBarExtra {
-            MenuBarInbox(model: model)
+            MenuBarInbox(model: model).preferredColorScheme(colorScheme)
         } label: {
             Label("Paperloft · \(model.inboxCount) in inbox", systemImage: "tray")
                 .accessibilityIdentifier("menubar.status")

@@ -11,3 +11,5 @@ Independent design review observed the dark review screen only (visible design s
 Source and reports are pushed; raw result bundles/screenshots remain locally preserved. This is an unfinished, resumable checkpoint, not accepted full CI or a release. No recurring background schedule exists.
 
 2026-09-27 owner UX update: double-click opens receipts; direct Delete and Recently Deleted restore work across restart; clearer status pills and tax/accountant export integrated. Independent scoped review PASS, strict optimized build PASS, two native UI tests PASS. Updated local app: build/RootWatchRelease/Build/Products/Release/Paperloft Receipts.app. Paul development-team membership type/Team ID pending. Not launch ready; existing full gates and release/upload block remain.
+
+Followup: Settings > Appearance now offers System/Light/Dark, verified across restart. Paul team GQ4UA5C6RQ local development signing works with separate bundle ID; no further certificate setup currently needed. Existing launch gates and release/upload block remain.

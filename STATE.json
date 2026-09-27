@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Owner-requested receipt UX integrated and scoped independently PASS: double-click, recoverable Delete/restore across restart, status pills, tax/accountant export. Strict optimized build and 2 native UI tests pass. Paul development-team details pending; existing P3 gates and release/upload block unchanged.",
+  "step": "Owner receipt UX and persistent System/Light/Dark appearance implemented, tested and independently reviewed. Separate Paul team GQ4UA5C6RQ development build and signature verify PASS. Existing P3 gates and release/upload block unchanged.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -13,5 +13,5 @@
     "System throughput exceeds240s; required signpost collection unavailable after three approaches",
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete"
   ],
-  "updated": "2026-09-27T19:12:17.035763+00:00"
+  "updated": "2026-09-27T19:15:22.539746+00:00"
 }

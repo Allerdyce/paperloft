@@ -14,3 +14,11 @@ Independent reviewer receipt_ux_verifier passed export core, deletion core/model
 - Root and independent reviewer inspected exported screenshots in `build/receipt-ux-attachments`: library actions, ready/duplicate pills and export sheet legible/unclipped. Transient Processing appearance is code-reviewed, not independently captured on screen.
 
 History Undo remains available for existing recovery behavior; Delete no longer requires navigating there. Deleted files are retained, never permanently removed. Tax pack reports recorded data, not deductions or a filed return. Existing full accessibility/performance/commerce/intents/signing/release gates remain open.
+
+## Appearance and temporary development signing followup
+
+- Owner requested System/Light/Dark switch. AppStorage preference applies to main window, Settings and menu-bar view, default System.
+- Optimized build `build/appearance-release.log` PASS. Native `build/AppearanceUX2.xcresult` PASS: selects Light, verifies preference across termination/relaunch, selects Dark then restores System. Root inspected screenshots showing Light Paperloft alongside dark macOS windows and Dark Settings/main window.
+- Initial new test asserted a String radio value; native control supplies NSNumber. Corrected new test assertion to NSNumber1, preserving selection requirement. No product workaround or frozen test change.
+- Owner provided paid team GQ4UA5C6RQ. Opt-in config/PaulDevelopment.xcconfig signs separate bundle app.paperloft.receipts.development. `build/paul-development-build.log` BUILD SUCCEEDED; root and independent reviewer codesign --verify --deep --strict PASS and authority/team checked. No archives/uploads/production identity changes.
+- Protected baseline `build/appearance-baseline.log` PASS.

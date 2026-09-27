@@ -2,6 +2,35 @@ import XCTest
 
 final class ReceiptLibraryUXTests: XCTestCase {
     @MainActor
+    func testAppearanceChoicePersists() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
+        app.launch(); app.activate(); defer { app.terminate() }
+        func settings() {
+            if !app.buttons["toolbar.settings"].waitForExistence(timeout: 3) {
+                app.menuBars.menuBarItems["Window"].click()
+                app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
+            }
+            app.buttons["toolbar.settings"].click()
+            XCTAssertTrue(app.radioButtons["Light"].waitForExistence(timeout: 10))
+        }
+        settings()
+        app.radioButtons["Light"].click()
+        XCTAssertEqual((app.radioButtons["Light"].value as? NSNumber)?.intValue, 1)
+        app.typeKey("w", modifierFlags: .command)
+        let light = XCTAttachment(screenshot: app.screenshot()); light.name = "Paperloft Light"; light.lifetime = .keepAlways; add(light)
+        app.terminate(); app.launch(); app.activate(); settings()
+        XCTAssertEqual((app.radioButtons["Light"].value as? NSNumber)?.intValue, 1)
+        app.radioButtons["Dark"].click()
+        XCTAssertEqual((app.radioButtons["Dark"].value as? NSNumber)?.intValue, 1)
+        let dark = XCTAttachment(screenshot: app.screenshot()); dark.name = "Paperloft Dark settings"; dark.lifetime = .keepAlways; add(dark)
+        app.radioButtons["System"].click()
+        XCTAssertEqual((app.radioButtons["System"].value as? NSNumber)?.intValue, 1)
+        app.typeKey("w", modifierFlags: .command)
+    }
+
+    @MainActor
     func testOpenDeleteRestartRestoreAndTaxExport() throws {
         continueAfterFailure = false
         let app = XCUIApplication()

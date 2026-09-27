@@ -453,10 +453,21 @@ struct HistoryView: View {
 struct PaperloftSettings: View {
     @Bindable var model: AppModel
     @State private var newCategory = ""
+    @AppStorage("appearance") private var appearance = "System"
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 Text("Paperloft Settings").font(.title2.weight(.semibold))
+                GroupBox("Appearance") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Picker("Theme", selection: $appearance) {
+                            Text("System").tag("System")
+                            Text("Light").tag("Light")
+                            Text("Dark").tag("Dark")
+                        }.pickerStyle(.segmented).accessibilityIdentifier("settings.appearance")
+                        Text("System follows your Mac’s appearance. Light and Dark apply only to Paperloft.").font(.caption)
+                    }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+                }
                 GroupBox("Library") {
                     VStack(alignment: .leading, spacing: 12) {
                         Text(model.libraryURL?.path ?? "No library folder chosen").font(.callout).textSelection(.enabled)

@@ -1,0 +1,5 @@
+// Owner-authorized local development only. Never use for distribution or uploads.
+DEVELOPMENT_TEAM = GQ4UA5C6RQ
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = Apple Development: Paul Allerdyce (89KA3G5NH6)
+PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development
