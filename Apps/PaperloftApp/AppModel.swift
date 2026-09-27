@@ -86,7 +86,7 @@ final class FileGrant: @unchecked Sendable {
     deinit { if scoped { url.stopAccessingSecurityScopedResource() } }
 }
 
-@Observable @MainActor final class AppModel {
+@Observable @MainActor final class AppModel: PaperloftIntentService {
     var selection = "Inbox"
     var items: [InboxItem] = []
     var selectedItemID: UUID?
@@ -121,21 +121,25 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var processingTask: Task<Void, Never>?
     @ObservationIgnored private var searchTask: Task<Void, Never>?
     @ObservationIgnored private var generation = UUID()
-    @ObservationIgnored private var started = false
+    @ObservationIgnored private var startupTask: Task<Void, any Error>?
+    @ObservationIgnored private let proEntitlement: @MainActor () -> Bool
+    @ObservationIgnored var openInboxWindow: (@MainActor () -> Void)?
 
     static func argument(_ key: String) -> String? {
         let args = ProcessInfo.processInfo.arguments
         guard let position = args.firstIndex(of: key), position + 1 < args.count else { return nil }
         return args[position + 1]
     }
-    init() {
+    init(support suppliedSupport: URL? = nil, preferences suppliedPreferences: UserDefaults? = nil,
+         proEntitlement: @escaping @MainActor () -> Bool = AppModel.defaultIntentProEntitlement) {
         testMode = Self.argument("-PaperloftUITestMode") == "YES"
-        preferences = testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard
+        preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard)
+        self.proEntitlement = proEntitlement
         categories = preferences.stringArray(forKey: "categories") ?? ["Advertising", "Contract labor", "Insurance", "Legal and professional services", "Meals", "Office supplies", "Rent", "Repairs", "Software", "Taxes and licenses", "Travel", "Utilities", "Vehicle", "Other expenses"]
         filenameTemplate = preferences.string(forKey: "filenameTemplate") ?? ReceiptNameTemplate.defaultPattern
         mode = FilingMode(rawValue: preferences.string(forKey: "filingMode") ?? "copy") ?? .copy
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        support = base.appendingPathComponent(testMode ? "Paperloft-UI" : "Paperloft", isDirectory: true)
+        support = suppliedSupport ?? base.appendingPathComponent(testMode ? "Paperloft-UI" : "Paperloft", isDirectory: true)
     }
     var selectedItem: InboxItem? { items.first { $0.id == selectedItemID } ?? items.first { $0.status != "aside" } }
     var inboxCount: Int { items.filter { $0.status != "aside" }.count }
@@ -149,33 +153,51 @@ final class FileGrant: @unchecked Sendable {
         } catch { return error.localizedDescription }
     }
     func start() async {
-        guard !started else { return }; started = true
-        busy = true; defer { busy = false }
-        do {
-            try FileManager.default.createDirectory(at: support, withIntermediateDirectories: true)
-            if let data = try? Data(contentsOf: support.appendingPathComponent("inbox.json")) { items = try JSONDecoder().decode([InboxItem].self, from: data) }
-            for i in items.indices where items[i].status != "aside" {
-                do {
-                    let grant: FileGrant
-                    if let bookmark = items[i].bookmark { grant = try FileGrant(bookmark: bookmark) }
-                    else {
-                        guard FileGrant.isInternal(items[i].source) else { throw AppIssue("Import this document again to renew access.") }
-                        grant = try FileGrant(url: items[i].source)
-                    }
-                    sourceGrants[items[i].id] = grant; items[i].source = grant.url
-                    if items[i].status == "processing" { items[i].status = "waiting" }
-                } catch { items[i].status = "failed"; items[i].issue = error.localizedDescription }
+        do { try await awaitStartup() }
+        catch { message = error.localizedDescription }
+    }
+    private func awaitStartup() async throws {
+        if let startupTask { return try await startupTask.value }
+        let task = Task { @MainActor in
+            do { try await self.loadStartupState() }
+            catch {
+                // Only this task clears its failure; a waiting caller must never
+                // erase a later retry's task after the actor becomes reentrant.
+                self.startupTask = nil
+                throw error
             }
-            let saved = preferences.dictionary(forKey: "moveFolderBookmarks") as? [String: Data] ?? [:]
-            for (path, bookmark) in saved { if let access = try? LibraryAccess(bookmark: bookmark) { moveGrants[path] = access } }
-            if let bookmark = preferences.data(forKey: "paperloft.libraryBookmark") {
-                let access = try LibraryAccess(bookmark: bookmark); libraryAccess = access
-                try await configure(access.url, sample: false)
-            } else if let path = preferences.string(forKey: "paperloft.demoLibraryPath"), URL(fileURLWithPath: path).path.hasPrefix(support.path + "/") {
-                try await configure(URL(fileURLWithPath: path), sample: true)
-            } else if testMode { try await createSampleLibrary(discardInbox: false) }
-            selectedItemID = items.first { $0.status != "aside" }?.id
-        } catch { message = error.localizedDescription }
+        }
+        startupTask = task
+        try await task.value
+    }
+    private func loadStartupState() async throws {
+        busy = true; defer { busy = false }
+        try FileManager.default.createDirectory(at: support, withIntermediateDirectories: true)
+        let inboxURL = support.appendingPathComponent("inbox.json")
+        if FileManager.default.fileExists(atPath: inboxURL.path) {
+            items = try JSONDecoder().decode([InboxItem].self, from: Data(contentsOf: inboxURL))
+        }
+        for i in items.indices where items[i].status != "aside" {
+            do {
+                let grant: FileGrant
+                if let bookmark = items[i].bookmark { grant = try FileGrant(bookmark: bookmark) }
+                else {
+                    guard FileGrant.isInternal(items[i].source) else { throw AppIssue("Import this document again to renew access.") }
+                    grant = try FileGrant(url: items[i].source)
+                }
+                sourceGrants[items[i].id] = grant; items[i].source = grant.url
+                if items[i].status == "processing" { items[i].status = "waiting" }
+            } catch { items[i].status = "failed"; items[i].issue = error.localizedDescription }
+        }
+        let saved = preferences.dictionary(forKey: "moveFolderBookmarks") as? [String: Data] ?? [:]
+        for (path, bookmark) in saved { if let access = try? LibraryAccess(bookmark: bookmark) { moveGrants[path] = access } }
+        if let bookmark = preferences.data(forKey: "paperloft.libraryBookmark") {
+            let access = try LibraryAccess(bookmark: bookmark); libraryAccess = access
+            try await configure(access.url, sample: false)
+        } else if let path = preferences.string(forKey: "paperloft.demoLibraryPath"), URL(fileURLWithPath: path).path.hasPrefix(support.path + "/") {
+            try await configure(URL(fileURLWithPath: path), sample: true)
+        } else if testMode { try await createSampleLibrary(discardInbox: false) }
+        selectedItemID = items.first { $0.status != "aside" }?.id
     }
     private func configure(_ url: URL, sample: Bool) async throws {
         processingTask?.cancel(); generation = UUID(); processing = false
@@ -433,6 +455,76 @@ final class FileGrant: @unchecked Sendable {
         guard let libraryURL else { return }
         NSWorkspace.shared.activateFileViewerSelecting([document.map { libraryURL.appendingPathComponent($0.relativePath) } ?? libraryURL])
     }
+    static func defaultIntentProEntitlement() -> Bool {
+        #if DEBUG || QA
+        // The documented mock-store hook is never compiled into Release.
+        if argument("-PaperloftStoreMock") == "YES" { return true }
+        #endif
+        // Commerce integration supplies the cached, verified StoreKit entitlement.
+        return false
+    }
+    var isPro: Bool { proEntitlement() }
+
+    func queueDocumentForReview(data: Data, filename: String) async throws {
+        try await awaitStartup()
+        guard !busy else { throw AppIssue("Wait for the current operation to finish before importing.") }
+        try IntentDocumentInput.validate(data)
+        let name = URL(fileURLWithPath: filename).lastPathComponent
+        guard ["pdf", "png", "jpg", "jpeg", "heic"].contains(URL(fileURLWithPath: name).pathExtension.lowercased()) else { throw PaperloftIntentError.unsupportedDocument }
+        busy = true; defer { busy = false }
+        let folder = support.appendingPathComponent("Intent-Imports", isDirectory: true).appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let source = folder.appendingPathComponent(name)
+        try data.write(to: source, options: .atomic)
+        let item = InboxItem(id: UUID(), source: source)
+        let updated = items + [item]
+        // Commit the inbox before exposing success or scheduling extraction. A failed
+        // inbox write leaves the copied input intact for recovery, never silently filed.
+        try JSONEncoder().encode(updated).write(to: support.appendingPathComponent("inbox.json"), options: .atomic)
+        items = updated
+        selectedItemID = item.id; selection = "Inbox"
+        processWaiting()
+    }
+
+    func intentReceipts() async throws -> [Receipt] {
+        try await awaitStartup()
+        guard !busy else { throw AppIssue("Wait for the current operation to finish before reading totals.") }
+        guard let engine else { throw PaperloftIntentError.unavailable }
+        busy = true; defer { busy = false }
+        return try await engine.library.documents().map(\.receipt)
+    }
+
+    func exportAccountantPack(range: ExportDateRange) async throws -> URL {
+        try await awaitStartup()
+        guard isPro else { throw PaperloftIntentError.proRequired }
+        guard !busy else { throw AppIssue("Wait for the current operation to finish before exporting.") }
+        guard let engine else { throw PaperloftIntentError.unavailable }
+        busy = true; defer { busy = false }
+        let sourceAccess = libraryAccess
+        defer { withExtendedLifetime(sourceAccess) {} }
+        // Intent output lives in durable app-owned storage. No external destination
+        // grant can expire while the system copies the returned IntentFile.
+        let destination = support.appendingPathComponent("Intent-Exports", isDirectory: true)
+        try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true)
+        let records = try await engine.library.documents()
+        let root = await engine.library.root.resolvingSymlinksInPath()
+        let target = destination.resolvingSymlinksInPath()
+        guard isPro else { throw PaperloftIntentError.proRequired }
+        let result = try await Task.detached(priority: .userInitiated) {
+            try AccountantPackExporter.export(documents: records, libraryRoot: root, destination: target, range: range, zip: true)
+        }.value
+        guard let zip = result.zipURL else { throw AppIssue("The accountant pack ZIP could not be created.") }
+        return zip
+    }
+
+    func openIntentInbox() async throws {
+        try await awaitStartup()
+        selection = "Inbox"
+        if let openInboxWindow { openInboxWindow() }
+        NSApplication.shared.activate()
+        NSApplication.shared.windows.first(where: { $0.title == "Paperloft Receipts" })?.makeKeyAndOrderFront(nil)
+    }
+
     private func persist() {
         do { try JSONEncoder().encode(items).write(to: support.appendingPathComponent("inbox.json"), options: .atomic) }
         catch { message = "The inbox could not be saved. Your originals are unchanged. " + error.localizedDescription }

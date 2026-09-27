@@ -77,6 +77,23 @@ import PaperloftKit
         let result = try await total.perform()
         XCTAssertEqual(result.value, "USD 1.23")
     }
+    func testURLDocumentReadIsBoundedAndPreservesInput() async throws {
+        let folder = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("build/IntentTransferTests/" + UUID().uuidString)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let url = folder.appendingPathComponent("receipt.pdf")
+        try Data([1, 2, 3]).write(to: url)
+        let loaded = try await IntentDocumentInput.load(IntentFile(fileURL: url, type: .pdf))
+        XCTAssertEqual(loaded, Data([1, 2, 3]))
+        let handle = try FileHandle(forWritingTo: url)
+        try handle.truncate(atOffset: UInt64(IntentDocumentInput.maximumBytes + 1))
+        try handle.close()
+        do {
+            _ = try await IntentDocumentInput.load(IntentFile(fileURL: url, type: .pdf))
+            XCTFail("Oversized URL accepted")
+        } catch { XCTAssertTrue(error is PaperloftIntentError) }
+        XCTAssertEqual(try FileManager.default.attributesOfItem(atPath: url.path)[.size] as? Int, IntentDocumentInput.maximumBytes + 1)
+    }
     func testMissingServiceFailsClearly() async {
         PaperloftIntentRuntime.service = nil
         do { _ = try await OpenInboxIntent().perform(); XCTFail("Missing service accepted") } catch { XCTAssertTrue(error is PaperloftIntentError) }

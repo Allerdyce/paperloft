@@ -27,15 +27,49 @@ import UniformTypeIdentifiers
 }
 
 public enum PaperloftIntentError: LocalizedError {
-    case unavailable, proRequired, unsupportedDocument, emptyDocument, invalidDateRange
+    case unavailable, proRequired, unsupportedDocument, emptyDocument, invalidDateRange, oversizedDocument
     public var errorDescription: String? {
         switch self {
         case .unavailable: "Open Paperloft and choose a library before using this action."
         case .proRequired: "Accountant packs require Paperloft Pro. Open Paperloft to view upgrade options."
         case .unsupportedDocument: "Choose a PDF, PNG, JPEG or HEIC document."
         case .emptyDocument: "This document is empty or could not be read."
+        case .oversizedDocument: "This document exceeds 100 MB. Import a smaller copy."
         case .invalidDateRange: "Enter valid dates as YYYY-MM-DD, with the start date on or before the end date."
         }
+    }
+}
+
+/// Bound intent transfers before persisting. URL-backed files are streamed off-main,
+/// and their current size is checked before allocating the output buffer.
+public enum IntentDocumentInput {
+    public static let maximumBytes = 100 * 1024 * 1024
+    public static func validate(_ data: Data) throws {
+        guard !data.isEmpty else { throw PaperloftIntentError.emptyDocument }
+        guard data.count <= maximumBytes else { throw PaperloftIntentError.oversizedDocument }
+    }
+    public static func load(_ file: IntentFile) async throws -> Data {
+        try await Task.detached(priority: .userInitiated) {
+            guard let url = file.fileURL else {
+                let data = file.data
+                try validate(data)
+                return data
+            }
+            let scoped = url.startAccessingSecurityScopedResource()
+            defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+            let attributes = try url.resourceValues(forKeys: [.fileSizeKey, .isRegularFileKey])
+            guard attributes.isRegularFile == true else { throw PaperloftIntentError.unsupportedDocument }
+            if let size = attributes.fileSize, size > maximumBytes { throw PaperloftIntentError.oversizedDocument }
+            let handle = try FileHandle(forReadingFrom: url)
+            defer { try? handle.close() }
+            var result = Data()
+            while let chunk = try handle.read(upToCount: min(1024 * 1024, maximumBytes + 1 - result.count)), !chunk.isEmpty {
+                result.append(chunk)
+                guard result.count <= maximumBytes else { throw PaperloftIntentError.oversizedDocument }
+            }
+            try validate(result)
+            return result
+        }.value
     }
 }
 
@@ -88,8 +122,7 @@ public struct FileDocumentIntent: AppIntent {
     @MainActor public func perform() async throws -> some IntentResult & ReturnsValue<String> & ProvidesDialog {
         let name = URL(fileURLWithPath: document.filename).lastPathComponent
         guard ["pdf", "png", "jpg", "jpeg", "heic"].contains(URL(fileURLWithPath: name).pathExtension.lowercased()) else { throw PaperloftIntentError.unsupportedDocument }
-        let data = document.data
-        guard !data.isEmpty else { throw PaperloftIntentError.emptyDocument }
+        let data = try await IntentDocumentInput.load(document)
         let service = try PaperloftIntentRuntime.requireService()
         try await service.queueDocumentForReview(data: data, filename: name)
         try await service.openIntentInbox()

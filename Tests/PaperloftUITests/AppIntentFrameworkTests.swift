@@ -4,12 +4,15 @@ import AppIntentsTesting
 
 /// AC-15: these run through the system's out-of-process intent infrastructure.
 /// Requires an installed app and test runner signed by the same development team.
-/// No launch arguments, service substitutions, or direct perform() calls.
+/// Uses only SPEC 6.7 launch hooks for the isolated sample library/model/mock store.
+/// No service substitutions or direct perform() calls.
 final class AppIntentFrameworkTests: XCTestCase {
     let definitions = IntentDefinitions(bundleIdentifier: "app.paperloft.receipts")
 
-    @MainActor func launchApp() {
+    @MainActor func launchApp(pro: Bool = false) {
         let app = XCUIApplication()
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
+        if pro { app.launchArguments += ["-PaperloftStoreMock", "YES"] }
         app.launch()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
     }
@@ -44,4 +47,37 @@ final class AppIntentFrameworkTests: XCTestCase {
             XCTAssertTrue(error.localizedDescription.contains("Enter valid dates"), error.localizedDescription)
         }
     }
+    @MainActor func testFileDocumentQueuesForReviewAndSurvivesRelaunch() async throws {
+        launchApp()
+        let name = "Intent receipt " + UUID().uuidString + ".pdf"
+        let repo = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let data = try Data(contentsOf: repo.appendingPathComponent("Apps/PaperloftApp/Resources/Samples/01-office.pdf"))
+        let result = try await definitions.intents["FileDocumentIntent"].makeIntent(document: IntentFile(data: data, filename: name, type: .pdf)).run()
+        let value: String = try result.value
+        XCTAssertEqual(value, "Queued for review")
+        let app = XCUIApplication()
+        XCTAssertTrue(app.staticTexts[name].firstMatch.waitForExistence(timeout: 10))
+        app.terminate()
+        launchApp()
+        XCTAssertTrue(app.staticTexts[name].firstMatch.waitForExistence(timeout: 10))
+    }
+    @MainActor func testProExportReturnsReadableZip() async throws {
+        launchApp(pro: true)
+        let result = try await definitions.intents["ExportAccountantPackIntent"].makeIntent(startDate: "2000-01-01", endDate: "2099-12-31").run()
+        let file: IntentFile = try result.value
+        XCTAssertEqual(file.type, .zip)
+        let bytes = file.data
+        XCTAssertGreaterThan(bytes.count, 4)
+        XCTAssertEqual(Array(bytes.prefix(2)), [0x50, 0x4b])
+    }
+    @MainActor func testFreeExportRequiresPro() async throws {
+        launchApp()
+        do {
+            _ = try await definitions.intents["ExportAccountantPackIntent"].makeIntent(startDate: "2000-01-01", endDate: "2099-12-31").run()
+            XCTFail("Free entitlement exported a pack")
+        } catch {
+            XCTAssertTrue(error.localizedDescription.contains("require Paperloft Pro"), error.localizedDescription)
+        }
+    }
+
 }

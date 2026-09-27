@@ -91,3 +91,7 @@ AGENTS section2 permits independent parallel work fromP3 in separate worktrees. 
 - External sandbox export exposed overly broad ancestor directory-read requests. O_SEARCH traversal preserves descriptor/no-symlink safety; added traverse-only ancestor regression and retained symlink rejection. Export errors now appear inline in the active sheet.
 
 - Added P3 dispatch to gate_check.py with unchanged full CI/privacy/baseline checks plus QA build and coverage. No failed audit is excluded or downgraded. The self-gate is expected to remain FAIL while current accessibility findings persist.
+
+## 2026-09-26 — production intent adapter checks
+
+Added real AppModel adapter tests using ordinary constructor dependency injection for storage/preferences/entitlement, with no new launch hooks. Tests cover concurrent startup/durable intake, failed persistence, corrupt-inbox preservation and repaired-startup retry, full-library totals and persistent ZIP output. Added genuine framework File/Pro-export success tests and free-export rejection, kept enabled despite the metadata/signing prerequisite. Bounded input regression uses a sparse file and fresh filesystem attributes to avoid URL resource-value caching. Debug and optimized QA (testability enabled for existing @testable package imports) pass 16 scoped tests; real framework checks remain failures. See `evidence/intents-integration.md`.

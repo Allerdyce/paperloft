@@ -12,6 +12,7 @@
 		A00000000000000000000039 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
 		B00000000000000000000039 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
 		B00000000000000000000060 = {isa = PBXBuildFile; fileRef = B00000000000000000000061; };
+		B30000000000000000000004 = {isa = PBXBuildFile; fileRef = B00000000000000000000061; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -244,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B30000000000000000000001 /* AppModel.swift in Sources */,
+				B30000000000000000000004,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +387,17 @@
 			};
 			name = Release;
 		};
+		B00000000000000000000037 /* QA */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftIntentLogicTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = QA;
+		};
 		A00000000000000000000045 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -503,6 +516,7 @@
 		B00000000000000000000034 /* Build configuration list for PBXNativeTarget "PaperloftIntentLogicTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
+				B00000000000000000000037 /* QA */,
 				B00000000000000000000035 /* Debug */,
 				B00000000000000000000036 /* Release */,
 			);
