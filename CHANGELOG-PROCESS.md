@@ -160,3 +160,5 @@ Added TaxExportTests alongside unchanged export verification to check newly requ
 2026-09-27: Unlocked Inbox layout assertions updated for requested filter-row Paste/Import alignment; native InboxActionRow PASS.
 
 2026-09-27: Expanded unlocked calendar UI check for month navigation and cancelling a changed date; EntryCalendar.xcresult PASS. Frozen files unchanged.
+
+2026-09-27: Added synthetic empty Inbox screenshot capture to existing unlocked UX test for card design verification.

@@ -88,3 +88,7 @@ Inbox creation controls: Add receipts and Paste image now fixed above left recei
 Inbox action row: Paste then Import aligned side by side at far right of filter row, outside horizontal filter scroll. Removed left creation header; paste feedback retained beneath actions. Strict Release, protected baseline, independent source review and InboxActionRow.xcresult PASS. Native assertions verify labels, ordering and vertical alignment; screenshot inspected. Owner running process preserved. Release/uploads blocked.
 
 Entry/calendar design pass: Import and Paste are distinct outlined icon boxes at right of filter row. Replaced compact graphical picker with spacious seven-column calendar, direct month/year menus, month arrows, Today and selected-date footer, retaining Cancel/Use date. Gregorian month heading matches grid; selected-day text adapts to dark mode. Strict Release and baseline PASS. EntryCalendar.xcresult native UI PASS including month navigation, Today/Cancel preserves draft and Use date; screenshot inspected. Leap-day selection and final dark-mode contrast tweak source reviewed, not separately UI exercised. No release/upload.
+
+Empty Inbox redesigned as two side-by-side Import/Paste cards, each icon/title/explanation/CTA, plus drag guidance. Native EmptyInboxCards.xcresult PASS and screenshot inspected; final icon height aligned. Protected baseline PASS. Actions and IDs preserved. No release/uploads.
+
+Empty Inbox cards: final strict Release build and independent source review PASS.

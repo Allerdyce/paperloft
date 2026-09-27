@@ -108,6 +108,8 @@ final class ReceiptLibraryUXTests: XCTestCase {
         XCTAssertTrue(app.buttons["inbox.import"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.buttons["inbox.paste"].isHittable)
         XCTAssertFalse(app.buttons["inbox.samples"].exists)
+        let empty = XCTAttachment(screenshot: app.windows["main"].screenshot())
+        empty.name = "Empty Inbox entry cards"; empty.lifetime = .keepAlways; add(empty)
     }
 
     @MainActor

@@ -126,6 +126,22 @@ struct InboxView: View {
         if !visibleItems.contains(where: { $0.id == model.selectedItemID }) { model.selectedItemID = visibleItems.first?.id }
         pinnedReviewID = model.items.first(where: { $0.id == model.selectedItemID && $0.status == "ready" })?.id
     }
+    private func intakeCard(title: String, symbol: String, detail: String, action: String, identifier: String, perform: @escaping () async -> Void) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Image(systemName: symbol).font(.system(size: 26, weight: .medium)).frame(height: 32)
+                .foregroundStyle(Color.accentColor).accessibilityHidden(true)
+            Text(title).font(.title2.weight(.semibold))
+            Text(detail).font(.body).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity, alignment: .leading)
+            Spacer(minLength: 4)
+            Button(action) { Task { await perform() } }
+                .buttonStyle(.borderedProminent).controlSize(.large)
+                .accessibilityIdentifier(identifier)
+        }.padding(24).frame(maxWidth: .infinity, minHeight: 220, alignment: .topLeading)
+            .background(Color.accentColor.opacity(0.04), in: RoundedRectangle(cornerRadius: 16))
+            .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(Color.accentColor.opacity(0.2)))
+            .accessibilityElement(children: .contain)
+    }
     private func inboxEntry(_ title: String, symbol: String, identifier: String, action: @escaping () async -> Void) -> some View {
         Button { Task { await action() } } label: {
             Label(title, systemImage: symbol)
@@ -159,16 +175,23 @@ struct InboxView: View {
                 Text("No account or API key. Your documents stay on your Mac.").font(.caption).foregroundStyle(.primary)
             }.padding(36).frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if model.inboxCount == 0 {
-            VStack(spacing: 16) {
-                Image(systemName: "tray").font(.system(size: 44)).foregroundStyle(.primary).accessibilityHidden(true)
-                Text("Drop receipts here").font(.title2.weight(.medium))
-                Text("PDF, PNG, JPEG, HEIC and EML email files. Copies are filed by default, so your originals stay where they are.")
-                    .foregroundStyle(.primary).multilineTextAlignment(.center).frame(maxWidth: 420)
-                HStack {
-                    Button("Import Receipts…") { Task { await model.importFiles() } }.accessibilityIdentifier("inbox.import")
-                }
-                Button("Paste image") { Task { await model.pasteImage() } }.accessibilityIdentifier("inbox.paste")
-            }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Bring your receipts together").font(.system(size: 25, weight: .semibold, design: .serif))
+                        Text("Choose how to add your first receipt.").foregroundStyle(.secondary)
+                    }
+                    HStack(alignment: .top, spacing: 20) {
+                        intakeCard(title: "Import", symbol: "square.and.arrow.down", detail: "Add receipt files from your Mac. Choose PDFs, images or saved emails.", action: "Choose files…", identifier: "inbox.import") { await model.importFiles() }
+                        intakeCard(title: "Paste", symbol: "doc.on.clipboard", detail: "Copied a receipt or screenshot? Paste the image straight into your Inbox.", action: "Paste image", identifier: "inbox.paste") { await model.pasteImage() }
+                    }
+                    Label("You can also drag receipt files anywhere into this Inbox.", systemImage: "arrow.down.doc")
+                        .font(.callout).foregroundStyle(.secondary)
+                    Text("PDF, PNG, JPEG, HEIC and EML · Originals stay in place when you confirm a copy.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }.frame(maxWidth: 720, alignment: .leading).padding(36)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
         } else {
             VStack(spacing: 0) {
                 HStack(spacing: 16) {
