@@ -270,32 +270,35 @@ struct ReceiptStatusPill: View {
 struct ReviewView: View {
     @Bindable var model: AppModel
     let item: InboxItem
+    private var sourceCheck: ExtractedFields { item.review?.sourceCheck ?? ParserBackend.parse("") }
     @State private var draft: ReceiptDraft
     @State private var showDatePicker = false
+    @State private var showImportDetails = false
     @State private var calendarDate = Date()
     private enum Field: Hashable { case vendor, date, total, tax, currency }
     @FocusState private var focusedField: Field?
     init(model: AppModel, item: InboxItem) { self.model = model; self.item = item; _draft = State(initialValue: item.draft) }
-    private var needsReview: Bool {
-        guard let review = item.review else { return true }
-        return !review.assessment.canAutoFile
-    }
-    private func explanation(_ reason: ReviewReason) -> String {
-        switch reason {
-        case .lowConfidence: return "The reading is uncertain. Compare the suggested details with the original before confirming."
-        case .parserUnavailable: return "The date and total could not be independently checked against the receipt text. Verify both, including the year."
-        case .parserDisagreement: return "Two readings disagree on the date or total. Verify both against the original."
-        case .classificationUnavailable: return "The document type could not be verified. Check Receipt, Invoice or Bill."
-        case .notReceipt: return "This may not be a receipt. Check the document or remove it from the Inbox."
-        case .invalidKind: return "The original reading did not identify a valid document type. Check the selected type."
-        case .missingVendor: return "The original reading did not identify a merchant. Check the vendor field."
-        case .invalidDate: return "The original reading did not identify a valid date. Choose the receipt date."
-        case .invalidTotal: return "The original reading did not identify a valid total. Enter the amount shown on the receipt."
-        case .invalidTax: return "The original tax reading was invalid. Check the tax amount, or leave it empty if none is shown."
-        case .taxSourceUnverified: return "The suggested tax could not be verified in the source. Compare it with the receipt."
-        case .invalidCurrency: return "The original reading did not identify a supported currency. Check the currency code."
-        case .missingCategory: return "The original reading did not identify a category. Choose one before confirming."
+    private func verificationMessage(_ field: String) -> String? {
+        guard let review = item.review else { return nil }
+        let reasons = review.assessment.reasons
+        let crossCheck = reasons.contains(.parserUnavailable) || reasons.contains(.parserDisagreement)
+        switch field {
+        case "date" where draft.date == review.fields.date:
+            if crossCheck && sourceCheck.date == nil { return "Verify date and year against receipt." }
+            if crossCheck && sourceCheck.date != review.fields.date { return "Verify date against receipt." }
+        case "total" where draft.total == review.fields.total:
+            let currency = draft.currency.uppercased()
+            let checked = sourceCheck.total.flatMap { try? Money(decimal: $0, currency: currency) }
+            let suggested = try? Money(decimal: draft.total, currency: currency)
+            if crossCheck && checked == nil { return "Verify total against receipt." }
+            if crossCheck && checked != suggested { return "Verify total against receipt." }
+            if reasons.contains(.lowConfidence) { return "Verify total and receipt details." }
+            if reasons.contains(.parserUnavailable) && review.fields.backend != "system" { return "Verify total against receipt." }
+        case "kind":
+            if reasons.contains(.classificationUnavailable) || reasons.contains(.notReceipt) || reasons.contains(.invalidKind) { return "Choose the document type shown on the receipt." }
+        default: break
         }
+        return nil
     }
     private func fieldMessage(_ field: String) -> String? {
         let currency = draft.currency.uppercased().trimmingCharacters(in: .whitespaces)
@@ -305,58 +308,48 @@ struct ReviewView: View {
         case "vendor":
             return draft.vendor.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Enter the merchant name." : nil
         case "date":
-            return (try? ReceiptDate(iso8601: draft.date)) == nil ? "Choose a valid receipt date." : nil
+            return (try? ReceiptDate(iso8601: draft.date)) == nil ? "Choose a valid receipt date." : verificationMessage("date")
         case "total":
-            return total == nil ? "Enter the total shown on the receipt." : nil
+            return total == nil ? "Enter the total shown on the receipt." : verificationMessage("total")
         case "currency":
             return validCurrency ? nil : "Enter a supported currency code, such as USD."
         case "tax":
             if draft.tax.trimmingCharacters(in: .whitespaces).isEmpty { return nil }
             guard let tax = try? Money(decimal: draft.tax, currency: validCurrency ? currency : "USD") else { return "Enter a valid tax amount, or leave it empty." }
             if let total, tax.minorUnits > total.minorUnits { return "Tax cannot exceed the total." }
-            if item.review?.fields.taxNeedsReview == true && draft.tax == item.review?.fields.tax { return "Check this tax against the receipt; the source did not verify it." }
+            if item.review?.fields.taxNeedsReview == true && draft.tax == item.review?.fields.tax { return "Verify tax against receipt." }
             return nil
         case "category":
-            return draft.category.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Choose a category." : nil
-        default: return nil
+            if draft.category.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { return "Choose a category." }
+            if item.review?.assessment.reasons.contains(.missingCategory) == true && draft.category == (item.review?.fields.category ?? "Other expenses") { return "Choose a category." }
+            return nil
+        default: return verificationMessage(field)
         }
     }
     var body: some View {
         HSplitView {
-            DocumentPreview(url: item.source).frame(minWidth: 240, idealWidth: 380, maxWidth: .infinity, maxHeight: .infinity)
-                .accessibilityLabel("Document preview").accessibilityIdentifier("review.preview")
+            VStack(spacing: 0) {
+                HStack {
+                    Text("Receipt preview").font(.caption).foregroundStyle(.secondary)
+                    Spacer()
+                    Button("Expand preview", systemImage: "arrow.up.left.and.arrow.down.right") { model.quickLookURL = item.source }
+                        .accessibilityIdentifier("review.expandPreview")
+                }.padding(10)
+                DocumentPreview(url: item.source)
+                    .overlay {
+                        Button { model.quickLookURL = item.source } label: { Color.clear.contentShape(Rectangle()) }
+                            .buttonStyle(.plain).accessibilityLabel("Open full-size receipt preview")
+                            .accessibilityIdentifier("review.openPreview")
+                    }
+                    .accessibilityElement(children: .contain).accessibilityLabel("Document preview").accessibilityIdentifier("review.preview")
+            }.frame(minWidth: 240, idealWidth: 380, maxWidth: .infinity, maxHeight: .infinity)
                 .background(WindowAccessibility(label: "Document preview", target: .splitPane))
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 7) {
                     Text("Review document").font(.title3.weight(.semibold))
-                    if let notices = item.importNotices, !notices.isEmpty {
-                        ScrollView {
-                            Text(notices.joined(separator: "\n"))
-                                .font(.caption).frame(maxWidth: .infinity, alignment: .leading)
-                        }.frame(maxHeight: 88).accessibilityIdentifier("review.importNotices")
-                    }
                     if let duplicate = item.review?.duplicate {
                         Label("Already filed: \(duplicate)", systemImage: "doc.on.doc").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.duplicate")
-                    } else if item.review?.fields.kind == "not_receipt" {
-                        Label("This may not be a receipt. Check the details or remove it from the Inbox.", systemImage: "questionmark.circle").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.warning")
-                    } else if needsReview {
-                        ScrollView {
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text("Why this needs checking").font(.callout.weight(.semibold))
-                                ForEach(item.review?.assessment.reasons ?? [], id: \.rawValue) { reason in
-                                    Label(explanation(reason), systemImage: "exclamationmark.circle")
-                                        .font(.caption).foregroundStyle(.primary)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .accessibilityIdentifier("review.reason." + reason.rawValue)
-                                }
-                            }.frame(maxWidth: .infinity, alignment: .leading)
-                        }.frame(maxHeight: 130).accessibilityIdentifier("review.warning")
                     }
-                }
-                if item.review?.fields.taxNeedsReview == true {
-                    Label("Check tax against the receipt. Paperloft could not verify this amount in the source.", systemImage: "exclamationmark.triangle")
-                        .font(.callout).foregroundStyle(.orange)
-                        .accessibilityIdentifier("review.taxSourceWarning")
                 }
                 Form {
                     TextField("Vendor", text: $draft.vendor).focused($focusedField, equals: .vendor).accessibilityIdentifier("review.vendor").modifier(ReviewHighlight(message: fieldMessage("vendor")))
@@ -371,18 +364,22 @@ struct ReviewView: View {
                             showDatePicker = true
                         } label: { Image(systemName: "calendar") }
                         .accessibilityLabel("Choose receipt date").accessibilityIdentifier("review.chooseDate")
-                        .popover(isPresented: $showDatePicker) {
+                        .popover(isPresented: $showDatePicker, arrowEdge: .leading) {
                             VStack(alignment: .leading, spacing: 12) {
                                 DatePicker("Receipt date", selection: $calendarDate, displayedComponents: .date)
-                                    .datePickerStyle(.graphical)
-                                Button("Use date") {
+                                    .datePickerStyle(.graphical).labelsHidden().fixedSize()
+                                HStack {
+                                    Button("Cancel") { showDatePicker = false }
+                                    Spacer()
+                                    Button("Use date") {
                                     let formatter = DateFormatter()
                                     formatter.locale = Locale(identifier: "en_US_POSIX")
                                     formatter.dateFormat = "yyyy-MM-dd"
                                     draft.date = formatter.string(from: calendarDate)
                                     showDatePicker = false
-                                }.buttonStyle(.borderedProminent).accessibilityIdentifier("review.useDate")
-                            }.padding().frame(width: 300)
+                                    }.buttonStyle(.borderedProminent).accessibilityIdentifier("review.useDate")
+                                }
+                            }.padding(12).fixedSize()
                         }
                     }.modifier(ReviewHighlight(message: fieldMessage("date")))
                     TextField("Total", text: $draft.total).monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(message: fieldMessage("total")))
@@ -415,6 +412,13 @@ struct ReviewView: View {
                         .accessibilityIdentifier("review.filingUnavailableReason")
                 }
                 Text("Return to confirm · Tab to move between fields").font(.caption).foregroundStyle(.primary)
+                if let notices = item.importNotices, !notices.isEmpty {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Button("Import details", systemImage: showImportDetails ? "chevron.down" : "chevron.right") { showImportDetails.toggle() }
+                            .buttonStyle(.plain).accessibilityIdentifier("review.importDetailsButton")
+                        if showImportDetails { Text(notices.joined(separator: "\n")).font(.caption).textSelection(.enabled) }
+                    }.font(.caption).accessibilityElement(children: .contain).accessibilityIdentifier("review.importNotices")
+                }
             }.padding(22).frame(minWidth: 290, idealWidth: 340, maxWidth: 400)
                 .background(WindowAccessibility(label: "Receipt fields and filing actions", target: .splitPane))
         }

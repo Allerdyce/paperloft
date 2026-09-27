@@ -49,10 +49,11 @@ struct StoredReview: Codable, Sendable {
     // Derived once from immutable extraction inputs, never from editable draft fields.
     // Do not persist it: restored inboxes recompute with the current assessment rules.
     let assessment: ExtractionAssessment
+    let sourceCheck: ExtractedFields
     private enum CodingKeys: String, CodingKey { case hash, text, fields, duplicate }
     init(_ review: ReviewedDocument) {
         hash = review.contentHash; text = review.text; fields = review.fields
-        duplicate = review.duplicateOf; assessment = review.assessment
+        duplicate = review.duplicateOf; assessment = review.assessment; sourceCheck = ParserBackend.parse(review.text)
     }
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -60,7 +61,8 @@ struct StoredReview: Codable, Sendable {
         text = try values.decode(String.self, forKey: .text)
         fields = try values.decode(ExtractedFields.self, forKey: .fields)
         duplicate = try values.decodeIfPresent(String.self, forKey: .duplicate)
-        assessment = ExtractionAssessment(fields: fields, parser: ParserBackend.parse(text))
+        sourceCheck = ParserBackend.parse(text)
+        assessment = ExtractionAssessment(fields: fields, parser: sourceCheck)
     }
 }
 struct WatchedDeliveryProof: Codable, Equatable, Sendable {

@@ -24,15 +24,16 @@ final class MailFlowTests: XCTestCase {
         let open = app.windows["open-panel"].buttons["OKButton"]
         XCTAssertTrue(open.waitForExistence(timeout: 10)); open.click()
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
-        let notices = app.scrollViews["review.importNotices"]
+        let notices = app.descendants(matching: .any)["review.importNotices"].firstMatch
         XCTAssertTrue(notices.waitForExistence(timeout: 10))
+        app.buttons["review.importDetailsButton"].click()
         XCTAssertTrue(app.staticTexts.containing(NSPredicate(format: "value CONTAINS %@", "original email is unchanged")).firstMatch.exists)
         app.terminate(); app.launch(); app.activate()
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 30))
-        XCTAssertTrue(app.scrollViews["review.importNotices"].exists)
+        XCTAssertTrue(app.descendants(matching: .any)["review.importNotices"].firstMatch.exists)
         app.buttons["review.setAside"].click()
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 30))
-        XCTAssertTrue(app.scrollViews["review.importNotices"].exists)
+        XCTAssertTrue(app.descendants(matching: .any)["review.importNotices"].firstMatch.exists)
         app.buttons["sidebar.library"].click()
         XCTAssertTrue(app.staticTexts["0 documents"].waitForExistence(timeout: 10), "Email-derived documents must remain in review")
         XCTAssertEqual(try Data(contentsOf: email), bytes)
