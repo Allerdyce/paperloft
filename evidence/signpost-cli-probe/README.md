@@ -1,0 +1,7 @@
+# Independent native signpost collection probe
+
+A third collection approach used Instruments xctrace directly, separate from XCTest and Paperloft. A strict Swift6 CLI process emits five matched100ms intervals, then exits. Command: xcrun xctrace record --template Logging --instrument os_signpost --time-limit 5s --output build/SignpostCLIProbe/probe.trace --launch -- <absolute probe executable>. Only the launched target was selected; recordAllProcessesInSingleProcessMode defaults false. No account, settings, tracing permissions or warnings were changed.
+
+Collection FAILED: the recorder reported a fatal logging system error, stating that its log archive is corrupt or incomplete, and saved an incomplete trace. The target exited0; that is not recorder success. The outer shell's final cat returned0, so the recorder's explicit failure output is the authoritative result; its raw exit code was not retained. Exporting the trace table of contents succeeds but cannot validate incomplete event data. Source and recorder output are preserved here, raw trace stays in build/SignpostCLIProbe.
+
+This minimal workload also cannot provide valid signpost evidence. It supports treating collection as a separate unresolved prerequisite; it does not prove a particular OS defect or waive XCTest/signpost acceptance requirements. Actual100-document Clock/Memory/direct measurements remain separate. No full performance PASS.

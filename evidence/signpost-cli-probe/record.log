@@ -1,0 +1,8 @@
+Starting recording with the Logging template and os_signpost Instrument. Launching process: probe. Time limit: 5.0 s
+Ctrl-C to stop the recording
+Target app exited, ending recording...
+Run issues were detected (trace is still ready to be viewed):
+* [Error] Data stream: Fatal logging system error: The log archive is corrupt or incomplete and cannot be read
+
+Recording failed with errors. Saving output file...
+Output file saved as: probe.trace
