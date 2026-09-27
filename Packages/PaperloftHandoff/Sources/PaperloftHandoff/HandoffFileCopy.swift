@@ -56,11 +56,13 @@ enum SafeFileDescriptor {
         var path = url.path
         if path.hasPrefix("/var/") || path.hasPrefix("/tmp/") { path = "/private" + path }
         let components = URL(fileURLWithPath: path).pathComponents
-        var directoryFD = Darwin.open("/", O_RDONLY | O_DIRECTORY | O_CLOEXEC)
+        // Search/traversal access is sufficient; selected-file grants do not
+        // necessarily authorize listing any ancestor directory.
+        var directoryFD = Darwin.open("/", O_EXEC | O_DIRECTORY | O_CLOEXEC)
         guard directoryFD >= 0 else { throw posixError() }
         defer { Darwin.close(directoryFD) }
         for component in components.dropFirst().dropLast() {
-            let next = Darwin.openat(directoryFD, component, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+            let next = Darwin.openat(directoryFD, component, O_EXEC | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
             guard next >= 0 else { throw posixError() }
             Darwin.close(directoryFD)
             directoryFD = next

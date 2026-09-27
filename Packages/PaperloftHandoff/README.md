@@ -64,7 +64,9 @@ not an expiring claim lease.
   items may already be published. Retry all inputs using the original UUIDs.
   IDs represent immutable submissions; never reuse one for a different document.
 - External source/provider copies traverse directories with descriptor-relative
-  `openat` and `O_NOFOLLOW`, then open the leaf without following symlinks.
+  `openat`, `O_EXEC | O_DIRECTORY` and `O_NOFOLLOW`, then open the leaf without
+  following symlinks. Ancestors need traversal permission, never directory-list
+  permission, so selected-file grants do not require broader folder access.
   Only the fixed macOS root aliases `/var/` and `/tmp/` are mapped to `/private/`
   for system item-provider URLs; user-controlled symlinks are never resolved.
   `O_NONBLOCK` prevents a FIFO substitution from hanging before `fstat` rejects
