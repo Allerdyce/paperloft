@@ -1,0 +1,799 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project Paperloft.xcodeproj -scheme PaperloftRelease -destination platform=macOS -derivedDataPath build/StartupReleaseDerivedData -configuration Release SWIFT_TREAT_WARNINGS_AS_ERRORS=YES build
+
+Build settings from command line:
+    SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  PaperloftKit: /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit @ local
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (3 targets)
+    Target 'PaperloftApp' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftKit-product' in project 'PaperloftKit'
+    Target 'PaperloftKit-product' in project 'PaperloftKit'
+        ➜ Explicit dependency on target 'PaperloftKit' in project 'PaperloftKit'
+    Target 'PaperloftKit' in project 'PaperloftKit' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 3566a43780ae6881a4a29d64e8ce9012
+Build description path: /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/XCBuildData/3566a43780ae6881a4a29d64e8ce9012.xcbuilddata
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/CompilationCache.noindex
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/CompilationCache.noindex
+
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex
+
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex
+
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -o /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
+
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release
+
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PrecompiledHeaders
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PrecompiledHeaders
+
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Release
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Release
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/Paperloft-b93ddc6bcd4d234a5473ab01ad3589c4-VFS/all-product-headers.yaml
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/Paperloft-b93ddc6bcd4d234a5473ab01ad3589c4-VFS/all-product-headers.yaml
+
+CreateBuildDirectory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PackageFrameworks
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PackageFrameworks
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/PaperloftKit.DependencyStaticMetadataFileList (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/PaperloftKit.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/PaperloftKit.DependencyMetadataFileList (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/PaperloftKit.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_const_extract_protocols.json (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.LinkFileList (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.LinkFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/PaperloftKit.modulemap (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/PaperloftKit.modulemap
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.hmap (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.hmap
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.DependencyStaticMetadataFileList (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.DependencyMetadataFileList (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-project-headers.hmap (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-project-headers.hmap
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-own-target-headers.hmap (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-generated-files.hmap (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-generated-files.hmap
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-all-target-headers.hmap (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-all-non-framework-target-headers.hmap (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json
+
+Copy /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/GeneratedModuleMaps/PaperloftKit.modulemap /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/PaperloftKit.modulemap (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/PaperloftKit.modulemap /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/GeneratedModuleMaps
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/PaperloftApp-OutputFileMap.json (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/PaperloftApp-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftConstValuesFileList (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.LinkFileList (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.LinkFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/Entitlements.plist (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    write-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/Entitlements.plist
+
+MkDir /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /bin/mkdir -p /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources
+
+MkDir /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/MacOS (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /bin/mkdir -p /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/MacOS
+
+MkDir /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /bin/mkdir -p /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents
+
+MkDir /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /bin/mkdir -p /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app
+
+SwiftDriver PaperloftKit normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftKit -O -whole-module-optimization @/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList -DSWIFT_PACKAGE -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -warnings-as-errors -swift-version 6 -I /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -num-threads 10 -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/include -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-Swift.h -working-directory /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj -no-emit-module-separately-wmo
+
+SwiftDriver\ Compilation PaperloftKit normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftKit -O -whole-module-optimization @/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList -DSWIFT_PACKAGE -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -warnings-as-errors -swift-version 6 -I /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -num-threads 10 -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/include -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-Swift.h -working-directory /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj -no-emit-module-separately-wmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stddef-58O7E4K99IHKQPTCDXA9OAXBG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_AvailabilityInternal-DBAHOAMSZNBV50BCIMJ7UMDD8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_SwiftConcurrencyShims-1MKJFUYQV1IFABMTJ00NE24I3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdbool-4W3MIPVLUKZEADCEINH93ZLEH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ptrauth-2VHHPL1OGHNC143HRNIF7L6TG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/SwiftShims-8P98CLGA6RPOY6EW90T6F4BDG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ptrcheck-EWLYLWHDPTLMBE9P7WQWQWX3L.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdarg-7ZHRVJYSOIAX1W7ELLJM3B6W3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_float-41JBT323JW5MG9LXQ3M5LPDUX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation1-5S8BCGT9UAU4ZCSBVD1300F7O.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation2-3BA5IM8S04155N6C1XZL60GMU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_limits-ADJ0W47IE5KC4Z7LBCY9J5O0M.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/sys_types-AUG9SEQBJKUEEOHX4EX1YZYTY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdint-7V89T900J4KAE7CRNOB1Q2NMX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_tgmath-1OVPC7HN5VHVPLXFGPTNG97MC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/string_h-415GCIU67H7GO7EU52OG93DQB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation3-3HL4O1XEUZ5XUIH0PIT1XHF7X.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_intrinsics-DTE7WZ4LF935VCEBCNFPFN7C5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/libDER-3R4ILNAI58TV63VKITYGG0QD8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdatomic-D9YN27WFCK2PI1EZ70Y95QKCX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_inttypes-VCMVL6WQWLRHQ620WOS6IML4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Darwin-62FI7B2PBDYQ2LA6QS6MDICE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/simd-3IAM95GNOR7WN0Q9ZS3G1YDLC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/libkern-AJRXLBHCEC9ACPYJL468P5O7B.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/MachO-4K05472G576XPF31T0NXG6JW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CUPS-5PY4LQ74JH551F12GXX3W8Z35.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/launch-B2GCTYXH35G56U7OC3PR2D1R1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Compression-7GAB6GZKQX2SXWZMUOWYMTX1H.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ObjectiveC-1K2MPUOYLXSYW09FQDOKU9K6E.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/os_object-7DCHEBPABWA71T7MQ52SA8HGU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/os_workgroup-U9DSXVF83PI42LAKM5M2QLT6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Dispatch-4T04VD9CGW8JXRTO9S0QZAQ91.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreFoundation-90VI58OXVGVU0WBJAANY7RGOG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/XPC-6LWB1PFUFJAJR7R8G5GG980PL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/os-CFUZBPSIUID0UP18YN7KCKQ69.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Security-272YKPEYULTA8KNTV6KZ2MH63.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ColorSync-E3FHQ9TWI9NBEY2B9S0YXAJW9.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/IOKit-17FGU7E56KOMF4ZX6476LGIR6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreAudioTypes-5I7R9VYPY41S0N0Q8UE9F9G4Q.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CFNetwork-B7D8TV7QL6AUGE5694LHSRX11.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/DiskArbitration-DDKCE2GYBBWW80AL53IWEPJMR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreGraphics-CN3TBP4Y1V5AJRQP5X730BWEM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreServices-7WZJB6CWQRBHBPXDHF74ENZPD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreText-F3KHA9J2ARQH7SNRHQ7A9IZ1G.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ImageIO-9IKMD7AGTWNZHIE9CG2N9XRM4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Foundation-1KBFQWR0TDWS0QP4ZIYOBQ6R3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreMIDI-DFNA1H6NP2580FI5V5D6KPK5H.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/DataDetection-2DZ8S7EWSJ6Z0G67P03W4P6LW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/IOSurface-DB82IUW9KYSIW5N2DQVSF2TU9.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ApplicationServices-CEN7AWAINHOLZSEENK1KUU2FC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreAudio-165BJ4HEFISLGUUY6SLK2RQU0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/LocalAuthentication-6WXMP5R9P0ZAJQWQB6H1MSQ1P.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-6GJQ816HV87HJDALYLBOPA77C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/OpenGL-EG50DF5B9QD4Y4FGQ89SD8R57.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Metal-8KXTPVFOR2RFXRH9GHCTJ6H4V.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Carbon-87JIGZQ0QGQHSXFLGK6VETK1W.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreVideo-YQDKVEUHT4PJXO5697HQOPIH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AudioToolbox-CEBU06I3ANZ6ZPBDRV8K9S3NG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreML-DTD12NCKRL5MO41UEMF7IN6JL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/QuartzCore-EBJKUUZBM58ZGXA4OI9984VT6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreImage-4YN9DRUSERARBQA70QAE4S0LO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreMedia-DX58TPJ4WF3E3CFMLHQYJ7MWF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Accelerate-91AETICV01HQPPUUAWE9N5FSY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/VideoToolbox-3DL5YQ3LYWIUM9GO17P0IPZCT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Vision-EPPXINWKZAKFEMY3AXWJEHIGW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AVFAudio-710GQMDLDUF5BWP1HVM2GKSLE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/MediaToolbox-BFNXUB7OLANT4TEHXKLVZQLI4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AVFoundation-27453UDZZ2AJH5L3EU21ELVBW.pcm
+
+SwiftCompile normal arm64 Compiling\ AccountantPack.swift,\ Assessment.swift,\ Extraction.swift,\ LibraryAccess.swift,\ LibraryFiles.swift,\ LibraryStore.swift,\ Money.swift,\ Receipt.swift,\ ReceiptEngine.swift,\ ReceiptIndex.swift,\ ReceiptNameTemplate.swift,\ Recognize.swift,\ TextLayout.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/AccountantPack.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/Assessment.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/Extraction.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/LibraryAccess.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/LibraryFiles.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/LibraryStore.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/Money.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/Receipt.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/ReceiptEngine.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/ReceiptIndex.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/ReceiptNameTemplate.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/Recognize.swift /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit/Sources/PaperloftKit/TextLayout.swift /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/CoreVideo.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Metal.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Swift.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Combine.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/IOKit.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/CoreML.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/FoundationModels.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/CoreAudio.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/ObjectiveC.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/CoreGraphics.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Foundation.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/_Concurrency.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/DataDetection.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/UniformTypeIdentifiers.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/CryptoKit.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/os.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/CoreFoundation.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Vision.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/XPC.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/simd.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/_DarwinFoundation2.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/QuartzCore.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Synchronization.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/SwiftData.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/LocalAuthentication.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/MediaToolbox.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Accelerate.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/AVFAudio.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Darwin.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/_StringProcessing.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Observation.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/CoreImage.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/AVFoundation.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/ImageIO.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/CoreMIDI.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Compression.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/_Builtin_float.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/CoreMedia.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/AudioToolbox.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/Dispatch.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/_DarwinFoundation1.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/VideoToolbox.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/CoreText.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/System.swiftmodule/arm64e-apple-macos.swiftmodule /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/prebuilt-modules/27.0/_DarwinFoundation3.swiftmodule/arm64e-apple-macos.swiftmodule /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Dispatch-4T04VD9CGW8JXRTO9S0QZAQ91.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/LocalAuthentication-6WXMP5R9P0ZAJQWQB6H1MSQ1P.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_AvailabilityInternal-DBAHOAMSZNBV50BCIMJ7UMDD8.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/libDER-3R4ILNAI58TV63VKITYGG0QD8.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreMIDI-DFNA1H6NP2580FI5V5D6KPK5H.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreML-DTD12NCKRL5MO41UEMF7IN6JL.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ObjectiveC-1K2MPUOYLXSYW09FQDOKU9K6E.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Foundation-1KBFQWR0TDWS0QP4ZIYOBQ6R3.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdatomic-D9YN27WFCK2PI1EZ70Y95QKCX.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation1-5S8BCGT9UAU4ZCSBVD1300F7O.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/IOSurface-DB82IUW9KYSIW5N2DQVSF2TU9.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AVFoundation-27453UDZZ2AJH5L3EU21ELVBW.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/os_object-7DCHEBPABWA71T7MQ52SA8HGU.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Security-272YKPEYULTA8KNTV6KZ2MH63.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_tgmath-1OVPC7HN5VHVPLXFGPTNG97MC.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AudioToolbox-CEBU06I3ANZ6ZPBDRV8K9S3NG.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/OpenGL-EG50DF5B9QD4Y4FGQ89SD8R57.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_float-41JBT323JW5MG9LXQ3M5LPDUX.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreServices-7WZJB6CWQRBHBPXDHF74ENZPD.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/launch-B2GCTYXH35G56U7OC3PR2D1R1.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Accelerate-91AETICV01HQPPUUAWE9N5FSY.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/MediaToolbox-BFNXUB7OLANT4TEHXKLVZQLI4.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CFNetwork-B7D8TV7QL6AUGE5694LHSRX11.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ColorSync-E3FHQ9TWI9NBEY2B9S0YXAJW9.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreVideo-YQDKVEUHT4PJXO5697HQOPIH.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/DiskArbitration-DDKCE2GYBBWW80AL53IWEPJMR.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ImageIO-9IKMD7AGTWNZHIE9CG2N9XRM4.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreGraphics-CN3TBP4Y1V5AJRQP5X730BWEM.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreText-F3KHA9J2ARQH7SNRHQ7A9IZ1G.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/string_h-415GCIU67H7GO7EU52OG93DQB.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/MachO-4K05472G576XPF31T0NXG6JW.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ApplicationServices-CEN7AWAINHOLZSEENK1KUU2FC.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/DataDetection-2DZ8S7EWSJ6Z0G67P03W4P6LW.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreMedia-DX58TPJ4WF3E3CFMLHQYJ7MWF.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation2-3BA5IM8S04155N6C1XZL60GMU.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_intrinsics-DTE7WZ4LF935VCEBCNFPFN7C5.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/VideoToolbox-3DL5YQ3LYWIUM9GO17P0IPZCT.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AVFAudio-710GQMDLDUF5BWP1HVM2GKSLE.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Vision-EPPXINWKZAKFEMY3AXWJEHIGW.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/SwiftShims-8P98CLGA6RPOY6EW90T6F4BDG.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation3-3HL4O1XEUZ5XUIH0PIT1XHF7X.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/libkern-AJRXLBHCEC9ACPYJL468P5O7B.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ptrcheck-EWLYLWHDPTLMBE9P7WQWQWX3L.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdarg-7ZHRVJYSOIAX1W7ELLJM3B6W3.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/XPC-6LWB1PFUFJAJR7R8G5GG980PL.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdbool-4W3MIPVLUKZEADCEINH93ZLEH.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ptrauth-2VHHPL1OGHNC143HRNIF7L6TG.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/simd-3IAM95GNOR7WN0Q9ZS3G1YDLC.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Metal-8KXTPVFOR2RFXRH9GHCTJ6H4V.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stddef-58O7E4K99IHKQPTCDXA9OAXBG.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Darwin-62FI7B2PBDYQ2LA6QS6MDICE.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/os_workgroup-U9DSXVF83PI42LAKM5M2QLT6.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreAudio-165BJ4HEFISLGUUY6SLK2RQU0.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_inttypes-VCMVL6WQWLRHQ620WOS6IML4.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreImage-4YN9DRUSERARBQA70QAE4S0LO.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CUPS-5PY4LQ74JH551F12GXX3W8Z35.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/os-CFUZBPSIUID0UP18YN7KCKQ69.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Compression-7GAB6GZKQX2SXWZMUOWYMTX1H.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-6GJQ816HV87HJDALYLBOPA77C.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/IOKit-17FGU7E56KOMF4ZX6476LGIR6.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/sys_types-AUG9SEQBJKUEEOHX4EX1YZYTY.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/QuartzCore-EBJKUUZBM58ZGXA4OI9984VT6.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdint-7V89T900J4KAE7CRNOB1Q2NMX.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_limits-ADJ0W47IE5KC4Z7LBCY9J5O0M.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreFoundation-90VI58OXVGVU0WBJAANY7RGOG.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_SwiftConcurrencyShims-1MKJFUYQV1IFABMTJ00NE24I3.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreAudioTypes-5I7R9VYPY41S0N0Q8UE9F9G4Q.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Carbon-87JIGZQ0QGQHSXFLGK6VETK1W.pcm /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-dependencies-1.json (in target 'PaperloftKit' from project 'PaperloftKit')
+
+SwiftCompile normal arm64 (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling AccountantPack.swift, Assessment.swift, Extraction.swift, LibraryAccess.swift, LibraryFiles.swift, LibraryStore.swift, Money.swift, Receipt.swift, ReceiptEngine.swift, ReceiptIndex.swift, ReceiptNameTemplate.swift, Recognize.swift, TextLayout.swift (in target 'PaperloftKit' from project 'PaperloftKit')
+
+SwiftDriver\ Compilation\ Requirements PaperloftKit normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftKit -O -whole-module-optimization @/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList -DSWIFT_PACKAGE -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -warnings-as-errors -swift-version 6 -I /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -num-threads 10 -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/include -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-Swift.h -working-directory /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj -no-emit-module-separately-wmo
+
+SwiftMergeGeneratedHeaders /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/GeneratedModuleMaps/PaperloftKit-Swift.h /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-Swift.h (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    builtin-swiftHeaderTool -arch arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-Swift.h -o /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/GeneratedModuleMaps/PaperloftKit-Swift.h
+
+Copy /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PaperloftKit.swiftmodule/arm64-apple-macos.swiftmodule /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PaperloftKit.swiftmodule/arm64-apple-macos.swiftmodule
+
+Copy /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PaperloftKit.swiftmodule/arm64-apple-macos.abi.json /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.abi.json (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.abi.json /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PaperloftKit.swiftmodule/arm64-apple-macos.abi.json
+
+Copy /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PaperloftKit.swiftmodule/arm64-apple-macos.swiftdoc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftdoc (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftdoc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PaperloftKit.swiftmodule/arm64-apple-macos.swiftdoc
+
+Ld /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PaperloftKit.o normal (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos27.0 -r -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -Os -Xlinker -no_warn_duplicate_libraries -F/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Release -F/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -filelist /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.LinkFileList -nostdlib -Xlinker -object_path_lto -Xlinker /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_lto.o -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule -o /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PaperloftKit.o
+
+ProcessProductPackaging /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Paperloft.entitlements /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.app.xcent (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    
+    Entitlements:
+    
+    {
+    "com.apple.security.app-sandbox" = 1;
+    "com.apple.security.files.bookmarks.app-scope" = 1;
+    "com.apple.security.files.user-selected.read-write" = 1;
+    "com.apple.security.get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Paperloft.entitlements -entitlements -format xml -o /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.app.xcent
+
+ProcessProductPackagingDER /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.app.xcent /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.app.xcent.der (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /usr/bin/derq query -f xml -i /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.app.xcent -o /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.app.xcent.der --raw
+
+GenerateAssetSymbols /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Assets.xcassets (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Assets.xcassets --compile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources --output-format human-readable-text --notices --warnings --export-dependency-info /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_dependencies --output-partial-info-plist /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_generated_info.plist --accent-color AccentColor --enable-on-demand-resources NO --development-region en --target-device mac --minimum-deployment-target 27.0 --platform macosx --bundle-identifier app.paperloft.receipts --generate-swift-asset-symbol-extensions NO --generate-swift-asset-symbols /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+MkDir /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_output/unthinned (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /bin/mkdir -p /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_output/unthinned
+
+MkDir /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_output/thinned (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /bin/mkdir -p /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_output/thinned
+
+CompileAssetCatalogVariant thinned /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Assets.xcassets (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Assets.xcassets --compile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_generated_info.plist_thinned --accent-color AccentColor --enable-on-demand-resources NO --development-region en --target-device mac --minimum-deployment-target 27.0 --platform macosx
+/* com.apple.actool.compilation-results */
+/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_generated_info.plist_thinned
+/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_output/thinned/Assets.car
+
+
+SwiftDriver PaperloftApp normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Paperloft_Receipts -O @/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -warnings-as-errors -swift-version 6 -I /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -F /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PackageFrameworks -F /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/PaperloftApp-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-generated-files.hmap -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-own-target-headers.hmap -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/Paperloft-b93ddc6bcd4d234a5473ab01ad3589c4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-project-headers.hmap -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/include -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-Swift.h -working-directory /Users/builder/Factory/paperloft-performance -experimental-emit-module-separately -disable-cmo
+
+ExtractAppIntentsMetadata (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name PaperloftKit --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk --xcode-version 27A266a --platform-family macOS --deployment-target 27.0 --bundle-identifier paperloftkit.PaperloftKit --output /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PaperloftKit.appintents --target-triple arm64-apple-macos27.0 --binary-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PaperloftKit.o --dependency-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_dependency_info.dat --stringsdata-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList --metadata-file-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/PaperloftKit.DependencyMetadataFileList --static-metadata-file-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/PaperloftKit.DependencyStaticMetadataFileList --swift-const-vals-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Release/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList --force --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-09-27 01:06:18.199 appintentsmetadataprocessor[24212:1534764] Starting appintentsmetadataprocessor export
+2026-09-27 01:06:18.263 appintentsmetadataprocessor[24212:1534764] Extracted no relevant App Intents symbols, skipping writing output
+
+CpResource /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources/PrivacyInfo.xcprivacy /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/PrivacyInfo.xcprivacy (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/PrivacyInfo.xcprivacy /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources
+
+CpResource /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources/05-utilities.pdf /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Samples/05-utilities.pdf (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Samples/05-utilities.pdf /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources
+
+CpResource /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources/04-software.pdf /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Samples/04-software.pdf (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Samples/04-software.pdf /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources
+
+CpResource /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources/03-travel.pdf /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Samples/03-travel.pdf (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Samples/03-travel.pdf /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources
+
+CpResource /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources/02-meal.pdf /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Samples/02-meal.pdf (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Samples/02-meal.pdf /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources
+
+CpResource /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources/01-office.pdf /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Samples/01-office.pdf (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Samples/01-office.pdf /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources
+
+LinkAssetCatalog /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/Resources/Assets.xcassets (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-linkAssetCatalog --thinned /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_output/thinned --thinned-dependencies /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_generated_info.plist_unthinned --output /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources --plist-output /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft Receipts.app/Contents/Resources/Assets.car (in target 'PaperloftApp' from project 'Paperloft')
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Info.plist /Users/builder/Factory/paperloft-performance/Configuration/Info.plist (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft-performance/Configuration/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/PkgInfo -expandbuildsettings -platform macosx -additionalcontentfile /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/assetcatalog_generated_info.plist -o /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Info.plist
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ptrcheck-4RL8M668EN5YNYGO35AUWUUY4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/DeveloperToolsSupport-CKI6F8JS6ASIUIMRVB78IA9XF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ptrauth-T4YZF9Y773SJ28RCD8LTEDE3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_float-EBB8ZGCQZMQPKYEUSYDEZX1P1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_AvailabilityInternal-7GQHDFWCU5FJG59P936VVZLIQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_SwiftConcurrencyShims-7UBKH1AN7AM621BLBHTNPNPA1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdbool-D2U6ADG9CATOZOKVIFGQFFMLI.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdarg-ALE0T373ZJCINTKUL5SEJ64B.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/SwiftShims-99BLOC5M1G5HTIE7SF4LGQAO1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stddef-COU2LD0K6JI3SSFLTUMEJWIHC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation1-9E3FGSWDE0W9P5347XQ7MW4ZK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ExtensionFoundation-9O4HLTALOCNPWMX47R3PRDO1R.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_limits-E2FBM3L0L1PZZI3MIW4GP81RU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation2-DMHC4V9H150ZJW2XHZVMF5119.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/string_h-8HKB152EU09R63A97NRD9TGIZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdint-3153WJWU19V2TZJO9GGFWTDIG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/sys_types-BI7HPNILDK4G0S4PEP16QZEWU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_tgmath-EGFY4RYKDJRU21U727JYWEPXW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/libDER-ZLTILGZZS892THY4LWD5ABLC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_intrinsics-EBKLNS1XMQI3EW2W21GGZ1342.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation3-4KWYPC1MYNDHVW0DHMOCK95ID.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdatomic-DVWO5S36CLIS8YMCL97QO0E96.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_Builtin_inttypes-VGPRHP0U8AE43F3J2JSZ1CMM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Darwin-8AJYR8PEKJ52XAO8V3G5TM4ZL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/simd-3EIP4COYJYHY0GZOS1Q1SAUFX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Compression-4QX3BO8RC6J5FW6BSRWCGATOA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/launch-1A8W0U6AZNCBGQ5EI7J5TI8BC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/libkern-6H09XAF34HLXWQWHDO08K5I5G.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CUPS-7671125EL81ATHL58CEULKZMS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/MachO-6A2XLEG8O15SMXQ71UG95190C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Spatial-588Y3PO4G18XGQXKF43H654YU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ObjectiveC-BT4Q0L5TWMEBSJU9IOJHETTWN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/os_object-1VKNL5JZGGZ6BSV0JUZ02RHQB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/os_workgroup-BPYE4OOBV41BFZM10P8KUJITA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Dispatch-A88N6I230ODLK4TLMDOWDIGT3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreFoundation-99SAR0P6V0H3AM0NPF2WMCAUY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/dnssd-3YB5UTV1YC89J9O7OWZ9VVKEU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/XPC-6UOQBQGLOQLD0JNTNJY2YEXDU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/os-A3WHU6NFP6SRQWUM65UTDXEFZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/IOKit-D2598SD2MBBDZKOEQK516N4B4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Security-A5OE0YFJSQTS08LKFS7R6JCWT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CFNetwork-AQGJ4MEJK6F90OYT7YXK1TS6A.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreAudioTypes-DJAKVN5SVRMQU7V2UMP92Z760.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ColorSync-20ICFDQQUGZSK2QIQOC220G0C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/DiskArbitration-43PFJAP3G5DDKR56FOTI2XULX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreGraphics-7ZWLY6QJ96BBF6U8O93N6X6U5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreServices-AQ90LWMM049NJV03KIJY2OWI1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreText-6ZQG9DMEZZ7KK7PFM5P3LVKOO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ImageIO-NE61QS2HQC2MB37CO05E0G10.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Foundation-8ZSWYDQ3V1G2RDIOQQI1GZWMH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/OSLog-7ZGD9DF3JEUTDIY18KX70QJY9.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AppIntentsTypeSupport-8WZNOOORTIO2T8CRI0HY5HR3K.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Accessibility-2N0V926LVWM2HD5PHGMYCFEHH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Network-5PL7ITZ7NMB9OZ0MBVPBSS7OV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreData-EW9XLLMNXMRD4BGVTZJHAD7FW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/IOSurface-NZ7AHCCL2T6AYFI733GUXBRX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreAudio-E2U6N23VFFQJ1CRJ9KQEDL408.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AppIntents-C3IJCL9J60YQD3RKA3V7AT9RL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/_LocationEssentials-7Z1DDCXQI38NTTHDOEKJVA0PX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreMIDI-AOKF5Z3UH0IHGCVPTNNM5LRX7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Symbols-CBN0IGA8YTBNG5PSYWTQ038T5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/DataDetection-8JKP2RZLL4V0WDJY26UUBRTQN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ApplicationServices-9DSE546GFC0GDF32N23DN0SS7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/RelevanceKit-2UMQOZTNHGVNQQ509ZR54GZE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/LocalAuthentication-D941AJLHMY1IYMSGYS90ZV16C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreTransferable-D9HNFUTDGJ8LRKE1H6ZNA2EZQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreLocation-7FU8SGHMIZT3EP7Q7APJJSRES.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Metal-8LBO2LKAWELYGSJCY92HY2F7N.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/OpenGL-430WVPHDGZNIWCRKFFSSH42V5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-95OFLIFM4A72IBTS0WV6VNMOY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreSpotlight-1YSONDAQWHQT7FG9ZBEWX6YC5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/QuickLook-34ER4VWZS93ERD11IVOGKHOMZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Carbon-558LRT0JIJQ0YUS4G5180PEEY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreVideo-MTO0477I6O4CPVVJS47TPEAY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreImage-7JGS8W6Z7CXWW1B9RMZPNLPL5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreML-E6I92MOVYV50WW1TRWHFUWTZK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Accelerate-3VJNGYMOPPU4037SPUDYWIOPM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/CoreMedia-8WGY2H2K1RLM494QAC2J2HBQ7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/QuartzCore-3JKRVG7TZJ7LP080OV47ADEAC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AudioToolbox-755HRYYWPWWGXH0XK9PURMAP7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/SwiftUICore-2FS3YKQUIOOO5ISOALRGL9024.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/VideoToolbox-E0WWWA9LV25JDN7E7A61N0DWR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AppKit-558D933961EL7XU9UQ1NZL5D6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Vision-CS64D9H4ZZ39F7V9ZH5TH6TDQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AVFAudio-2LMA6SCI7B3TOA7OCLFDMKMVY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/MediaToolbox-5ROHLQ8RB85K8QDF5WDCBC5N9.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/AVFoundation-ABHZ4JEEFIJWSV0RSG6H7P5JU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Cocoa-BSIC3YI4FF9XZSKTEWN4HTQOO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/SwiftUI-DZWEIPLBKCE6M4VE3R0P49LOA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/PDFKit-65T2SQI67QR2FJRQO1AQ9NWP8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/ImageCaptureCore-CHT1M20LPKP7QCY9VBK5RZBRA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/QuickLookUI-BXJ6CL4HBAU8XI7K1GMPWP7AY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules/Quartz-DH3M70DGR8E13ZZDXL4XS1C5V.pcm
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ Paperloft_Receipts (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    
+
+SwiftCompile normal arm64 Compiling\ LibraryView.swift /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/LibraryView.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/LibraryView.swift (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-SwiftPerFileCompile LibraryView.swift
+
+SwiftCompile normal arm64 Compiling\ PaperloftIntents.swift /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/PaperloftIntents.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/PaperloftIntents.swift (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-SwiftPerFileCompile PaperloftIntents.swift
+
+SwiftCompile normal arm64 Compiling\ ExportView.swift /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/ExportView.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/ExportView.swift (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-SwiftPerFileCompile ExportView.swift
+
+SwiftCompile normal arm64 Compiling\ WindowAccessibility.swift /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/WindowAccessibility.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/WindowAccessibility.swift (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-SwiftPerFileCompile WindowAccessibility.swift
+
+SwiftCompile normal arm64 Compiling\ AccessiblePicker.swift /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/AccessiblePicker.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/AccessiblePicker.swift (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-SwiftPerFileCompile AccessiblePicker.swift
+
+SwiftCompile normal arm64 Compiling\ GeneratedAssetSymbols.swift /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-SwiftPerFileCompile GeneratedAssetSymbols.swift
+
+SwiftCompile normal arm64 Compiling\ PaperloftApp.swift /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/PaperloftApp.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/PaperloftApp.swift (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-SwiftPerFileCompile PaperloftApp.swift
+
+SwiftCompile normal arm64 Compiling\ AppModel.swift /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/AppModel.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft-performance/Apps/PaperloftApp/AppModel.swift (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-SwiftPerFileCompile AppModel.swift
+
+SwiftDriverJobDiscovery normal arm64 Compiling GeneratedAssetSymbols.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriverJobDiscovery normal arm64 Compiling WindowAccessibility.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriverJobDiscovery normal arm64 Compiling AccessiblePicker.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for Paperloft_Receipts (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriver\ Compilation\ Requirements PaperloftApp normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Paperloft_Receipts -O @/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -warnings-as-errors -swift-version 6 -I /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -F /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PackageFrameworks -F /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/PaperloftApp-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-generated-files.hmap -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-own-target-headers.hmap -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/Paperloft-b93ddc6bcd4d234a5473ab01ad3589c4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-project-headers.hmap -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/include -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-Swift.h -working-directory /Users/builder/Factory/paperloft-performance -experimental-emit-module-separately -disable-cmo
+
+SwiftMergeGeneratedHeaders /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/Paperloft_Receipts-Swift.h /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-Swift.h (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-swiftHeaderTool -arch arm64 /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-Swift.h -o /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/Paperloft_Receipts-Swift.h
+
+Copy /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft_Receipts.swiftmodule/arm64-apple-macos.swiftmodule /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft_Receipts.swiftmodule/arm64-apple-macos.swiftmodule
+
+Copy /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft_Receipts.swiftmodule/arm64-apple-macos.swiftdoc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftdoc (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftdoc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft_Receipts.swiftmodule/arm64-apple-macos.swiftdoc
+
+Copy /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft_Receipts.swiftmodule/arm64-apple-macos.abi.json /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.abi.json (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.abi.json /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft_Receipts.swiftmodule/arm64-apple-macos.abi.json
+
+Copy /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft_Receipts.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftsourceinfo (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftsourceinfo /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft_Receipts.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo
+
+SwiftDriverJobDiscovery normal arm64 Compiling PaperloftApp.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriverJobDiscovery normal arm64 Compiling ExportView.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriverJobDiscovery normal arm64 Compiling PaperloftIntents.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriverJobDiscovery normal arm64 Compiling LibraryView.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriverJobDiscovery normal arm64 Compiling AppModel.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriver\ Compilation PaperloftApp normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Paperloft_Receipts -O @/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -warnings-as-errors -swift-version 6 -I /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -F /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PackageFrameworks -F /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/PaperloftApp-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-generated-files.hmap -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-own-target-headers.hmap -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/Paperloft-b93ddc6bcd4d234a5473ab01ad3589c4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts-project-headers.hmap -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/include -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-Swift.h -working-directory /Users/builder/Factory/paperloft-performance -experimental-emit-module-separately -disable-cmo
+
+Ld /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts normal (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos27.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Release -L/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -F/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Release -F/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/PackageFrameworks -F/Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release -filelist /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts_lto.o -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts_dependency_info.dat -fobjc-link-runtime -fprofile-instr-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule -Xlinker -no_adhoc_codesign -o /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts
+
+CopySwiftLibs /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts --scan-folder /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Frameworks --scan-folder /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/PlugIns --scan-folder /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Library/SystemExtensions --scan-folder /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ExtractAppIntentsMetadata (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name Paperloft_Receipts --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk --xcode-version 27A266a --platform-family macOS --deployment-target 27.0 --bundle-identifier app.paperloft.receipts --output /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/Resources --target-triple arm64-apple-macos27.0 --binary-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts --dependency-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts_dependency_info.dat --stringsdata-file /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList --metadata-file-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.DependencyMetadataFileList --static-metadata-file-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.DependencyStaticMetadataFileList --swift-const-vals-list /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-09-27 01:06:27.915 appintentsmetadataprocessor[24464:1535729] Starting appintentsmetadataprocessor export
+2026-09-27 01:06:27.971 appintentsmetadataprocessor[24464:1535729] Writing Metadata.appintents
+2026-09-27 01:06:27.971 appintentsmetadataprocessor[24464:1535729] Metadata root: /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft Receipts.app/Contents/Resources/Metadata.appintents
+
+CodeSign /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --entitlements /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/Paperloft.build/Release/PaperloftApp.build/Paperloft\ Receipts.app.xcent --timestamp\=none --generate-entitlement-der /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app
+
+RegisterExecutionPolicyException /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-RegisterExecutionPolicyException /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app
+
+Validate /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-validationUtility /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app -no-validate-extension -infoplist-subpath Contents/Info.plist
+
+Touch /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    /usr/bin/touch -c /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app
+
+RegisterWithLaunchServices /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-lsregisterurl --record-path /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/XCBuildData/registered-launchservices.txt -- /System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -f -R -trusted /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Products/Release/Paperloft\ Receipts.app
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft-performance/build/StartupReleaseDerivedData/SDKExplicitPrecompiledModules
+
+** BUILD SUCCEEDED **
+

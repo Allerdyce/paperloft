@@ -1,0 +1,25 @@
+# Separate startup restoration repair
+
+Native stack sampling showed substantial restored-inbox decoding/assessment work on the main actor during startup. This occurs before the measured100-document workload and is not claimed as the cause of its earlier297ms gap. This repair is a separate change after row checkpoint373d4ca.
+
+AppModel now reads/decodes the complete inbox in a detached user-initiated task and publishes a Sendable [InboxItem] snapshot only after successful decoding. ReceiptDraft, StoredReview and InboxItem gain Sendable conformance without changing their encoded schema. The ordinary cached assessment rules remain unchanged. Directory creation moves into the same task; permission restoration and model publication remain actor-isolated.
+
+Ordinary intake is now async. It validates supported extensions and creates/retains every accepted FileGrant before its first suspension, then awaits the existing coalesced startup task. It checks duplicates against restored state, appends records and persists only after startup succeeds. Startup failure reports the error without writing the inbox. The startup task still clears its own failed cache so a repaired snapshot can retry. No temporary sandbox permission is assumed to survive an unrelated await without a retained grant.
+
+A private readiness guard centrally prevents all persist() writes while restoration is pending or after decoding fails; edit/setAside, refresh and processing also check readiness. Library/sample changes wait for a decoded inbox, but can still repair a library configuration when inbox decoding succeeded. Startup cannot begin while an unrelated busy operation owns the model. Successful decoding enables these mutations; a later library-configuration failure does not invalidate the successfully decoded inbox. No stale snapshot is published on a decode failure, and saved bytes remain untouched by rejected import/edit/asides. This changes ordinary intake readiness intentionally; there is no launch hook, test-input branch, sleep or test-only product condition.
+
+## Integration contract
+
+Port the readiness core independently of the App Intents adapter: Sendable inbox value types, coalesced awaitStartup/loadStartupState, readiness flag/guard, and async intake. All incoming document paths must await intake. Existing callsites updated here are sample imports, NSOpenPanel completion, Paste Image, onOpenURL and the NSItemProvider callback. Paste Image consequently becomes async and button/command callers use their ordinary Task. The performance harness and intake regression now await it.
+
+Parent Mail/watched-folder integration has additional promise/drop/watch callsites; they must await intake and continue retaining their own source grants through it. If startup has additional durable-ledger validation, keep mutation readiness false until that validation also succeeds. Do not port unrelated Intent symbols solely to obtain the readiness core. Void intake still communicates errors through model.message; its signature does not promise a throwing durable-delivery receipt.
+
+## Verification
+
+Final strict Debug app/package suite:22 XCTest checks plus34 Swift Testing checks PASS. Final optimized QA and Release results are recorded below. Initial narrower runs are preserved separately; the central guard was added after parent review identified the library-refresh persistence route.
+
+New actual-model regressions restore300 saved reviews while the main actor accepts a concurrent intake; verify stale edit/setAside actions cannot overwrite the restoring snapshot; and confirm all300 old IDs plus the new document persist afterward. A corrupt snapshot remains byte-identical after ordinary intake and attempted edits/asides; replacing it with valid JSON permits a successful retry that preserves the old document and appends the new one. Corrupt history also blocks newSampleLibrary/refresh paths without changing saved bytes. Missing history is accepted only for a Data read no-such-file error confirmed by lstat ENOENT; a dangling inbox symlink is rejected and preserved. No injected delay or product testing hook is used.
+
+These are functional concurrency/data-preservation checks, not a calibrated startup-hang or AC-10 pass. External sandbox-grant survival across a real application startup wait has source-level lifetime protection here but was not independently exercised with a native external-file panel in this component. Prior row UI checks stopped at a missing toolbar before row interaction; native window/Shortcuts issues and missing signpost metrics remain separately unresolved. Parent independent review remains required.
+
+Final validation after the central persistence/precise-absence fixes: Debug22 XCTest+34 Swift Testing PASS; optimized QA11 scoped checks PASS; strict Release app build PASS; optimized performance-harness build-for-testing PASS. No compiler warnings appear in these final logs. Protected local baseline PASS. The historical fresh row timings precede this startup change; no repeated timing run or improved startup-hang threshold is claimed. Integration review remains pending.

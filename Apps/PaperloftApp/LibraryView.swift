@@ -114,7 +114,7 @@ struct InboxView: View {
                     Button("Import Receipts…") { Task { await model.importFiles() } }.accessibilityIdentifier("inbox.import")
                     Button("Try Samples") { Task { await model.trySamples() } }.accessibilityIdentifier("inbox.samples")
                 }
-                Button("Paste an Image") { model.pasteImage() }.buttonStyle(.link).accessibilityIdentifier("inbox.paste")
+                Button("Paste an Image") { Task { await model.pasteImage() } }.buttonStyle(.link).accessibilityIdentifier("inbox.paste")
             }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             HSplitView {

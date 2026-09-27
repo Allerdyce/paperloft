@@ -19,7 +19,7 @@ struct PaperloftApp: App {
                     model.openInboxWindow = { openWindow(id: "main") }
                     await model.start()
                 }
-                .onOpenURL { model.intake([$0]) }
+                .onOpenURL { url in Task { await model.intake([url]) } }
         }
         .defaultSize(width: 1180, height: 760)
         .commands {
@@ -34,7 +34,7 @@ struct PaperloftApp: App {
                     .accessibilityIdentifier("command.samples")
             }
             CommandGroup(after: .pasteboard) {
-                Button("Paste Image") { model.pasteImage() }
+                Button("Paste Image") { Task { await model.pasteImage() } }
                     .keyboardShortcut("v", modifiers: [.command, .shift])
                     .accessibilityIdentifier("command.pasteImage")
             }
@@ -63,7 +63,7 @@ struct PaperloftApp: App {
     for provider in providers where provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
         accepted = true
         _ = provider.loadObject(ofClass: NSURL.self) { item, _ in
-            if let url = item as? URL { Task { @MainActor in model.intake([url]) } }
+            if let url = item as? URL { Task { @MainActor in await model.intake([url]) } }
         }
     }
     return accepted

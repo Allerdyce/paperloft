@@ -1,7 +1,7 @@
 import XCTest
 
 @MainActor final class IntakeResponsivenessTests: XCTestCase {
-    func testUnconfiguredIntakePersistsOneHundredDocuments() throws {
+    func testUnconfiguredIntakePersistsOneHundredDocuments() async throws {
         let repo = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
         let root = repo.appendingPathComponent("build/IntakeProfile/" + UUID().uuidString)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
@@ -17,7 +17,7 @@ import XCTest
         // No engine is configured: isolate synchronous intake/grants/persistence
         // from OCR/extraction and view rendering without a product test hook.
         let started = ProcessInfo.processInfo.systemUptime
-        model.intake(urls)
+        await model.intake(urls)
         let elapsed = ProcessInfo.processInfo.systemUptime - started
         print("INTAKE_PROFILE synchronous100Seconds=\(elapsed)")
         XCTAssertEqual(model.items.count, 100)

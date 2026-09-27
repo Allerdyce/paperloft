@@ -86,7 +86,7 @@ final class PipelinePerformanceTests: XCTestCase {
                     sampler.start()
                     let started = ProcessInfo.processInfo.systemUptime
                     let priorInboxCount = model.items.count
-                    model.intake(inputs.urls)
+                    await model.intake(inputs.urls)
                     let synchronousIntakeSeconds = ProcessInfo.processInfo.systemUptime - started
                     let cohort = Set(model.items.filter { $0.status != "aside" }.map(\.id))
                     while model.processing || model.items.contains(where: { $0.status == "waiting" || $0.status == "processing" }) {

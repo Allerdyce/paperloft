@@ -1,12 +1,13 @@
 import AppKit
 import CryptoKit
+import Darwin
 import Foundation
 import Observation
 import os
 import PaperloftKit
 import UniformTypeIdentifiers
 
-struct ReceiptDraft: Codable {
+struct ReceiptDraft: Codable, Sendable {
     var vendor = ""
     var date = ""
     var total = ""
@@ -41,7 +42,7 @@ struct AppIssue: LocalizedError {
     init(_ message: String) { self.message = message }
     var errorDescription: String? { message }
 }
-struct StoredReview: Codable {
+struct StoredReview: Codable, Sendable {
     let hash: String
     let text: String
     let fields: ExtractedFields
@@ -63,7 +64,7 @@ struct StoredReview: Codable {
         assessment = ExtractionAssessment(fields: fields, parser: ParserBackend.parse(text))
     }
 }
-struct InboxItem: Codable, Identifiable {
+struct InboxItem: Codable, Identifiable, Sendable {
     let id: UUID
     var source: URL
     var bookmark: Data?
@@ -138,6 +139,7 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var processingTask: Task<Void, Never>?
     @ObservationIgnored private var searchTask: Task<Void, Never>?
     @ObservationIgnored private var generation = UUID()
+    @ObservationIgnored private var inboxMayBeMutated = false
     @ObservationIgnored private var startupTask: Task<Void, any Error>?
     @ObservationIgnored private let proEntitlement: @MainActor () -> Bool
     @ObservationIgnored var openInboxWindow: (@MainActor () -> Void)?
@@ -175,6 +177,7 @@ final class FileGrant: @unchecked Sendable {
     }
     private func awaitStartup() async throws {
         if let startupTask { return try await startupTask.value }
+        guard !busy else { throw AppIssue("Wait for the current operation to finish before opening the inbox.") }
         let task = Task { @MainActor in
             do { try await self.loadStartupState() }
             catch {
@@ -189,11 +192,24 @@ final class FileGrant: @unchecked Sendable {
     }
     private func loadStartupState() async throws {
         busy = true; defer { busy = false }
-        try FileManager.default.createDirectory(at: support, withIntermediateDirectories: true)
-        let inboxURL = support.appendingPathComponent("inbox.json")
-        if FileManager.default.fileExists(atPath: inboxURL.path) {
-            items = try JSONDecoder().decode([InboxItem].self, from: Data(contentsOf: inboxURL))
-        }
+        inboxMayBeMutated = false
+        let support = support
+        // Parsing restored assessments and reading the snapshot must not block UI.
+        // Publish only after the entire snapshot has decoded successfully.
+        let restored = try await Task.detached(priority: .userInitiated) {
+            try FileManager.default.createDirectory(at: support, withIntermediateDirectories: true)
+            let inboxURL = support.appendingPathComponent("inbox.json")
+            do { return try JSONDecoder().decode([InboxItem].self, from: Data(contentsOf: inboxURL)) }
+            catch let error as CocoaError where error.code == .fileReadNoSuchFile {
+                // A broken symlink or inaccessible history is not an empty inbox.
+                // lstat also avoids following a dangling link when checking absence.
+                var status = stat()
+                if lstat(inboxURL.path, &status) == -1 && errno == ENOENT { return [InboxItem]() }
+                throw error
+            }
+        }.value
+        items = restored
+        inboxMayBeMutated = true
         for i in items.indices where items[i].status != "aside" {
             do {
                 let grant: FileGrant
@@ -243,6 +259,9 @@ final class FileGrant: @unchecked Sendable {
     }
     func chooseLibrary() async {
         guard !busy else { return }
+        do { try await awaitRestoredInbox() }
+        catch { message = error.localizedDescription; return }
+        guard !busy else { return }
         busy = true; defer { busy = false }
         let panel = NSOpenPanel(); panel.title = "Choose your Paperloft library"
         panel.message = "Choose a folder, or create a Paperloft folder in Documents. Your filed documents stay here as ordinary files."
@@ -259,6 +278,8 @@ final class FileGrant: @unchecked Sendable {
         } catch { message = error.localizedDescription }
     }
     func newSampleLibrary(discardInbox: Bool = false) async throws {
+        guard !busy else { throw AppIssue("Wait for the current operation to finish before changing libraries.") }
+        try await awaitRestoredInbox()
         guard !busy else { throw AppIssue("Wait for the current operation to finish before changing libraries.") }
         busy = true; defer { busy = false }
         try await createSampleLibrary(discardInbox: discardInbox)
@@ -287,40 +308,48 @@ final class FileGrant: @unchecked Sendable {
                 let copy = folder.appendingPathComponent(original.lastPathComponent)
                 try FileManager.default.copyItem(at: original, to: copy); urls.append(copy)
             }
-            intake(urls, sample: true)
+            await intake(urls, sample: true)
         } catch { message = error.localizedDescription }
     }
     func importFiles() async {
         let panel = NSOpenPanel(); panel.title = "Import receipts"
         panel.canChooseFiles = true; panel.canChooseDirectories = false; panel.allowsMultipleSelection = true
         panel.allowedContentTypes = [.pdf, .png, .jpeg, .heic]
-        if await panel.begin() == .OK { intake(panel.urls) }
+        if await panel.begin() == .OK { await intake(panel.urls) }
     }
-    func intake(_ urls: [URL], sample: Bool = false) {
+    func intake(_ urls: [URL], sample: Bool = false) async {
+        // Acquire permissions before the first suspension. A drag/open URL's
+        // temporary sandbox access must survive the startup wait.
+        var grants: [FileGrant] = []
         for url in urls {
             do {
                 guard ["pdf", "png", "jpg", "jpeg", "heic"].contains(url.pathExtension.lowercased()) else { throw AppIssue("Import PDF, PNG, JPEG or HEIC documents.") }
-                guard !items.contains(where: { $0.source == url && $0.status != "aside" }) else { continue }
-                let grant = try FileGrant(url: url)
-                let item = InboxItem(id: UUID(), source: grant.url, bookmark: grant.bookmark, sample: sample)
-                sourceGrants[item.id] = grant; items.append(item)
-                if selectedItemID == nil { selectedItemID = item.id }
+                grants.append(try FileGrant(url: url))
             } catch { message = error.localizedDescription }
+        }
+        guard !grants.isEmpty else { return }
+        do { try await awaitStartup() }
+        catch { message = error.localizedDescription; return }
+        for grant in grants {
+            guard !items.contains(where: { $0.source == grant.url && $0.status != "aside" }) else { continue }
+            let item = InboxItem(id: UUID(), source: grant.url, bookmark: grant.bookmark, sample: sample)
+            sourceGrants[item.id] = grant; items.append(item)
+            if selectedItemID == nil { selectedItemID = item.id }
         }
         selection = "Inbox"; persist(); processWaiting()
     }
-    func pasteImage() {
+    func pasteImage() async {
         do {
             guard let image = NSImage(pasteboard: .general), let tiff = image.tiffRepresentation,
                   let bitmap = NSBitmapImageRep(data: tiff), let png = bitmap.representation(using: .png, properties: [:]) else { throw AppIssue("Copy an image first, then choose Paste Image.") }
             let folder = support.appendingPathComponent("Pasted", isDirectory: true)
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             let url = folder.appendingPathComponent(UUID().uuidString + ".png"); try png.write(to: url, options: .atomic)
-            intake([url])
+            await intake([url])
         } catch { message = error.localizedDescription }
     }
     private func processWaiting() {
-        guard !processing, let engine else { return }
+        guard inboxMayBeMutated, !processing, let engine else { return }
         let token = generation; processing = true
         processingTask = Task {
             let log = OSLog(subsystem: "app.paperloft.receipts", category: "Pipeline")
@@ -350,10 +379,12 @@ final class FileGrant: @unchecked Sendable {
         }
     }
     func edit(_ draft: ReceiptDraft, id: UUID) {
+        guard canMutateRestoredInbox() else { return }
         guard let index = items.firstIndex(where: { $0.id == id }) else { return }
         items[index].draft = draft; persist()
     }
     func setAside(_ id: UUID) {
+        guard canMutateRestoredInbox() else { return }
         guard let i = items.firstIndex(where: { $0.id == id }) else { return }
         items[i].status = "aside"; sourceGrants[id] = nil
         selectedItemID = items.first { $0.status != "aside" }?.id; persist()
@@ -400,7 +431,7 @@ final class FileGrant: @unchecked Sendable {
         } catch { message = error.localizedDescription }
     }
     func refresh() async {
-        guard let engine else { return }
+        guard inboxMayBeMutated, let engine else { return }
         let token = generation
         do {
             let history = try await engine.library.history()
@@ -548,7 +579,25 @@ final class FileGrant: @unchecked Sendable {
         NSApplication.shared.windows.first(where: { $0.title == "Paperloft Receipts" })?.makeKeyAndOrderFront(nil)
     }
 
+    private func awaitRestoredInbox() async throws {
+        do { try await awaitStartup() }
+        catch {
+            // Choosing another library may repair a revoked library bookmark,
+            // but must never discard an inbox that has not decoded successfully.
+            guard inboxMayBeMutated else { throw error }
+        }
+    }
+
+    private func canMutateRestoredInbox() -> Bool {
+        guard inboxMayBeMutated else {
+            message = "Your saved inbox has not finished opening. Resolve any opening error, then try again."
+            return false
+        }
+        return true
+    }
+
     private func persist() {
+        guard canMutateRestoredInbox() else { return }
         do { try JSONEncoder().encode(items).write(to: support.appendingPathComponent("inbox.json"), options: .atomic) }
         catch { message = "The inbox could not be saved. Your originals are unchanged. " + error.localizedDescription }
     }
