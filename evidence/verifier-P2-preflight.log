@@ -1,10 +1,10 @@
-Paperloft factory pre-flight  2026-09-26 21:31:16  user=builder  repo=/Users/builder/Factory/paperloft
+Paperloft factory pre-flight  2026-09-26 21:05:52  user=builder  repo=/Users/builder/Factory/paperloft/evidence/checkouts/p2-fresh
 
 == Machine ==
 PASS   macOS 27.0
 PASS   Apple silicon
 PASS   user 'builder' is a Standard user
-PASS   244 GB free
+PASS   245 GB free
 PASS   Retina-class display connected
 
 == Power, sleep, lock, updates ==
@@ -52,12 +52,12 @@ MANUAL DEFERRED (local development only): no signing identity for team ABCDE1234
 MANUAL DEFERRED (local development only): App Store Connect API, app record and products require full preflight before release
 
 == Apple Intelligence ==
-MANUAL Foundation Models check skipped (--fast)
+PASS   on-device model available
 
 == Repo and GitHub ==
 PASS   repo is under /Users/builder/Factory
 PASS   git repository
-PASS   origin uses the github-paperloft deploy key
+WARN   origin is '/Users/builder/Factory/paperloft'; expected git@github-paperloft:<owner>/paperloft.git
 MANUAL DEFERRED (local development only): tag acceptance-v1 missing; commit the kit, tag it and push (section 3.5)
 PASS   ssh github-paperloft
 PASS   ssh github-paperloft-site
@@ -73,5 +73,5 @@ MANUAL Computer Use: Screen Recording and Accessibility granted; Locked use on; 
 MANUAL GitHub rulesets: no force-push to main; acceptance-* tags cannot be updated or deleted
 MANUAL App Store Connect: Paid Apps Agreement active; Small Business Program enrolled
 
-Summary: 37 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 17 MANUAL
+Summary: 37 PASS, 2 WARN, 0 FAIL, 0 TFAIL, 16 MANUAL
 GO: LOCAL DEVELOPMENT ONLY. Distribution signing, upload and release remain blocked.

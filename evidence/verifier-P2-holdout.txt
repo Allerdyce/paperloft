@@ -1,0 +1,15 @@
+Progress: 1/60 documents
+Progress: 10/60 documents
+Progress: 20/60 documents
+Progress: 30/60 documents
+Progress: 40/60 documents
+Progress: 50/60 documents
+Progress: 60/60 documents
+Processed 60 documents; failures 0; backends ["system": 60]; failure types [:]
+mode=holdout documents=60 missing_predictions=0
+FAIL   date       83.33%  45/54  (needs 94.0%)
+PASS   total      94.44%  51/54  (needs 94.0%)
+PASS   vendor    100.00%  54/54  (needs 89.0%)
+FAIL   kind       65.00%  39/60  (needs 92.0%)
+FAIL   category   42.59%  23/54  (needs 77.0%)
+SCORE holdout: FAIL

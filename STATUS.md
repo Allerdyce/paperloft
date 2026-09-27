@@ -1,7 +1,9 @@
 # Paperloft status
 
-P0 and P1 independently PASS for local readiness. P1's accepted 150 documents, labels, and extraction tests are now locked. Clean Debug/Release builds and all nine tests passed independently at 5c4130b.
+P0 and P1 independently PASS for local readiness. P2 engine is implemented but its independent accuracy gate remains open.
 
-P2 engine work is active: preserve OCR layout, improve total extraction, validate fields, implement safe filing/index/history/undo, then property/crash tests and accuracy gates. Current fixture scores: system date99.26%, total71.85%, vendor97.78%, kind98.67%, category99.26%; parser date99.26%, total0%. These do not pass P2 accuracy.
+At 166c3cb, independent clean builds and all 30 tests pass; engine coverage is 89.53%. The 1,000-operation test and forced-crash recovery of 120 originals pass. Fixture accuracy passes all thresholds: date100%, total99.26%, vendor97.78%, kind98.67%, category100%.
 
-Formal gates remain FAIL on deferred prerequisites. No release archive, distribution signing, upload, submission, or phase-completion tags. Owner authorization covers continued local phases after independent checks, with no further local approval required.
+The first holdout attempt was invalid because the reviewer's label audit failed; its evidence is preserved. A repaired, independently audited fresh set passed date98.15%, total96.30%, vendor100%, category100%, but kind83.33% failed the92% requirement. P2 stays open. Generic document-type guidance is improved; all30 tests and clean builds pass after that fix, fixture regression is running, and a fresh independent review follows. P3 has not started. No owner action needed.
+
+Formal gates remain FAIL on deferred prerequisites. No release archive, distribution signing, upload, submission or phase-completion tags. Owner authorization covers continued local phases after independent checks without further local approval.

@@ -48,3 +48,5 @@ CI enables whole-target code coverage and records its xcresult path. Added a sep
 
 ## P2 gate implementation
 P2 gate now requires whole-target xccov>=75% with every library source represented, real SIGKILL recovery, frozen parser/system accuracy, privacy, and source integrity. It reports optional private scoring only through eval.sh; the independent verifier owns AC-04 holdout. Test-bundle AppIntents imports remove metadata warnings and CI now rejects warnings during test builds too. This does not change any frozen criterion/scorer/fixture. First OCR boundary test took58.6s; startup/performance remains for P6 rather than being claimed fast.
+
+- P2 verification repair: the independent generator's original labels failed its own source-to-rendered-fact audit. Preserved invalid aggregate evidence; a prediction-blind generator repair and separately seeded valid run isolated document-kind accuracy as the remaining defect. No product change was based on the invalid score.
