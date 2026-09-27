@@ -67,7 +67,7 @@ struct LibraryView: View {
             .toolbar {
                 ToolbarItemGroup {
                     Button { Task { await model.importFiles() } } label: { Label("Import", systemImage: "square.and.arrow.down") }
-                        .accessibilityIdentifier("toolbar.import").help("Import PDF and image receipts")
+                        .accessibilityIdentifier("toolbar.import").help("Import PDF, image and EML email receipts")
                     Button { Task { await model.trySamples() } } label: { Label("Try samples", systemImage: "doc.text") }
                         .accessibilityIdentifier("toolbar.samples").disabled(model.busy)
                     SettingsLink { Label("Settings", systemImage: "gearshape") }
@@ -108,7 +108,7 @@ struct InboxView: View {
             VStack(spacing: 16) {
                 Image(systemName: "tray").font(.system(size: 44)).foregroundStyle(.primary).accessibilityHidden(true)
                 Text("Drop receipts here").font(.title2.weight(.medium))
-                Text("PDF, PNG, JPEG and HEIC. Copies are filed by default, so your originals stay where they are.")
+                Text("PDF, PNG, JPEG, HEIC and EML email files. Copies are filed by default, so your originals stay where they are.")
                     .foregroundStyle(.primary).multilineTextAlignment(.center).frame(maxWidth: 420)
                 HStack {
                     Button("Import Receipts…") { Task { await model.importFiles() } }.accessibilityIdentifier("inbox.import")
@@ -186,6 +186,12 @@ struct ReviewView: View {
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 7) {
                     Text("Review document").font(.title3.weight(.semibold))
+                    if let notices = item.importNotices, !notices.isEmpty {
+                        ScrollView {
+                            Text(notices.joined(separator: "\n"))
+                                .font(.caption).frame(maxWidth: .infinity, alignment: .leading)
+                        }.frame(maxHeight: 88).accessibilityIdentifier("review.importNotices")
+                    }
                     if let duplicate = item.review?.duplicate {
                         Label("Already filed: \(duplicate)", systemImage: "doc.on.doc").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.duplicate")
                     } else if item.review?.fields.kind == "not_receipt" {

@@ -95,3 +95,7 @@ AGENTS section2 permits independent parallel work fromP3 in separate worktrees. 
 - Added P3 dispatch to gate_check.py with unchanged full CI/privacy/baseline checks plus QA build and coverage. No failed audit is excluded or downgraded. The self-gate is expected to remain FAIL while current accessibility findings persist.
 
 - Independent synthetic PDF probe proved public NSAccessibilityProtocol page-role labels preserve native text and remove missing-description audit failure. Applied only within owned PDFView after layout/document updates, without changing roles/children/actions. Targeted real-app audit build/P3-pdf-label.xcresult removes PDF issue:14remaining findings, stillFAIL.
+
+## Mail app integration checks (2026-09-27)
+
+Added bounded email-file reading and app-owned PDF materialization tests, a backwards-compatible inbox-notice round-trip test, and a real NSOpenPanel stub-model UI import/relaunch test. The UI test fixture is bundled through a resource phase because the sandboxed runner correctly rejected writing into the checkout; the Open button is scoped to the file panel to avoid a Touch Bar duplicate. No new app launch hook, frozen test/fixture, warning filter or acceptance threshold was introduced. Component evidence is in evidence/mail-integration.md; full P4 acceptance remains separate.

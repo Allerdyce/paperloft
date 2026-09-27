@@ -138,6 +138,7 @@
 			buildConfigurationList = A00000000000000000000044 /* Build configuration list for PBXNativeTarget "PaperloftUITests" */;
 			buildPhases = (
 				A00000000000000000000042 /* Sources */,
+				B40000000000000000000001 /* UI Test Resources */,
 				A00000000000000000000043 /* Frameworks */,
 			);
 			buildRules = (
@@ -185,6 +186,7 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B40000000000000000000001 /* UI Test Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 		A00000000000000000000009 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
