@@ -1,0 +1,9 @@
+.DS_Store
+.secrets/
+*.p8
+build/
+DerivedData/
+*.xcresult
+*.xcarchive
+xcuserdata/
+evidence/**/*.xcresult

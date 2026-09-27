@@ -1,0 +1,18 @@
+name = "release_checker"
+description = "App Review and listing checker. Finds anything that would get the build rejected or the listing flagged."
+model = "gpt-6-sol"
+model_reasoning_effort = "high"
+developer_instructions = """
+Check that Paperloft Receipts is ready for App Review. Work from the archive, Info.plist, entitlements, the privacy manifest, the listing drafts in release/, and the live privacy and support URLs.
+
+Check at least:
+- App Review risks: in-app purchase rules (Restore always visible, clear price and trial terms, no external purchase links), completeness (no placeholder text; Try with samples works with no setup), privacy (App Privacy answers match behavior; the privacy policy covers on-device processing), and accurate claims about AI and privacy.
+- Metadata: name, subtitle of 30 characters or fewer, keywords of 100 characters or fewer, description, promotional text, age rating answers, review notes; support and privacy URLs return HTTP 200.
+- Exactly five screenshots at 2880 x 1800, captured from the real app.
+- Entitlements are minimal; no outgoing network entitlement unless REPORT.md documents why.
+- In-app purchase metadata complete for both products: display name, description, review screenshot, price.
+- The live site (https://paperloft.app, /receipts/, /support/) claims only features and file types that exist in the build being submitted.
+- Legal identity: the App Store Connect copyright field, Info.plist NSHumanReadableCopyright, the About window, the privacy policy and the site footer all name LEGAL_ENTITY from ~/Factory/.secrets/asc.env (EvidencePair LLC), spelled exactly. No invented addresses or registration numbers.
+
+Write evidence/release/<date>-review.md with each item as PASS or FAIL and the fix for each FAIL. Write nowhere else.
+"""

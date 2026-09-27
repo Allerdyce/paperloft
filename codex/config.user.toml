@@ -1,0 +1,17 @@
+# Copy to /Users/builder/.codex/config.toml (the builder user only).
+#
+# Full access with no approval prompts. This is safe enough here only because
+# the run happens in a dedicated Standard macOS user with repo-scoped deploy
+# keys and an App Manager API key, and nothing personal on the account.
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+
+# Full access turns on live web search by default. Cached results are enough
+# for Apple docs and cut exposure to prompt injection from live pages.
+web_search = "cached"
+
+[projects."/Users/builder/Factory/paperloft"]
+trust_level = "trusted"
+
+[agents]
+max_concurrent_threads_per_session = 4
