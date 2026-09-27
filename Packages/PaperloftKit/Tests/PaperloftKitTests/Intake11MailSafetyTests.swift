@@ -77,6 +77,61 @@ struct Intake11MailSafetyTests {
 }
 
 struct Intake11WatchedSafetyTests {
+    @Test func renamedIdentityUsesLatestHashInsteadOfHistoricalFilenameHash() async throws {
+        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+            .appendingPathComponent(".build/Intake11Watch/" + UUID().uuidString)
+        let watched = root.appendingPathComponent("watch")
+        try FileManager.default.createDirectory(at: watched, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let first = watched.appendingPathComponent("a.pdf"), second = watched.appendingPathComponent("b.pdf")
+        let scanner = try WatchedFolderScanner(root: watched, stateURL: root.appendingPathComponent("state.json"), minimumStableInterval: .milliseconds(10))
+        func writeInPlace(_ data: Data, to url: URL) throws {
+            if !FileManager.default.fileExists(atPath: url.path) { _ = FileManager.default.createFile(atPath: url.path, contents: nil) }
+            let writer = try FileHandle(forWritingTo: url)
+            defer { try? writer.close() }
+            try writer.truncate(atOffset: 0); try writer.write(contentsOf: data); try writer.synchronize()
+        }
+        func candidate() async throws -> WatchedFolderScanner.Candidate {
+            _ = try await scanner.scan()
+            try await Task.sleep(for: .milliseconds(30))
+            return try #require(try await scanner.scan().candidates.first)
+        }
+        try writeInPlace(Data("A".utf8), to: first)
+        let a = try await candidate(); try await scanner.acknowledge(a)
+        try FileManager.default.moveItem(at: first, to: second)
+        try writeInPlace(Data("B".utf8), to: second)
+        let b = try await candidate(); try await scanner.acknowledge(b)
+        #expect(a.fileIdentity == b.fileIdentity)
+        try FileManager.default.moveItem(at: second, to: first)
+        try writeInPlace(Data("A".utf8), to: first)
+        let returned = try await candidate()
+        #expect(returned.fileIdentity == a.fileIdentity)
+        #expect(returned.contentHash == a.contentHash)
+        #expect(returned.contentHash != b.contentHash)
+        try await scanner.acknowledge(returned)
+        #expect(try await scanner.scan().candidates.isEmpty)
+    }
+
+    @Test func legacyFilenameHistoryStillSkipsUnchangedFileWithoutIdentity() async throws {
+        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+            .appendingPathComponent(".build/Intake11Watch/" + UUID().uuidString)
+        let watched = root.appendingPathComponent("watch"), state = root.appendingPathComponent("state.json")
+        try FileManager.default.createDirectory(at: watched, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        try Data("legacy receipt".utf8).write(to: watched.appendingPathComponent("receipt.pdf"))
+        var scanner: WatchedFolderScanner? = try WatchedFolderScanner(root: watched, stateURL: state, minimumStableInterval: .milliseconds(10))
+        _ = try await scanner!.scan(); try await Task.sleep(for: .milliseconds(30))
+        let scan = try await scanner!.scan()
+        try await scanner!.acknowledge(try #require(scan.candidates.first))
+        scanner = nil
+        var history = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: state)) as? [String: Any])
+        history.removeValue(forKey: "identities")
+        try JSONSerialization.data(withJSONObject: history).write(to: state)
+        scanner = try WatchedFolderScanner(root: watched, stateURL: state, minimumStableInterval: .milliseconds(10))
+        _ = try await scanner!.scan(); try await Task.sleep(for: .milliseconds(30))
+        #expect(try await scanner!.scan().candidates.isEmpty)
+    }
+
     @Test func fiftyBurstFilesWaitForCompletionAndAcknowledgedRenameStaysConsumed() async throws {
         let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
             .appendingPathComponent(".build/Intake11Watch/" + UUID().uuidString)

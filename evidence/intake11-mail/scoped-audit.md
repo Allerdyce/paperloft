@@ -29,3 +29,6 @@ Logs: ignored `build/intake11/tests.log`, `baseline-tests.log`, `release.log`. N
 Share extension, Continuity Camera, TIFF handling, UI source labels, free-limit accounting, live Mail drag, app-group signing, device testing, accessibility, fresh final verification, release and uploads are outside this change.
 
 Optimized package build with warnings as errors also passed. A final focused strict run passed all five new tests after making parsed envelope metadata read-only to callers. Independent source review and integrated app regression remain required before merging this branch.
+
+## Independent review correction
+The reviewer identified a rename/content-cycle regression: an acknowledged identity's newest hash could mismatch while an old filename's historical hash still suppressed the document. The scanner now makes known identity history authoritative and uses filename fallback only for unknown identities. Added regressions exercise A at filename a → rename b and change to B → rename a and change back to A with in-place writes preserving the inode; the final A must be offered. A separate legacy-history test removes identity metadata and confirms the unchanged original filename remains consumed after restart.
