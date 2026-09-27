@@ -1,10 +1,11 @@
 {
   "phase": "P0",
-  "step": "Local CI green; independent P0 review next",
-  "last_green_commit": null,
+  "step": "P0 independent review complete: fix App Intents metadata warning after wall power returns",
+  "last_green_commit": "fac180cd3021c12d23b9398b3df4781911a2d1b5",
   "parked": [
-    "Membership, distribution signing and ASC upload",
-    "acceptance-v1 and formal phase gates"
+    "Off wall power: local preflight TFAIL",
+    "Await owner clarification of local phase progression beyond deferred acceptance tag",
+    "Membership, distribution signing and ASC upload"
   ],
-  "updated": "2026-09-27T01:57:58.460941+00:00"
+  "updated": "2026-09-27T02:02:32.801786+00:00"
 }

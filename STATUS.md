@@ -1,3 +1,5 @@
 # Paperloft status
 
-Local bootstrap on run/1. Clean Debug/Release builds and all five tests pass. Privacy and pre-tag integrity checks pass. Local preflight has zero failures. Independent P0 review next. Acceptance baseline and release prerequisites remain deferred. Receipt import and processing are not implemented yet.
+Bootstrap checkpoint fac180c pushed to run/1. Independent review: five tests pass; Debug/Release builds pass but each emits one App Intents metadata warning. Privacy passes. Formal P0 FAIL (see evidence/gates/P0.md).
+
+Next: fix metadata warning and verify a fresh clone. Currently awaiting wall power and clarification of local phase progression past deferred acceptance-v1. Receipt processing not implemented yet; release remains blocked.
