@@ -23,11 +23,11 @@ final class ReceiptLibraryUXTests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
         app.launch(); app.activate(); defer { app.terminate() }
-        if !app.buttons["toolbar.settings"].waitForExistence(timeout: 3) {
+        if !app.buttons["sidebar.settings"].waitForExistence(timeout: 3) {
             app.menuBars.menuBarItems["Window"].click()
             app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
         }
-        app.buttons["toolbar.settings"].click()
+        app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
         app.buttons["settings.newSampleLibrary"].click(); app.typeKey("w", modifierFlags: .command)
         app.buttons["sidebar.inbox"].click()
@@ -68,7 +68,7 @@ final class ReceiptLibraryUXTests: XCTestCase {
         XCTAssertTrue(app.buttons["review.file"].isEnabled)
         let ready = XCTAttachment(screenshot: app.windows["main"].screenshot()); ready.name = "Inbox status filters"; ready.lifetime = .keepAlways; add(ready)
         app.buttons["review.file"].click()
-        app.buttons["toolbar.samples"].click()
+        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Try with Samples"].click()
         XCTAssertTrue(app.buttons["inbox.filter.Duplicates"].waitForExistence(timeout: 10))
         app.buttons["inbox.filter.Duplicates"].click()
         XCTAssertTrue(app.staticTexts["review.duplicate"].waitForExistence(timeout: 60))
@@ -77,6 +77,17 @@ final class ReceiptLibraryUXTests: XCTestCase {
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 10))
         app.buttons["inbox.filter.All"].click()
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 10))
+        let checks = app.checkBoxes.matching(NSPredicate(format: "identifier BEGINSWITH %@", "inbox.select."))
+        XCTAssertGreaterThanOrEqual(checks.count, 2)
+        let firstID = checks.element(boundBy: 0).identifier
+        let secondID = checks.element(boundBy: 1).identifier
+        app.checkBoxes[firstID].click(); app.checkBoxes[secondID].click()
+        XCTAssertTrue(app.staticTexts["2 selected"].exists)
+        app.buttons["inbox.removeSelected"].click()
+        XCTAssertFalse(app.checkBoxes[firstID].exists)
+        XCTAssertFalse(app.checkBoxes[secondID].exists)
+        app.buttons["inbox.selectAll"].click(); app.buttons["inbox.removeSelected"].click()
+        XCTAssertTrue(app.buttons["inbox.import"].waitForExistence(timeout: 10))
     }
 
     @MainActor
@@ -85,11 +96,11 @@ final class ReceiptLibraryUXTests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "parser"]
         app.launch(); app.activate(); defer { app.terminate() }
-        if !app.buttons["toolbar.settings"].waitForExistence(timeout: 3) {
+        if !app.buttons["sidebar.settings"].waitForExistence(timeout: 3) {
             app.menuBars.menuBarItems["Window"].click()
             app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
         }
-        app.buttons["toolbar.settings"].click()
+        app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
         app.buttons["settings.newSampleLibrary"].click()
         app.radioButtons["Light"].click()
@@ -105,7 +116,8 @@ final class ReceiptLibraryUXTests: XCTestCase {
         }
         app.buttons["sidebar.library"].click()
         XCTAssertTrue(app.staticTexts["5 documents"].waitForExistence(timeout: 15))
-        let light = XCTAttachment(screenshot: app.screenshot()); light.name = "Redesigned library Light five receipts"; light.lifetime = .keepAlways; add(light)
+        app.staticTexts["Meadow Internet"].firstMatch.click()
+        let light = XCTAttachment(screenshot: app.windows["main"].screenshot()); light.name = "Redesigned library Light five receipts"; light.lifetime = .keepAlways; add(light)
         let search = app.textFields["library.search"]
         search.click(); search.typeText("Juniper")
         XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 10))
@@ -121,11 +133,11 @@ final class ReceiptLibraryUXTests: XCTestCase {
         let view = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "library.view.")).firstMatch
         XCTAssertTrue(view.exists); view.click()
         XCTAssertTrue(app.windows["Quick Look"].waitForExistence(timeout: 10)); app.typeKey(.escape, modifierFlags: [])
-        app.buttons["toolbar.settings"].click()
+        app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.radioButtons["Dark"].waitForExistence(timeout: 10)); app.radioButtons["Dark"].click()
         app.typeKey("w", modifierFlags: .command)
         let dark = XCTAttachment(screenshot: app.screenshot()); dark.name = "Redesigned library Dark five receipts"; dark.lifetime = .keepAlways; add(dark)
-        app.buttons["toolbar.settings"].click(); app.radioButtons["System"].click(); app.typeKey("w", modifierFlags: .command)
+        app.typeKey(",", modifierFlags: .command); app.radioButtons["System"].click(); app.typeKey("w", modifierFlags: .command)
     }
 
     @MainActor
@@ -135,11 +147,11 @@ final class ReceiptLibraryUXTests: XCTestCase {
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
         app.launch(); app.activate(); defer { app.terminate() }
         func settings() {
-            if !app.buttons["toolbar.settings"].waitForExistence(timeout: 3) {
+            if !app.buttons["sidebar.settings"].waitForExistence(timeout: 3) {
                 app.menuBars.menuBarItems["Window"].click()
                 app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
             }
-            app.buttons["toolbar.settings"].click()
+            app.typeKey(",", modifierFlags: .command)
             XCTAssertTrue(app.radioButtons["Light"].waitForExistence(timeout: 10))
         }
         settings()
@@ -164,14 +176,14 @@ final class ReceiptLibraryUXTests: XCTestCase {
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
         app.launch(); app.activate(); defer { app.terminate() }
         func showWindow() {
-            if !app.buttons["toolbar.settings"].waitForExistence(timeout: 3) {
+            if !app.buttons["sidebar.settings"].waitForExistence(timeout: 3) {
                 app.menuBars.menuBarItems["Window"].click()
                 app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
             }
-            XCTAssertTrue(app.buttons["toolbar.settings"].waitForExistence(timeout: 10))
+            XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 10))
         }
         showWindow()
-        app.buttons["toolbar.settings"].click()
+        app.typeKey(",", modifierFlags: .command)
         let fresh = app.buttons["settings.newSampleLibrary"]
         XCTAssertTrue(fresh.waitForExistence(timeout: 10)); fresh.click()
         app.typeKey("w", modifierFlags: .command)

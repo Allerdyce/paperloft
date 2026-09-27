@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Inline field verification, compact visually checked calendar, clickable expanded Quick Look preview complete; native mail and preview/review tests PASS, strict Release/baseline and scoped independent source review PASS. Reopen rebuilt app when owner ready. Full extraction/P3/release gates remain open.",
+  "step": "Bulk Inbox removal, border-only Library selected row, redundant toolbar removal complete. Native bulk and Library tests PASS; selected-row screenshot inspected; independent source review, strict Release and protected baseline PASS. Owner current session preserved; reopen updated app when ready. Full P3/release gates remain open.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -13,5 +13,5 @@
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
     "Real receipts: OCR loses visible totals; unsupported total, merchant and transaction-date errors require follow-up. Tax safeguard is partial mitigation only."
   ],
-  "updated": "2026-09-27T20:35:53.133534+00:00"
+  "updated": "2026-09-27T20:46:54.222522+00:00"
 }

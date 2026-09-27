@@ -91,16 +91,7 @@ struct LibraryView: View {
             .accessibilityElement(children: .contain).accessibilityLabel(model.selection + " workspace")
             .background(WindowAccessibility(label: model.selection, target: .splitPane))
             .navigationTitle(model.selection)
-            .toolbar {
-                ToolbarItemGroup {
-                    Button { Task { await model.importFiles() } } label: { Label("Import", systemImage: "square.and.arrow.down") }
-                        .accessibilityIdentifier("toolbar.import").help("Import PDF, image and EML email receipts")
-                    Button { Task { await model.trySamples() } } label: { Label("Try samples", systemImage: "doc.text") }
-                        .accessibilityIdentifier("toolbar.samples").disabled(model.busy)
-                    SettingsLink { Label("Settings", systemImage: "gearshape") }
-                        .accessibilityIdentifier("toolbar.settings")
-                }
-            }
+
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Paperloft workspace")
@@ -120,6 +111,7 @@ struct InboxView: View {
     @Bindable var model: AppModel
     @State private var filter = "All"
     @State private var pinnedReviewID: UUID?
+    @State private var removalSelection: Set<UUID> = []
     private let filters = ["All", "Ready", "Processing", "Duplicates", "Issues"]
     private func matches(_ item: InboxItem, _ choice: String) -> Bool {
         guard item.status != "aside" else { return false }
@@ -169,7 +161,7 @@ struct InboxView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
                         ForEach(filters, id: \.self) { value in
-                            Button { pinnedReviewID = nil; model.selectedItemID = nil; filter = value; syncSelection() } label: {
+                            Button { removalSelection.removeAll(); pinnedReviewID = nil; model.selectedItemID = nil; filter = value; syncSelection() } label: {
                                 HStack(spacing: 5) {
                                     if filter == value { Image(systemName: "checkmark") }
                                     Text(value)
@@ -182,12 +174,34 @@ struct InboxView: View {
                         }
                     }.padding(.horizontal, 20).padding(.vertical, 12)
                 }
+                HStack(spacing: 12) {
+                    Button("Select all") { removalSelection = Set(visibleItems.map(\.id)) }.disabled(visibleItems.isEmpty)
+                        .accessibilityIdentifier("inbox.selectAll")
+                    if !removalSelection.isEmpty {
+                        Text("\(removalSelection.count) selected").font(.caption)
+                        Button("Clear selection") { removalSelection.removeAll() }.accessibilityIdentifier("inbox.clearSelection")
+                        Button { 
+                            let ids = removalSelection
+                            removalSelection.removeAll()
+                            for id in ids { model.setAside(id) }
+                        } label: { Text("Remove selected").foregroundStyle(.red) }
+                            .disabled(model.busy).accessibilityIdentifier("inbox.removeSelected")
+                            .help("Remove selected Inbox entries. Original files stay in place.")
+                    }
+                    Spacer()
+                }.padding(.horizontal, 20).padding(.bottom, 10)
                 Divider()
             HSplitView {
                 List(selection: $model.selectedItemID) {
                     ForEach(visibleItems) { item in
-                        InboxRow(id: item.id, name: item.name, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil)
-                            .equatable().tag(item.id)
+                        HStack(spacing: 8) {
+                            Toggle("Select receipt", isOn: Binding(get: { removalSelection.contains(item.id) }, set: { selected in
+                                if selected { removalSelection.insert(item.id) } else { removalSelection.remove(item.id) }
+                            })).toggleStyle(.checkbox).labelsHidden()
+                                .accessibilityLabel("Select " + item.name)
+                                .accessibilityIdentifier("inbox.select." + item.id.uuidString)
+                            InboxRow(id: item.id, name: item.name, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil).equatable()
+                        }.tag(item.id)
                     }
                     Button { Task { await model.importFiles() } } label: {
                         HStack(spacing: 10) {
@@ -229,7 +243,10 @@ struct InboxView: View {
             }.onAppear { syncSelection() }
                 .onChange(of: filter) { syncSelection() }
                 .onChange(of: model.selectedItemID) { syncSelection() }
-                .onChange(of: visibleItems.map(\.id)) { syncSelection() }
+                .onChange(of: visibleItems.map(\.id)) {
+                    removalSelection.formIntersection(Set(visibleItems.map(\.id)))
+                    syncSelection()
+                }
         }
     }
 }
@@ -548,8 +565,9 @@ struct BrowseView: View {
                                 .accessibilityIdentifier("library.view." + document.id.uuidString)
                         }.padding(.horizontal, 16).padding(.vertical, 16)
                             .frame(minHeight: 76)
-                            .background(selected == document.id ? Color.accentColor.opacity(0.12) : (scheme == .dark ? Color.white.opacity(0.055) : Color(red: 0.952, green: 0.938, blue: 0.916)), in: RoundedRectangle(cornerRadius: 12))
+                            .background(scheme == .dark ? Color.white.opacity(0.055) : Color(red: 0.952, green: 0.938, blue: 0.916), in: RoundedRectangle(cornerRadius: 12))
                             .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(selected == document.id ? Color.accentColor.opacity(0.65) : .clear))
+                            .background(LibrarySelectionStyle())
                             .contentShape(Rectangle()).tag(document.id)
                             .listRowSeparator(.hidden).listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
@@ -808,4 +826,22 @@ struct PaperloftEmptyState: View {
         }.multilineTextAlignment(.center).padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(nsColor: .windowBackgroundColor))
     }
+}
+
+// Keep native list selection and keyboard behavior, but draw our border only.
+private struct LibrarySelectionStyle: NSViewRepresentable {
+    final class Marker: NSView {
+        override func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+            DispatchQueue.main.async { [weak self] in
+                var ancestor = self?.superview
+                while let view = ancestor {
+                    if let table = view as? NSTableView { table.selectionHighlightStyle = .none; break }
+                    ancestor = view.superview
+                }
+            }
+        }
+    }
+    func makeNSView(context: Context) -> Marker { Marker() }
+    func updateNSView(_ nsView: Marker, context: Context) {}
 }

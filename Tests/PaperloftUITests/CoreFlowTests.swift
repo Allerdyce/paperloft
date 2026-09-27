@@ -7,8 +7,8 @@ final class CoreFlowTests: XCTestCase {
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
         app.launch(); app.activate()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
-        XCTAssertTrue(app.buttons["toolbar.settings"].waitForExistence(timeout: 15))
-        app.buttons["toolbar.settings"].click()
+        XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 15))
+        app.typeKey(",", modifierFlags: .command)
         let fresh = app.buttons["settings.newSampleLibrary"]
         XCTAssertTrue(fresh.waitForExistence(timeout: 10)); fresh.click()
         app.typeKey("w", modifierFlags: .command)
@@ -79,7 +79,7 @@ final class CoreFlowTests: XCTestCase {
         app.buttons["review.file"].click()
         app.buttons["sidebar.library"].click()
         XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 15))
-        app.buttons["toolbar.samples"].click()
+        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Try with Samples"].click()
         let repeatDocument = app.staticTexts["01-office.pdf"]
         XCTAssertTrue(repeatDocument.waitForExistence(timeout: 10)); repeatDocument.click()
         XCTAssertTrue(app.staticTexts["review.duplicate"].waitForExistence(timeout: 60))
@@ -113,7 +113,7 @@ final class CoreFlowTests: XCTestCase {
             app.buttons["sidebar." + section].click()
             try audit(app)
         }
-        app.buttons["toolbar.settings"].click()
+        app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
         try audit(app)
         app.typeKey("w", modifierFlags: .command)

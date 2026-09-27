@@ -11,11 +11,11 @@ final class WatchedFolderLifecycleTests: XCTestCase {
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
         // macOS restoration may leave no window. Exercise the public Window command;
         // this test makes no claim that launch itself restores a visible window.
-        if !app.buttons["toolbar.settings"].waitForExistence(timeout: 3) {
+        if !app.buttons["sidebar.settings"].waitForExistence(timeout: 3) {
             app.menuBars.menuBarItems["Window"].click()
             app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
         }
-        XCTAssertTrue(app.buttons["toolbar.settings"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 10))
     }
 
     @MainActor
@@ -40,7 +40,7 @@ final class WatchedFolderLifecycleTests: XCTestCase {
         let app = XCUIApplication()
         defer { app.terminate() }
         launch(app)
-        app.buttons["toolbar.settings"].click()
+        app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
         if app.buttons["settings.disableWatchedFolder"].exists {
             app.buttons["settings.disableWatchedFolder"].click()
@@ -65,13 +65,13 @@ final class WatchedFolderLifecycleTests: XCTestCase {
         let received = XCTAttachment(screenshot: app.screenshot())
         received.name = "Watched native folder copied to review"; received.lifetime = .keepAlways; add(received)
 
-        app.buttons["toolbar.settings"].click()
+        app.typeKey(",", modifierFlags: .command)
         app.buttons["settings.disableWatchedFolder"].click()
         XCTAssertTrue(app.buttons["settings.enableWatchedFolder"].waitForExistence(timeout: 10))
         try original.write(to: folder.appendingPathComponent(secondName))
         app.typeKey("w", modifierFlags: .command)
         XCTAssertFalse(app.staticTexts[secondName].firstMatch.waitForExistence(timeout: 8), "Disabled watcher must not import")
-        app.buttons["toolbar.settings"].click()
+        app.typeKey(",", modifierFlags: .command)
         app.buttons["settings.enableWatchedFolder"].click()
         XCTAssertTrue(app.buttons["settings.disableWatchedFolder"].waitForExistence(timeout: 10))
         app.typeKey("w", modifierFlags: .command)
@@ -79,7 +79,7 @@ final class WatchedFolderLifecycleTests: XCTestCase {
         app.terminate(); launch(app)
         XCTAssertTrue(app.staticTexts[firstName].firstMatch.waitForExistence(timeout: 15))
         XCTAssertTrue(app.staticTexts[secondName].firstMatch.exists)
-        app.buttons["toolbar.settings"].click()
+        app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.disableWatchedFolder"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "value == %@ OR label == %@", folder.path, folder.path)).firstMatch.exists, "Bookmark must resolve after restart")
         let restored = XCTAttachment(screenshot: app.screenshot())
@@ -109,7 +109,7 @@ final class WatchedFolderLifecycleTests: XCTestCase {
         app.menuBars.menuBarItems["Window"].click()
         app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
         XCTAssertTrue(app.staticTexts[fourthName].firstMatch.waitForExistence(timeout: 10))
-        app.buttons["toolbar.settings"].click()
+        app.typeKey(",", modifierFlags: .command)
         app.buttons["settings.disableWatchedFolder"].click()
         XCTAssertTrue(app.buttons["settings.enableWatchedFolder"].waitForExistence(timeout: 10))
         app.typeKey("w", modifierFlags: .command)

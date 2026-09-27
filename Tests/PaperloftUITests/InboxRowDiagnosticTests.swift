@@ -10,12 +10,12 @@ final class InboxRowDiagnosticTests: XCTestCase {
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
         app.launch(); app.activate(); defer { app.terminate() }
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
-        if !app.buttons["toolbar.settings"].waitForExistence(timeout: 3) {
+        if !app.buttons["sidebar.settings"].waitForExistence(timeout: 3) {
             app.menuBars.menuBarItems["Window"].click()
             app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
         }
-        XCTAssertTrue(app.buttons["toolbar.settings"].waitForExistence(timeout: 10))
-        app.buttons["toolbar.settings"].click()
+        XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 10))
+        app.typeKey(",", modifierFlags: .command)
         let fresh = app.buttons["settings.newSampleLibrary"]
         XCTAssertTrue(fresh.waitForExistence(timeout: 10)); fresh.click()
         app.typeKey("w", modifierFlags: .command)
@@ -37,7 +37,7 @@ final class InboxRowDiagnosticTests: XCTestCase {
         app.buttons["review.file"].click()
         app.buttons["sidebar.library"].click()
         XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 15))
-        app.buttons["toolbar.samples"].click()
+        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Try with Samples"].click()
         let repeated = app.staticTexts["01-office.pdf"]
         XCTAssertTrue(repeated.waitForExistence(timeout: 10)); repeated.click()
         XCTAssertTrue(app.staticTexts["review.duplicate"].waitForExistence(timeout: 60))

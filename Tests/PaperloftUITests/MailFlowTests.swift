@@ -8,8 +8,8 @@ final class MailFlowTests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
         app.launch(); app.activate(); defer { app.terminate() }
-        XCTAssertTrue(app.buttons["toolbar.settings"].waitForExistence(timeout: 15))
-        app.buttons["toolbar.settings"].click()
+        XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 15))
+        app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
         app.buttons["settings.newSampleLibrary"].click()
         app.typeKey("w", modifierFlags: .command)
