@@ -35,6 +35,26 @@ struct MailImportTests {
         let text = try #require(pdf.string)
         for i in 0..<180 { #expect(text.contains("Receipt line \(i): Coffee & supplies 12.50")) }
     }
+    @Test func promisedSnapshotRejectsEscapesSymlinksAndWrongTypes() throws {
+        let root = try workspace(); defer { try? FileManager.default.removeItem(at: root) }
+        let folder = root.appendingPathComponent("received")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: false)
+        let original = root.appendingPathComponent("outside.eml"), data = Data("Subject: Receipt\n\nTotal: 5".utf8)
+        try data.write(to: original)
+        #expect(throws: MailDocument.Failure.self) { try MailImport.snapshotPromisedEmail(original, in: folder) }
+        let alias = folder.appendingPathComponent("link.eml")
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: original)
+        #expect(throws: MailDocument.Failure.self) { try MailImport.snapshotPromisedEmail(alias, in: folder) }
+        let wrong = folder.appendingPathComponent("image.png"); try data.write(to: wrong)
+        #expect(throws: MailDocument.Failure.self) { try MailImport.snapshotPromisedEmail(wrong, in: folder) }
+        let email = folder.appendingPathComponent("receipt.eml"); try data.write(to: email)
+        let first = try MailImport.snapshotPromisedEmail(email, in: folder)
+        let second = try MailImport.snapshotPromisedEmail(email, in: folder)
+        #expect(first != second)
+        #expect(try Data(contentsOf: first) == data)
+        #expect(try Data(contentsOf: email) == data)
+    }
+
     @Test func boundedReadRejectsSparseOversizeSymlinkAndMalformedEmailWithoutOutput() throws {
         let root = try workspace(); defer { try? FileManager.default.removeItem(at: root) }
         let source = root.appendingPathComponent("large.eml")

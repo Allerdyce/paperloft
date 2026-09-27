@@ -37,9 +37,32 @@ public enum MailImport {
         return Result(documents: urls, notices: ["Imported from \(source.lastPathComponent). The original email is unchanged. Review each document before filing."] + mail.notices)
     }
 
+    /// Called inside the AppKit promise reader's coordination window.
+    public static func snapshotPromisedEmail(_ source: URL, in directory: URL) throws -> URL {
+        guard source.isFileURL, source.pathExtension.lowercased() == "eml",
+              source.deletingLastPathComponent().standardizedFileURL.path == directory.standardizedFileURL.path else {
+            throw MailDocument.Failure.unsupported("the promise did not produce an EML file inside its receiving folder")
+        }
+        let parent = open(directory.path, O_EXEC | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard parent >= 0 else { throw MailDocument.Failure.unsupported("the receiving folder is unavailable") }
+        defer { close(parent) }
+        let input = openat(parent, source.lastPathComponent, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
+        let bytes = try readBounded(descriptor: input)
+        let name = "Email-import-" + UUID().uuidString + ".eml"
+        let output = openat(parent, name, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        guard output >= 0 else { throw MailDocument.Failure.unsupported("the received email could not be saved") }
+        let writer = FileHandle(fileDescriptor: output, closeOnDealloc: true)
+        defer { try? writer.close() }
+        try writer.write(contentsOf: bytes); try writer.synchronize()
+        return directory.appendingPathComponent(name)
+    }
+
     public static func readBounded(_ source: URL) throws -> Data {
         guard source.isFileURL else { throw MailDocument.Failure.unsupported("choose an email file on this Mac") }
-        let fd = open(source.path, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
+        return try readBounded(descriptor: open(source.path, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC))
+    }
+
+    private static func readBounded(descriptor fd: Int32) throws -> Data {
         guard fd >= 0 else { throw MailDocument.Failure.unsupported("the email is unavailable; import it again to renew access") }
         let file = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
         defer { try? file.close() }

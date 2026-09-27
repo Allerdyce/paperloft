@@ -22,6 +22,10 @@ struct LibraryView: View {
         .accessibilityIdentifier("sidebar." + title.lowercased())
     }
     var body: some View {
+        let content = workspace
+        return MailDropContainer(model: model) { content }
+    }
+    private var workspace: some View {
         NavigationSplitView {
             List {
                 navigationButton("Inbox", symbol: "tray")

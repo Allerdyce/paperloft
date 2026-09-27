@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B40000000000000000000002 /* MailPromiseReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000003; };
 		B30000000000000000000001 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000002; };
 		A00000000000000000000022 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
 		A00000000000000000000039 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
@@ -23,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B40000000000000000000003 /* MailPromiseReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/MailPromiseReceiver.swift; sourceTree = SOURCE_ROOT; };
 		B30000000000000000000002 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/AppModel.swift; sourceTree = SOURCE_ROOT; };
 		A00000000000000000000006 /* Paperloft Receipts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Paperloft Receipts.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000031 /* PaperloftKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PaperloftKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B30000000000000000000001 /* AppModel.swift in Sources */,
+				B40000000000000000000002 /* MailPromiseReceiver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

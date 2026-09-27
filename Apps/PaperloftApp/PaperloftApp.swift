@@ -65,6 +65,10 @@ struct MenuBarInbox: View {
     @Environment(\.openWindow) private var openWindow
     @State private var targeted = false
     var body: some View {
+        let view = content
+        return MailDropContainer(model: model) { view }
+    }
+    private var content: some View {
         VStack(alignment: .leading, spacing: 14) {
             Label("Paperloft", systemImage: "tray.fill").font(.headline)
             Text("\(model.inboxCount) documents in your inbox").foregroundStyle(.secondary)

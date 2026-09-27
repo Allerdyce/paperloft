@@ -99,3 +99,7 @@ AGENTS section2 permits independent parallel work fromP3 in separate worktrees. 
 ## Mail app integration checks (2026-09-27)
 
 Added bounded email-file reading and app-owned PDF materialization tests, a backwards-compatible inbox-notice round-trip test, and a real NSOpenPanel stub-model UI import/relaunch test. The UI test fixture is bundled through a resource phase because the sandboxed runner correctly rejected writing into the checkout; the Open button is scoped to the file panel to avoid a Touch Bar duplicate. No new app launch hook, frozen test/fixture, warning filter or acceptance threshold was introduced. Component evidence is in evidence/mail-integration.md; full P4 acceptance remains separate.
+
+## Native Mail promised-file adapter (2026-09-27)
+
+Read the installed AppKit NSFilePromiseReceiver/NSFilePromiseProvider headers before implementing the native drop bridge. Added a genuine provider-pasteboard recognition/advertised-count test and bounded descriptor-relative received-file snapshot tests. AppKit rejects receiving a promise outside a real drag lifecycle, so an initial direct-receive unit experiment was invalid; no product bypass was added. Kept a standalone synthetic provider source in Tests/Support for a real cross-app drag probe. CUA initiated its drag but did not complete the source session/delivery callbacks; this remains unverified, with a different XCUITest drag approach deferred until the shared GUI/resource window is available. No failed interaction is represented as a pass.
