@@ -17,3 +17,11 @@ import Testing
 @Test func invoiceOpticalCharacterConfusionIsRecognized() {
     #expect(ParserBackend.parse("Example Supplier\nINV0ICE\nTotal $1.00").kind == "invoice")
 }
+
+@Test func savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals() {
+    #expect(ParserBackend.parse("Shop\nRECEIPT\nTotal $15.00\nTotal savings $5.00").total == "15")
+    #expect(ParserBackend.parse("Shop\nRECEIPT\nTotal $-15.00").total == nil)
+    #expect(ParserBackend.parse("Shop\nRECEIPT\nTotal USD 1,234.56").total == "1234.56")
+    #expect(ParserBackend.parse("Shop\nRECEIPT\nTotal 12,50").total == "12.5")
+    #expect(ParserBackend.parse("Shop\nRECEIPT\nTotal USD 12,34.56").total == nil)
+}

@@ -41,9 +41,11 @@ public struct ParserBackend: ExtractionBackend {
         var result = ExtractedFields(backend: "parser")
         result.kind = firstCapture(#"(?i)\binv[o0][i1l]ce\b"#, lower) != nil ? "invoice" : (lower.contains("utility bill") ? "bill" : "receipt")
         let totalLines = lines.filter { firstCapture(#"(?i)\b(?:grand\s+total|amount\s+(?:paid|due)|card\s+payment|balance\s+due|total\s+due|total)\b"#, $0) != nil }
-        let candidates = totalLines.filter { !$0.lowercased().contains("subtotal") }
+        let candidates = totalLines.filter {
+            !$0.lowercased().contains("subtotal") && firstCapture(#"(?i)\b(?:total\s+(?:savings|discount|tax|tip|cash|change)|(?:tax|tip)\s+total)\b"#, $0) == nil
+        }
         for line in candidates.reversed() {
-            if let amount = firstCapture(#"(?:\$\s*|USD\s*)?([0-9][0-9,]*[.,][0-9]{2})(?:\s*(?:USD|paid))?\s*$"#, line, group: 1) {
+            if let amount = firstCapture(#"(?<![0-9.,-])(?:\$\s*|USD\s*)?([0-9][0-9,]*[.,][0-9]{2})(?:\s*(?:USD|paid))?\s*$"#, line, group: 1) {
                 result.total = normalizeMoney(amount); break
             }
         }
@@ -86,7 +88,14 @@ public struct ParserBackend: ExtractionBackend {
         return String(text[range])
     }
     private static func normalizeMoney(_ value: String) -> String? {
-        let clean = value.replacingOccurrences(of: ",", with: "")
+        let clean: String
+        if value.contains(".") {
+            guard firstCapture(#"^(?:[0-9]+|[0-9]{1,3}(?:,[0-9]{3})+)\.[0-9]{2}$"#, value) != nil else { return nil }
+            clean = value.replacingOccurrences(of: ",", with: "")
+        } else {
+            guard firstCapture(#"^[0-9]+,[0-9]{2}$"#, value) != nil else { return nil }
+            clean = value.replacingOccurrences(of: ",", with: ".")
+        }
         guard let number = Decimal(string: clean, locale: Locale(identifier: "en_US_POSIX")), number >= 0 else { return nil }
         return NSDecimalNumber(decimal: number).stringValue
     }
@@ -140,6 +149,7 @@ public struct SystemBackend: ExtractionBackend {
         let fields = response.content
         let parser = ParserBackend.parse(text)
         var confidence = min(1, max(0, fields.confidence))
+        if text.count > 12000 { confidence = min(confidence, 0.3) }
         if let date = parser.date, date != fields.date { confidence = min(confidence, 0.5) }
         if let total = parser.total, Decimal(string: total) != known(fields.total).flatMap({ Decimal(string: $0) }) { confidence = min(confidence, 0.5) }
         return ExtractedFields(kind: fields.kind, vendor: known(fields.vendor), date: known(fields.date), total: known(fields.total),

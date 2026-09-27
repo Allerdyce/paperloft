@@ -6,7 +6,11 @@ import CoreImage
 
 public enum RecognitionError: Error { case unreadableDocument, tooManyPages, oversizedImage }
 
-public struct DocumentRecognizer: Sendable {
+public protocol DocumentTextRecognizing: Sendable {
+    func text(at url: URL) throws -> String
+}
+
+public struct DocumentRecognizer: DocumentTextRecognizing {
     public init() {}
     public func text(at url: URL) throws -> String {
         try autoreleasepool { try readText(at: url) }

@@ -15,5 +15,6 @@ for configuration in Debug Release; do
 done
 scripts/preflight_check.sh --local --fast > evidence/ci/preflight.log
 result="build/Tests-$(date +%Y%m%d-%H%M%S).xcresult"
-xcodebuild "${args[@]}" -configuration Debug -resultBundlePath "$result" test 2>&1 | tee evidence/ci/tests.log
+xcodebuild "${args[@]}" -configuration Debug -enableCodeCoverage YES -resultBundlePath "$result" test 2>&1 | tee evidence/ci/tests.log
+printf '%s\n' "$result" > build/latest-test-result.txt
 printf 'Local CI passed. Results: %s\n' "$result"

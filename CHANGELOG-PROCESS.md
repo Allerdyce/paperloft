@@ -42,3 +42,6 @@ The independent review rejected typography-only layout variants. Replaced the st
 
 ## P2 OCR diagnostics
 Added an explicit inspect-text command to the developer-only evaluator for inspecting authorized synthetic fixture OCR. eval.sh never invokes it for scored/private/holdout runs; it is not a product launch hook. A standalone probe initially waited in Vision; compiling with the app deployment target and allowing initialization completed. Evidence: P2-parser-layout.txt and P2-parser-deskew.txt. Frozen scoring and fixture files unchanged.
+
+## P2 crash and coverage verification
+CI enables whole-target code coverage and records its xcresult path. Added a separate Swift worker and Python integration harness that observes journal progress then sends SIGKILL during filing and undo; neither the product app nor engine has a crash/test branch. The harness fails if no actual mid-batch kill occurs and checks120 restored hashes. Evidence: P2-crash-recovery.json and P2-coverage.json.
