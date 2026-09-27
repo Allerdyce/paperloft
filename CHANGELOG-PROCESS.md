@@ -109,3 +109,7 @@ Added bounded email-file reading and app-owned PDF materialization tests, a back
 Ported only the three product/test files from914afc8 after parent independent review atdb8194b: immutable extraction assessment is reused on screen refresh; legacy persistence keys stay unchanged. Performance harness and unresolved intent framework work remain on their isolated branch. Parent review passed61 scoped tests; combined root regression is required after this port. This removes repeated work but does not claim the297ms batch responsiveness failure resolved.
 
 Xcode normalized the UI-test resource phase comment/format in the open root project during this work; preserved the equivalent project representation after reviewing the diff. No target, source membership or build behavior changed.
+
+## Reviewed inbox row integration
+
+Ported only the scalar Equatable InboxRow rendering change from373d4ca after independent source/native behavior review a1ea3bd. Row identity, visible name/status/duplicate flag, selection tag and accessibility identifier are preserved; no fixed heights or accessibility hiding. The independent diagnostic is added separately and primes the standard Window menu when necessary, explicitly leaving original launch tests unchanged. Root strict build-for-testing and the same component UI regression pass (36.256s, build/RootRowIntegrated.xcresult). This is not launch/accessibility/full-performance acceptance.

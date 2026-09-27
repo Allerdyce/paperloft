@@ -1,0 +1,17 @@
+# Independent InboxRow component review
+
+Scoped component PASS for product checkpoint `373d4ca`. No product changes were made. Review worktree: `paperloft-row-review`, branch `local/row-review`.
+
+Static comparison confirms extracted Equatable InboxRow contains exactly its four scalar dependencies: UUID identifier, filename, status, duplicate Boolean. All visible row text/icon/style mappings are preserved, accessibility identifier remains on row content, and List selection tag remains outside the Equatable wrapper. Changes to any rendered value invalidate equality; unrelated draft/OCR changes do not. No blocking behavior or accessibility-identity finding in this extraction.
+
+Added a separate InboxRowDiagnosticTests file, leaving every existing acceptance/core-flow test unchanged. It explicitly permits the public Window command to show the app before testing rows; this is a component setup precondition, not launch acceptance. Its native run verifies sample intake reaches Ready to review, the inbox.item identifier remains exposed, selecting two distinct rows preserves their separate vendor edits, filing/reimport produces Duplicate status and disables filing, and undo clears both duplicate warning and row status while restoring filing. Screenshots for duplicate and post-undo states are retained in the result bundle.
+
+Fresh strict Debug build-for-testing passed with `SWIFT_TREAT_WARNINGS_AS_ERRORS=YES` and own `build/RowReviewDerivedData`. Independent native run passed 1 test, 0 failures in 35.248 seconds. Result: `build/RowReviewNative.xcresult`; logs: `build/row-review-build.log`, `build/row-review-native.log`. No warning/error diagnostics found in these logs. Local preflight passed 38 checks, 1 WARN, 0 FAIL/TFAIL; protected baseline passed (`build/row-review-preflight.log`, `build/row-review-baseline.log`). GUI lock held exclusively and released after test termination.
+
+Limits: no full launch, VoiceOver, accessibility audit, P3, AC-10 or release pass. This diagnostic does not replace failed existing launch-dependent tests. The two reported parser 100-document direct timing/memory/heartbeat passes and missing signpost/full AC-10 failure belong to the source branch evidence and were not rerun here. Waiting/Reading/Needs attention text mappings were statically compared; this native test verifies Ready/Duplicate transitions only. Extraction is the documented stub and library is the documented UI test sample library. No root merge performed.
+
+## Root integration verification
+
+Product view change and independent diagnostic were ported into run/1 with saved EML import and assessment caching retained. Fresh strict build-for-testing passes without compiler warnings. Root component UI rerun passes1 test in36.256s; bundle build/RootRowIntegrated.xcresult, logs build/root-row-build.log and build/root-row-ui.log. Existing launch and audit tests are unchanged and not claimed passed. Full performance acceptance remains blocked on system timing and signpost evidence.
+
+Integrated strict Release build also PASS with zero compiler warnings (build/root-row-release.log).
