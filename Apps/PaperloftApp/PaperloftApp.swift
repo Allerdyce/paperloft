@@ -68,7 +68,7 @@ struct MenuBarInbox: View {
         VStack(alignment: .leading, spacing: 14) {
             Label("Paperloft", systemImage: "tray.fill").font(.headline)
             Text("\(model.inboxCount) documents in your inbox").foregroundStyle(.secondary)
-            Text("Drop PDF or image receipts here").padding(20)
+            Text("Drop PDF, image or EML email receipts here").padding(20)
                 .frame(maxWidth: .infinity)
                 .background(targeted ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
                 .onDrop(of: [.fileURL], isTargeted: $targeted) { acceptDrop($0, model: model) }

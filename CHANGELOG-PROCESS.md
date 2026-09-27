@@ -67,6 +67,11 @@ P2 gate now requires whole-target xccov>=75% with every library source represent
 
 All 34 tests passed in the first two complete app runs, but runtime priority inversion warnings correctly kept CI red. Exported xcresult diagnostics and symbolicated their AppKit addresses rather than suppressing the checker. The stack is AppKit Services-menu data detection during accessibility inspection (`evidence/ci/P3-priority-inversion.txt`). Moving index initialization off-main and public NSDataDetector background warmup did not remove that framework warning. Removed the warmup experiment and the optional automatic Services command group; normal editing and explicit receipt commands remain. Unchanged NavigationTests then passed without warnings (`build/P3-services-diagnostic.xcresult`). Full CI pending. No acceptance threshold, locked test, warning scan, or runtime check was weakened.
 
+## Mail parser component tests (2026-09-27)
+
+Added synthetic MailDocumentTests for the independent P4 MIME parser, including all resource limits, transfer encodings, exact PDF bytes, multipart alternatives, remote-HTML avoidance and unsafe names. No fixture, frozen test, or acceptance threshold changed. Component evidence: evidence/mail/README.md and build/mail-{debug,release}.log. App integration and independent review remain separate gates.
+
+Independent review identified two scope gaps before merge: HTML-only message bodies and generic binary PDF attachments. Added bounded non-rendering HTML text extraction and filename-plus-signature generic PDF detection with two new tests; no browser, network or HTML document loader.
 ## 2026-09-27 — Independent local export-engine subtask
 - Added `ExportTests.swift` with independent CSV parsing, PDFKit inspection, SHA-256 checks and system ZIP extraction; this makes AC-12 output assertions independent of exporter totals.
 - Added local subtask evidence under `evidence/export/`; SwiftPM unit/Release checks avoid GUI contention with parent UI work. These do not replace the parent P4 gate or independent verifier.
@@ -94,3 +99,7 @@ AGENTS section2 permits independent parallel work fromP3 in separate worktrees. 
 ## Watched-folder component verification (2026-09-27)
 
 Added new WatchedFolderTests for the independent P4 scanner: stable observations, acknowledgment crash boundary/restart, changed bytes, unsafe paths, corrupt/tampered state, denied writes, memory/entry bounds and fair progress. Existing frozen tests/fixtures and thresholds are unchanged. Test files live below the package build directory so symlink aliases in system temporary paths are not mistaken for approved physical roots. Component evidence: evidence/watched-folder/README.md and build/watched-{debug,release}.log. App integration, Pro gating and independent review are separate requirements.
+
+## Mail app integration checks (2026-09-27)
+
+Added bounded email-file reading and app-owned PDF materialization tests, a backwards-compatible inbox-notice round-trip test, and a real NSOpenPanel stub-model UI import/relaunch test. The UI test fixture is bundled through a resource phase because the sandboxed runner correctly rejected writing into the checkout; the Open button is scoped to the file panel to avoid a Touch Bar duplicate. No new app launch hook, frozen test/fixture, warning filter or acceptance threshold was introduced. Component evidence is in evidence/mail-integration.md; full P4 acceptance remains separate.

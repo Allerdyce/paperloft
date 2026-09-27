@@ -55,6 +55,7 @@ struct InboxItem: Codable, Identifiable {
     var status = "waiting"
     var issue: String?
     var sample = false
+    var importNotices: [String]?
     var name: String { source.lastPathComponent }
 }
 /// Owns a user-granted file's sandbox extension for its entire review lifetime.
@@ -254,13 +255,13 @@ final class FileGrant: @unchecked Sendable {
     func importFiles() async {
         let panel = NSOpenPanel(); panel.title = "Import receipts"
         panel.canChooseFiles = true; panel.canChooseDirectories = false; panel.allowsMultipleSelection = true
-        panel.allowedContentTypes = [.pdf, .png, .jpeg, .heic]
+        panel.allowedContentTypes = [.pdf, .png, .jpeg, .heic, UTType(filenameExtension: "eml") ?? .emailMessage]
         if await panel.begin() == .OK { intake(panel.urls) }
     }
     func intake(_ urls: [URL], sample: Bool = false) {
         for url in urls {
             do {
-                guard ["pdf", "png", "jpg", "jpeg", "heic"].contains(url.pathExtension.lowercased()) else { throw AppIssue("Import PDF, PNG, JPEG or HEIC documents.") }
+                guard ["pdf", "png", "jpg", "jpeg", "heic", "eml"].contains(url.pathExtension.lowercased()) else { throw AppIssue("Import PDF, PNG, JPEG, HEIC or EML email files.") }
                 guard !items.contains(where: { $0.source == url && $0.status != "aside" }) else { continue }
                 let grant = try FileGrant(url: url)
                 let item = InboxItem(id: UUID(), source: grant.url, bookmark: grant.bookmark, sample: sample)
@@ -290,6 +291,28 @@ final class FileGrant: @unchecked Sendable {
                 let id = items[position].id, source = items[position].source
                 items[position].status = "processing"; activity = "Reading \(items[position].name)…"; persist()
                 do {
+                    if source.pathExtension.lowercased() == "eml" {
+                        let grant = sourceGrants[id]
+                        let destination = support
+                        let imported = try await Task.detached(priority: .userInitiated) {
+                            defer { withExtendedLifetime(grant) {} }
+                            return try MailImport.materialize(source: source, destination: destination)
+                        }.value
+                        guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
+                        guard items[index].status == "processing" else { continue }
+                        let sample = items[index].sample
+                        var replacements: [InboxItem] = []
+                        for url in imported.documents {
+                            let access = try FileGrant(url: url)
+                            let item = InboxItem(id: UUID(), source: url, bookmark: access.bookmark, sample: sample, importNotices: imported.notices)
+                            sourceGrants[item.id] = access; replacements.append(item)
+                        }
+                        items.replaceSubrange(index...index, with: replacements)
+                        sourceGrants[id] = nil
+                        if selectedItemID == id { selectedItemID = replacements.first?.id }
+                        persist()
+                        continue
+                    }
                     let review = try await engine.understand(source)
                     guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
                     guard items[index].status == "processing" else { continue }
@@ -298,7 +321,7 @@ final class FileGrant: @unchecked Sendable {
                 } catch {
                     guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
                     guard items[index].status == "processing" else { continue }
-                    items[index].status = "failed"; items[index].issue = error.localizedDescription
+                    items[index].status = "failed"; items[index].issue = error.localizedDescription + (source.pathExtension.lowercased() == "eml" ? " The original email is unchanged. Save the receipt as a PDF from Mail or import the email again." : "")
                 }
                 persist()
             }
