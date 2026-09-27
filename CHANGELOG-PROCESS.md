@@ -117,3 +117,7 @@ Parent review identified an additional persistence route through library reconfi
 ## 2026-09-27 — fresh reviewed system-model evidence
 
 Ran one fresh actual100-document system workload at reviewed row/startup checkpoint0823af2 after an explicit quiet-window handoff. All100 reviews persisted with recorded system backend, but elapsed358.972s exceeds unchanged240s. Recorded222.74ms gap/414.50MB peak are within numeric bounds; fail-fast stops before their later assertions after the timing failure. Required metric exports absent; no repeat, suppression or threshold change. All raw failures retained, GUI/CPU released immediately. See evidence/performance-system-fresh.md; AC-10 remains FAIL.
+
+## 2026-09-27 — isolated classifier prewarm candidate
+
+After fresh system timing failure, prepare the existing independent classifier before field generation using documented prewarm(promptPrefix:). Prompts, schemas, generation order/options and refusal handling are unchanged. Parent source review found no blocking preservation issue; compile, accuracy and timing evidence remain required before integration. The anticipated one-second preparation window is not guaranteed per document and no artificial delay is added. See evidence/classifier-prewarm-candidate.md; no claim of benefit or AC-10 pass.
