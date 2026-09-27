@@ -1,11 +1,12 @@
 import AppKit
+import Darwin
 import CryptoKit
 import Foundation
 import Observation
 import PaperloftKit
 import UniformTypeIdentifiers
 
-struct ReceiptDraft: Codable {
+struct ReceiptDraft: Codable, Sendable {
     var vendor = ""
     var date = ""
     var total = ""
@@ -40,7 +41,7 @@ struct AppIssue: LocalizedError {
     init(_ message: String) { self.message = message }
     var errorDescription: String? { message }
 }
-struct StoredReview: Codable {
+struct StoredReview: Codable, Sendable {
     let hash: String
     let text: String
     let fields: ExtractedFields
@@ -62,10 +63,16 @@ struct StoredReview: Codable {
         assessment = ExtractionAssessment(fields: fields, parser: ParserBackend.parse(text))
     }
 }
-struct InboxItem: Codable, Identifiable {
+struct WatchedDeliveryProof: Codable, Equatable, Sendable {
+    let sourceKey: String
+    let contentHash: String
+    let sequence: Int64
+}
+struct InboxItem: Codable, Identifiable, Sendable {
     let id: UUID
     var source: URL
     var bookmark: Data?
+    var watchedDelivery: WatchedDeliveryProof?
     var review: StoredReview?
     var draft = ReceiptDraft()
     var status = "waiting"
@@ -127,6 +134,20 @@ final class FileGrant: @unchecked Sendable {
     var showExport = false
     var exportResult: AccountantPackResult?
     var exportError: String?
+    var watchedFolderURL: URL?
+    var watchedEnabled = false
+    var watchedStatus = "Choose a folder to send new documents to review."
+    var watchedIssues: [String] = []
+    @ObservationIgnored private var watchedAccess: LibraryAccess?
+    @ObservationIgnored private var watchedScanner: WatchedFolderScanner?
+    @ObservationIgnored private var watchedTask: Task<Void, Never>?
+    @ObservationIgnored private var watchedGeneration = UUID()
+    @ObservationIgnored private var watchedConfiguration = UUID()
+    @ObservationIgnored private(set) var watchedConfigurationPending = false
+    @ObservationIgnored private var watchedStoppingTask: Task<Void, Never>?
+    @ObservationIgnored private var watchedScanning = false
+    @ObservationIgnored private var watchedDeliveries: [String: WatchedDeliveryProof] = [:]
+    @ObservationIgnored private var watchedDeliverySequence: Int64 = 0
     let testMode: Bool
     let support: URL
     @ObservationIgnored private let preferences: UserDefaults
@@ -138,21 +159,25 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var processingTask: Task<Void, Never>?
     @ObservationIgnored private var searchTask: Task<Void, Never>?
     @ObservationIgnored private var generation = UUID()
-    @ObservationIgnored private var started = false
+    @ObservationIgnored private var inboxMayBeMutated = false
+    @ObservationIgnored private var startupTask: Task<Void, any Error>?
+    @ObservationIgnored private let proEntitlement: @MainActor () -> Bool
 
     static func argument(_ key: String) -> String? {
         let args = ProcessInfo.processInfo.arguments
         guard let position = args.firstIndex(of: key), position + 1 < args.count else { return nil }
         return args[position + 1]
     }
-    init() {
+    init(support suppliedSupport: URL? = nil, preferences suppliedPreferences: UserDefaults? = nil,
+         proEntitlement: @escaping @MainActor () -> Bool = AppModel.defaultProEntitlement) {
         testMode = Self.argument("-PaperloftUITestMode") == "YES"
-        preferences = testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard
+        preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard)
+        self.proEntitlement = proEntitlement
         categories = preferences.stringArray(forKey: "categories") ?? ["Advertising", "Contract labor", "Insurance", "Legal and professional services", "Meals", "Office supplies", "Rent", "Repairs", "Software", "Taxes and licenses", "Travel", "Utilities", "Vehicle", "Other expenses"]
         filenameTemplate = preferences.string(forKey: "filenameTemplate") ?? ReceiptNameTemplate.defaultPattern
         mode = FilingMode(rawValue: preferences.string(forKey: "filingMode") ?? "copy") ?? .copy
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        support = base.appendingPathComponent(testMode ? "Paperloft-UI" : "Paperloft", isDirectory: true)
+        support = suppliedSupport ?? base.appendingPathComponent(testMode ? "Paperloft-UI" : "Paperloft", isDirectory: true)
     }
     var selectedItem: InboxItem? { items.first { $0.id == selectedItemID } ?? items.first { $0.status != "aside" } }
     var inboxCount: Int { items.filter { $0.status != "aside" }.count }
@@ -166,33 +191,90 @@ final class FileGrant: @unchecked Sendable {
         } catch { return error.localizedDescription }
     }
     func start() async {
-        guard !started else { return }; started = true
-        busy = true; defer { busy = false }
-        do {
-            try FileManager.default.createDirectory(at: support, withIntermediateDirectories: true)
-            if let data = try? Data(contentsOf: support.appendingPathComponent("inbox.json")) { items = try JSONDecoder().decode([InboxItem].self, from: data) }
-            for i in items.indices where items[i].status != "aside" {
-                do {
-                    let grant: FileGrant
-                    if let bookmark = items[i].bookmark { grant = try FileGrant(bookmark: bookmark) }
-                    else {
-                        guard FileGrant.isInternal(items[i].source) else { throw AppIssue("Import this document again to renew access.") }
-                        grant = try FileGrant(url: items[i].source)
-                    }
-                    sourceGrants[items[i].id] = grant; items[i].source = grant.url
-                    if items[i].status == "processing" { items[i].status = "waiting" }
-                } catch { items[i].status = "failed"; items[i].issue = error.localizedDescription }
+        do { try await awaitStartup() }
+        catch { message = error.localizedDescription }
+    }
+    private func awaitStartup() async throws {
+        if let startupTask { return try await startupTask.value }
+        guard !busy else { throw AppIssue("Wait for the current operation to finish before opening the inbox.") }
+        let task = Task { @MainActor in
+            do { try await self.loadStartupState() }
+            catch {
+                // Only this task clears its failure; a waiting caller must never
+                // erase a later retry's task after the actor becomes reentrant.
+                self.startupTask = nil
+                throw error
             }
-            let saved = preferences.dictionary(forKey: "moveFolderBookmarks") as? [String: Data] ?? [:]
-            for (path, bookmark) in saved { if let access = try? LibraryAccess(bookmark: bookmark) { moveGrants[path] = access } }
-            if let bookmark = preferences.data(forKey: "paperloft.libraryBookmark") {
-                let access = try LibraryAccess(bookmark: bookmark); libraryAccess = access
-                try await configure(access.url, sample: false)
-            } else if let path = preferences.string(forKey: "paperloft.demoLibraryPath"), URL(fileURLWithPath: path).path.hasPrefix(support.path + "/") {
-                try await configure(URL(fileURLWithPath: path), sample: true)
-            } else if testMode { try await createSampleLibrary(discardInbox: false) }
-            selectedItemID = items.first { $0.status != "aside" }?.id
-        } catch { message = error.localizedDescription }
+        }
+        startupTask = task
+        try await task.value
+    }
+    private func loadStartupState() async throws {
+        busy = true; defer { busy = false }
+        inboxMayBeMutated = false
+        let support = support
+        // Parsing restored assessments and reading the snapshot must not block UI.
+        // Publish only after the entire snapshot has decoded successfully.
+        let restored = try await Task.detached(priority: .userInitiated) {
+            try FileManager.default.createDirectory(at: support, withIntermediateDirectories: true)
+            let inboxURL = support.appendingPathComponent("inbox.json")
+            do { return try JSONDecoder().decode([InboxItem].self, from: Data(contentsOf: inboxURL)) }
+            catch let error as CocoaError where error.code == .fileReadNoSuchFile {
+                // A broken symlink or inaccessible history is not an empty inbox.
+                // lstat also avoids following a dangling link when checking absence.
+                var status = stat()
+                if lstat(inboxURL.path, &status) == -1 && errno == ENOENT { return [InboxItem]() }
+                throw error
+            }
+        }.value
+        items = restored
+        let deliveryURL = support.appendingPathComponent("watched-deliveries.json")
+        var deliveryInfo = stat()
+        let deliveryExists = lstat(deliveryURL.path, &deliveryInfo) == 0
+        guard deliveryExists || errno == ENOENT else { throw AppIssue("Watched-folder delivery history could not be inspected.") }
+        if deliveryExists {
+            let restored = try await Task.detached(priority: .utility) {
+                let data = try Self.readWatchedLedger(deliveryURL)
+                let records = try JSONDecoder().decode([String: WatchedDeliveryProof].self, from: data)
+                guard records.count <= 25_000, records.allSatisfy({ key, proof in
+                    key == proof.sourceKey && key.count == 64 && proof.contentHash.count == 64 && proof.sequence > 0
+                        && (key + proof.contentHash).utf8.allSatisfy { (48...57).contains($0) || (97...102).contains($0) }
+                }) else { throw AppIssue("Watched-folder delivery history is corrupt. Documents were preserved.") }
+                return (records, records.values.map(\.sequence).max() ?? 0)
+            }.value
+            watchedDeliveries = restored.0; watchedDeliverySequence = restored.1
+        }
+        // A crash after inbox commit but before scanner acknowledgment must not enqueue it twice.
+        try await recordWatchedDeliveries(items.compactMap(\.watchedDelivery))
+        inboxMayBeMutated = true
+        for i in items.indices where items[i].status != "aside" {
+            do {
+                let grant: FileGrant
+                if let bookmark = items[i].bookmark { grant = try FileGrant(bookmark: bookmark) }
+                else {
+                    guard FileGrant.isInternal(items[i].source) else { throw AppIssue("Import this document again to renew access.") }
+                    grant = try FileGrant(url: items[i].source)
+                }
+                sourceGrants[items[i].id] = grant; items[i].source = grant.url
+                if items[i].status == "processing" { items[i].status = "waiting" }
+            } catch { items[i].status = "failed"; items[i].issue = error.localizedDescription }
+        }
+        let saved = preferences.dictionary(forKey: "moveFolderBookmarks") as? [String: Data] ?? [:]
+        for (path, bookmark) in saved { if let access = try? LibraryAccess(bookmark: bookmark) { moveGrants[path] = access } }
+        if let bookmark = preferences.data(forKey: "paperloft.libraryBookmark") {
+            let access = try LibraryAccess(bookmark: bookmark); libraryAccess = access
+            try await configure(access.url, sample: false)
+        } else if let path = preferences.string(forKey: "paperloft.demoLibraryPath"), URL(fileURLWithPath: path).path.hasPrefix(support.path + "/") {
+            try await configure(URL(fileURLWithPath: path), sample: true)
+        } else if testMode { try await createSampleLibrary(discardInbox: false) }
+        selectedItemID = items.first { $0.status != "aside" }?.id
+        if preferences.bool(forKey: "watchedFolderEnabled"), !watchedConfigurationPending {
+            let configuration = watchedConfiguration
+            Task { [weak self] in
+                guard let self, self.watchedConfiguration == configuration else { return }
+                await self.restoreWatchedFolder()
+            }
+        }
     }
     private func configure(_ url: URL, sample: Bool) async throws {
         processingTask?.cancel(); generation = UUID(); processing = false
@@ -221,6 +303,9 @@ final class FileGrant: @unchecked Sendable {
     }
     func chooseLibrary() async {
         guard !busy else { return }
+        do { try await awaitRestoredInbox() }
+        catch { message = error.localizedDescription; return }
+        guard !busy else { return }
         busy = true; defer { busy = false }
         let panel = NSOpenPanel(); panel.title = "Choose your Paperloft library"
         panel.message = "Choose a folder, or create a Paperloft folder in Documents. Your filed documents stay here as ordinary files."
@@ -237,6 +322,8 @@ final class FileGrant: @unchecked Sendable {
         } catch { message = error.localizedDescription }
     }
     func newSampleLibrary(discardInbox: Bool = false) async throws {
+        guard !busy else { throw AppIssue("Wait for the current operation to finish before changing libraries.") }
+        try await awaitRestoredInbox()
         guard !busy else { throw AppIssue("Wait for the current operation to finish before changing libraries.") }
         busy = true; defer { busy = false }
         try await createSampleLibrary(discardInbox: discardInbox)
@@ -265,40 +352,48 @@ final class FileGrant: @unchecked Sendable {
                 let copy = folder.appendingPathComponent(original.lastPathComponent)
                 try FileManager.default.copyItem(at: original, to: copy); urls.append(copy)
             }
-            intake(urls, sample: true)
+            await intake(urls, sample: true)
         } catch { message = error.localizedDescription }
     }
     func importFiles() async {
         let panel = NSOpenPanel(); panel.title = "Import receipts"
         panel.canChooseFiles = true; panel.canChooseDirectories = false; panel.allowsMultipleSelection = true
         panel.allowedContentTypes = [.pdf, .png, .jpeg, .heic, UTType(filenameExtension: "eml") ?? .emailMessage]
-        if await panel.begin() == .OK { intake(panel.urls) }
+        if await panel.begin() == .OK { await intake(panel.urls) }
     }
-    func intake(_ urls: [URL], sample: Bool = false) {
+    func intake(_ urls: [URL], sample: Bool = false) async {
+        // Acquire permissions before the first suspension. A drag/open URL's
+        // temporary sandbox access must survive the startup wait.
+        var grants: [FileGrant] = []
         for url in urls {
             do {
                 guard ["pdf", "png", "jpg", "jpeg", "heic", "eml"].contains(url.pathExtension.lowercased()) else { throw AppIssue("Import PDF, PNG, JPEG, HEIC or EML email files.") }
-                guard !items.contains(where: { $0.source == url && $0.status != "aside" }) else { continue }
-                let grant = try FileGrant(url: url)
-                let item = InboxItem(id: UUID(), source: grant.url, bookmark: grant.bookmark, sample: sample)
-                sourceGrants[item.id] = grant; items.append(item)
-                if selectedItemID == nil { selectedItemID = item.id }
+                grants.append(try FileGrant(url: url))
             } catch { message = error.localizedDescription }
+        }
+        guard !grants.isEmpty else { return }
+        do { try await awaitStartup() }
+        catch { message = error.localizedDescription; return }
+        for grant in grants {
+            guard !items.contains(where: { $0.source == grant.url && $0.status != "aside" }) else { continue }
+            let item = InboxItem(id: UUID(), source: grant.url, bookmark: grant.bookmark, sample: sample)
+            sourceGrants[item.id] = grant; items.append(item)
+            if selectedItemID == nil { selectedItemID = item.id }
         }
         selection = "Inbox"; persist(); processWaiting()
     }
-    func pasteImage() {
+    func pasteImage() async {
         do {
             guard let image = NSImage(pasteboard: .general), let tiff = image.tiffRepresentation,
                   let bitmap = NSBitmapImageRep(data: tiff), let png = bitmap.representation(using: .png, properties: [:]) else { throw AppIssue("Copy an image first, then choose Paste Image.") }
             let folder = support.appendingPathComponent("Pasted", isDirectory: true)
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             let url = folder.appendingPathComponent(UUID().uuidString + ".png"); try png.write(to: url, options: .atomic)
-            intake([url])
+            await intake([url])
         } catch { message = error.localizedDescription }
     }
     private func processWaiting() {
-        guard !processing, let engine else { return }
+        guard inboxMayBeMutated, !processing, let engine else { return }
         let token = generation; processing = true
         processingTask = Task {
             defer { if generation == token { processing = false; activity = "" } }
@@ -344,10 +439,12 @@ final class FileGrant: @unchecked Sendable {
         }
     }
     func edit(_ draft: ReceiptDraft, id: UUID) {
+        guard canMutateRestoredInbox() else { return }
         guard let index = items.firstIndex(where: { $0.id == id }) else { return }
         items[index].draft = draft; persist()
     }
     func setAside(_ id: UUID) {
+        guard canMutateRestoredInbox() else { return }
         guard let i = items.firstIndex(where: { $0.id == id }) else { return }
         items[i].status = "aside"; sourceGrants[id] = nil
         selectedItemID = items.first { $0.status != "aside" }?.id; persist()
@@ -359,6 +456,7 @@ final class FileGrant: @unchecked Sendable {
         let sourceAccess = sourceGrants[item.id], activeLibraryAccess = libraryAccess
         defer { withExtendedLifetime(sourceAccess) {}; withExtendedLifetime(activeLibraryAccess) {} }
         do {
+            if let proof = item.watchedDelivery { try await recordWatchedDelivery(proof) }
             let receipt = try item.draft.receipt()
             if mode == .move, !FileGrant.isInternal(item.source), moveGrants[item.source.deletingLastPathComponent().path] == nil {
                 guard await grantMoveFolder(required: item.source.deletingLastPathComponent()) else { return }
@@ -394,7 +492,7 @@ final class FileGrant: @unchecked Sendable {
         } catch { message = error.localizedDescription }
     }
     func refresh() async {
-        guard let engine else { return }
+        guard inboxMayBeMutated, let engine else { return }
         let token = generation
         do {
             let history = try await engine.library.history()
@@ -472,7 +570,251 @@ final class FileGrant: @unchecked Sendable {
         guard let libraryURL else { return }
         NSWorkspace.shared.activateFileViewerSelecting([document.map { libraryURL.appendingPathComponent($0.relativePath) } ?? libraryURL])
     }
+    static func defaultProEntitlement() -> Bool {
+        #if DEBUG || QA
+        // The documented mock-store hook is never compiled into Release.
+        if argument("-PaperloftStoreMock") == "YES" { return true }
+        #endif
+        // Commerce integration supplies the cached, verified StoreKit entitlement.
+        return false
+    }
+    var isPro: Bool { proEntitlement() }
+
+    func chooseWatchedFolder() async {
+        guard isPro else { watchedStatus = "Watched folders require Pro."; return }
+        guard !busy else { watchedStatus = "Wait for the current operation to finish."; return }
+        let panel = NSOpenPanel()
+        panel.title = "Choose a watched folder"
+        panel.message = "New PDF and image documents will be copied into the review inbox. Originals stay here."
+        panel.canChooseDirectories = true; panel.canChooseFiles = false; panel.allowsMultipleSelection = false
+        guard await panel.begin() == .OK, let url = panel.url else { return }
+        do {
+            let bookmark = try LibraryAccess.bookmark(for: url)
+            let access = try LibraryAccess(bookmark: bookmark)
+            try await installWatchedFolder(at: access.url, access: access)
+            preferences.set(bookmark, forKey: "watchedFolderBookmark")
+        } catch is CancellationError { return }
+        catch { watchedStatus = error.localizedDescription }
+    }
+
+    func restoreWatchedFolder() async {
+        guard isPro else { watchedStatus = "Paused: watched folders require Pro."; return }
+        do {
+            guard let bookmark = preferences.data(forKey: "watchedFolderBookmark") else {
+                throw AppIssue("Choose a watched folder to grant access.")
+            }
+            let access = try LibraryAccess(bookmark: bookmark)
+            try await installWatchedFolder(at: access.url, access: access)
+        } catch is CancellationError { return }
+        catch { watchedEnabled = false; watchedStatus = "Choose the watched folder again to renew access. " + error.localizedDescription }
+    }
+
+    func disableWatchedFolder() async {
+        let request = UUID(); watchedConfiguration = request; watchedConfigurationPending = false
+        guard await stopWatchedFolder(for: request) else { return }
+        watchedStatus = "Watched folder is off. Existing inbox documents are unchanged."
+    }
+
+    private func stopWatchedFolder(for request: UUID) async -> Bool {
+        guard watchedConfiguration == request else { return false }
+        watchedEnabled = false; preferences.set(false, forKey: "watchedFolderEnabled")
+        watchedGeneration = UUID()
+        let task = watchedTask ?? watchedStoppingTask
+        watchedStoppingTask = task; watchedTask = nil; task?.cancel()
+        await task?.value
+        // A newer configuration owns the scanner now; an older continuation cannot clear it.
+        guard watchedConfiguration == request else { return false }
+        watchedStoppingTask = nil; watchedScanner = nil; watchedAccess = nil
+        return true
+    }
+
+    /// The production caller supplies a retained security grant. Ordinary path injection supports local coordinator tests.
+    func installWatchedFolder(at url: URL, access: LibraryAccess? = nil, schedule: Bool = true,
+                              stableInterval: Duration = .seconds(2)) async throws {
+        let request = UUID(); watchedConfiguration = request; watchedConfigurationPending = true
+        defer { if watchedConfiguration == request { watchedConfigurationPending = false } }
+        do { try await awaitStartup() }
+        catch {
+            guard watchedConfiguration == request else { throw CancellationError() }
+            throw error
+        }
+        guard watchedConfiguration == request else { throw CancellationError() }
+        guard isPro else { throw AppIssue("Watched folders require Paperloft Pro.") }
+        guard await stopWatchedFolder(for: request) else { throw CancellationError() }
+        let physical = url.resolvingSymlinksInPath()
+        let folder = support.appendingPathComponent("Watched-State", isDirectory: true)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let name = SHA256.hash(data: Data(physical.path.utf8)).map { String(format: "%02x", $0) }.joined()
+        let scanner = try WatchedFolderScanner(root: physical, stateURL: folder.appendingPathComponent(name + ".json"), minimumStableInterval: stableInterval)
+        guard isPro else { throw AppIssue("Watched folders require Paperloft Pro.") }
+        watchedScanner = scanner; watchedAccess = access; watchedFolderURL = physical
+        watchedEnabled = true; preferences.set(true, forKey: "watchedFolderEnabled")
+        watchedStatus = "Watching for stable documents. Every document needs review."
+        let token = watchedGeneration
+        if schedule {
+            watchedTask = Task { [weak self] in
+                while !Task.isCancelled {
+                    guard let self, self.watchedGeneration == token else { return }
+                    await self.scanWatchedFolder()
+                    do { try await Task.sleep(for: .seconds(3)) } catch { return }
+                }
+            }
+        }
+    }
+
+    func scanWatchedFolder() async {
+        guard watchedEnabled, !watchedScanning, let scanner = watchedScanner else { return }
+        guard isPro else { watchedStatus = "Paused: watched folders require Pro."; return }
+        guard !busy else { watchedStatus = "Waiting for the current operation to finish."; return }
+        watchedScanning = true; defer { watchedScanning = false }
+        let token = watchedGeneration, grant = watchedAccess
+        defer { withExtendedLifetime(grant) {} }
+        do {
+            let result = try await scanner.scan()
+            guard watchedEnabled, watchedGeneration == token, isPro else { return }
+            watchedIssues = result.issues.map { $0.filename.isEmpty ? $0.message : $0.filename + ": " + $0.message }
+            var queued = 0
+            for candidate in result.candidates {
+                guard watchedEnabled, watchedGeneration == token, isPro, !Task.isCancelled else { break }
+                if (candidate.filename as NSString).pathExtension.lowercased() == "eml" {
+                    watchedIssues.append(candidate.filename + ": Mail import is not connected to watched folders yet. This file remains unacknowledged.")
+                    continue
+                }
+                do {
+                    try await queueWatchedCandidate(candidate, generation: token)
+                    guard watchedEnabled, watchedGeneration == token, isPro else { break }
+                    try await scanner.acknowledge(candidate)
+                    queued += 1
+                } catch {
+                    guard watchedEnabled, watchedGeneration == token else { break }
+                    watchedIssues.append(candidate.filename + ": " + error.localizedDescription)
+                }
+            }
+            watchedStatus = watchedIssues.isEmpty ? (queued > 0 ? "Copied \(queued) documents to review. Originals are unchanged." : "Watching for stable documents. Every document needs review.") : "Some documents need attention; they will be checked again."
+        } catch {
+            guard watchedEnabled, watchedGeneration == token else { return }
+            watchedStatus = "Watched folder paused: " + error.localizedDescription
+        }
+    }
+
+    func queueWatchedCandidate(_ candidate: WatchedFolderScanner.Candidate, generation token: UUID? = nil) async throws {
+        try await awaitStartup()
+        guard isPro else { throw AppIssue("Watched folders require Paperloft Pro.") }
+        guard !busy else { throw AppIssue("Wait for the current operation to finish before importing.") }
+        guard watchedEnabled, token == nil || token == watchedGeneration, let root = watchedFolderURL else {
+            throw AppIssue("The watched folder was turned off or changed. This document remains pending.")
+        }
+        guard ["pdf", "png", "jpg", "jpeg", "heic"].contains((candidate.filename as NSString).pathExtension.lowercased()) else {
+            throw AppIssue("Watched folders support PDF, PNG, JPEG and HEIC documents.")
+        }
+        busy = true; defer { busy = false }
+        let key = SHA256.hash(data: Data((root.path + "\0" + candidate.filename).utf8)).map { String(format: "%02x", $0) }.joined()
+        if watchedDeliveries[key]?.contentHash == candidate.contentHash { return }
+        if let pending = items.compactMap(\.watchedDelivery).filter({ $0.sourceKey == key }).max(by: { $0.sequence < $1.sequence }),
+           pending.sequence > (watchedDeliveries[key]?.sequence ?? 0), pending.contentHash == candidate.contentHash {
+            try await recordWatchedDelivery(pending); return
+        }
+        guard watchedDeliverySequence < Int64.max else { throw AppIssue("Watched-folder delivery history is full.") }
+        let proof = WatchedDeliveryProof(sourceKey: key, contentHash: candidate.contentHash, sequence: watchedDeliverySequence + 1)
+        let folder = support.appendingPathComponent("Watched-Imports", isDirectory: true).appendingPathComponent(UUID().uuidString, isDirectory: true)
+        // Copying large immutable inputs never blocks the main actor. Inbox metadata is
+        // committed only after returning, using the current items so concurrent edits survive.
+        let source = folder.appendingPathComponent(candidate.filename), storage = support
+        try await Task.detached(priority: .utility) {
+            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+            try Self.writeWatchedData(candidate.data, to: source)
+            try Self.synchronizeWatchedDirectory(folder.deletingLastPathComponent())
+            try Self.synchronizeWatchedDirectory(storage)
+        }.value
+        guard watchedEnabled, token == nil || token == watchedGeneration, isPro else { throw CancellationError() }
+        let item = InboxItem(id: UUID(), source: source, watchedDelivery: proof)
+        let updated = items + [item]
+        try Self.writeWatchedData(JSONEncoder().encode(updated), to: support.appendingPathComponent("inbox.json"))
+        items = updated; selectedItemID = item.id; selection = "Inbox"
+        try await recordWatchedDelivery(proof)
+        processWaiting()
+    }
+
+    private func recordWatchedDelivery(_ proof: WatchedDeliveryProof) async throws {
+        try await recordWatchedDeliveries([proof])
+    }
+
+    private func recordWatchedDeliveries(_ proofs: [WatchedDeliveryProof]) async throws {
+        var updated = watchedDeliveries
+        for proof in proofs {
+            guard proof.sourceKey.count == 64, proof.contentHash.count == 64, proof.sequence > 0,
+                  (proof.sourceKey + proof.contentHash).utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }) else {
+                throw AppIssue("A watched-folder delivery record is corrupt. The inbox was preserved.")
+            }
+            watchedDeliverySequence = max(watchedDeliverySequence, proof.sequence)
+            if let existing = updated[proof.sourceKey], existing.sequence == proof.sequence, existing != proof {
+                throw AppIssue("Watched-folder delivery records disagree. The inbox was preserved.")
+            }
+            guard (updated[proof.sourceKey]?.sequence ?? 0) < proof.sequence else { continue }
+            guard updated[proof.sourceKey] != nil || updated.count < 25_000 else { throw AppIssue("Watched-folder delivery history is full. No document was acknowledged.") }
+            updated[proof.sourceKey] = proof
+        }
+        guard updated != watchedDeliveries else { return }
+        let destination = support.appendingPathComponent("watched-deliveries.json"), snapshot = updated
+        try await Task.detached(priority: .utility) {
+            let data = try JSONEncoder().encode(snapshot)
+            guard data.count <= 8 * 1024 * 1024 else { throw AppIssue("Watched-folder delivery history is full. No document was acknowledged.") }
+            try Self.writeWatchedData(data, to: destination)
+        }.value
+        watchedDeliveries = updated
+    }
+
+    private nonisolated static func readWatchedLedger(_ url: URL) throws -> Data {
+        let descriptor = open(url.path, O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
+        guard descriptor >= 0 else { throw AppIssue("Watched-folder delivery history could not be read.") }
+        let handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
+        defer { try? handle.close() }
+        var info = stat()
+        guard fstat(descriptor, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_size <= 8 * 1024 * 1024 else {
+            throw AppIssue("Watched-folder delivery history is invalid or exceeds 8 MB.")
+        }
+        var data = Data()
+        while let chunk = try handle.read(upToCount: min(65_536, 8 * 1024 * 1024 - data.count + 1)), !chunk.isEmpty {
+            data.append(chunk)
+            guard data.count <= 8 * 1024 * 1024 else { throw AppIssue("Watched-folder delivery history exceeds 8 MB.") }
+        }
+        return data
+    }
+
+    private nonisolated static func synchronizeWatchedDirectory(_ url: URL) throws {
+        let descriptor = open(url.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard descriptor >= 0 else { throw AppIssue("The inbox folder could not be synchronized. Nothing was acknowledged.") }
+        defer { close(descriptor) }
+        guard fsync(descriptor) == 0 else { throw AppIssue("The inbox folder could not be synchronized. Nothing was acknowledged.") }
+    }
+
+    private nonisolated static func writeWatchedData(_ data: Data, to url: URL) throws {
+        try data.write(to: url, options: .atomic)
+        let handle = try FileHandle(forWritingTo: url)
+        defer { try? handle.close() }
+        try handle.synchronize()
+        try synchronizeWatchedDirectory(url.deletingLastPathComponent())
+    }
+
+    private func awaitRestoredInbox() async throws {
+        do { try await awaitStartup() }
+        catch {
+            // Choosing another library may repair a revoked library bookmark,
+            // but must never discard an inbox that has not decoded successfully.
+            guard inboxMayBeMutated else { throw error }
+        }
+    }
+
+    private func canMutateRestoredInbox() -> Bool {
+        guard inboxMayBeMutated else {
+            message = "Your saved inbox has not finished opening. Resolve any opening error, then try again."
+            return false
+        }
+        return true
+    }
+
     private func persist() {
+        guard canMutateRestoredInbox() else { return }
         do { try JSONEncoder().encode(items).write(to: support.appendingPathComponent("inbox.json"), options: .atomic) }
         catch { message = "The inbox could not be saved. Your originals are unchanged. " + error.localizedDescription }
     }
