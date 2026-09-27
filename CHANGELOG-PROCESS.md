@@ -146,3 +146,7 @@ Added TaxExportTests alongside unchanged export verification to check newly requ
 ## 2026-09-27 — owner temporary signing and appearance
 - Added opt-in PaulDevelopment.xcconfig for local development signed by owner-confirmed paid team GQ4UA5C6RQ, using a separate development bundle ID. Real signed build and deep strict signature verification passed; no archives/uploads/profile updates or production credential changes.
 - Added native appearance persistence UI test for owner-requested System/Light/Dark preference. No system appearance setting is changed.
+
+## 2026-09-27 — visual-reference correction
+- Added a five-receipt parser-backed native visual/filter test covering row View, search clearing, type filters and Light/Dark captures. Existing locked tests unchanged.
+- Explicit old-process retirement and exact rebuilt-app launch replace relying on open alone. Evidence: older QA PID37318 and Release PID71410 were still running; both terminated gracefully before verification.

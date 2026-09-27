@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Owner receipt UX and persistent System/Light/Dark appearance implemented, tested and independently reviewed. Separate Paul team GQ4UA5C6RQ development build and signature verify PASS. Existing P3 gates and release/upload block unchanged.",
+  "step": "Library visual redesign independently scoped PASS; exact updated Release app freshly launched and actual owner Library verified via Computer Use. Old QA/Release processes closed. Native gallery/filter/View/Light-Dark and doubleclick/delete/restart/restore/theme tests pass; full P3/release gates remain open.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -8,10 +8,9 @@
     "System accessibility audit findings reproduced independently; AC-13 remains open",
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
     "AppIntentsTesting metadata discovery fails; adapter independently passes16tests, AC15 unverified",
-    "Native Computer Use click bridge failure blocks complete design/persona review",
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
     "System throughput exceeds240s; required signpost collection unavailable after three approaches",
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete"
   ],
-  "updated": "2026-09-27T19:15:22.539746+00:00"
+  "updated": "2026-09-27T19:26:40.800858+00:00"
 }

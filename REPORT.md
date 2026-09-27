@@ -47,3 +47,6 @@
 - **Not done:** full P3/launch acceptance, personal-team signing, release/upload; prior accessibility/performance and isolated integration blockers remain.
 
 Appearance/signing followup: native theme persistence test and screenshots PASS; optimized build PASS. Paid Paul team GQ4UA5C6RQ opt-in development build and deep strict signature verification independently PASS. Supersedes pending-team-details note above; does not clear distribution/full acceptance gates.
+
+## Library reference correction
+Verified: visual redesign, strict optimized build, native search/filter/View/appearance and double-click/delete/restart/restore tests; independent scoped review PASS. Root Computer Use confirmed the exact current Release app's Library with owner's existing receipts; earlier app binding issue resolved in this session after old processes retired. Evidence: evidence/library-redesign/verification.md. Full accessibility/performance/release gates remain incomplete.

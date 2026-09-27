@@ -9,6 +9,7 @@ import UniformTypeIdentifiers
 struct LibraryView: View {
     @Bindable var model: AppModel
     @State private var targeted = false
+    @Environment(\.colorScheme) private var scheme
     private func navigationButton(_ title: String, symbol: String) -> some View {
         Button { model.selection = title } label: {
             HStack {
@@ -24,10 +25,16 @@ struct LibraryView: View {
     var body: some View {
         NavigationSplitView {
             List {
+                HStack(spacing: 10) {
+                    Image(systemName: "tray.full.fill").font(.title2).foregroundStyle(Color.accentColor)
+                    Text("Paperloft").font(.system(size: 22, weight: .semibold, design: .serif))
+                }.padding(.vertical, 18).accessibilityElement(children: .combine)
                 navigationButton("Inbox", symbol: "tray")
                 navigationButton("Library", symbol: "folder")
                 navigationButton("History", symbol: "clock.arrow.circlepath")
             }
+            .scrollContentBackground(.hidden)
+            .background(scheme == .dark ? Color(nsColor: .windowBackgroundColor) : Color(red: 0.97, green: 0.96, blue: 0.94))
             .navigationTitle("Paperloft")
             .safeAreaInset(edge: .bottom) {
                 VStack(alignment: .leading, spacing: 5) {
@@ -45,7 +52,7 @@ struct LibraryView: View {
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
                     Text(model.selection == "Inbox" ? "A place for your paperwork" : model.selection)
-                        .font(.title2.weight(.semibold)).accessibilityIdentifier("content.title")
+                        .font(.system(size: 28, weight: .semibold, design: .serif)).accessibilityIdentifier("content.title")
                     Spacer()
                     if model.selection == "Inbox", model.inboxCount > 0 {
                         let ready = model.items.filter { $0.status == "ready" }.count
@@ -330,37 +337,71 @@ struct BrowseView: View {
     @State private var selected: UUID?
     @State private var pendingDelete: FiledDocument?
     @State private var showDeleted = false
+    @Environment(\.colorScheme) private var scheme
+    private var canvas: Color { scheme == .dark ? Color(red: 0.12, green: 0.135, blue: 0.13) : Color(red: 0.985, green: 0.98, blue: 0.965) }
     var body: some View {
-        VStack(spacing: 14) {
-            HStack {
-                TextField("Search vendor, notes or receipt text", text: $model.search).textFieldStyle(.roundedBorder).accessibilityIdentifier("library.search").accessibilityLabel("Search library")
-                AccessiblePicker(label: "Year", identifier: "library.year", choices: ["All years"] + Array(Set(model.allDocuments.map { String($0.receipt.date.year) })).sorted().reversed(), selection: $model.yearFilter).frame(width: 155)
+        VStack(alignment: .leading, spacing: 18) {
+            HStack(spacing: 12) {
+                Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
+                TextField("Search your receipts", text: $model.search)
+                    .textFieldStyle(.plain).font(.body)
+                    .accessibilityIdentifier("library.search").accessibilityLabel("Search library")
+                if !model.search.isEmpty {
+                    Button { model.search = "" } label: { Image(systemName: "xmark.circle.fill") }
+                        .buttonStyle(.plain).accessibilityLabel("Clear search")
+                }
+            }.padding(16).background(scheme == .dark ? Color.white.opacity(0.04) : .white, in: RoundedRectangle(cornerRadius: 12))
+                .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Color.secondary.opacity(0.2)))
+            HStack(spacing: 10) {
+                LibraryFilterChip(title: "Type", identifier: "library.kind", choices: ["All types", "Receipt", "Invoice", "Bill"], selection: Binding(get: { model.kindFilter == "All types" ? model.kindFilter : model.kindFilter.capitalized }, set: { model.kindFilter = $0 == "All types" ? $0 : $0.lowercased() }))
+                LibraryFilterChip(title: "Category", identifier: "library.category", choices: ["All categories"] + Array(Set(model.categories + model.allDocuments.map { $0.receipt.category })).sorted(), selection: $model.categoryFilter)
+                LibraryFilterChip(title: "Year", identifier: "library.year", choices: ["All years"] + Array(Set(model.allDocuments.map { String($0.receipt.date.year) })).sorted().reversed(), selection: $model.yearFilter)
+                Spacer(minLength: 8)
+                Button("Tax & Accountant Export…", systemImage: "square.and.arrow.up") { model.beginExport() }
+                    .buttonStyle(.borderedProminent).buttonBorderShape(.capsule)
+                    .disabled(model.libraryURL == nil || model.busy).accessibilityIdentifier("library.export")
             }
-            HStack {
-                AccessiblePicker(label: "Category", identifier: "library.category", choices: ["All categories"] + Array(Set(model.categories + model.allDocuments.map { $0.receipt.category })).sorted(), selection: $model.categoryFilter)
-                AccessiblePicker(label: "Type", identifier: "library.kind", choices: ["All types", "Receipt", "Invoice", "Bill"], selection: Binding(get: { model.kindFilter == "All types" ? model.kindFilter : model.kindFilter.capitalized }, set: { model.kindFilter = $0 == "All types" ? $0 : $0.lowercased() }))
+            HStack(spacing: 16) {
+                Text("Filed receipts").font(.headline)
                 Spacer()
-                Button("Tax & Accountant Export…") { model.beginExport() }.disabled(model.libraryURL == nil || model.busy).accessibilityIdentifier("library.export")
-            }
-            HStack {
-                Button("Open Receipt", systemImage: "doc.text.magnifyingglass") { open(selectedDocument) }
-                    .disabled(selectedDocument == nil).accessibilityIdentifier("library.quickLook")
-                Button("Reveal in Finder", systemImage: "folder") { model.reveal(selectedDocument) }
-                    .disabled(selectedDocument == nil).accessibilityIdentifier("library.reveal")
+                Button("Open Receipt") { open(selectedDocument) }.disabled(selectedDocument == nil).accessibilityIdentifier("library.quickLook")
+                Button("Reveal in Finder") { model.reveal(selectedDocument) }.disabled(selectedDocument == nil).accessibilityIdentifier("library.reveal")
                 Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = selectedDocument }
                     .disabled(selectedDocument == nil || model.busy).accessibilityIdentifier("library.delete")
-                Spacer()
                 Button("Recently Deleted") { showDeleted = true }.accessibilityIdentifier("library.deleted")
-            }
-            Table(model.documents, selection: $selected) {
-                TableColumn("Date") { Text($0.receipt.date.formatted).monospacedDigit() }.width(100)
-                TableColumn("Vendor") { document in
-                    Label(document.receipt.vendor, systemImage: "doc.text").fontWeight(.medium).padding(.vertical, 8)
-                }
-                TableColumn("Category") { Text($0.receipt.category) }
-                TableColumn("Total") { Text(amount($0.receipt)).monospacedDigit() }.width(100)
-                TableColumn("Type") { Text($0.receipt.kind.rawValue.capitalized) }.width(75)
-            }
+            }.buttonStyle(.borderless).font(.callout).padding(.top, 8)
+            VStack(spacing: 4) {
+                HStack(spacing: 12) {
+                    Text("Receipt").frame(width: 42, alignment: .leading)
+                    Text("Date").frame(width: 86, alignment: .leading)
+                    Text("Merchant").frame(maxWidth: .infinity, alignment: .leading)
+                    Text("Category").frame(width: 110, alignment: .leading)
+                    Text("Total").frame(width: 108, alignment: .trailing)
+                    Text("Action").frame(width: 70)
+                }.font(.caption.weight(.medium)).foregroundStyle(.secondary).padding(.horizontal, 16).padding(.bottom, 6)
+                List(selection: $selected) {
+                    ForEach(model.documents) { document in
+                        HStack(spacing: 12) {
+                            LibraryReceiptIcon(category: document.receipt.category).frame(width: 42)
+                            Text(document.receipt.date.formatted).font(.callout).monospacedDigit().frame(width: 86, alignment: .leading)
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text(document.receipt.vendor).font(.body.weight(.medium)).lineLimit(2)
+                                Text(document.receipt.kind.rawValue.capitalized).font(.caption).foregroundStyle(.secondary)
+                            }.frame(maxWidth: .infinity, alignment: .leading)
+                            Text(document.receipt.category).font(.callout).lineLimit(2).frame(width: 110, alignment: .leading)
+                            Text(amount(document.receipt)).font(.body.weight(.medium)).monospacedDigit().frame(width: 108, alignment: .trailing)
+                            Button("View") { open(document) }.buttonStyle(.bordered).buttonBorderShape(.capsule)
+                                .frame(width: 70).accessibilityLabel("View receipt from " + document.receipt.vendor)
+                                .accessibilityIdentifier("library.view." + document.id.uuidString)
+                        }.padding(.horizontal, 16).padding(.vertical, 16)
+                            .frame(minHeight: 76)
+                            .background(selected == document.id ? Color.accentColor.opacity(0.12) : (scheme == .dark ? Color.white.opacity(0.055) : Color(red: 0.952, green: 0.938, blue: 0.916)), in: RoundedRectangle(cornerRadius: 12))
+                            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(selected == document.id ? Color.accentColor.opacity(0.65) : .clear))
+                            .contentShape(Rectangle()).tag(document.id)
+                            .listRowSeparator(.hidden).listRowBackground(Color.clear)
+                            .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                    }
+                }.listStyle(.plain).scrollContentBackground(.hidden)
             .contextMenu(forSelectionType: UUID.self) { ids in
                 if let id = ids.first, let document = model.documents.first(where: { $0.id == id }) {
                     Button("Open Receipt") { open(document) }
@@ -374,10 +415,11 @@ struct BrowseView: View {
             .onDeleteCommand { if !model.busy { pendingDelete = selectedDocument } }
             .accessibilityIdentifier("library.table").accessibilityLabel("Filed documents")
                 .overlay { if model.documents.isEmpty { PaperloftEmptyState(title: "No matching documents", symbol: "doc.text.magnifyingglass", detail: "File a receipt from the Inbox, or adjust your search and filters.") } }
+            }
             Text("\(model.documents.count) documents").font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading).accessibilityIdentifier("library.count")
             Text("Double-click a receipt to open it. Deleted receipts can be restored from Recently Deleted.")
                 .font(.caption).foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .leading)
-        }.padding(20)
+        }.padding(24).background(canvas)
         .confirmationDialog("Delete this receipt?", isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }), titleVisibility: .visible) {
             Button("Delete Receipt", role: .destructive) {
                 if let document = pendingDelete { Task { await model.deleteDocument(document) } }
@@ -395,6 +437,42 @@ struct BrowseView: View {
     }
     private var selectedDocument: FiledDocument? { model.documents.first { $0.id == selected } }
     private func amount(_ receipt: Receipt) -> String { receipt.currency + " " + ((try? Money(minorUnits: receipt.totalMinorUnits, currency: receipt.currency).decimal) ?? "—") }
+}
+
+struct LibraryFilterChip: View {
+    let title: String
+    let identifier: String
+    let choices: [String]
+    @Binding var selection: String
+    var body: some View {
+        Menu {
+            Picker(title, selection: $selection) { ForEach(choices, id: \.self) { Text($0).tag($0) } }.pickerStyle(.inline)
+        } label: {
+            Text(selection.hasPrefix("All ") ? title + ": All" : selection).font(.callout.weight(.medium)).lineLimit(1).truncationMode(.tail)
+        }
+        .menuStyle(.borderlessButton).frame(maxWidth: title == "Category" ? 150 : 105).padding(.horizontal, 12).padding(.vertical, 8)
+        .background(Color.secondary.opacity(0.12), in: Capsule())
+        .accessibilityLabel(title).accessibilityValue(selection).accessibilityIdentifier(identifier)
+    }
+}
+
+struct LibraryReceiptIcon: View {
+    let category: String
+    private var color: Color {
+        switch category.lowercased() {
+        case "meals": return .orange
+        case "travel": return .blue
+        case "software": return .purple
+        case "utilities": return .teal
+        default: return Color.accentColor
+        }
+    }
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5).fill(color).frame(width: 34, height: 42)
+            Image(systemName: "doc.text.fill").font(.system(size: 29)).foregroundStyle(.white).offset(x: 5, y: 3)
+        }.accessibilityHidden(true)
+    }
 }
 
 struct RecentlyDeletedView: View {

@@ -26,3 +26,6 @@
 - Document type needed three fix cycles: broad guidance perturbed totals, then separate classification could refuse.
 - Isolate field tasks and retain valid partial output with explicit diagnostics and mandatory review.
 - Coverage needs retained instrumented binaries: use an isolated test build directory alongside ordinary Release builds.
+
+- macOS open can reactivate an old running process after its on-disk app was rebuilt. Inspect running paths, gracefully quit project copies, explicitly launch the exact rebuilt binary, and verify the new PID/path before telling the owner it is current.
+- Functional UX changes are not a visual redesign. Compare a populated window directly with the owner's reference; verify spacing, row surfaces, icons, filters and actions in both appearances.

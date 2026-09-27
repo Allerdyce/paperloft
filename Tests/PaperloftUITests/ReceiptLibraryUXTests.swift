@@ -2,6 +2,55 @@ import XCTest
 
 final class ReceiptLibraryUXTests: XCTestCase {
     @MainActor
+    func testLibraryVisualReferenceAndFilters() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "parser"]
+        app.launch(); app.activate(); defer { app.terminate() }
+        if !app.buttons["toolbar.settings"].waitForExistence(timeout: 3) {
+            app.menuBars.menuBarItems["Window"].click()
+            app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
+        }
+        app.buttons["toolbar.settings"].click()
+        XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
+        app.buttons["settings.newSampleLibrary"].click()
+        app.radioButtons["Light"].click()
+        app.typeKey("w", modifierFlags: .command)
+        app.buttons["sidebar.inbox"].click()
+        XCTAssertTrue(app.buttons["inbox.samples"].waitForExistence(timeout: 10)); app.buttons["inbox.samples"].click()
+        for file in ["01-office.pdf", "02-meal.pdf", "03-travel.pdf", "04-software.pdf", "05-utilities.pdf"] {
+            XCTAssertTrue(app.staticTexts[file].waitForExistence(timeout: 30)); app.staticTexts[file].click()
+            XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 30))
+            let fileButton = app.buttons["review.file"]
+            XCTAssertTrue(fileButton.isEnabled); fileButton.click()
+            XCTAssertTrue(app.staticTexts[file].waitForNonExistence(timeout: 15))
+        }
+        app.buttons["sidebar.library"].click()
+        XCTAssertTrue(app.staticTexts["5 documents"].waitForExistence(timeout: 15))
+        let light = XCTAttachment(screenshot: app.screenshot()); light.name = "Redesigned library Light five receipts"; light.lifetime = .keepAlways; add(light)
+        let search = app.textFields["library.search"]
+        search.click(); search.typeText("Juniper")
+        XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Juniper Cafe"].firstMatch.exists)
+        search.typeKey("a", modifierFlags: .command); search.typeKey(.delete, modifierFlags: [])
+        XCTAssertTrue(app.staticTexts["5 documents"].waitForExistence(timeout: 10))
+        let kind = app.descendants(matching: .any)["library.kind"]
+        XCTAssertTrue(kind.exists); kind.click()
+        app.menuItems["Invoice"].click()
+        XCTAssertTrue(app.staticTexts["0 documents"].waitForExistence(timeout: 10))
+        kind.click(); app.menuItems["All types"].click()
+        XCTAssertTrue(app.staticTexts["5 documents"].waitForExistence(timeout: 10))
+        let view = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "library.view.")).firstMatch
+        XCTAssertTrue(view.exists); view.click()
+        XCTAssertTrue(app.windows["Quick Look"].waitForExistence(timeout: 10)); app.typeKey(.escape, modifierFlags: [])
+        app.buttons["toolbar.settings"].click()
+        XCTAssertTrue(app.radioButtons["Dark"].waitForExistence(timeout: 10)); app.radioButtons["Dark"].click()
+        app.typeKey("w", modifierFlags: .command)
+        let dark = XCTAttachment(screenshot: app.screenshot()); dark.name = "Redesigned library Dark five receipts"; dark.lifetime = .keepAlways; add(dark)
+        app.buttons["toolbar.settings"].click(); app.radioButtons["System"].click(); app.typeKey("w", modifierFlags: .command)
+    }
+
+    @MainActor
     func testAppearanceChoicePersists() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
