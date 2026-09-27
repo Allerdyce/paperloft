@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Real receipt local audit complete; reference sidebar/status filters and tax source-review safeguard integrated, independently scoped reviewed and strict builds pass. Fresh Release launched; final visual capture blocked by CUA pipe. Fix documented OCR/date/merchant/total issues next; full P3 remains open.",
+  "step": "Sidebar Settings page and clearer local-library footer implemented; independent source review, strict Release and native navigation test PASS. Rebuilt app on disk; CUA native pipe prevents refreshing owner running process. Existing extraction and full P3 gates remain open.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -13,5 +13,5 @@
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
     "Real receipts: OCR loses visible totals; unsupported total, merchant and transaction-date errors require follow-up. Tax safeguard is partial mitigation only."
   ],
-  "updated": "2026-09-27T19:40:30.696607+00:00"
+  "updated": "2026-09-27T19:42:37.555784+00:00"
 }

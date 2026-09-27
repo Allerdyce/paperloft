@@ -2,6 +2,22 @@ import XCTest
 
 final class ReceiptLibraryUXTests: XCTestCase {
     @MainActor
+    func testSidebarSettingsStaysInMainWindow() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
+        app.launch(); app.activate(); defer { app.terminate() }
+        XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 10))
+        let count = app.windows.count
+        app.buttons["sidebar.settings"].click()
+        XCTAssertTrue(app.windows["main"].buttons["settings.chooseFolder"].waitForExistence(timeout: 10))
+        XCTAssertEqual(app.windows.count, count)
+        XCTAssertEqual(app.staticTexts["content.title"].value as? String, "Settings")
+        app.buttons["sidebar.library"].click()
+        XCTAssertTrue(app.textFields["library.search"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.buttons["settings.chooseFolder"].exists)
+    }
+
+    @MainActor
     func testInboxStatusFiltersKeepReviewSelectionConsistent() throws {
         continueAfterFailure = false
         let app = XCUIApplication()

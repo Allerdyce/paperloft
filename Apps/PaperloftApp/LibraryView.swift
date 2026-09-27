@@ -33,9 +33,7 @@ struct LibraryView: View {
                 navigationButton("Library", symbol: "folder")
                 navigationButton("History", symbol: "clock.arrow.circlepath")
                 Section {
-                    SettingsLink { Label { Text("Settings") } icon: { Image(systemName: "gearshape").foregroundStyle(Color(red: 0.36, green: 0.86, blue: 0.61)) } }
-                        .buttonStyle(.plain).foregroundStyle(.white.opacity(0.85)).padding(.vertical, 10)
-                        .accessibilityIdentifier("sidebar.settings")
+                    navigationButton("Settings", symbol: "gearshape")
                 }
             }
             .scrollContentBackground(.hidden)
@@ -43,7 +41,7 @@ struct LibraryView: View {
             .navigationTitle("Paperloft")
             .safeAreaInset(edge: .bottom) {
                 VStack(alignment: .leading, spacing: 5) {
-                    Label(model.isSampleLibrary ? "Sample library" : "Your library", systemImage: "externaldrive")
+                    Label(model.isSampleLibrary ? "Sample library" : "Saved on this Mac", systemImage: "externaldrive")
                         .font(.caption.weight(.medium))
                     Text(model.isSampleLibrary ? "Practice receipts" : (model.libraryURL?.lastPathComponent ?? "Choose a folder to begin"))
                         .font(.callout).foregroundStyle(.white.opacity(0.8)).lineLimit(2)
@@ -71,6 +69,7 @@ struct LibraryView: View {
                 switch model.selection {
                 case "Library": BrowseView(model: model)
                 case "History": HistoryView(model: model)
+                case "Settings": PaperloftSettings(model: model, embedded: true)
                 default: InboxView(model: model)
                 }
                 if !model.activity.isEmpty {
@@ -583,12 +582,13 @@ struct HistoryView: View {
 
 struct PaperloftSettings: View {
     @Bindable var model: AppModel
+    var embedded = false
     @State private var newCategory = ""
     @AppStorage("appearance") private var appearance = "System"
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                Text("Paperloft Settings").font(.title2.weight(.semibold))
+                if !embedded { Text("Paperloft Settings").font(.title2.weight(.semibold)) }
                 GroupBox("Appearance") {
                     VStack(alignment: .leading, spacing: 8) {
                         Picker("Theme", selection: $appearance) {
@@ -669,7 +669,9 @@ struct PaperloftSettings: View {
                     Text("© 2026 EvidencePair LLC").font(.caption).foregroundStyle(.primary)
                 }
             }.padding(24)
-        }.frame(width: 610, height: 660).accessibilityIdentifier("settings.root")
+        }.frame(width: embedded ? nil : 610, height: embedded ? nil : 660)
+            .frame(maxWidth: embedded ? .infinity : nil, maxHeight: embedded ? .infinity : nil)
+            .accessibilityIdentifier("settings.root")
     }
 }
 
