@@ -1,7 +1,7 @@
-# Resume P1
+# Local development continues autonomously
 
-Owner authorized autonomous local development after independent applicable checks. Do not ask again. P0 local readiness passed and its two test files are locked. Formal release gates remain deferred.
+P0/P1 local readiness independently passed; accepted tests and P1 fixtures are locked. Resume P2 from STATE.json. See evidence/gates/P1.md and PLAN.md. No owner action is needed for current local development.
 
-Current work: 150 fixtures and OCR/extraction/eval pipeline; system evaluation running via scripts/eval.sh --model system, output evidence/system-initial.txt. First parser scores in evidence/parser-initial.txt. Xcode CI passed nine tests in build/Tests-20260926-194441.xcresult.
+Parked external prerequisites: EvidencePair Apple Developer membership, real signing identities and App Store Connect credentials/app/products, the supervised full shakedown, and the postponed acceptance-v1 baseline. Before any future distribution work, complete those prerequisites and pass full preflight/frozen lock verification plus manual checks. Current authorization explicitly keeps release and uploads blocked.
 
-Next: complete extraction schema with tax, inspect model results, run P1 self-gate and independent verifier for fixture difficulty/holdout. Do not start P2 until applicable P1 checks pass. P1 scores may be low but all later accuracy gates remain unchanged.
+Recurring wakeup/automation tools are not exposed in this session. Progress occurs while this agent turn is active; persisted state supports resuming after an interruption. No background schedule has been created.

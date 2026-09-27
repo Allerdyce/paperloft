@@ -47,16 +47,8 @@ ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD
 
 ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
 
-Build description signature: b005a975bd78041ffa0546bd91aafa81
-Build description path: /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/XCBuildData/b005a975bd78041ffa0546bd91aafa81.xcbuilddata
-CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/ModuleCache.noindex
-    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
-    builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/ModuleCache.noindex
-
-CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules
-    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
-    builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules
-
+Build description signature: 4c92111ea95a5c8018f342979eb5c557
+Build description path: /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/XCBuildData/4c92111ea95a5c8018f342979eb5c557.xcbuilddata
 CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/CompilationCache.noindex
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
     builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/CompilationCache.noindex
@@ -65,13 +57,29 @@ ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefaul
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -o /Users/builder/Factory/paperloft/build/DerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
 
-CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex
+CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/ModuleCache.noindex
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
-    builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex
+    builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/ModuleCache.noindex
+
+CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules
+    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules
 
 CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Products
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
     builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/Build/Products
+
+CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex
+    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex
+
+CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PrecompiledHeaders
+    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PrecompiledHeaders
+
+CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
+    builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
 
 CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
@@ -80,14 +88,6 @@ CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/In
 CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
     builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug
-
-CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
-    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
-    builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
-
-CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PrecompiledHeaders
-    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
-    builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PrecompiledHeaders
 
 CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
@@ -101,9 +101,9 @@ CreateBuildDirectory /Users/builder/Factory/paperloft/build/DerivedData/Build/Pr
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
     builtin-create-build-directory /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PackageFrameworks
 
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/empty-Paperloft\ Receipts.plist (in target 'PaperloftApp' from project 'Paperloft')
-    cd /Users/builder/Factory/paperloft
-    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/empty-Paperloft\ Receipts.plist
+WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.DependencyStaticMetadataFileList (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.DependencyStaticMetadataFileList
 
 WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.modulemap (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
@@ -113,22 +113,6 @@ WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Inte
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.DependencyMetadataFileList
 
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.DependencyStaticMetadataFileList (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.DependencyStaticMetadataFileList
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json
-
 WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.LinkFileList (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.LinkFileList
@@ -137,17 +121,37 @@ WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Inte
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_const_extract_protocols.json
 
+WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
+    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList
+
 WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts.hmap (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
     write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts.hmap
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/empty-Paperloft\ Receipts.plist (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/empty-Paperloft\ Receipts.plist
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts.DependencyMetadataFileList (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts.DependencyMetadataFileList
 
 WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts.DependencyStaticMetadataFileList (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
     write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts.DependencyStaticMetadataFileList
 
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts.DependencyMetadataFileList (in target 'PaperloftApp' from project 'Paperloft')
-    cd /Users/builder/Factory/paperloft
-    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts.DependencyMetadataFileList
+Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/GeneratedModuleMaps/PaperloftKit.modulemap /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.modulemap (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.modulemap /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/GeneratedModuleMaps
 
 WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts-project-headers.hmap (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
@@ -160,10 +164,6 @@ WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Inte
 WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts-generated-files.hmap (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
     write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts-generated-files.hmap
-
-Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/GeneratedModuleMaps/PaperloftKit.modulemap /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.modulemap (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.modulemap /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/GeneratedModuleMaps
 
 WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts-all-target-headers.hmap (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
@@ -181,13 +181,13 @@ WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Inte
     cd /Users/builder/Factory/paperloft
     write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts-DebugDylibInstallName-normal-arm64.txt
 
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json (in target 'PaperloftApp' from project 'Paperloft')
-    cd /Users/builder/Factory/paperloft
-    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json
-
 WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/PaperloftApp-OutputFileMap.json (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
     write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/PaperloftApp-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json
 
 WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
@@ -205,97 +205,37 @@ WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Inte
     cd /Users/builder/Factory/paperloft
     write-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/DerivedSources/Entitlements.plist
 
-MkDir /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents (in target 'PaperloftApp' from project 'Paperloft')
+MkDir /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/MacOS (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
-    /bin/mkdir -p /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents
+    /bin/mkdir -p /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/MacOS
 
 MkDir /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Resources (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
     /bin/mkdir -p /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Resources
 
+MkDir /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    /bin/mkdir -p /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents
+
 MkDir /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
     /bin/mkdir -p /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app
 
-MkDir /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/MacOS (in target 'PaperloftApp' from project 'Paperloft')
-    cd /Users/builder/Factory/paperloft
-    /bin/mkdir -p /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/MacOS
-
 SwiftDriver PaperloftKit normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
     builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftKit -Onone @/Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/DerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/DerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-Swift.h -working-directory /Users/builder/Factory/paperloft/Paperloft.xcodeproj -experimental-emit-module-separately -disable-cmo
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-CVJD22JG025X6BU4N7CI4PEJY.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/_Builtin_stdatomic-DF63PF1F4KCNYX0ZIJ4UNH5SB.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CUPS-CX1423EJ73YQEM5HWYEMIPF90.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreAudioTypes-O0HFRYJ1P8EDU2FV7D6ULJC4.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/Compression-2RSH79TRGN07UGSIBJSKTEDZY.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreGraphics-1GU63J73J1IZ0OWDDV4SKUPAW.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/DataDetection-89TXSGX9AY1K40RH1809T8Y5N.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/_Builtin_intrinsics-681A6TB1H31EJUGTGKHBGRCSW.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/ColorSync-1B5QCNLOIB7XOF9ZIXVLQQ348.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/IOSurface-DTZB1ZY1JJ08YTGAD4QNJH0HX.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/_Builtin_tgmath-1U4W09ZZ6TML91ISRQ79Q9ONM.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/os-8J25QKOKJWKQ5HBUA0Z6P1J62.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreMIDI-3K02GX5M90U27ZBHCWOJ57FC3.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreAudio-6ZRVVDG8EFG6CWCCT0KSNLPLG.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/Metal-7QRN55VCKPHBRALLUCKTDH3VY.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/OpenGL-710RBFD3R1W01ZIZJ9US20RBJ.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/ImageIO-4PGL0LC03ELV9I9L2NKKFJ5QN.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreText-8E3HX5L1A9ILVYRIP6Q6VF100.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/simd-1A1E0SBS7V74FYY9F9XI1R538.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/ApplicationServices-8JIYKULLH6AGHBB04WWVOUUSW.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreVideo-4V1RNMHMHXDIGBSMAL34G9OIC.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/Carbon-2V4VK44VFGNMYLF9I9K2QI42L.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreML-2HH2891C67QK51FEQ3P28L3LJ.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreMedia-E4CGEB1PKKRPLMOSI9OZYI1ME.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/QuartzCore-DL2TSG2ZCEXKIGQ6VAM33E5QF.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreImage-CX18JWRZ5KZACIWLIT0VJQVO2.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/Accelerate-41DKDULG1M24UGU2MPA0W0CGB.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/VideoToolbox-EAK5IFBANMC7TICI57WBGXIHY.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/Vision-58NDGJ8VXPAK4T0GOU3ULU8VT.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/AudioToolbox-CKGVKVR54X9HGJJE9ZOPYM5V0.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/MediaToolbox-A3629AMX1XRM93UIVTRTYIQL9.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/AVFAudio-32M483NAHE85HFOX0V6B7VVLW.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/AVFoundation-1KGVI9WIDNQKYVSZGDF34WGEC.pcm
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ PaperloftKit (in target 'PaperloftKit' from project 'PaperloftKit')
 
 SwiftCompile normal arm64 (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
     
+
+SwiftCompile normal arm64 Compiling\ Extraction.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/Extraction.swift (in target 'PaperloftKit' from project 'PaperloftKit')
+
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/Extraction.swift (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
+    builtin-SwiftPerFileCompile Extraction.swift
 
 SwiftCompile normal arm64 Compiling\ Recognize.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/Recognize.swift (in target 'PaperloftKit' from project 'PaperloftKit')
 
@@ -309,12 +249,6 @@ SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
     builtin-SwiftPerFileCompile Receipt.swift
 
-SwiftCompile normal arm64 Compiling\ Extraction.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/Extraction.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/Extraction.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
-    builtin-SwiftPerFileCompile Extraction.swift
-
 SwiftDriverJobDiscovery normal arm64 Emitting module for PaperloftKit (in target 'PaperloftKit' from project 'PaperloftKit')
 
 SwiftDriver\ Compilation\ Requirements PaperloftKit normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKit' from project 'PaperloftKit')
@@ -325,10 +259,6 @@ SwiftMergeGeneratedHeaders /Users/builder/Factory/paperloft/build/DerivedData/Bu
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     builtin-swiftHeaderTool -arch arm64 /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-Swift.h -o /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/GeneratedModuleMaps/PaperloftKit-Swift.h
 
-Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.abi.json /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.abi.json (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.abi.json /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.abi.json
-
 Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.swiftmodule /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.swiftmodule
@@ -336,6 +266,10 @@ Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Pap
 Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.swiftdoc /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftdoc (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftdoc /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.swiftdoc
+
+Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.abi.json /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.abi.json (in target 'PaperloftKit' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.abi.json /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.abi.json
 
 Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftsourceinfo (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
@@ -365,31 +299,21 @@ SwiftDriver PaperloftApp normal arm64 com.apple.xcode.tools.swift.compiler (in t
 
 SwiftDriverJobDiscovery normal arm64 Compiling Receipt.swift (in target 'PaperloftKit' from project 'PaperloftKit')
 
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/VideoToolbox-ANL040EU0Q3DKMYKR930JAIB9.pcm
+SwiftDriverJobDiscovery normal arm64 Compiling Recognize.swift (in target 'PaperloftKit' from project 'PaperloftKit')
 
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreML-E2TSNH439M6NQK0FVWZE65L0H.pcm
+SwiftCompile normal arm64 Compiling\ PaperloftApp.swift /Users/builder/Factory/paperloft/Apps/PaperloftApp/PaperloftApp.swift (in target 'PaperloftApp' from project 'Paperloft')
 
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/Compression-E1SY9VCOJPPYFRVMDW24PCLN7.pcm
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Apps/PaperloftApp/PaperloftApp.swift (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-SwiftPerFileCompile PaperloftApp.swift
 
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/CoreMIDI-3ALYG3ZG1VMG20FPL0KE0B4VL.pcm
+SwiftEmitModule normal arm64 Emitting\ module\ for\ Paperloft_Receipts (in target 'PaperloftApp' from project 'Paperloft')
 
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/Carbon-385OB84JSUN2GX1NC9D7OWVAM.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/Accelerate-ANADK8WI6TKZNYIH1LBTJU9BG.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/Vision-D9M5FH9T2QUNAEQKO9CN6B3Y9.pcm
+SwiftCompile normal arm64 (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    
 
 SwiftDriverJobDiscovery normal arm64 Compiling Extraction.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/AudioToolbox-AVRMHO0NHDGNJE8VVWO1LHIL0.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/MediaToolbox-4901AO5EWO24FL3W9YQ6Z2QAL.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/AVFAudio-6SKKJ0SYR8M95GQPAR5GX00BO.pcm
-
-SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules/AVFoundation-8VHSCNYCTGFPPYXND9BPTHW4E.pcm
-
-SwiftDriverJobDiscovery normal arm64 Compiling Recognize.swift (in target 'PaperloftKit' from project 'PaperloftKit')
 
 SwiftDriver\ Compilation PaperloftKit normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
@@ -402,20 +326,12 @@ Ld /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paper
 ExtractAppIntentsMetadata (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name PaperloftKit --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk --xcode-version 27A266a --platform-family macOS --deployment-target 27.0 --bundle-identifier paperloftkit.PaperloftKit --output /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.appintents --target-triple arm64-apple-macos27.0 --binary-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/PaperloftKit.o --dependency-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_dependency_info.dat --stringsdata-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList --metadata-file-list /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.DependencyMetadataFileList --static-metadata-file-list /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.DependencyStaticMetadataFileList --swift-const-vals-list /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList --force --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
-2026-09-26 19:44:22.496 appintentsmetadataprocessor[75438:557182] Starting appintentsmetadataprocessor export
-2026-09-26 19:44:22.551 appintentsmetadataprocessor[75438:557182] Extracted no relevant App Intents symbols, skipping writing output
+2026-09-26 20:19:06.677 appintentsmetadataprocessor[89387:652543] Starting appintentsmetadataprocessor export
+2026-09-26 20:19:06.729 appintentsmetadataprocessor[89387:652543] Extracted no relevant App Intents symbols, skipping writing output
 
-SwiftEmitModule normal arm64 Emitting\ module\ for\ Paperloft_Receipts (in target 'PaperloftApp' from project 'Paperloft')
-
-SwiftCompile normal arm64 (in target 'PaperloftApp' from project 'Paperloft')
+CpResource /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Resources/PrivacyInfo.xcprivacy /Users/builder/Factory/paperloft/Apps/PaperloftApp/PrivacyInfo.xcprivacy (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
-    
-
-SwiftCompile normal arm64 Compiling\ PaperloftApp.swift /Users/builder/Factory/paperloft/Apps/PaperloftApp/PaperloftApp.swift (in target 'PaperloftApp' from project 'Paperloft')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Apps/PaperloftApp/PaperloftApp.swift (in target 'PaperloftApp' from project 'Paperloft')
-    cd /Users/builder/Factory/paperloft
-    builtin-SwiftPerFileCompile PaperloftApp.swift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft/Apps/PaperloftApp/PrivacyInfo.xcprivacy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Resources
 
 Ld /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/MacOS/__preview.dylib normal (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
@@ -424,10 +340,6 @@ Ld /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paper
 ProcessInfoPlistFile /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Info.plist /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/empty-Paperloft\ Receipts.plist (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
     builtin-infoPlistUtility /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/empty-Paperloft\ Receipts.plist -producttype com.apple.product-type.application -genpkginfo /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/PkgInfo -expandbuildsettings -platform macosx -o /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Info.plist
-
-CpResource /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Resources/PrivacyInfo.xcprivacy /Users/builder/Factory/paperloft/Apps/PaperloftApp/PrivacyInfo.xcprivacy (in target 'PaperloftApp' from project 'Paperloft')
-    cd /Users/builder/Factory/paperloft
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft/Apps/PaperloftApp/PrivacyInfo.xcprivacy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Resources
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for Paperloft_Receipts (in target 'PaperloftApp' from project 'Paperloft')
 
@@ -443,13 +355,13 @@ Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Pap
     cd /Users/builder/Factory/paperloft
     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.abi.json /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft_Receipts.swiftmodule/arm64-apple-macos.abi.json
 
-Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft_Receipts.swiftmodule/arm64-apple-macos.swiftdoc /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftdoc (in target 'PaperloftApp' from project 'Paperloft')
-    cd /Users/builder/Factory/paperloft
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftdoc /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft_Receipts.swiftmodule/arm64-apple-macos.swiftdoc
-
 Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft_Receipts.swiftmodule/arm64-apple-macos.swiftmodule /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft_Receipts.swiftmodule/arm64-apple-macos.swiftmodule
+
+Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft_Receipts.swiftmodule/arm64-apple-macos.swiftdoc /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftdoc (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftdoc /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft_Receipts.swiftmodule/arm64-apple-macos.swiftdoc
 
 Copy /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft_Receipts.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftsourceinfo (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
@@ -481,8 +393,8 @@ CopySwiftLibs /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/
 ExtractAppIntentsMetadata (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name Paperloft_Receipts --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk --xcode-version 27A266a --platform-family macOS --deployment-target 27.0 --bundle-identifier app.paperloft.receipts --output /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Resources --target-triple arm64-apple-macos27.0 --binary-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts --dependency-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts_dependency_info.dat --stringsdata-file /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList --metadata-file-list /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts.DependencyMetadataFileList --static-metadata-file-list /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Paperloft\ Receipts.DependencyStaticMetadataFileList --swift-const-vals-list /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
-2026-09-26 19:44:23.329 appintentsmetadataprocessor[75461:557314] Starting appintentsmetadataprocessor export
-2026-09-26 19:44:23.381 appintentsmetadataprocessor[75461:557314] Extracted no relevant App Intents symbols, skipping writing output
+2026-09-26 20:19:07.432 appintentsmetadataprocessor[89398:652642] Starting appintentsmetadataprocessor export
+2026-09-26 20:19:07.487 appintentsmetadataprocessor[89398:652642] Extracted no relevant App Intents symbols, skipping writing output
 
 CodeSign /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts.debug.dylib (in target 'PaperloftApp' from project 'Paperloft')
     cd /Users/builder/Factory/paperloft
@@ -521,11 +433,11 @@ RegisterWithLaunchServices /Users/builder/Factory/paperloft/build/DerivedData/Bu
     cd /Users/builder/Factory/paperloft
     builtin-lsregisterurl --record-path /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/XCBuildData/registered-launchservices.txt -- /System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -f -R -trusted /Users/builder/Factory/paperloft/build/DerivedData/Build/Products/Debug/Paperloft\ Receipts.app
 
-PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules
-
 PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
 
 PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/DerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/DerivedData/SDKExplicitPrecompiledModules
 
 ** BUILD SUCCEEDED **
 

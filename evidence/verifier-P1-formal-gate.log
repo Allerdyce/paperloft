@@ -1,10 +1,10 @@
-Paperloft factory pre-flight  2026-09-26 20:27:00  user=builder  repo=/Users/builder/Factory/paperloft
+Paperloft factory pre-flight  2026-09-26 20:07:56  user=builder  repo=/Users/builder/Factory/paperloft
 
 == Machine ==
 PASS   macOS 27.0
 PASS   Apple silicon
 PASS   user 'builder' is a Standard user
-PASS   245 GB free
+PASS   246 GB free
 PASS   Retina-class display connected
 
 == Power, sleep, lock, updates ==
@@ -50,7 +50,7 @@ PASS   LEGAL_ENTITY set
 FAIL   App Store Connect key file not found at '/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8'
 FAIL   no signing identity for team ABCDE12345
 PASS   App Store Connect API reachable
-FAIL   App Store Connect check failed (exit 2): ASC_ERROR could not build a token from the key file: Error Domain=NSCocoaErrorDomain Code=260 "The file “AuthKey_ABC123DEFG.p8” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8, NSURL=file:///Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8, NSUnderlyingError=0x1104811a0 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}
+FAIL   App Store Connect check failed (exit 2): ASC_ERROR could not build a token from the key file: Error Domain=NSCocoaErrorDomain Code=260 "The file “AuthKey_ABC123DEFG.p8” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8, NSURL=file:///Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8, NSUnderlyingError=0x1107f1a80 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}
 
 == Apple Intelligence ==
 PASS   on-device model available

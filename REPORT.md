@@ -1,19 +1,16 @@
 # Development report
 
 ## Verified
-- Local preflight: 38 PASS, 1 WARN, zero FAIL/TFAIL.
-- Clean Debug and Release builds and all five tests: scripts/ci.sh exit 0, build/Tests-20260926-185705.xcresult.
-- Built Release app privacy check: exit 0.
-- Pre-tag protected-file baseline check: exit 0; formal acceptance lock deferred.
+- P0/P1 local readiness independently PASS: evidence/gates/P0.md and P1.md. Formal gates remain FAIL.
+- Clean fresh-checkout Debug/Release builds, Swift6 strict concurrency, zero warnings; all nine unit/UI tests passed with no skips at5c4130b. Evidence in P1 report and verifier-P1-cycle2 logs.
+- Accepted 150 synthetic documents across40 vendors and12 structural layouts; required mix and initial parser difficulty pass. Corpus and extraction tests appended to ACCEPTANCE.lock.
+- Independent extraction runs completed150/150 with zero errors. System: date99.26%, total71.85%, vendor97.78%, kind98.67%, category99.26%; parser date99.26%, total0%. Evidence: P1-parser.txt, P1-system.txt and eval-history.csv.
+- Local preflight, protected-file baseline and privacy checks passed; the acceptance tag remains explicitly deferred.
 
 ## Assumed
-- Manual app preferences confirmed by owner; not all machine/manual release settings independently verified.
+- Owner-confirmed manual app preferences; not every manual release prerequisite independently verified.
 
 ## Not done
-- Formal P0 verifier acceptance, acceptance-v1 baseline.
-- Receipt intake, extraction, filing, export, purchases and remaining product phases.
-- Membership, signing, App Store Connect setup, upload and release.
-
-## Independent P0 review update
-
-See evidence/gates/P0.md. Raw Debug/Release builds exit 0 but each emits one App Intents metadata warning: zero-warning AC-01 is not passed. All five tests independently pass in build/Verifier-P0.xcresult. Fresh-clone build unverified. Wall power was lost during review.
+- P2 extraction accuracy, journaled filing, index/undo, coverage/property/crash gates.
+- Product UI beyond bootstrap, export/intents, purchases, hardening, design/QA and documentation phases.
+- Membership/signing/ASC setup, full shakedown, acceptance-v1 and all distribution/upload/release work.

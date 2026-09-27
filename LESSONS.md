@@ -14,3 +14,9 @@
 - A clean checkout caught reproducibility requirements independently of cached builds.
 - Privacy checks must enforce absence of Package.resolved, not merely inspect current dependencies.
 - Local readiness and formal distribution gates are separate under the owner-approved exception.
+
+- P1 took longest in repeated on-device evaluations; stream progress and preserve exact revision IDs.
+- Optional generated fields returned incomplete records; required fields with explicit unknown values made the pipeline reliable.
+- Fixture layout diversity needed one independent fix cycle: fonts and widths were not distinct document structures.
+- A visual layout inventory before generating the full corpus would have caught that problem earlier.
+- The revised generator uses structural templates and merchant-appropriate content; accepted fixtures are now immutable.
