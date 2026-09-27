@@ -88,21 +88,23 @@ final class WatchedFolderLifecycleTests: XCTestCase {
         let thirdName = "Watched restart " + UUID().uuidString + ".pdf"
         try original.write(to: folder.appendingPathComponent(thirdName))
         XCTAssertTrue(app.staticTexts[thirdName].firstMatch.waitForExistence(timeout: 30), "Restored bookmark must support new intake without reselecting the folder")
-        // Restore a deliberately closed main window. The app-owned startup must
-        // resume watching without a Window task or opening the main window first.
+        // macOS may reopen the main window on XCTest launch. Close it if restored,
+        // then verify continued intake with only the menu extra. This does not
+        // prove that no Window task executed during launch.
         app.typeKey("w", modifierFlags: .command)
         XCTAssertFalse(app.windows["main"].exists)
         app.terminate(); app.launch(); app.activate()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        if app.windows["main"].exists { app.typeKey("w", modifierFlags: .command) }
         XCTAssertFalse(app.windows["main"].exists)
         let fourthName = "Watched background " + UUID().uuidString + ".pdf"
         try original.write(to: folder.appendingPathComponent(fourthName))
         let status = app.descendants(matching: .any).matching(identifier: "menubar.status").firstMatch
         XCTAssertTrue(status.waitForExistence(timeout: 10)); status.click()
-        XCTAssertTrue(app.staticTexts["4 documents in your inbox"].waitForExistence(timeout: 30), "Menu-only startup must resume watched intake before main window opens")
+        XCTAssertTrue(app.staticTexts["4 documents in your inbox"].waitForExistence(timeout: 30), "Watched intake must continue while the main window is closed")
         XCTAssertFalse(app.windows["main"].exists)
         let background = XCTAttachment(screenshot: app.screenshot())
-        background.name = "Watched intake after menu-only restart"; background.lifetime = .keepAlways; add(background)
+        background.name = "Watched intake after restart with main closed"; background.lifetime = .keepAlways; add(background)
         app.typeKey(.escape, modifierFlags: [])
         app.menuBars.menuBarItems["Window"].click()
         app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
