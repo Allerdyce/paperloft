@@ -71,3 +71,6 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 Owner correctly identified that prior local UX changes did not achieve supplied Expensify visual reference. Screenshot was additionally an older QA process; both old QA and Release processes were running even after a new build was opened. Gracefully terminate the project app copies before explicitly launching the rebuilt app with a new process.
 
 Implement warm adaptive library canvas, distinct rounded rows with category document icons, compact filter menus, clear row View actions and larger search. Preserve search/filter data paths, local deletion/recovery, native list selection/double-click/context actions, all existing tests and release block. Verify five parser sample receipts in Light/Dark, search/filter actions, double-click/delete/restart/restore and persistent theme. Independent scoped review is required; full accessibility gate is not implied by changing Table to List.
+
+## Inbox action and header cleanup
+Provide Paste image in empty and populated Inbox; remove owner-facing sample actions; show only Processing while pending in header. Keep filter counts authoritative. Strict Release, scoped native Inbox test, protected baseline and independent review before committing.

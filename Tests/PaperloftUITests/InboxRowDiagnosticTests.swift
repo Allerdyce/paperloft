@@ -20,11 +20,11 @@ final class InboxRowDiagnosticTests: XCTestCase {
         XCTAssertTrue(fresh.waitForExistence(timeout: 10)); fresh.click()
         app.typeKey("w", modifierFlags: .command)
         app.buttons["sidebar.inbox"].click()
-        XCTAssertTrue(app.buttons["inbox.samples"].waitForExistence(timeout: 10))
-        app.buttons["inbox.samples"].click()
+        XCTAssertTrue(app.buttons["inbox.import"].waitForExistence(timeout: 10))
+        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let vendor = app.textFields["review.vendor"]
         XCTAssertTrue(vendor.waitForExistence(timeout: 60))
-        XCTAssertTrue(app.staticTexts["Ready to review"].firstMatch.exists)
+        XCTAssertTrue(app.staticTexts["Issue"].firstMatch.exists)
         XCTAssertTrue(app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH %@", "inbox.item.")).firstMatch.exists)
         vendor.click(); vendor.typeKey("a", modifierFlags: .command); vendor.typeText("First row edited")
         let second = app.staticTexts["02-meal.pdf"]
@@ -37,7 +37,7 @@ final class InboxRowDiagnosticTests: XCTestCase {
         app.buttons["review.file"].click()
         app.buttons["sidebar.library"].click()
         XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 15))
-        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Try with Samples"].click()
+        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let repeated = app.staticTexts["01-office.pdf"]
         XCTAssertTrue(repeated.waitForExistence(timeout: 10)); repeated.click()
         XCTAssertTrue(app.staticTexts["review.duplicate"].waitForExistence(timeout: 60))
@@ -53,7 +53,7 @@ final class InboxRowDiagnosticTests: XCTestCase {
         XCTAssertTrue(app.buttons["review.file"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.staticTexts["review.duplicate"].exists)
         XCTAssertFalse(app.staticTexts["Duplicate"].exists)
-        XCTAssertTrue(app.staticTexts["Ready to review"].firstMatch.exists)
+        XCTAssertTrue(app.staticTexts["Issue"].firstMatch.exists)
         XCTAssertTrue(app.buttons["review.file"].isEnabled)
         let restored = XCTAttachment(screenshot: app.screenshot())
         restored.name = "Equatable row ready after undo"; restored.lifetime = .keepAlways; add(restored)

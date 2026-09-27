@@ -152,3 +152,5 @@ Added TaxExportTests alongside unchanged export verification to check newly requ
 - Explicit old-process retirement and exact rebuilt-app launch replace relying on open alone. Evidence: older QA PID37318 and Release PID71410 were still running; both terminated gracefully before verification.
 
 2026-09-27: Unlocked UI tests now use native preferences/import shortcuts and File > Try with Samples after owner requested removing redundant toolbar controls. Frozen tests unchanged. BulkAndSelection.xcresult validates navigation, bulk removal and Library flow.
+
+2026-09-27: Owner removed sample onboarding. Unlocked UI tests load diagnostic receipts through DEBUG-only File > Load Development Receipts; production sample menu and reset controls removed. Frozen tests unchanged. Scoped Inbox test now checks Paste image in populated/empty states and absence of redundant header Ready badge.

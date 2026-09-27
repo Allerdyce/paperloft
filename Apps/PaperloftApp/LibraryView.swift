@@ -68,12 +68,10 @@ struct LibraryView: View {
                         .font(.system(size: 28, weight: .semibold, design: .serif)).accessibilityIdentifier("content.title")
                     Spacer()
                     if model.selection == "Inbox", model.inboxCount > 0 {
-                        let ready = model.items.filter { $0.status != "aside" && inboxDisplayStatus($0) == "Ready" }.count
                         let pending = model.items.filter { $0.status == "processing" || $0.status == "waiting" }.count
                         if pending > 0 { ReceiptStatusPill(title: "Processing · \(pending)", symbol: "clock.fill", color: .blue).accessibilityIdentifier("inbox.processingCount") }
-                        if ready > 0 { ReceiptStatusPill(title: "Ready · \(ready)", symbol: "checkmark.circle.fill", color: .green).accessibilityIdentifier("inbox.readyCount") }
                     }
-                    if model.busy || model.processing { ProgressView().controlSize(.small).accessibilityLabel("Working") }
+                    if model.selection != "Inbox", model.busy || model.processing { ProgressView().controlSize(.small).accessibilityLabel("Working") }
                 }.padding(.horizontal, 24).padding(.top, 22).padding(.bottom, 16)
                 Divider()
                 switch model.selection {
@@ -140,8 +138,6 @@ struct InboxView: View {
                     .foregroundStyle(.primary).multilineTextAlignment(.center).frame(maxWidth: 450)
                 Button("Choose Library Folder…") { Task { await model.chooseLibrary() } }
                     .buttonStyle(.borderedProminent).controlSize(.large).accessibilityIdentifier("onboarding.chooseFolder")
-                Button("Try with Five Sample Receipts") { Task { await model.trySamples() } }
-                    .accessibilityIdentifier("onboarding.samples")
                 Text("No account or API key. Your documents stay on your Mac.").font(.caption).foregroundStyle(.primary)
             }.padding(36).frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if model.inboxCount == 0 {
@@ -152,9 +148,8 @@ struct InboxView: View {
                     .foregroundStyle(.primary).multilineTextAlignment(.center).frame(maxWidth: 420)
                 HStack {
                     Button("Import Receipts…") { Task { await model.importFiles() } }.accessibilityIdentifier("inbox.import")
-                    Button("Try Samples") { Task { await model.trySamples() } }.accessibilityIdentifier("inbox.samples")
                 }
-                Button("Paste an Image") { Task { await model.pasteImage() } }.buttonStyle(.link).accessibilityIdentifier("inbox.paste")
+                Button("Paste image") { Task { await model.pasteImage() } }.accessibilityIdentifier("inbox.paste")
             }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             VStack(spacing: 0) {
@@ -175,12 +170,15 @@ struct InboxView: View {
                     }.padding(.horizontal, 20).padding(.vertical, 12)
                 }
                 HStack(spacing: 12) {
+                    Button("Paste image", systemImage: "doc.on.clipboard") { Task { await model.pasteImage() } }
+                        .accessibilityIdentifier("inbox.paste")
+                        .help("Paste a copied image into the Inbox (Shift-Command-V)")
                     Button("Select all") { removalSelection = Set(visibleItems.map(\.id)) }.disabled(visibleItems.isEmpty)
                         .accessibilityIdentifier("inbox.selectAll")
                     if !removalSelection.isEmpty {
                         Text("\(removalSelection.count) selected").font(.caption)
                         Button("Clear selection") { removalSelection.removeAll() }.accessibilityIdentifier("inbox.clearSelection")
-                        Button { 
+                        Button {
                             let ids = removalSelection
                             removalSelection.removeAll()
                             for id in ids { model.setAside(id) }
@@ -726,9 +724,11 @@ struct PaperloftSettings: View {
                             Button("Reveal Folder") { model.reveal() }.disabled(model.libraryURL == nil).accessibilityIdentifier("settings.reveal")
                             Button("Rebuild Index") { Task { await model.rebuildIndex() } }.disabled(model.busy || model.libraryURL == nil).accessibilityIdentifier("settings.rebuild")
                         }
+                        #if DEBUG
                         Button("Start Fresh Sample Library") {
                             Task { do { try await model.newSampleLibrary(discardInbox: true) } catch { model.message = error.localizedDescription } }
                         }.disabled(model.busy).accessibilityIdentifier("settings.newSampleLibrary")
+                        #endif
                     }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
                 }
                 GroupBox("Watched folder · Pro") {

@@ -13,7 +13,7 @@ final class CoreFlowTests: XCTestCase {
         XCTAssertTrue(fresh.waitForExistence(timeout: 10)); fresh.click()
         app.typeKey("w", modifierFlags: .command)
         app.buttons["sidebar.inbox"].click()
-        XCTAssertTrue(app.buttons["inbox.samples"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["inbox.import"].waitForExistence(timeout: 10))
         return app
     }
     @MainActor
@@ -21,7 +21,7 @@ final class CoreFlowTests: XCTestCase {
         continueAfterFailure = false
         let started = Date()
         let app = try freshApp(); defer { app.terminate() }
-        app.buttons["inbox.samples"].click()
+        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let vendor = app.textFields["review.vendor"]
         XCTAssertTrue(vendor.waitForExistence(timeout: 60))
         // Review starts at the vendor field; complete this review with keyboard only.
@@ -60,12 +60,12 @@ final class CoreFlowTests: XCTestCase {
     func testInvalidAmountCannotFileAndSetAsideAdvancesInbox() throws {
         continueAfterFailure = false
         let app = try freshApp(); defer { app.terminate() }
-        app.buttons["inbox.samples"].click()
+        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let total = app.textFields["review.total"]
         XCTAssertTrue(total.waitForExistence(timeout: 60)); total.click()
         total.typeKey("a", modifierFlags: .command); total.typeText("-2.00")
         XCTAssertFalse(app.buttons["review.file"].isEnabled)
-        XCTAssertTrue(app.staticTexts["review.validation"].exists)
+        XCTAssertTrue(app.staticTexts["Enter the total shown on the receipt."].exists)
         app.buttons["review.setAside"].click()
         XCTAssertTrue(app.textFields["review.total"].waitForExistence(timeout: 30))
         XCTAssertEqual(app.textFields["review.total"].value as? String, "12.50")
@@ -74,12 +74,12 @@ final class CoreFlowTests: XCTestCase {
     func testDuplicateStateFollowsFilingAndUndo() throws {
         continueAfterFailure = false
         let app = try freshApp(); defer { app.terminate() }
-        app.buttons["inbox.samples"].click()
+        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
         app.buttons["review.file"].click()
         app.buttons["sidebar.library"].click()
         XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 15))
-        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Try with Samples"].click()
+        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let repeatDocument = app.staticTexts["01-office.pdf"]
         XCTAssertTrue(repeatDocument.waitForExistence(timeout: 10)); repeatDocument.click()
         XCTAssertTrue(app.staticTexts["review.duplicate"].waitForExistence(timeout: 60))
@@ -96,7 +96,7 @@ final class CoreFlowTests: XCTestCase {
     func testDraftSurvivesRelaunch() throws {
         continueAfterFailure = false
         let app = try freshApp(); defer { app.terminate() }
-        app.buttons["inbox.samples"].click()
+        app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let vendor = app.textFields["review.vendor"]
         XCTAssertTrue(vendor.waitForExistence(timeout: 60)); vendor.click()
         vendor.typeKey("a", modifierFlags: .command); vendor.typeText("Saved Draft")
@@ -117,7 +117,7 @@ final class CoreFlowTests: XCTestCase {
         XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
         try audit(app)
         app.typeKey("w", modifierFlags: .command)
-        app.buttons["sidebar.inbox"].click(); app.buttons["inbox.samples"].click()
+        app.buttons["sidebar.inbox"].click(); app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
         try audit(app)
     }
