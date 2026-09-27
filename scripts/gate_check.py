@@ -10,8 +10,8 @@ args = sys.argv[1:]
 local = "--local" in args
 if local:
     args.remove("--local")
-if len(args) != 1 or args[0] not in {"P0", "P1", "P2"}:
-    sys.exit("Usage: scripts/gate.sh P0|P1|P2 [--local]")
+if len(args) != 1 or args[0] not in {"P0", "P1", "P2", "P3"}:
+    sys.exit("Usage: scripts/gate.sh P0|P1|P2|P3 [--local]")
 phase = args[0]
 
 def snapshot():
@@ -51,6 +51,8 @@ elif phase == "P2":
                  ["scripts/eval.sh", "--model", "parser"],
                  ["scripts/eval.sh", "--model", "system"],
                  ["scripts/eval.sh", "--private"]]
+if phase == "P3":
+    commands += [["scripts/build_qa.sh"], ["python3", "scripts/coverage_check.py"]]
 rows = []
 code = 0
 try:

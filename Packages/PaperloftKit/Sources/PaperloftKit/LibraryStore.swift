@@ -7,8 +7,10 @@ public struct FilingRequest: Sendable {
     public let receipt: Receipt
     public let mode: FilingMode
     public let expectedContentHash: String?
-    public init(source: URL, receipt: Receipt, mode: FilingMode = .copy, expectedContentHash: String? = nil) {
+    public let filenameTemplate: String
+    public init(source: URL, receipt: Receipt, mode: FilingMode = .copy, expectedContentHash: String? = nil, filenameTemplate: String = ReceiptNameTemplate.defaultPattern) {
         self.source = source; self.receipt = receipt; self.mode = mode; self.expectedContentHash = expectedContentHash
+        self.filenameTemplate = filenameTemplate
     }
 }
 public enum BatchState: String, Codable, Sendable { case filing, complete, undoing, undone }
@@ -147,7 +149,7 @@ public actor LibraryStore {
             if let expected = request.expectedContentHash, expected != hash { throw LibraryError.sourceChanged(source.path) }
             guard !seenHashes.contains(hash) else { throw LibraryError.duplicate(existing.first(where: { $0.contentHash == hash })?.relativePath ?? "this batch") }
             seenHashes.insert(hash)
-            let relative = "\(request.receipt.date.year)/\(LibraryFiles.safeFolder(request.receipt.category))/\(try ReceiptFilename.name(for: request.receipt, fileExtension: source.pathExtension))"
+            let relative = "\(request.receipt.date.year)/\(LibraryFiles.safeFolder(request.receipt.category))/\(try ReceiptNameTemplate(request.filenameTemplate).name(for: request.receipt, fileExtension: source.pathExtension))"
             let operation = UUID()
             journal.entries.append(JournalEntry(id: operation, source: source, sourceIdentity: identity,
                 sourceBackup: source.deletingLastPathComponent().appendingPathComponent(".paperloft-\(operation.uuidString).source"),

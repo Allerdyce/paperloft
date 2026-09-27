@@ -24,7 +24,13 @@ struct ReceiptDraft: Codable {
         guard let date = try? ReceiptDate(iso8601: date) else { throw AppIssue("Enter a valid date as YYYY-MM-DD.") }
         let code = currency.uppercased().trimmingCharacters(in: .whitespaces)
         guard let amount = try? Money(decimal: total, currency: code) else { throw AppIssue("Enter a valid nonnegative total and a three-letter currency code, such as USD.") }
-        let taxAmount = tax.trimmingCharacters(in: .whitespaces).isEmpty ? nil : try Money(decimal: tax, currency: code).minorUnits
+        let taxAmount: Int64?
+        if tax.trimmingCharacters(in: .whitespaces).isEmpty { taxAmount = nil }
+        else {
+            guard let value = try? Money(decimal: tax, currency: code) else { throw AppIssue("Enter a valid nonnegative tax amount, or leave it empty.") }
+            taxAmount = value.minorUnits
+        }
+        guard !category.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw AppIssue("Choose or enter a category.") }
         guard taxAmount == nil || taxAmount! <= amount.minorUnits else { throw AppIssue("Tax cannot exceed the total.") }
         return try Receipt(vendor: vendor, date: date, totalMinorUnits: amount.minorUnits, currency: code, category: category, kind: kind, taxMinorUnits: taxAmount)
     }
@@ -38,7 +44,7 @@ struct StoredReview: Codable {
     let hash: String
     let text: String
     let fields: ExtractedFields
-    let duplicate: String?
+    var duplicate: String?
 }
 struct InboxItem: Codable, Identifiable {
     let id: UUID
@@ -85,6 +91,7 @@ final class FileGrant: @unchecked Sendable {
     var items: [InboxItem] = []
     var selectedItemID: UUID?
     var documents: [FiledDocument] = []
+    var allDocuments: [FiledDocument] = []
     var batches: [FilingBatch] = []
     var libraryURL: URL?
     var isSampleLibrary = false
@@ -97,12 +104,17 @@ final class FileGrant: @unchecked Sendable {
     var categoryFilter = "All categories"
     var kindFilter = "All types"
     var categories: [String]
+    var filenameTemplate: String { didSet { preferences.set(filenameTemplate, forKey: "filenameTemplate") } }
     var mode: FilingMode { didSet { preferences.set(mode.rawValue, forKey: "filingMode") } }
     var quickLookURL: URL?
+    var showExport = false
+    var exportResult: AccountantPackResult?
+    var exportError: String?
     let testMode: Bool
     let support: URL
     @ObservationIgnored private let preferences: UserDefaults
     @ObservationIgnored private var libraryAccess: LibraryAccess?
+    @ObservationIgnored private var exportAccess: LibraryAccess?
     @ObservationIgnored private var sourceGrants: [UUID: FileGrant] = [:]
     @ObservationIgnored private var moveGrants: [String: LibraryAccess] = [:]
     @ObservationIgnored private var engine: ReceiptEngine?
@@ -120,20 +132,29 @@ final class FileGrant: @unchecked Sendable {
         testMode = Self.argument("-PaperloftUITestMode") == "YES"
         preferences = testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard
         categories = preferences.stringArray(forKey: "categories") ?? ["Advertising", "Contract labor", "Insurance", "Legal and professional services", "Meals", "Office supplies", "Rent", "Repairs", "Software", "Taxes and licenses", "Travel", "Utilities", "Vehicle", "Other expenses"]
+        filenameTemplate = preferences.string(forKey: "filenameTemplate") ?? ReceiptNameTemplate.defaultPattern
         mode = FilingMode(rawValue: preferences.string(forKey: "filingMode") ?? "copy") ?? .copy
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         support = base.appendingPathComponent(testMode ? "Paperloft-UI" : "Paperloft", isDirectory: true)
     }
     var selectedItem: InboxItem? { items.first { $0.id == selectedItemID } ?? items.first { $0.status != "aside" } }
     var inboxCount: Int { items.filter { $0.status != "aside" }.count }
-    var canFile: Bool { !busy && selectedItem?.status == "ready" && selectedItem?.review?.duplicate == nil && (try? selectedItem?.draft.receipt()) != nil }
+    var canFile: Bool { !busy && selectedItem?.status == "ready" && selectedItem?.review?.duplicate == nil && (try? selectedItem?.draft.receipt()) != nil && templateError == nil }
 
+    var templateError: String? {
+        do {
+            let template = try ReceiptNameTemplate(filenameTemplate)
+            if let item = selectedItem, let receipt = try? item.draft.receipt() { _ = try template.name(for: receipt, fileExtension: item.source.pathExtension) }
+            return nil
+        } catch { return error.localizedDescription }
+    }
     func start() async {
         guard !started else { return }; started = true
+        busy = true; defer { busy = false }
         do {
             try FileManager.default.createDirectory(at: support, withIntermediateDirectories: true)
             if let data = try? Data(contentsOf: support.appendingPathComponent("inbox.json")) { items = try JSONDecoder().decode([InboxItem].self, from: data) }
-            for i in items.indices {
+            for i in items.indices where items[i].status != "aside" {
                 do {
                     let grant: FileGrant
                     if let bookmark = items[i].bookmark { grant = try FileGrant(bookmark: bookmark) }
@@ -152,12 +173,13 @@ final class FileGrant: @unchecked Sendable {
                 try await configure(access.url, sample: false)
             } else if let path = preferences.string(forKey: "paperloft.demoLibraryPath"), URL(fileURLWithPath: path).path.hasPrefix(support.path + "/") {
                 try await configure(URL(fileURLWithPath: path), sample: true)
-            } else if testMode { try await newSampleLibrary() }
+            } else if testMode { try await createSampleLibrary(discardInbox: false) }
             selectedItemID = items.first { $0.status != "aside" }?.id
         } catch { message = error.localizedDescription }
     }
     private func configure(_ url: URL, sample: Bool) async throws {
         processingTask?.cancel(); generation = UUID(); processing = false
+        for i in items.indices where items[i].status == "processing" { items[i].status = "waiting" }
         let library = try LibraryStore(root: url)
         let key = SHA256.hash(data: Data(library.root.path.utf8)).prefix(12).map { String(format: "%02x", $0) }.joined()
         let indexURL = support.appendingPathComponent("index-\(key).sqlite")
@@ -181,11 +203,14 @@ final class FileGrant: @unchecked Sendable {
         await refresh(); processWaiting()
     }
     func chooseLibrary() async {
+        guard !busy else { return }
+        busy = true; defer { busy = false }
         let panel = NSOpenPanel(); panel.title = "Choose your Paperloft library"
         panel.message = "Choose a folder, or create a Paperloft folder in Documents. Your filed documents stay here as ordinary files."
         panel.canChooseDirectories = true; panel.canChooseFiles = false; panel.canCreateDirectories = true
+        panel.directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        panel.nameFieldStringValue = "Paperloft"
         guard await panel.begin() == .OK, let url = panel.url else { return }
-        busy = true; defer { busy = false }
         do {
             let bookmark = try LibraryAccess.bookmark(for: url)
             let access = try LibraryAccess(bookmark: bookmark)
@@ -194,10 +219,18 @@ final class FileGrant: @unchecked Sendable {
             preferences.removeObject(forKey: "paperloft.demoLibraryPath")
         } catch { message = error.localizedDescription }
     }
-    func newSampleLibrary() async throws {
+    func newSampleLibrary(discardInbox: Bool = false) async throws {
+        guard !busy else { throw AppIssue("Wait for the current operation to finish before changing libraries.") }
+        busy = true; defer { busy = false }
+        try await createSampleLibrary(discardInbox: discardInbox)
+    }
+    private func createSampleLibrary(discardInbox: Bool) async throws {
         let url = support.appendingPathComponent("Sample-Library-" + UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         try await configure(url, sample: true)
+        if discardInbox {
+            for item in items where item.status != "aside" { setAside(item.id) }
+        }
         libraryAccess = nil; preferences.removeObject(forKey: "paperloft.libraryBookmark")
         preferences.set(url.path, forKey: "paperloft.demoLibraryPath")
     }
@@ -259,10 +292,12 @@ final class FileGrant: @unchecked Sendable {
                 do {
                     let review = try await engine.understand(source)
                     guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
+                    guard items[index].status == "processing" else { continue }
                     items[index].review = StoredReview(hash: review.contentHash, text: review.text, fields: review.fields, duplicate: review.duplicateOf)
                     items[index].draft = ReceiptDraft(review.fields); items[index].status = "ready"
                 } catch {
                     guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
+                    guard items[index].status == "processing" else { continue }
                     items[index].status = "failed"; items[index].issue = error.localizedDescription
                 }
                 persist()
@@ -282,13 +317,15 @@ final class FileGrant: @unchecked Sendable {
         guard !busy, let engine, let item = selectedItem, item.status == "ready", let stored = item.review else { return }
         guard stored.duplicate == nil else { message = "This document is already in the library. Set this duplicate aside."; return }
         busy = true; defer { busy = false }
+        let sourceAccess = sourceGrants[item.id], activeLibraryAccess = libraryAccess
+        defer { withExtendedLifetime(sourceAccess) {}; withExtendedLifetime(activeLibraryAccess) {} }
         do {
             let receipt = try item.draft.receipt()
             if mode == .move, !FileGrant.isInternal(item.source), moveGrants[item.source.deletingLastPathComponent().path] == nil {
                 guard await grantMoveFolder(required: item.source.deletingLastPathComponent()) else { return }
             }
             let reviewed = ReviewedDocument(id: item.id, source: item.source, contentHash: stored.hash, text: stored.text, fields: stored.fields, duplicateOf: stored.duplicate)
-            let outcome = try await engine.file(reviewed, confirmed: receipt, mode: mode)
+            let outcome = try await engine.file(reviewed, confirmed: receipt, mode: mode, filenameTemplate: filenameTemplate)
             items.removeAll { $0.id == item.id }; sourceGrants[item.id] = nil
             selectedItemID = items.first { $0.status != "aside" }?.id; persist(); await refresh()
             if outcome.indexNeedsRebuild { message = "The document was filed. Rebuild the search index in Settings to update search." }
@@ -310,6 +347,8 @@ final class FileGrant: @unchecked Sendable {
     }
     func undo(_ batch: FilingBatch) async {
         guard let engine, !busy else { return }; busy = true; defer { busy = false }
+        let access = libraryAccess
+        defer { withExtendedLifetime(access) {} }
         do {
             let indexed = try await engine.undo(batch); await refresh()
             if !indexed { message = "Undo completed. Rebuild the search index in Settings." }
@@ -317,10 +356,22 @@ final class FileGrant: @unchecked Sendable {
     }
     func refresh() async {
         guard let engine else { return }
+        let token = generation
         do {
-            batches = try await engine.library.history()
-            documents = try await engine.index.search(query)
-        } catch { message = error.localizedDescription }
+            let history = try await engine.library.history()
+            let records = try await engine.library.documents()
+            let results = try await engine.index.search(query)
+            guard token == generation, !Task.isCancelled else { return }
+            batches = history
+            allDocuments = records
+            for i in items.indices {
+                if let hash = items[i].review?.hash {
+                    items[i].review?.duplicate = allDocuments.first { $0.contentHash == hash }?.relativePath
+                }
+            }
+            persist()
+            documents = results
+        } catch { if token == generation, !Task.isCancelled { message = error.localizedDescription } }
     }
     private var query: ReceiptQuery {
         ReceiptQuery(text: search, year: Int(yearFilter), category: categoryFilter == "All categories" ? nil : categoryFilter, kind: DocumentKind(rawValue: kindFilter))
@@ -339,6 +390,43 @@ final class FileGrant: @unchecked Sendable {
             let report = try await engine.index.rebuild(from: engine.library); await refresh()
             message = report.textFailures.isEmpty ? "Search index rebuilt for \(report.indexedDocuments) documents." : "Indexed \(report.indexedDocuments) documents; text was unavailable for \(report.textFailures.count)."
         } catch { message = error.localizedDescription }
+    }
+    func beginExport() {
+        guard !busy else { return }
+        exportResult = nil; exportAccess = nil; exportError = nil; quickLookURL = nil; showExport = true
+    }
+    func export(range: ExportDateRange, zipped: Bool) async {
+        guard !busy, let engine else { return }
+        busy = true; defer { busy = false }
+        exportError = nil
+        let sourceAccess = libraryAccess
+        defer { withExtendedLifetime(sourceAccess) {} }
+        do {
+            let destination: URL
+            let destinationAccess: LibraryAccess?
+            if testMode {
+                destination = support.appendingPathComponent("Exports", isDirectory: true)
+                try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true)
+                destinationAccess = nil
+            } else {
+                let panel = NSOpenPanel(); panel.title = "Choose export destination"
+                panel.canChooseFiles = false; panel.canChooseDirectories = true; panel.canCreateDirectories = true
+                guard await panel.begin() == .OK, let url = panel.url else { return }
+                let access = try LibraryAccess(bookmark: LibraryAccess.bookmark(for: url))
+                destination = access.url; destinationAccess = access
+            }
+            defer { withExtendedLifetime(destinationAccess) {} }
+            let records = try await engine.library.documents()
+            let root = await engine.library.root.resolvingSymlinksInPath()
+            let target = destination.resolvingSymlinksInPath()
+            exportResult = try await Task.detached(priority: .userInitiated) {
+                try AccountantPackExporter.export(documents: records, libraryRoot: root, destination: target, range: range, zip: zipped)
+            }.value
+            exportAccess = destinationAccess
+        } catch { exportError = "The accountant pack could not be completed. " + error.localizedDescription }
+    }
+    func revealExport() {
+        if let result = exportResult { NSWorkspace.shared.activateFileViewerSelecting([result.zipURL ?? result.folderURL]) }
     }
     func saveCategories() { preferences.set(categories, forKey: "categories") }
     func reveal(_ document: FiledDocument? = nil) {
