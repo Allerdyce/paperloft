@@ -17,7 +17,9 @@
 - Latest complete CI attempt:45unit tests and5functional UI tests PASS; accessibility audit FAIL with15findings. build/Tests-20260926-234415.xcresult, build/p3-checkpoint-ci.log. No test excluded, no phase acceptance. Separate current Release build passes without warnings (build/p3-checkpoint-release.log).
 - Real external-folder sandbox flow: system-model sample filed; ZIP+CSV+PDF created; PDF preview displays exact totals after export; copied SHA256 and ZIP integrity verified (evidence/export/external-sandbox-review.md).
 
-- P3 local self-gate FAIL (evidence/gates/P3-local-self.md): preflight/protected baseline/source integrity PASS; fullCI retains14audit findings after native PDF label repair. Independent phase acceptance remains pending.
+- P3 local self-gate FAIL (evidence/gates/P3-local-self.md): preflight/protected baseline/source integrity PASS; fullCI retains14audit findings after native PDF label repair. Independent P3 subsequently FAILS; see the next entry.
+
+- Independent P3 at d17b2bf:50tests PASS,1default accessibility audit FAIL,0skipped,32locked tests executed. Debug/Release/QA, privacy and protected baseline PASS; whole-kit coverage90.23%. Formal and local P3 remain FAIL. Evidence: evidence/gates/P3.md.
 
 ## Assumed
 - Owner-confirmed manual app preferences; formal manual prerequisites are not all independently verified.

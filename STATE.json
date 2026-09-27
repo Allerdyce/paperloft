@@ -1,12 +1,13 @@
 {
   "phase": "P3",
-  "step": "P3 self-gate FAIL: preflight/baseline/source-integrity PASS; all unit and functional UI tests PASS; default accessibility audit14remaining findings. Continue isolated Mail integration, watched-folder core and AppIntents repair; independent P3 verdict pending.",
+  "step": "Independent P3 local FAIL at d17b2bf: 50 tests pass, default accessibility audit retains14findings, whole-kit coverage90.23%. Continue isolated Mail promise delivery, watched-folder app integration and actual-pipeline performance harness; no phase acceptance.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
     "Formal acceptance tag and release gates deferred",
     "System accessibility audit findings reproduced independently; AC-13 remains open",
-    "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch"
+    "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
+    "AppIntentsTesting metadata discovery fails; adapter independently passes16tests, AC15 unverified"
   ],
-  "updated": "2026-09-27T06:56:10.119336+00:00"
+  "updated": "2026-09-27T07:13:15.756344+00:00"
 }

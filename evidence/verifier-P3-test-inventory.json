@@ -1,0 +1,665 @@
+{
+  "devices" : [
+    {
+      "architecture" : "arm64",
+      "deviceId" : "00006000-000458260AFA401E",
+      "deviceName" : "My Mac",
+      "modelName" : "MacBook Pro",
+      "osBuildNumber" : "26A428",
+      "osVersion" : "27.0",
+      "platform" : "macOS"
+    }
+  ],
+  "testNodes" : [
+    {
+      "children" : [
+        {
+          "children" : [
+            {
+              "duration" : "0.0085s",
+              "durationInSeconds" : 0.008486032485961914,
+              "name" : "adjacentHeaderDoesNotBecomePartOfVendor()",
+              "nodeIdentifier" : "adjacentHeaderDoesNotBecomePartOfVendor()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/adjacentHeaderDoesNotBecomePartOfVendor()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0025s",
+              "durationInSeconds" : 0.002482175827026367,
+              "name" : "invoiceOpticalCharacterConfusionIsRecognized()",
+              "nodeIdentifier" : "invoiceOpticalCharacterConfusionIsRecognized()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/invoiceOpticalCharacterConfusionIsRecognized()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.00032s",
+              "durationInSeconds" : 0.0003161430358886719,
+              "name" : "amountsKeepTheirCents()",
+              "nodeIdentifier" : "amountsKeepTheirCents()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/amountsKeepTheirCents()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0012s",
+              "durationInSeconds" : 0.0011601448059082031,
+              "name" : "parserRecognizesNonFinancialText()",
+              "nodeIdentifier" : "parserRecognizesNonFinancialText()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/parserRecognizesNonFinancialText()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.00031s",
+              "durationInSeconds" : 0.00031304359436035156,
+              "name" : "decodedDatesAreValidated()",
+              "nodeIdentifier" : "decodedDatesAreValidated()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/decodedDatesAreValidated()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.00015s",
+              "durationInSeconds" : 0.00014901161193847656,
+              "name" : "rotatedRowsAreNotMistakenForAdjacentLines()",
+              "nodeIdentifier" : "rotatedRowsAreNotMistakenForAdjacentLines()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/rotatedRowsAreNotMistakenForAdjacentLines()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.03s",
+              "durationInSeconds" : 0.029518842697143555,
+              "name" : "moveAndUndoRestoreOriginalIdentityAndBytes()",
+              "nodeIdentifier" : "moveAndUndoRestoreOriginalIdentityAndBytes()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/moveAndUndoRestoreOriginalIdentityAndBytes()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.042s",
+              "durationInSeconds" : 0.042259931564331055,
+              "name" : "copyCollisionsAndUndoPreserveExistingFiles()",
+              "nodeIdentifier" : "copyCollisionsAndUndoPreserveExistingFiles()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/copyCollisionsAndUndoPreserveExistingFiles()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.041s",
+              "durationInSeconds" : 0.04090094566345215,
+              "name" : "engineReviewFileSearchUndoAndSourceChange()",
+              "nodeIdentifier" : "engineReviewFileSearchUndoAndSourceChange()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/engineReviewFileSearchUndoAndSourceChange()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0087s",
+              "durationInSeconds" : 0.008651018142700195,
+              "name" : "symlinkedCategoryCannotEscapeLibrary()",
+              "nodeIdentifier" : "symlinkedCategoryCannotEscapeLibrary()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/symlinkedCategoryCannotEscapeLibrary()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.00029s",
+              "durationInSeconds" : 0.0002949237823486328,
+              "name" : "calendarValidation()",
+              "nodeIdentifier" : "calendarValidation()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/calendarValidation()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0027s",
+              "durationInSeconds" : 0.002666950225830078,
+              "name" : "cardPaymentAndAmountDueAreRecognized()",
+              "nodeIdentifier" : "cardPaymentAndAmountDueAreRecognized()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/cardPaymentAndAmountDueAreRecognized()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0046s",
+              "durationInSeconds" : 0.004645109176635742,
+              "name" : "parserPrefersIssueDateOverDueDate()",
+              "nodeIdentifier" : "parserPrefersIssueDateOverDueDate()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/parserPrefersIssueDateOverDueDate()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.00023s",
+              "durationInSeconds" : 0.0002307891845703125,
+              "name" : "filenameDoesNotTraversePaths()",
+              "nodeIdentifier" : "filenameDoesNotTraversePaths()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/filenameDoesNotTraversePaths()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0016s",
+              "durationInSeconds" : 0.001567840576171875,
+              "name" : "exactMoneyRejectsRoundingAndOverflow()",
+              "nodeIdentifier" : "exactMoneyRejectsRoundingAndOverflow()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/exactMoneyRejectsRoundingAndOverflow()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.024s",
+              "durationInSeconds" : 0.024049997329711914,
+              "name" : "duplicatesAndModifiedDestinationsAreNeverOverwritten()",
+              "nodeIdentifier" : "duplicatesAndModifiedDestinationsAreNeverOverwritten()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/duplicatesAndModifiedDestinationsAreNeverOverwritten()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0024s",
+              "durationInSeconds" : 0.0024182796478271484,
+              "name" : "savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals()",
+              "nodeIdentifier" : "savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0053s",
+              "durationInSeconds" : 0.005326747894287109,
+              "name" : "assessmentRequiresAgreementAndValidFields()",
+              "nodeIdentifier" : "assessmentRequiresAgreementAndValidFields()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/assessmentRequiresAgreementAndValidFields()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0005s",
+              "durationInSeconds" : 0.0004971027374267578,
+              "name" : "separateColumnsPreserveAmountsOnTheirRows()",
+              "nodeIdentifier" : "separateColumnsPreserveAmountsOnTheirRows()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/separateColumnsPreserveAmountsOnTheirRows()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.000019s",
+              "durationInSeconds" : 1.9073486328125e-05,
+              "name" : "stubReturnsInjectedFields()",
+              "nodeIdentifier" : "stubReturnsInjectedFields()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/stubReturnsInjectedFields()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "19s",
+              "durationInSeconds" : 19.29692792892456,
+              "name" : "randomizedThousandFileOperationsPreserveEveryOriginal()",
+              "nodeIdentifier" : "randomizedThousandFileOperationsPreserveEveryOriginal()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/randomizedThousandFileOperationsPreserveEveryOriginal()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.003s",
+              "durationInSeconds" : 0.0030410289764404297,
+              "name" : "parserUsesFinalTotalRatherThanTenderedCash()",
+              "nodeIdentifier" : "parserUsesFinalTotalRatherThanTenderedCash()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/parserUsesFinalTotalRatherThanTenderedCash()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0015s",
+              "durationInSeconds" : 0.0015268325805664062,
+              "name" : "partialClassificationFailurePreservesReviewButNeverAutoFiles()",
+              "nodeIdentifier" : "partialClassificationFailurePreservesReviewButNeverAutoFiles()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/partialClassificationFailurePreservesReviewButNeverAutoFiles()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.0023s",
+              "durationInSeconds" : 0.002270221710205078,
+              "name" : "currencyPrecisionAndUnicodeFilenames()",
+              "nodeIdentifier" : "currencyPrecisionAndUnicodeFilenames()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/currencyPrecisionAndUnicodeFilenames()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.000019s",
+              "durationInSeconds" : 1.9073486328125e-05,
+              "name" : "emptyAndInvalidFragmentsDoNotCreateText()",
+              "nodeIdentifier" : "emptyAndInvalidFragmentsDoNotCreateText()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/emptyAndInvalidFragmentsDoNotCreateText()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.033s",
+              "durationInSeconds" : 0.032643795013427734,
+              "name" : "indexRebuildRestoresSearchFromLibraryAlone()",
+              "nodeIdentifier" : "indexRebuildRestoresSearchFromLibraryAlone()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/indexRebuildRestoresSearchFromLibraryAlone()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "duration" : "0.000066s",
+              "durationInSeconds" : 6.604194641113281e-05,
+              "name" : "extractionPayloadWithoutClassificationDiagnosticRemainsReadable()",
+              "nodeIdentifier" : "extractionPayloadWithoutClassificationDiagnosticRemainsReadable()",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/extractionPayloadWithoutClassificationDiagnosticRemainsReadable()",
+              "nodeType" : "Test Case",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.0016s",
+                  "durationInSeconds" : 0.0016350746154785156,
+                  "name" : "testExportCannotReplaceActiveResultDuringOperation()",
+                  "nodeIdentifier" : "AppModelOperationTests/testExportCannotReplaceActiveResultDuringOperation()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/AppModelOperationTests/testExportCannotReplaceActiveResultDuringOperation",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0013s",
+                  "durationInSeconds" : 0.0012739896774291992,
+                  "name" : "testLibrarySwitchIsRejectedWhileOperationIsSuspended()",
+                  "nodeIdentifier" : "AppModelOperationTests/testLibrarySwitchIsRejectedWhileOperationIsSuspended()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/AppModelOperationTests/testLibrarySwitchIsRejectedWhileOperationIsSuspended",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "AppModelOperationTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/AppModelOperationTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.054s",
+                  "durationInSeconds" : 0.05351996421813965,
+                  "name" : "testCollisionUnicodeCategoriesAndRepeatedExportNeverOverwrite()",
+                  "nodeIdentifier" : "ExportTests/testCollisionUnicodeCategoriesAndRepeatedExportNeverOverwrite()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ExportTests/testCollisionUnicodeCategoriesAndRepeatedExportNeverOverwrite",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.088s",
+                  "durationInSeconds" : 0.08765101432800293,
+                  "name" : "testEmptyAndMultipageSummary()",
+                  "nodeIdentifier" : "ExportTests/testEmptyAndMultipageSummary()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ExportTests/testEmptyAndMultipageSummary",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0076s",
+                  "durationInSeconds" : 0.007557988166809082,
+                  "name" : "testHashChangesDuplicateIDsAndTraversalAreRejected()",
+                  "nodeIdentifier" : "ExportTests/testHashChangesDuplicateIDsAndTraversalAreRejected()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ExportTests/testHashChangesDuplicateIDsAndTraversalAreRejected",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.011s",
+                  "durationInSeconds" : 0.011029958724975586,
+                  "name" : "testInclusiveRangeCSVExactCurrencyTotalsPDFAndOriginalHashes()",
+                  "nodeIdentifier" : "ExportTests/testInclusiveRangeCSVExactCurrencyTotalsPDFAndOriginalHashes()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ExportTests/testInclusiveRangeCSVExactCurrencyTotalsPDFAndOriginalHashes",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.083s",
+                  "durationInSeconds" : 0.0829390287399292,
+                  "name" : "testOptionalSystemZIPContainsCSVAndOriginalBytes()",
+                  "nodeIdentifier" : "ExportTests/testOptionalSystemZIPContainsCSVAndOriginalBytes()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ExportTests/testOptionalSystemZIPContainsCSVAndOriginalBytes",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0088s",
+                  "durationInSeconds" : 0.008752942085266113,
+                  "name" : "testOverflowRejectedAndCurrenciesWithDifferentPrecision()",
+                  "nodeIdentifier" : "ExportTests/testOverflowRejectedAndCurrenciesWithDifferentPrecision()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ExportTests/testOverflowRejectedAndCurrenciesWithDifferentPrecision",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.004s",
+                  "durationInSeconds" : 0.00403904914855957,
+                  "name" : "testSymlinkFilesDirectoriesAndDestinationRejected()",
+                  "nodeIdentifier" : "ExportTests/testSymlinkFilesDirectoriesAndDestinationRejected()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ExportTests/testSymlinkFilesDirectoriesAndDestinationRejected",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0072s",
+                  "durationInSeconds" : 0.007175922393798828,
+                  "name" : "testTraverseOnlyAncestorsAndSymlinkRejection()",
+                  "nodeIdentifier" : "ExportTests/testTraverseOnlyAncestorsAndSymlinkRejection()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ExportTests/testTraverseOnlyAncestorsAndSymlinkRejection",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0053s",
+                  "durationInSeconds" : 0.00527501106262207,
+                  "name" : "testYearQuarterLeapCustomAndInvalidRanges()",
+                  "nodeIdentifier" : "ExportTests/testYearQuarterLeapCustomAndInvalidRanges()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ExportTests/testYearQuarterLeapCustomAndInvalidRanges",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "ExportTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ExportTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.013s",
+                  "durationInSeconds" : 0.012959718704223633,
+                  "name" : "emptyCorruptLockedAndLongPDFsFailClearly()",
+                  "nodeIdentifier" : "ResilienceTests/emptyCorruptLockedAndLongPDFsFailClearly()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ResilienceTests/emptyCorruptLockedAndLongPDFsFailClearly()",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.35s",
+                  "durationInSeconds" : 0.35451817512512207,
+                  "name" : "fiftyMegapixelImageIsRejectedBeforeOCR()",
+                  "nodeIdentifier" : "ResilienceTests/fiftyMegapixelImageIsRejectedBeforeOCR()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ResilienceTests/fiftyMegapixelImageIsRejectedBeforeOCR()",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.32s",
+                  "durationInSeconds" : 0.32181501388549805,
+                  "name" : "ordinaryImageAndPDFCompleteWithoutCrashing()",
+                  "nodeIdentifier" : "ResilienceTests/ordinaryImageAndPDFCompleteWithoutCrashing()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ResilienceTests/ordinaryImageAndPDFCompleteWithoutCrashing()",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0011s",
+                  "durationInSeconds" : 0.001116037368774414,
+                  "name" : "missingLibraryAndInvalidPermissionHaveActionableErrors()",
+                  "nodeIdentifier" : "ResilienceTests/missingLibraryAndInvalidPermissionHaveActionableErrors()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ResilienceTests/missingLibraryAndInvalidPermissionHaveActionableErrors()",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "ResilienceTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/ResilienceTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.0015s",
+                  "durationInSeconds" : 0.001451253890991211,
+                  "name" : "rejectsTraversalUnknownTokensAndMissingMetadata()",
+                  "nodeIdentifier" : "NameTemplateTests/rejectsTraversalUnknownTokensAndMissingMetadata()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/NameTemplateTests/rejectsTraversalUnknownTokensAndMissingMetadata()",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0016s",
+                  "durationInSeconds" : 0.0016429424285888672,
+                  "name" : "defaultAndCustomNamesPreserveMetadata()",
+                  "nodeIdentifier" : "NameTemplateTests/defaultAndCustomNamesPreserveMetadata()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/NameTemplateTests/defaultAndCustomNamesPreserveMetadata()",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00086s",
+                  "durationInSeconds" : 0.0008609294891357422,
+                  "name" : "boundsExpandedUTF8FilenameWithoutDroppingRequiredFields()",
+                  "nodeIdentifier" : "NameTemplateTests/boundsExpandedUTF8FilenameWithoutDroppingRequiredFields()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/NameTemplateTests/boundsExpandedUTF8FilenameWithoutDroppingRequiredFields()",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "NameTemplateTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests/NameTemplateTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            }
+          ],
+          "name" : "PaperloftKitTests",
+          "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftKitTests",
+          "nodeType" : "Unit test bundle",
+          "result" : "Passed"
+        },
+        {
+          "children" : [
+            {
+              "children" : [
+                {
+                  "children" : [
+                    {
+                      "name" : "Element has no description",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Element has no description",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Element has no description",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Parent/Child mismatch",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Contrast failed",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Contrast failed",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Contrast failed",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Element has no description",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Element has no description",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Action is missing",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Parent/Child mismatch",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Element has no description",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Element has no description",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    },
+                    {
+                      "name" : "Action is missing",
+                      "nodeType" : "Failure Message",
+                      "sourceLocation" : {
+                        "filePath" : "/Users/builder/Factory/paperloft/evidence/checkouts/p3-d17b2bf/Tests/PaperloftUITests/CoreFlowTests.swift",
+                        "lineNumber" : 127
+                      }
+                    }
+                  ],
+                  "duration" : "35s",
+                  "durationInSeconds" : 35.69430601596832,
+                  "name" : "testCoreScreensAccessibilityAudit()",
+                  "nodeIdentifier" : "CoreFlowTests/testCoreScreensAccessibilityAudit()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/CoreFlowTests/testCoreScreensAccessibilityAudit",
+                  "nodeType" : "Test Case",
+                  "result" : "Failed"
+                },
+                {
+                  "duration" : "17s",
+                  "durationInSeconds" : 17.30729603767395,
+                  "name" : "testDraftSurvivesRelaunch()",
+                  "nodeIdentifier" : "CoreFlowTests/testDraftSurvivesRelaunch()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/CoreFlowTests/testDraftSurvivesRelaunch",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "23s",
+                  "durationInSeconds" : 23.466118097305298,
+                  "name" : "testDuplicateStateFollowsFilingAndUndo()",
+                  "nodeIdentifier" : "CoreFlowTests/testDuplicateStateFollowsFilingAndUndo()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/CoreFlowTests/testDuplicateStateFollowsFilingAndUndo",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "15s",
+                  "durationInSeconds" : 15.333853960037231,
+                  "name" : "testInvalidAmountCannotFileAndSetAsideAdvancesInbox()",
+                  "nodeIdentifier" : "CoreFlowTests/testInvalidAmountCannotFileAndSetAsideAdvancesInbox()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/CoreFlowTests/testInvalidAmountCannotFileAndSetAsideAdvancesInbox",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "33s",
+                  "durationInSeconds" : 33.709665060043335,
+                  "name" : "testSamplesKeyboardEditFileSearchAndUndo()",
+                  "nodeIdentifier" : "CoreFlowTests/testSamplesKeyboardEditFileSearchAndUndo()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/CoreFlowTests/testSamplesKeyboardEditFileSearchAndUndo",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "CoreFlowTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/CoreFlowTests",
+              "nodeType" : "Test Suite",
+              "result" : "Failed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "6s",
+                  "durationInSeconds" : 6.619983077049255,
+                  "name" : "testSidebarNavigation()",
+                  "nodeIdentifier" : "NavigationTests/testSidebarNavigation()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/NavigationTests/testSidebarNavigation",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "NavigationTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/NavigationTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            }
+          ],
+          "name" : "PaperloftUITests",
+          "nodeIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests",
+          "nodeType" : "UI test bundle",
+          "result" : "Failed"
+        }
+      ],
+      "name" : "PaperloftApp",
+      "nodeType" : "Test Plan",
+      "result" : "Failed"
+    }
+  ],
+  "testPlanConfigurations" : [
+    {
+      "configurationId" : "1",
+      "configurationName" : "Test Scheme Action"
+    }
+  ]
+}

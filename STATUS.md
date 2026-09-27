@@ -1,9 +1,11 @@
 # Paperloft status
 
-P0–P2 independently accepted for local development. P3 is active. No further owner approval is needed for routine local phases. Release and uploads remain blocked.
+P0–P2 independently accepted for local development. P3 remains active and independently FAILS. No further owner approval is needed for routine local work. Release and uploads remain blocked.
 
-Current checks: 45 unit tests pass (34 Swift Testing + 9 export XCTest + 2 app-model regressions), QA build passes with zero warnings, and all five functional UI tests pass, including sample review/file/search/export/undo, invalid input, duplicate refresh, draft relaunch and navigation. Export engine independently reviewed PASS. Evidence: build/Tests-20260926-234415.xcresult, evidence/export/independent-review.md, evidence/ci/QA.log, build/Tests-20260926-234415.xcresult.
+Independent fresh-clone checks at d17b2bf: Debug, Release and optimized QA builds pass without warnings; 50 tests pass, one accessibility audit fails, none are skipped. All32locked tests execute. Whole-kit coverage90.23%, privacy and protected-baseline checks pass. Evidence: evidence/gates/P3.md.
 
-The full UI run is FAIL: the default accessibility audit reports 14 findings. Product-owned label/menu issues have been repaired; Picker layout is fixed; PDF page description is fixed through public accessibility labels. A separate minimal app reproduces system Touch Bar/emoji and parent-child failures. These remain failures, not waivers. Last fully green CI commit: d9454df. P3 self-gate FAIL; preflight, baseline and source integrity PASS. P3 is not independently accepted.
+The default audit retains14findings:7missing descriptions,3contrast failures,2missing actions and2parent/child mismatches. Native PDF description and product picker problems are repaired. A minimal native app reproduces some remaining system issues, without waiving them. Last fully green CI commit remains d9454df. No P3 acceptance or phase tag.
 
-External-folder ZIP export and subsequent PDF preview verified through the real sandbox UI. App Intents work is isolated with framework discovery failures; local logic checks pass. Mail parsing is in progress on a separate branch. Purchase work remains isolated because strict StoreKitTest import fails in an Apple SDK header; no warnings are suppressed. Membership, signing, ASC, supervised shakedown and acceptance-v1 remain deferred. No phase-completion tags, release archives, uploads or submission.
+Independent components continue in separate branches: Mail file-picker intake passes real UI and56package tests; promised-file drag verification is underway. Watched-folder scanner passes52tests and independent review; app integration is underway. App Intents production adapter passes16independent tests, but7system-framework tests fail metadata discovery. Actual100-document app-pipeline performance harness is being built. Purchase work remains parked on an Apple StoreKitTest SDK warning-as-error failure; no warnings suppressed.
+
+Membership, signing, ASC, supervised shakedown and acceptance-v1 remain deferred. No release archives, uploads or submission.

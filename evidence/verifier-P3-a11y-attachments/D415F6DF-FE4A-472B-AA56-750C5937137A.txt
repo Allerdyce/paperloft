@@ -1,0 +1,17 @@
+Contrast failed for Paperloft Receipts Settings
+Attributes: StaticText, 0x770b564140, {{641.0, 237.0}, {182.0, 16.0}}, value: Paperloft Receipts...
+Element subtree:
+ →StaticText, 0x770b564140, {{641.0, 237.0}, {182.0, 16.0}}, value: Paperloft Receipts...
+Path to element:
+ →Application, 0x770bae0780, pid: 94395, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x770bae1180, {{559.0, 229.0}, {610.0, 692.0}}, identifier: 'com_apple_SwiftUI_Settings_window', title: 'Paperloft Receipts Settings', Disabled
+   ↳StaticText, 0x770b564140, {{641.0, 237.0}, {182.0, 16.0}}, value: Paperloft Receipts...
+Query chain:
+ →Find: Target Application 'app.paperloft.receipts'
+  Output: {
+    Application, 0x770c03e940, pid: 94395, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 94395, token: u3ABAAAAAABvY29jAwEAAAAAAAAEAAAAAAAAAA==
+    Output: {
+      StaticText, 0x770b6bc000, {{641.0, 237.0}, {182.0, 16.0}}, value: Paperloft Receipts...
+    }

@@ -1,0 +1,22 @@
+Contrast failed for Every filing can be undone. Your original documents are preserved.
+Attributes: StaticText, 0x770b55cdc0, {{756.5, 667.2}, {405.0, 16.0}}, value: Every filing can b...
+Element subtree:
+ →StaticText, 0x770b55cdc0, {{756.5, 667.2}, {405.0, 16.0}}, value: Every filing can b...
+Path to element:
+ →Application, 0x770c03e6c0, pid: 94395, title: 'Paperloft Receipts', Disabled
+  ↳Window, 0x770b6bd400, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'History', Disabled
+   ↳Group, 0x770b55dcc0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x770b55de00, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x770b55ed00, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x770b55c280, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'History', Disabled
+       ↳Group, 0x770b55c3c0, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'History workspace'
+        ↳StaticText, 0x770b55cdc0, {{756.5, 667.2}, {405.0, 16.0}}, value: Every filing can b...
+Query chain:
+ →Find: Target Application 'app.paperloft.receipts'
+  Output: {
+    Application, 0x770c420780, pid: 94395, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 94395, token: u3ABAAAAAABvY29j/gAAAAAAAAA=
+    Output: {
+      StaticText, 0x770b567d40, {{756.5, 667.2}, {405.0, 16.0}}, value: Every filing can b...
+    }

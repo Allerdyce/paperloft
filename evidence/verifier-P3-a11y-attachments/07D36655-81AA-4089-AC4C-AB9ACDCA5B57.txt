@@ -1,0 +1,17 @@
+This element is missing useful accessibility information.
+Attributes: PopUpButton, 0x770c03e800, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Element subtree:
+ →PopUpButton, 0x770c03e800, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Path to element:
+ →Application, 0x770bae1540, pid: 94395, title: 'Paperloft Receipts', Disabled
+  ↳TouchBar, 0x770c03e6c0, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+   ↳PopUpButton, 0x770c03e800, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Query chain:
+ →Find: Target Application 'app.paperloft.receipts'
+  Output: {
+    Application, 0x770bad0280, pid: 94395, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 94395, token: u3ABAAAAAABvY29jBAEAAAAAAAA=
+    Output: {
+      PopUpButton, 0x770c421680, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+    }

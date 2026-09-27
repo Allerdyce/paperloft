@@ -1,0 +1,66 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "modelName" : "MacBook Pro",
+        "osBuildNumber" : "26A428",
+        "osVersion" : "27.0",
+        "platform" : "macOS"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 1,
+      "passedTests" : 50,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "PaperloftApp · Built with macOS 27.0",
+  "expectedFailures" : 0,
+  "failedTests" : 1,
+  "finishTime" : 1790492706.15,
+  "passedTests" : 50,
+  "result" : "Failed",
+  "runtimeWarnings" : [
+
+  ],
+  "skippedTests" : 0,
+  "startTime" : 1790492535.332,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+    {
+      "failureText" : "Element has no description",
+      "targetName" : "PaperloftUITests",
+      "testIdentifier" : 46,
+      "testIdentifierString" : "CoreFlowTests/testCoreScreensAccessibilityAudit()",
+      "testIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/CoreFlowTests/testCoreScreensAccessibilityAudit",
+      "testName" : "testCoreScreensAccessibilityAudit()"
+    }
+  ],
+  "title" : "Test - PaperloftApp",
+  "topInsights" : [
+    {
+      "category" : "Common Failures",
+      "impact" : "100% of failures",
+      "text" : "7 runs of 1 test failed with Element has no description"
+    },
+    {
+      "category" : "Common Failures",
+      "impact" : "100% of failures",
+      "text" : "3 runs of 1 test failed with Contrast failed"
+    },
+    {
+      "category" : "Common Failures",
+      "impact" : "100% of failures",
+      "text" : "2 runs of 1 test failed with Parent/Child mismatch"
+    }
+  ],
+  "totalTestCount" : 51
+}

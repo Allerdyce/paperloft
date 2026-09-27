@@ -34,3 +34,5 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 - Latest fullCI Tests-20260926-234415:45unit+5functional UI tests pass; accessibility remains15findings. Source/permission regressions pass, traverse-only ancestor case passes. External real-panel ZIP export and subsequent PDF Quick Look verified. Current Release and QA compile zero warnings. Save as unfinished checkpoint with last_green=d9454df; keep P3 active.
 
 - PDF public-protocol workaround independently demonstrated and integrated; targeted audit removes PDF missing-description while preserving native text. Result build/P3-pdf-label.xcresult remainsFAIL with14system/contrast findings. No root page-label failures remain; fullAC13 is not accepted.
+
+- Independent P3 verdict at d17b2bf is FAIL:14audit findings retained;50other tests pass, coverage90.23%. Source freeze released. Continue separately gated Mail promise delivery, watched-folder app integration and actual-pipeline performance harness. Native probe source preserved on local/audit-probe e5889f4; no automatic waiver or repeated approval request.

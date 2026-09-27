@@ -12,8 +12,8 @@ Separate branch `local/commerce` at b799b90 contains purchase/quota implementati
 
 ## Parked App Intents framework discovery
 
-Isolated local/intents dac5600 implements four actions/shortcuts with8logic tests independently passing. Real AppIntentsTesting retains4failing tests: metadata error400 app not present, after direct invocation, normal app launch, and LaunchServices registration. Apple's documented same-team signing prerequisite is absent; not proven to be the sole cause. Production adapter/successful File/Export framework coverage remain. Component is not merged or accepted asP4. No owner action requested during local work.
+Isolated local/intents at db1a3f3 now includes the production adapter;16direct logic/actual AppModel tests independently pass. Seven genuine AppIntentsTesting tests fail metadata discovery before assertions (error400 app not present). Three distinct runtime approaches failed. Same-team development signing is an unmet documented prerequisite, not a uniquely proven cause. System dispatch/file transport remain unverified, production Pro defaults false pending commerce. No P4 acceptance and no owner action requested.
 
 ## Accessibility remains open
 
-All-types audit still FAILS. Independent standalone native reproduction documents system TouchBar/emoji and parent-child findings; native PDF Page description and native/inactive window contrast remain unresolved. No issue filtering, skipped tests or acceptance waiver. Current state is resumable but not a green CI checkpoint; last green is d9454df.
+All-types audit still FAILS. Independent standalone native reproduction documents system TouchBar/emoji and parent-child findings; native PDF Page description is fixed; native/inactive window contrast remains unresolved. Independent P3 verdict at d17b2bf is FAIL with14findings (evidence/gates/P3.md). No issue filtering, skipped tests or acceptance waiver. Current state is resumable but not a green CI checkpoint; last green is d9454df.

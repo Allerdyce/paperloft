@@ -1,0 +1,17 @@
+Contrast failed for History
+Attributes: StaticText, 0x770b5892c0, {{468.0, 195.0}, {864.0, 52.0}}, value: History
+Element subtree:
+ →StaticText, 0x770b5892c0, {{468.0, 195.0}, {864.0, 52.0}}, value: History
+Path to element:
+ →Application, 0x770bae0b40, pid: 94395, title: 'Paperloft Receipts', Disabled
+  ↳Window, 0x770b5643c0, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'History', Disabled
+   ↳StaticText, 0x770b5892c0, {{468.0, 195.0}, {864.0, 52.0}}, value: History
+Query chain:
+ →Find: Target Application 'app.paperloft.receipts'
+  Output: {
+    Application, 0x770bad0140, pid: 94395, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 94395, token: u3ABAAAAAABvY29jLQAAAAAAAAAFAAAAAAAAAA==
+    Output: {
+      StaticText, 0x770c03f840, {{468.0, 195.0}, {864.0, 52.0}}, value: History
+    }
