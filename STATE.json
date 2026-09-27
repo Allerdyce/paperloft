@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Sidebar Settings page and clearer local-library footer implemented; independent source review, strict Release and native navigation test PASS. Rebuilt app on disk; CUA native pipe prevents refreshing owner running process. Existing extraction and full P3 gates remain open.",
+  "step": "Add-more Inbox row and disabled-filing explanation built and independently source-reviewed. Owner reports File Copy disabled with ready receipts; busy suspected, runtime cause unresolved. Preserve active owner receipt session; next inspect displayed reason/runtime when app control works.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -13,5 +13,5 @@
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
     "Real receipts: OCR loses visible totals; unsupported total, merchant and transaction-date errors require follow-up. Tax safeguard is partial mitigation only."
   ],
-  "updated": "2026-09-27T19:42:37.555784+00:00"
+  "updated": "2026-09-27T20:04:57.077451+00:00"
 }

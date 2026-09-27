@@ -177,6 +177,25 @@ struct InboxView: View {
                         InboxRow(id: item.id, name: item.name, status: item.status, duplicate: item.review?.duplicate != nil)
                             .equatable().tag(item.id)
                     }
+                    Button { Task { await model.importFiles() } } label: {
+                        HStack(spacing: 10) {
+                            Image(systemName: "plus.circle.fill").font(.title3)
+                            VStack(alignment: .leading, spacing: 3) {
+                                Text("Add more receipts…").font(.callout.weight(.semibold))
+                                Text("PDF, images or email").font(.caption).foregroundStyle(.secondary)
+                            }
+                            Spacer(minLength: 0)
+                        }
+                        .padding(12).frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.accentColor.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
+                        .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.accentColor.opacity(0.35), style: StrokeStyle(lineWidth: 1, dash: [4])))
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain).foregroundStyle(Color.accentColor)
+                    .listRowSeparator(.hidden)
+                    .accessibilityIdentifier("inbox.addMore")
+                    .accessibilityLabel("Add more receipts")
+                    .help("Import more receipts while reviewing your inbox")
                 }.frame(minWidth: 175, idealWidth: 200, maxWidth: 250).accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
                     .background(WindowAccessibility(label: "Documents awaiting review", target: .splitPane))
                 if let item = visibleItems.first(where: { $0.id == model.selectedItemID }) {
@@ -314,6 +333,10 @@ struct ReviewView: View {
                     Button(model.mode == .copy ? "File Copy" : "Move & File") { Task { await model.fileSelected() } }
                         .buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
                         .disabled(!model.canFile).accessibilityIdentifier("review.file")
+                }
+                if let reason = model.filingUnavailableReason {
+                    Text(reason).font(.caption).foregroundStyle(.primary)
+                        .accessibilityIdentifier("review.filingUnavailableReason")
                 }
                 Text("Return to file · Tab to move between fields").font(.caption).foregroundStyle(.primary)
             }.padding(22).frame(minWidth: 290, idealWidth: 340, maxWidth: 400)

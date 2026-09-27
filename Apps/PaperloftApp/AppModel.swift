@@ -182,7 +182,16 @@ final class FileGrant: @unchecked Sendable {
     }
     var selectedItem: InboxItem? { items.first { $0.id == selectedItemID } ?? items.first { $0.status != "aside" } }
     var inboxCount: Int { items.filter { $0.status != "aside" }.count }
-    var canFile: Bool { !busy && selectedItem?.status == "ready" && selectedItem?.review?.duplicate == nil && (try? selectedItem?.draft.receipt()) != nil && templateError == nil }
+    var filingUnavailableReason: String? {
+        if busy { return "Finishing another operation. Filing will be available when it completes." }
+        guard let item = selectedItem else { return "Select a receipt to file." }
+        guard item.status == "ready" else { return "Wait for this receipt to finish processing." }
+        if item.review?.duplicate != nil { return "This receipt is already in your library. Set the duplicate aside." }
+        do { _ = try item.draft.receipt() }
+        catch { return error.localizedDescription }
+        return templateError
+    }
+    var canFile: Bool { filingUnavailableReason == nil }
 
     var templateError: String? {
         do {
