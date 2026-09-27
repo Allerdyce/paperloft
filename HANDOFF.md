@@ -33,3 +33,7 @@ Reviewed watcher/startup integration merged at1d1bff7, preserving root row repai
 ## Native icon assembly prerequisite
 
 Icon Composer opens successfully but requires first-use Icon Composer Agreement EA1954 dated4/16/2025. AGENTS.md says never accept agreements, so none was accepted and no bypass attempted. The app is /Applications/Xcode.app/Contents/Applications/Icon Composer.app. Owner acceptance is required before future native icon assembly; no immediate action is requested while independent code work continues. Four rendered/visually checked SVG draft layers and owner source are preserved on local/icon at723f71c. Actual.icon package, build integration and16/32/128px review remain incomplete.
+
+## Native Computer Use review blocked
+
+Current QA app selection/screenshot worked, but the first Settings click returned “Sky Computer Use native pipe closed before response”. Partial independent critique: evidence/design/2026-09-27-critique.md. Only visible dark review design was scored4/5; all unobserved screen/appearance/keyboard/persona checks remain unverified. No repeat/bypass, no product defect inferred from the bridge failure. Automated UI tests remain operational.

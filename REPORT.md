@@ -25,6 +25,8 @@
 - Reviewed watcher component and actual native grant/restart/main-window-closed intake passed independently; evidence/watched-folder/selective-independent-review.md. Row edit/selection/duplicate/undo passed independently and in root before watcher merge; evidence/inbox-row-review/independent-review.md and build/RootRowIntegrated.xcresult.
 - Fresh isolated100-document system run:100 completed and persisted, system backend100,0failed,358.972s (time FAIL),414.50MB peak and222.74ms heartbeat (limits pass). Parser direct limits pass in two fresh runs, but required signpost capture remains missing. Overall AC10 FAIL; no performance acceptance claimed.
 
+- Independent partial design review observed dark ready-state review screen only: visible HIG/hierarchy/copy/polish4/5. QA build passed; native Computer Use bridge failed on next interaction. evidence/design/2026-09-27-critique.md; AC16 and persona checks incomplete.
+
 ## Assumed
 - Owner-confirmed manual app preferences; formal manual prerequisites are not all independently verified.
 - Third-party synced-folder behavior is not independently tested.
