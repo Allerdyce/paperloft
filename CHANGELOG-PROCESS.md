@@ -45,3 +45,6 @@ Added an explicit inspect-text command to the developer-only evaluator for inspe
 
 ## P2 crash and coverage verification
 CI enables whole-target code coverage and records its xcresult path. Added a separate Swift worker and Python integration harness that observes journal progress then sends SIGKILL during filing and undo; neither the product app nor engine has a crash/test branch. The harness fails if no actual mid-batch kill occurs and checks120 restored hashes. Evidence: P2-crash-recovery.json and P2-coverage.json.
+
+## P2 gate implementation
+P2 gate now requires whole-target xccov>=75% with every library source represented, real SIGKILL recovery, frozen parser/system accuracy, privacy, and source integrity. It reports optional private scoring only through eval.sh; the independent verifier owns AC-04 holdout. Test-bundle AppIntents imports remove metadata warnings and CI now rejects warnings during test builds too. This does not change any frozen criterion/scorer/fixture. First OCR boundary test took58.6s; startup/performance remains for P6 rather than being claimed fast.

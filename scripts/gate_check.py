@@ -10,8 +10,8 @@ args = sys.argv[1:]
 local = "--local" in args
 if local:
     args.remove("--local")
-if len(args) != 1 or args[0] not in {"P0", "P1"}:
-    sys.exit("Usage: scripts/gate.sh P0|P1 [--local]")
+if len(args) != 1 or args[0] not in {"P0", "P1", "P2"}:
+    sys.exit("Usage: scripts/gate.sh P0|P1|P2 [--local]")
 phase = args[0]
 
 def snapshot():
@@ -45,6 +45,12 @@ if phase == "P1":
     commands += [["python3", "scripts/check_fixture_set.py"],
                  ["scripts/eval.sh", "--model", "parser"],
                  ["scripts/eval.sh", "--model", "system"]]
+elif phase == "P2":
+    commands += [["python3", "scripts/coverage_check.py"],
+                 ["python3", "scripts/crash_recovery_test.py"],
+                 ["scripts/eval.sh", "--model", "parser"],
+                 ["scripts/eval.sh", "--model", "system"],
+                 ["scripts/eval.sh", "--private"]]
 rows = []
 code = 0
 try:
@@ -69,6 +75,20 @@ try:
             if not valid:
                 code = 1
                 break
+        elif command[0] == "scripts/eval.sh" and phase == "P2":
+            result = subprocess.run(command, check=False, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            print(result.stdout, end="", flush=True)
+            backend = "private" if command[-1] == "--private" else command[-1]
+            (root / "evidence" / ("P2-" + backend + ".txt")).write_text(result.stdout)
+            valid = result.returncode == 0
+            if backend == "system" and valid:
+                import json
+                predictions = [json.loads(line) for line in (root / "evidence/predictions-system.jsonl").read_text().splitlines()]
+                valid = bool(predictions) and all(row.get("backend") == "system" for row in predictions)
+            rows.append((" ".join(command), result.returncode if valid else 1))
+            if not valid:
+                code = 1
+                break
         else:
             result = subprocess.run(command, check=False)
             rows.append((" ".join(command), result.returncode))
@@ -88,5 +108,7 @@ finally:
     text += "\n- Source integrity: " + ("FAIL: " + ", ".join(changed) if changed else "PASS") + "\n"
     text += "\n" + ("LOCAL CHECKS" if local else "SELF-CHECK") + (": PASS" if code == 0 else ": FAIL") + "\n"
     text += "Independent verifier decision required. Local readiness never closes a formal gate.\n"
+    if phase == "P2":
+        text += "AC-04 requires the independent verifier's fresh60-document holdout run. The builder never reads or scores it directly. P1 fixture difficulty was decided before locking; P2 uses the frozen accuracy thresholds on the unchanged corpus.\n"
     report.write_text(text)
 sys.exit(code)

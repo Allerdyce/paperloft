@@ -4,7 +4,7 @@
   "file_process_signal": "SIGKILL",
   "filed_before_kill": 1,
   "undo_process_signal": "SIGKILL",
-  "undone_before_kill": 2,
+  "undone_before_kill": 1,
   "original_hashes_restored": 120,
-  "seconds": 16.9
+  "seconds": 16.96
 }

@@ -16,5 +16,9 @@ done
 scripts/preflight_check.sh --local --fast > evidence/ci/preflight.log
 result="build/Tests-$(date +%Y%m%d-%H%M%S).xcresult"
 xcodebuild "${args[@]}" -configuration Debug -enableCodeCoverage YES -resultBundlePath "$result" test 2>&1 | tee evidence/ci/tests.log
+if grep -E '(^|[[:space:]])warning:' evidence/ci/tests.log; then
+  echo "FAIL: test build emitted warnings" >&2
+  exit 1
+fi
 printf '%s\n' "$result" > build/latest-test-result.txt
 printf 'Local CI passed. Results: %s\n' "$result"
