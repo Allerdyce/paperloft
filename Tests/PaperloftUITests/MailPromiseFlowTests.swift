@@ -1,3 +1,4 @@
+import AppKit
 import XCTest
 
 final class MailPromiseFlowTests: XCTestCase {
@@ -5,6 +6,9 @@ final class MailPromiseFlowTests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
         app.launch(); app.activate()
+        for running in NSWorkspace.shared.runningApplications where running.bundleIdentifier == "app.paperloft.receipts" {
+            print("MAIL_RUNNING_APP pid=\(running.processIdentifier) bundle=\(running.bundleURL?.path ?? "nil") executable=\(running.executableURL?.path ?? "nil")")
+        }
         let launched = app.buttons["toolbar.settings"].waitForExistence(timeout: 15)
         if !launched { print("LAUNCH_FAILURE_TREE \(app.debugDescription)") }
         XCTAssertTrue(launched)
