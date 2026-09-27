@@ -36,3 +36,8 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 - PDF public-protocol workaround independently demonstrated and integrated; targeted audit removes PDF missing-description while preserving native text. Result build/P3-pdf-label.xcresult remainsFAIL with14system/contrast findings. No root page-label failures remain; fullAC13 is not accepted.
 
 - Independent P3 verdict at d17b2bf is FAIL:14audit findings retained;50other tests pass, coverage90.23%. Source freeze released. Continue separately gated Mail promise delivery, watched-folder app integration and actual-pipeline performance harness. Native probe source preserved on local/audit-probe e5889f4; no automatic waiver or repeated approval request.
+
+## Native Icon Composer assembly
+
+- Local preflight/protected baseline pass; owner artwork, SPEC6.5 and Apple native workflow reviewed.
+- Supported CUA successfully opened Icon Composer but encountered first-use license agreement before editor. No agreement accepted under AGENTS; owner action parked in HANDOFF.md. No guessed .icon schema or draft-as-complete claim. Native package/build/small-size critic remain pending.
