@@ -1,13 +1,14 @@
 {
   "phase": "P3",
-  "step": "P3 remains independently FAIL with 14 accessibility findings. Reviewed saved-email/scanner core integrated; assessment reuse port passes 69 combined app/core tests, strict Release and protected baseline. Watched-folder native UI fallback, native Mail menu lifecycle diagnostics and performance profiling continue in isolated branches. No phase advancement; release blocked.",
+  "step": "P3 remains independently FAIL (accessibility and current window lifecycle issues). Root4cab99e assessment/mail/scanner regression passes69tests and strictRelease. Watched-folder native lifecycle independentlyPASS8d7d77e; integration without unresolved AppIntents is underway. Row optimization373d4ca meets directperformance limits but signpostcollection fails; independent rowUI review and startup safety repair underway. Native icon assembly parked on unaccepted agreement. Release blocked.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
     "Formal acceptance tag and release gates deferred",
     "System accessibility audit findings reproduced independently; AC-13 remains open",
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
-    "AppIntentsTesting metadata discovery fails; adapter independently passes16tests, AC15 unverified"
+    "AppIntentsTesting metadata discovery fails; adapter independently passes16tests, AC15 unverified",
+    "Icon Composer first-use agreement EA1954 unaccepted; native icon assembly blocked"
   ],
-  "updated": "2026-09-27T07:52:48.503241+00:00"
+  "updated": "2026-09-27T08:05:30.767879+00:00"
 }

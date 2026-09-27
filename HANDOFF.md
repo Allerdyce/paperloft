@@ -25,3 +25,7 @@ local/mail at75e19b6 preserves native promise wrapper and public test harness, b
 ## Local performance checks
 
 local/performance atdb8194b retains a scoped independently reviewed assessment reuse repair (61 fresh tests pass). Fresh actual parser batch persists100/100 in17.145s at419.48MB but297.13ms heartbeat gap exceeds250ms; AC10 remains FAIL. Initial100-file intake independently isolated at5.97ms by the implementation agent, so no speculative intake optimization. Rendering/persistence profiling continues. System100-document timing and native signpost evidence remain unresolved.
+
+## Native icon assembly prerequisite
+
+Icon Composer opens successfully but requires first-use Icon Composer Agreement EA1954 dated4/16/2025. AGENTS.md says never accept agreements, so none was accepted and no bypass attempted. The app is /Applications/Xcode.app/Contents/Applications/Icon Composer.app. Owner acceptance is required before future native icon assembly; no immediate action is requested while independent code work continues. Four rendered/visually checked SVG draft layers and owner source are preserved on local/icon at723f71c. Actual.icon package, build integration and16/32/128px review remain incomplete.
