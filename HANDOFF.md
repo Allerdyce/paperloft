@@ -1,8 +1,7 @@
-# Current blockers and next work
+# Current state
 
-- Machine changed to battery power during independent review (local preflight at 18:58:49 PDT returned exit 3). Restore wall power and rerun local preflight before more build work.
-- Verifier report evidence/gates/P0.md: all five tests pass, Debug/Release builds exit 0, privacy passes. AC-01 still fails because both builds emit an App Intents metadata warning, and fresh-clone builds remain unverified. Next: address framework metadata setup, ensure CI detects non-Swift build warnings, then rerun independent checks.
-- Owner clarification of local phase progression is pending in chat; exact proposal is PROPOSALS.md. Do not infer approval from silence. Formal P0 remains FAIL and acceptance-v1 remains postponed.
-- Membership, signing and ASC release prerequisites remain pending.
+Owner approved autonomous local phase progression after independent applicable checks pass. Recorded in AGENTS.md; never ask to reconfirm this scope. Release/uploads remain blocked.
 
-Full Access works. Checkpoint fac180c is pushed to run/1. No ongoing automation/wakeup was scheduled: the current session exposes no automation_update or thread wakeup tool. Resume from STATE.json.
+P0 local self-check passes, including clean warning-free Debug/Release builds and five tests. AppIntents dependency warning fixed. CI rejects all build warning lines. Local-only battery policy permits at least 30% with WARN, rechecked before each build/test; strict release mode still requires AC. Independent reviewer must assess these process changes.
+
+Next: independent fresh-clone P0 local-readiness review; lock accepted tests and proceed to P1 only if applicable local checks pass. Formal P0 remains separate and blocked on postponed prerequisites.

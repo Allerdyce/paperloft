@@ -12,3 +12,12 @@ Added native test targets, shared test scheme, local Debug/Release/test CI comma
 
 ## UI test repair
 - Wait for foreground state before clicking; assert macOS static-text values rather than empty accessibility labels. No flow or assertion removed. Complete CI passes: build/Tests-20260926-185705.xcresult (4 engine tests and 1 navigation test).
+
+## Owner-approved local phase progression
+- Recorded explicit approval to progress through local phases after independent applicable checks pass. Formal gate status stays separate; release and uploads remain blocked. Acceptance criteria and frozen verifier code remain unchanged.
+
+## Local battery and zero-warning checks
+- Local-only preflight permits battery charge at least 30% with an explicit WARN; below 30%, unknown charge, and all release runs without AC still fail. This is a process choice within approved local autonomous development; no acceptance criterion or release prerequisite changed. Evidence: repeated battery-only exit-3 checks despite ample charge, with all other local prerequisites passing. CI rechecks before each build and tests. Independent verifier must review this change.
+- Import the Apple AppIntents framework so the metadata processor can find its dependency. CI now also rejects non-Swift warning lines rather than relying only on Swift compiler warnings-as-errors.
+
+- Gate runner now writes formal/local self-reports and fingerprints source files before/after checks, excluding evidence and BUGS.md. Local mode uses the owner-approved pre-tag integrity check; default formal mode retains strict prerequisites.

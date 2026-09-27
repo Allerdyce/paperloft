@@ -1,11 +1,10 @@
 {
   "phase": "P0",
-  "step": "P0 independent review complete: fix App Intents metadata warning after wall power returns",
+  "step": "P0 local self-check passes; independent fresh-clone review next",
   "last_green_commit": "fac180cd3021c12d23b9398b3df4781911a2d1b5",
   "parked": [
-    "Off wall power: local preflight TFAIL",
-    "Await owner clarification of local phase progression beyond deferred acceptance tag",
-    "Membership, distribution signing and ASC upload"
+    "Membership, distribution signing and ASC upload",
+    "Formal acceptance tag and gates deferred"
   ],
-  "updated": "2026-09-27T02:02:32.801786+00:00"
+  "updated": "2026-09-27T02:26:01.762465+00:00"
 }

@@ -1,4 +1,4 @@
-Paperloft factory pre-flight  2026-09-26 19:24:58  user=builder  repo=/Users/builder/Factory/paperloft
+Paperloft factory pre-flight  2026-09-26 19:23:34  user=builder  repo=/Users/builder/Factory/paperloft
 
 == Machine ==
 PASS   macOS 27.0
@@ -8,7 +8,7 @@ PASS   248 GB free
 PASS   Retina-class display connected
 
 == Power, sleep, lock, updates ==
-WARN   local development on battery (93%); stop below 30%; release still requires wall power
+WARN   local development on battery (94%); stop below 30%; release still requires wall power
 PASS   pmset sleep 0
 PASS   pmset displaysleep 0
 PASS   pmset disksleep 0

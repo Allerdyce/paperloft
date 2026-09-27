@@ -13,6 +13,15 @@ Ali explicitly approved local development while EvidencePair membership is pendi
 - Acceptance criteria, product scope, scoring thresholds and frozen verifier code are unchanged. This exception does not authorize weakening them.
 - Before distribution work: complete membership and credentials, perform the full supervised shakedown, establish the acceptance tag as planned, and pass `scripts/preflight_check.sh --log` without `--local` or `--fast`, plus `scripts/verify_lock.sh`. Confirm all manual checks. A local GO never satisfies this release gate.
 
+## Owner-approved local phase progression (2026-09-26)
+
+Ali explicitly approved: “Yes—continue through local development phases after independent checks pass. Keep release and uploads blocked.”
+
+- Continue local phases in order after an independent verifier has passed all applicable local checks for the phase. Deferred acceptance-tag, membership and release prerequisites do not by themselves block local phase progression.
+- Keep formal gate results separate from local readiness results. Never represent a deferred formal gate as PASS, issue phase-completion tags, archive, upload, submit or release under this exception.
+- Preserve acceptance criteria, frozen verifier code and protected-file baseline checks. Append verifier-accepted tests and fixtures to ACCEPTANCE.lock as required; all formal gates must pass before distribution.
+- Do not ask Ali to reconfirm this scope. Resolve routine development choices autonomously; park genuinely unavailable external prerequisites and continue independent authorized work.
+
 ## 1. Sources of truth, highest first
 
 1. `ACCEPTANCE.md`, frozen at the `acceptance-v1` tag, and every test or fixture file listed in the append-only `ACCEPTANCE.lock`.

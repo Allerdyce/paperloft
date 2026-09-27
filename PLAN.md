@@ -1,8 +1,16 @@
-# P0 local bootstrap
+# Autonomous local development plan
 
-1. Complete app launch inspection and record setup evidence.
-2. Add app unit/UI test targets and shared test scheme; run Debug/Release builds and package tests.
-3. Implement local CI and privacy checks, with honest failure handling and full release gates unchanged.
-4. Record an independent verifier review; formal P0 remains blocked until the acceptance baseline is established.
+Owner approval for local phase progression is recorded in AGENTS.md. Never request it again. Distribution/upload remain blocked.
 
-Do not start P1/P2 before the phase ordering is resolved. No distribution operations.
+## Resume P0 after transient preflight clears
+1. Add the required App Intents framework dependency; verify that metadata extraction no longer warns.
+2. Extend CI to reject all emitted build warnings, not only Swift warnings. Keep all test flows and assertions.
+3. Run clean Debug/Release builds and all tests.
+4. Independent verifier: fresh-clone builds, raw tests, settings and integrity checks. Record local readiness separately from formal P0 failure caused by deferred prerequisites.
+5. Lock accepted tests and save/push the checkpoint, without phase-completion tags.
+
+## Next local phase: P1
+Plan tasks no longer than two hours for generated receipts and labels, extraction backend protocol, evaluation CLI and frozen-scorer integration. Independent verifier owns holdout generation and fixture-difficulty review. Do not progress past failed applicable checks.
+
+## Current temporary hold
+Local preflight returns exit 3 on battery power. Automatic five-minute retries are active. No additional owner approval is required.

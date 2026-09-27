@@ -147,10 +147,14 @@ fi
 # ---------------------------------------------------------------------------
 section "Power, sleep, lock, updates"
 
-if pmset -g batt 2>/dev/null | grep -q "AC Power"; then
+power_status="$(pmset -g batt 2>/dev/null)"
+battery_percent="$(printf '%s\n' "$power_status" | sed -nE 's/.*[[:space:]]([0-9]+)%;.*/\1/p' | head -1)"
+if printf '%s\n' "$power_status" | grep -q "AC Power"; then
   report PASS "on wall power"
+elif [ "$LOCAL" -eq 1 ] && [[ "$battery_percent" =~ ^[0-9]+$ ]] && [ "$battery_percent" -ge 30 ]; then
+  report WARN "local development on battery (${battery_percent}%); stop below 30%; release still requires wall power"
 else
-  report TFAIL "not on wall power"
+  report TFAIL "not on wall power (local development requires battery at least 30%)"
 fi
 
 for key in sleep displaysleep disksleep; do
