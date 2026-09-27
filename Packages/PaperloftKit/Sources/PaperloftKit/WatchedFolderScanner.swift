@@ -8,6 +8,8 @@ public actor WatchedFolderScanner {
         public let id: UUID
         public let filename: String
         public let contentHash: String
+        /// Stable across a rename on the same volume; used only with the content hash.
+        public let fileIdentity: String
         public let data: Data
     }
     public struct Issue: Sendable, Equatable {
@@ -54,6 +56,7 @@ public actor WatchedFolderScanner {
         let rootDevice: Int32
         let rootInode: UInt64
         var hashes: [String: String]
+        var identities: [String: String]?
     }
     private struct Snapshot: Equatable, Sendable {
         let device: Int32, inode: UInt64, size: Int64, modified: timespec, changed: timespec
@@ -61,6 +64,7 @@ public actor WatchedFolderScanner {
             device = info.st_dev; inode = info.st_ino; size = info.st_size
             modified = info.st_mtimespec; changed = info.st_ctimespec
         }
+        var identity: String { "\(device):\(inode)" }
         static func == (a: Self, b: Self) -> Bool {
             a.device == b.device && a.inode == b.inode && a.size == b.size
                 && a.modified.tv_sec == b.modified.tv_sec && a.modified.tv_nsec == b.modified.tv_nsec
@@ -96,11 +100,13 @@ public actor WatchedFolderScanner {
                 guard let decoded = try? JSONDecoder().decode(History.self, from: bytes), decoded.version == 1,
                       decoded.rootDevice == identity.device, decoded.rootInode == identity.inode,
                       decoded.hashes.count <= Self.maximumHistory,
+                      (decoded.identities?.count ?? 0) <= Self.maximumHistory,
+                      (decoded.identities ?? [:]).allSatisfy({ Self.validIdentity($0.key) && Self.validHash($0.value) }),
                       decoded.hashes.allSatisfy({ Self.safeName($0.key) && $0.value.count == 64 && $0.value.utf8.allSatisfy { (48...57).contains($0) || (97...102).contains($0) } }) else {
                     throw Failure.stateCorrupt
                 }
                 loaded = decoded
-            } else { loaded = History(version: 1, rootDevice: identity.device, rootInode: identity.inode, hashes: [:]) }
+            } else { loaded = History(version: 1, rootDevice: identity.device, rootInode: identity.inode, hashes: [:], identities: [:]) }
             self.root = root; rootFD = openedRoot; stateFD = openedState; lockFD = openedLock
             stateName = name; interval = minimumStableInterval; rootIdentity = identity
             history = loaded; persisted = bytes
@@ -164,7 +170,7 @@ public actor WatchedFolderScanner {
             }
             guard old.since.duration(to: now) >= interval else { continue }
             if let known = verified[name], known.0 == snapshot {
-                if history.hashes[name] == known.1 { continue }
+                if acknowledged(name: name, identity: snapshot.identity, hash: known.1) { continue }
                 if let previous = offered[name], previous.contentHash == known.1 { candidates.append(previous); continue }
             }
             guard bytesRead + Int(snapshot.size) <= Self.maximumScanBytes,
@@ -176,10 +182,10 @@ public actor WatchedFolderScanner {
                 let data = try readFile(name, expected: snapshot)
                 let hash = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
                 verified[name] = (snapshot, hash)
-                if history.hashes[name] == hash { offered[name] = nil; continue }
+                if acknowledged(name: name, identity: snapshot.identity, hash: hash) { offered[name] = nil; continue }
                 let candidate: Candidate
                 if let previous = offered[name], previous.contentHash == hash { candidate = previous }
-                else { candidate = Candidate(id: UUID(), filename: name, contentHash: hash, data: data) }
+                else { candidate = Candidate(id: UUID(), filename: name, contentHash: hash, fileIdentity: snapshot.identity, data: data) }
                 offered[name] = candidate; candidates.append(candidate)
             } catch {
                 observations[name] = nil; offered[name] = nil
@@ -196,9 +202,12 @@ public actor WatchedFolderScanner {
     public func acknowledge(_ candidate: Candidate) throws {
         guard offered[candidate.filename]?.id == candidate.id else { throw Failure.unknownCandidate }
         guard history.hashes[candidate.filename] != nil || history.hashes.count < Self.maximumHistory else { throw Failure.stateLimit }
+        guard history.identities?[candidate.fileIdentity] != nil || (history.identities?.count ?? 0) < Self.maximumHistory else { throw Failure.stateLimit }
         guard try Self.readState(stateFD, stateName) == persisted else { throw Failure.stateChanged }
         var updated = history
         updated.hashes[candidate.filename] = candidate.contentHash
+        if updated.identities == nil { updated.identities = [:] }
+        updated.identities?[candidate.fileIdentity] = candidate.contentHash
         let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys]
         let bytes = try encoder.encode(updated)
         guard bytes.count <= 4 * 1024 * 1024 else { throw Failure.stateLimit }
@@ -227,6 +236,9 @@ public actor WatchedFolderScanner {
         let fd = openat(rootFD, name, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
         guard fd >= 0 else { throw Failure.unavailable }
         defer { close(fd) }
+        // Respect cooperative writers holding an exclusive advisory lock. Stable
+        // metadata still cannot prove that an uncooperative writer has closed.
+        guard flock(fd, LOCK_SH | LOCK_NB) == 0 else { throw Failure.unavailable }
         var before = stat(), after = stat(), atName = stat()
         guard fstat(fd, &before) == 0, before.st_mode & S_IFMT == S_IFREG, Snapshot(before) == expected else { throw Failure.unavailable }
         var data = Data(), buffer = [UInt8](repeating: 0, count: 64 * 1024)
@@ -241,6 +253,19 @@ public actor WatchedFolderScanner {
         guard fstat(fd, &after) == 0, Snapshot(after) == expected, data.count == Int(expected.size),
               fstatat(rootFD, name, &atName, AT_SYMLINK_NOFOLLOW) == 0, Snapshot(atName) == expected else { throw Failure.unavailable }
         return data
+    }
+
+    private func acknowledged(name: String, identity: String, hash: String) -> Bool {
+        if history.identities?[identity] == hash { return true }
+        // Old history files have no identities. Preserve their prior filename
+        // behavior; new acknowledgments additionally survive rename and restart.
+        return history.hashes[name] == hash
+    }
+    private static func validIdentity(_ value: String) -> Bool {
+        value.utf8.count <= 42 && value.range(of: #"^-?[0-9]+:[0-9]+$"#, options: .regularExpression) != nil
+    }
+    private static func validHash(_ value: String) -> Bool {
+        value.count == 64 && value.utf8.allSatisfy { (48...57).contains($0) || (97...102).contains($0) }
     }
 
     private static func safeName(_ value: String) -> Bool {

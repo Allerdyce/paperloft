@@ -10,6 +10,7 @@ public struct MailDocument: Sendable, Equatable {
     public let body: String
     public let pdfs: [PDF]
     public let notices: [String]
+    public private(set) var envelope: MailEnvelope? = nil
     private var containsPlainBody = false
 
     public enum Failure: Error, LocalizedError, Equatable {
@@ -24,7 +25,7 @@ public struct MailDocument: Sendable, Equatable {
     }
 
     // Fixed limits keep untrusted MIME input from causing unbounded recursion/allocation.
-    public static let maximumBytes = 32 * 1024 * 1024
+    public static let maximumBytes = 50 * 1024 * 1024
     public static let maximumPDFBytes = 16 * 1024 * 1024
     public static let maximumBodyBytes = 1024 * 1024
     public static let maximumParts = 100
@@ -32,9 +33,10 @@ public struct MailDocument: Sendable, Equatable {
     public static let maximumPDFs = 20
 
     public static func parse(_ data: Data) throws -> MailDocument {
-        guard data.count <= maximumBytes else { throw Failure.limit("32 MB message") }
+        guard data.count <= maximumBytes else { throw Failure.limit("50 MB message") }
         var parser = Parser()
-        let result = try parser.entity(Array(data), depth: 0)
+        var result = try parser.entity(Array(data), depth: 0)
+        result.envelope = parser.envelope
         guard !result.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !result.pdfs.isEmpty else {
             throw Failure.unsupported("no readable body or PDF attachment; save a PDF from Mail instead")
         }
@@ -45,12 +47,14 @@ public struct MailDocument: Sendable, Equatable {
         var parts = 0
         var pdfCount = 0
         var textBytes = 0
+        var envelope: MailEnvelope?
 
         mutating func entity(_ bytes: [UInt8], depth: Int) throws -> MailDocument {
             guard depth <= maximumDepth else { throw Failure.limit("MIME nesting") }
             parts += 1
             guard parts <= maximumParts else { throw Failure.limit("100 MIME parts") }
             let (headers, raw) = try splitHeaders(bytes)
+            if depth == 0 { envelope = MailEnvelope(headers: headers) }
             let content = try parameters(headers["content-type"] ?? "text/plain; charset=us-ascii")
             let disposition = try parameters(headers["content-disposition"] ?? "inline")
             let encoding = (headers["content-transfer-encoding"] ?? "7bit").lowercased()
@@ -73,6 +77,11 @@ public struct MailDocument: Sendable, Equatable {
                 // Alternative representations describe the same message, not multiple receipts.
                 let body = content.0 == "multipart/alternative" ? (bodies.first(where: { $0.1 }) ?? bodies.first)?.0 ?? "" : bodies.map(\.0).joined(separator: "\n\n")
                 return MailDocument(body: body, pdfs: pdfs, notices: notices, containsPlainBody: bodies.contains { $0.1 })
+            }
+            if content.0 == "message/rfc822" {
+                // Forwarded messages share the same global depth/part/body budgets.
+                // Decode only the supplied bytes; never retrieve an external message.
+                return try entity(decode(raw, encoding: encoding), depth: depth + 1)
             }
             let filename = disposition.1["filename"] ?? content.1["name"] ?? "Attachment"
             let isPDF = content.0 == "application/pdf" || (content.0 == "application/octet-stream" && filename.lowercased().hasSuffix(".pdf"))
@@ -135,7 +144,7 @@ public struct MailDocument: Sendable, Equatable {
                 guard !name.isEmpty, name.utf8.allSatisfy({ $0 > 32 && $0 < 127 && $0 != 58 }) else {
                     throw Failure.malformed("invalid header name")
                 }
-                if name.hasPrefix("content-") {
+                if name.hasPrefix("content-") || ["from", "to", "date", "subject", "message-id"].contains(name) {
                     guard result[name] == nil else { throw Failure.malformed("duplicate \(name) header") }
                     result[name] = String(line[line.index(after: colon)...]).trimmingCharacters(in: .whitespaces)
                 }
