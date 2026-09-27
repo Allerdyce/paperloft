@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "P3 remains FAIL; release blocked. Root reviewed row optimization passes fresh strict build, native row regression and Release; ready to commit. Watched-folder/startup selective integration bfbae01 passes 83 tests in Debug and Release; native menu-only restart check pending. Mail promised drag remains blocked before source mouse events, not proven recipient failure. Icon agreement and signpost collection remain parked.",
+  "step": "Root1d1bff7 regression:83 core tests,8 functional UI tests and strict Release PASS; accessibility FAIL14 findings. Independent design review active; isolated prewarm ed8b84e undergoing accuracy checks before timing. No phase/release acceptance; uploads blocked.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -10,5 +10,5 @@
     "AppIntentsTesting metadata discovery fails; adapter independently passes16tests, AC15 unverified",
     "Icon Composer first-use agreement EA1954 unaccepted; native icon assembly blocked"
   ],
-  "updated": "2026-09-27T08:17:38.660471+00:00"
+  "updated": "2026-09-27T08:38:07.661081+00:00"
 }

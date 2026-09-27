@@ -43,3 +43,10 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 - Watched-folder model a90fd3e independently passes16tests; native folder grant/relaunch verification remains next. Parent report6ca0453 on isolated branch.
 - Assessment cache914afc8 independently passes61tests; diagnostic responsiveness still FAIL. Profile rendering/persistence before further repair.
 - Mail promise lifecycle diagnostic will separate restored-windowless launch from Open Inbox behavior, preserving original tests and exact executable provenance. Native wrapper remains isolated.
+
+## Combined local integration checkpoint
+
+- Merge reviewed watcher/startup protection and preserve row rendering: complete at1d1bff7.
+- Run combined root package tests, native UI suite and strict Release; record failures without weakening checks.
+- Fresh system performance358.972s exceeds240s; inspect existing timing/source for a justified repair before any repeat. Required signposts remain blocked.
+- Keep Mail promises, framework discovery, StoreKit SDK and native icon agreement parked; no routine owner approval.

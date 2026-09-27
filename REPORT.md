@@ -21,6 +21,10 @@
 
 - Independent P3 at d17b2bf:50tests PASS,1default accessibility audit FAIL,0skipped,32locked tests executed. Debug/Release/QA, privacy and protected baseline PASS; whole-kit coverage90.23%. Formal and local P3 remain FAIL. Evidence: evidence/gates/P3.md.
 
+- Combined root watcher/startup/row checkpoint1d1bff7:83 core tests PASS (28 XCTest +55 Swift Testing), protected baseline PASS. Evidence: build/RootWatchIntegrated.xcresult, build/root-watch-tests.log, build/root-watch-baseline.log. Strict Release passed without compiler warnings. Full interface suite:8functionalPASS,1accessibilityFAIL with14findings; build/RootWatchUI.xcresult, build/root-watch-ui.log. No new full CI acceptance.
+- Reviewed watcher component and actual native grant/restart/main-window-closed intake passed independently; evidence/watched-folder/selective-independent-review.md. Row edit/selection/duplicate/undo passed independently and in root before watcher merge; evidence/inbox-row-review/independent-review.md and build/RootRowIntegrated.xcresult.
+- Fresh isolated100-document system run:100 completed and persisted, system backend100,0failed,358.972s (time FAIL),414.50MB peak and222.74ms heartbeat (limits pass). Parser direct limits pass in two fresh runs, but required signpost capture remains missing. Overall AC10 FAIL; no performance acceptance claimed.
+
 ## Assumed
 - Owner-confirmed manual app preferences; formal manual prerequisites are not all independently verified.
 - Third-party synced-folder behavior is not independently tested.

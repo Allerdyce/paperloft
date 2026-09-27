@@ -18,13 +18,17 @@ Isolated local/intents at db1a3f3 now includes the production adapter;16direct l
 
 All-types audit still FAILS. Independent standalone native reproduction documents system TouchBar/emoji and parent-child findings; native PDF Page description is fixed; native/inactive window contrast remains unresolved. Independent P3 verdict at d17b2bf is FAIL with14findings (evidence/gates/P3.md). No issue filtering, skipped tests or acceptance waiver. Current state is resumable but not a green CI checkpoint; last green is d9454df.
 
-## Mail native promise lifecycle diagnostic
+## Mail native promises parked
 
-local/mail at75e19b6 preserves native promise wrapper and public test harness, but no current end-to-end promise PASS. Root's first independent test reached Open Inbox after closing main and failed to reopen. Subsequent runs restore a windowless app and fail before the action/drag; three speculative fixes were reverted. Standard Window menu opens the live main window. Next separate diagnostic will use that observed menu to establish its starting state, then test Open Inbox without changing original acceptance tests. Exact process-path logging added but not yet exercised. Saved EML import is separately integrated on run/1; native promise wrapper is not.
+local/mail at88dc439 preserves the isolated native promise wrapper and public provider harness. Three distinct native drag diagnostics reached the gesture but produced no source MOUSE_DOWN or DRAG_STARTED event; no recipient delivery was established. Window-menu-primed Open Inbox also failed to reopen after closing main. Speculative product fixes were reverted. Saved EML file import is separately integrated; native promises are not accepted or merged. Evidence: that branch's evidence/mail-promises.md and evidence/mail-independent-ui.md.
 
 ## Local performance checks
 
-local/performance atdb8194b retains a scoped independently reviewed assessment reuse repair (61 fresh tests pass). Fresh actual parser batch persists100/100 in17.145s at419.48MB but297.13ms heartbeat gap exceeds250ms; AC10 remains FAIL. Initial100-file intake independently isolated at5.97ms by the implementation agent, so no speculative intake optimization. Rendering/persistence profiling continues. System100-document timing and native signpost evidence remain unresolved.
+Fresh parser runs after independently reviewed row rendering repair completed and persisted100/100 in16.408/16.436s, peak447.32/452.13MB, maximum heartbeat177.28/224.93ms: direct limits passed. Fresh system run on0823af2 completed and persisted100/100 with exact system backend100, no failed items and no prior records;358.972s FAILS240s, while414.50MB and222.74ms satisfy their limits. No repeat is planned without a justified repair. Required signpost data remains unavailable; a separate minimal native Instruments recorder failed with a corrupt/incomplete-log-archive error. AC10 is not passed. Raw bundles remain in local/performance build/; committed evidence is on that branch.
+
+## Integrated watcher and startup safety
+
+Reviewed watcher/startup integration merged at1d1bff7, preserving root row repair. Independent scoped source/model checks, native folder grant/restart/background intake and original navigation passed (evidence/watched-folder/selective-independent-review.md). Production Pro defaults false pending commerce; watched EML acknowledgement remains deferred. Combined root regression:83core tests,8functionalUI tests and strictRelease pass; accessibility remainsFAIL with14findings. Evidence: evidence/watched-folder/root-integration.md. No whole phase acceptance.
 
 ## Native icon assembly prerequisite
 
