@@ -46,6 +46,22 @@ struct StoredReview: Codable {
     let text: String
     let fields: ExtractedFields
     var duplicate: String?
+    // Derived once from immutable extraction inputs, never from editable draft fields.
+    // Do not persist it: restored inboxes recompute with the current assessment rules.
+    let assessment: ExtractionAssessment
+    private enum CodingKeys: String, CodingKey { case hash, text, fields, duplicate }
+    init(_ review: ReviewedDocument) {
+        hash = review.contentHash; text = review.text; fields = review.fields
+        duplicate = review.duplicateOf; assessment = review.assessment
+    }
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        hash = try values.decode(String.self, forKey: .hash)
+        text = try values.decode(String.self, forKey: .text)
+        fields = try values.decode(ExtractedFields.self, forKey: .fields)
+        duplicate = try values.decodeIfPresent(String.self, forKey: .duplicate)
+        assessment = ExtractionAssessment(fields: fields, parser: ParserBackend.parse(text))
+    }
 }
 struct InboxItem: Codable, Identifiable {
     let id: UUID
@@ -322,7 +338,7 @@ final class FileGrant: @unchecked Sendable {
                     let review = try await engine.understand(source)
                     guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
                     guard items[index].status == "processing" else { continue }
-                    items[index].review = StoredReview(hash: review.contentHash, text: review.text, fields: review.fields, duplicate: review.duplicateOf)
+                    items[index].review = StoredReview(review)
                     items[index].draft = ReceiptDraft(review.fields); items[index].status = "ready"
                 } catch {
                     guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }

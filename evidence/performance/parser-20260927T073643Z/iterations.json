@@ -1,0 +1,19 @@
+[
+  {
+    "heartbeatCount": 1134,
+    "inputCount": 100,
+    "iteration": 1,
+    "recordedBackends": {
+      "parser": 100
+    },
+    "lifetimePeakPhysicalBytes": 419481184,
+    "priorInboxCount": 0,
+    "persistedCompleted": 100,
+    "failures": [],
+    "backend": "parser",
+    "completed": 100,
+    "memoryReadFailures": 0,
+    "seconds": 17.14469933333021,
+    "maximumMainHeartbeatGapSeconds": 0.29712916666903766
+  }
+]

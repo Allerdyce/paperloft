@@ -1,0 +1,247 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project Paperloft.xcodeproj -scheme PaperloftApp -destination platform=macOS -derivedDataPath build/ReviewAssessmentDerivedData SWIFT_TREAT_WARNINGS_AS_ERRORS=YES "-only-testing:PaperloftKitTests" test
+
+Build settings from command line:
+    SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  PaperloftKit: /Users/builder/Factory/paperloft-performance/Packages/PaperloftKit @ local
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (6 targets)
+    Target 'PaperloftUITests' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftApp' in project 'Paperloft'
+    Target 'PaperloftKitTests' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftKit-product' in project 'PaperloftKit'
+    Target 'PaperloftIntentLogicTests' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftKit-product' in project 'PaperloftKit'
+    Target 'PaperloftApp' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftKit-product' in project 'PaperloftKit'
+    Target 'PaperloftKit-product' in project 'PaperloftKit'
+        ➜ Explicit dependency on target 'PaperloftKit' in project 'PaperloftKit'
+    Target 'PaperloftKit' in project 'PaperloftKit' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 6b41317282076db188cec893b188450b
+Build description path: /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/XCBuildData/6b41317282076db188cec893b188450b.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
+    cd /Users/builder/Factory/paperloft-performance/Paperloft.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -o /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Info.plist /Users/builder/Factory/paperloft-performance/Configuration/Info.plist (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft-performance/Configuration/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/PkgInfo -expandbuildsettings -platform macosx -additionalcontentfile /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/assetcatalog_generated_info.plist -o /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Info.plist
+
+CopySwiftLibs /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts.debug.dylib --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Frameworks --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/PlugIns --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Library/SystemExtensions --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/Paperloft\ Receipts.app/Contents/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftApp.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftIntentLogicTests.xctest/Contents/Info.plist /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftIntentLogicTests.build/empty-PaperloftIntentLogicTests.plist (in target 'PaperloftIntentLogicTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftIntentLogicTests.build/empty-PaperloftIntentLogicTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -platform macosx -o /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftIntentLogicTests.xctest/Contents/Info.plist
+
+CopySwiftLibs /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftIntentLogicTests.xctest (in target 'PaperloftIntentLogicTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftIntentLogicTests.xctest/Contents/MacOS/PaperloftIntentLogicTests --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftIntentLogicTests.xctest/Contents/Frameworks --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftIntentLogicTests.xctest/Contents/PlugIns --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftIntentLogicTests.xctest/Contents/Library/SystemExtensions --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftIntentLogicTests.xctest/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftIntentLogicTests.xctest/Contents/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftIntentLogicTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/Info.plist /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftKitTests.build/empty-PaperloftKitTests.plist (in target 'PaperloftKitTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftKitTests.build/empty-PaperloftKitTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -platform macosx -o /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/Info.plist
+
+CopySwiftLibs /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftKitTests.xctest (in target 'PaperloftKitTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/MacOS/PaperloftKitTests --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/Frameworks --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/PlugIns --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/Library/SystemExtensions --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftKitTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftUITests-Runner.app/Contents/PlugIns/PaperloftUITests.xctest/Contents/Info.plist /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftUITests.build/empty-PaperloftUITests.plist (in target 'PaperloftUITests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftUITests.build/empty-PaperloftUITests.plist -producttype com.apple.product-type.bundle.ui-testing -expandbuildsettings -platform macosx -additionalcontentfile /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftUITests.build/ProductTypeInfoPlistAdditions.plist -o /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftUITests-Runner.app/Contents/PlugIns/PaperloftUITests.xctest/Contents/Info.plist
+
+CopySwiftLibs /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftUITests-Runner.app/Contents/PlugIns/PaperloftUITests.xctest (in target 'PaperloftUITests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-performance
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftUITests-Runner.app/Contents/PlugIns/PaperloftUITests.xctest/Contents/MacOS/PaperloftUITests --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftUITests-Runner.app/Contents/PlugIns/PaperloftUITests.xctest/Contents/Frameworks --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftUITests-Runner.app/Contents/PlugIns/PaperloftUITests.xctest/Contents/PlugIns --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftUITests-Runner.app/Contents/PlugIns/PaperloftUITests.xctest/Contents/Library/SystemExtensions --scan-folder /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftUITests-Runner.app/Contents/PlugIns/PaperloftUITests.xctest/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Products/Debug/PaperloftUITests-Runner.app/Contents/PlugIns/PaperloftUITests.xctest/Contents/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/Paperloft.build/Debug/PaperloftUITests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/SDKExplicitPrecompiledModules
+
+2026-09-27 00:35:10.103 xcodebuild[9533:1433159]  DVTAssertions: Warning in IDEFrameworks/IDEFoundation/Execution/LaunchSystem/IDELaunchSession.m:395
+Details:  setRunnablePIDWithDiagnostics:logSection:andCompletionHandler: called without a completion handler - blocking until diagnostics setup completes. Callers should migrate to using a completion handler for better performance.
+Object:   <IDELaunchSession: 0x74fa8f7c00>
+Method:   -setRunnablePIDWithDiagnostics:logSection:andCompletionHandler:
+Thread:   <NSThread: 0x74fb55b140>{number = 7, name = (null)}
+Please file a bug at https://feedbackassistant.apple.com with this warning message and any useful information you can provide.
+Test Suite 'All tests' started at 2026-09-27 00:35:10.906.
+Test Suite 'PaperloftKitTests.xctest' started at 2026-09-27 00:35:10.906.
+Test Suite 'AppModelIntentTests' started at 2026-09-27 00:35:10.906.
+Test Case '-[PaperloftKitTests.AppModelIntentTests testFailedInboxCommitThrowsAndDoesNotExposeSuccess]' started.
+Test Case '-[PaperloftKitTests.AppModelIntentTests testFailedInboxCommitThrowsAndDoesNotExposeSuccess]' passed (0.005 seconds).
+Test Case '-[PaperloftKitTests.AppModelIntentTests testFailedStartupCanRetryAfterInboxIsRepaired]' started.
+Test Case '-[PaperloftKitTests.AppModelIntentTests testFailedStartupCanRetryAfterInboxIsRepaired]' passed (0.004 seconds).
+Test Case '-[PaperloftKitTests.AppModelIntentTests testFirstStartConcurrentIntakeIsDurableAndRestoresForReview]' started.
+Test Case '-[PaperloftKitTests.AppModelIntentTests testFirstStartConcurrentIntakeIsDurableAndRestoresForReview]' passed (0.004 seconds).
+Test Case '-[PaperloftKitTests.AppModelIntentTests testTotalsAndZipReadFullCommittedLibraryAndPreserveResults]' started.
+2026-09-27 00:35:11.061207-0700 xctest[9578:1433319] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_tr_model_latincyrillic_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-09-27 00:35:11.061391-0700 xctest[9578:1433346] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_td_model_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-09-27 00:35:11.066520-0700 xctest[9578:1433346] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_orientation_model_v1_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+Test Case '-[PaperloftKitTests.AppModelIntentTests testTotalsAndZipReadFullCommittedLibraryAndPreserveResults]' passed (0.396 seconds).
+Test Case '-[PaperloftKitTests.AppModelIntentTests testUnreadableStartupCannotOverwriteExistingInbox]' started.
+Test Case '-[PaperloftKitTests.AppModelIntentTests testUnreadableStartupCannotOverwriteExistingInbox]' passed (0.002 seconds).
+Test Suite 'AppModelIntentTests' passed at 2026-09-27 00:35:11.320.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.412 (0.414) seconds
+Test Suite 'AppModelOperationTests' started at 2026-09-27 00:35:11.320.
+Test Case '-[PaperloftKitTests.AppModelOperationTests testExportCannotReplaceActiveResultDuringOperation]' started.
+Test Case '-[PaperloftKitTests.AppModelOperationTests testExportCannotReplaceActiveResultDuringOperation]' passed (0.001 seconds).
+Test Case '-[PaperloftKitTests.AppModelOperationTests testLibrarySwitchIsRejectedWhileOperationIsSuspended]' started.
+Test Case '-[PaperloftKitTests.AppModelOperationTests testLibrarySwitchIsRejectedWhileOperationIsSuspended]' passed (0.001 seconds).
+Test Suite 'AppModelOperationTests' passed at 2026-09-27 00:35:11.323.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'ExportTests' started at 2026-09-27 00:35:11.323.
+Test Case '-[PaperloftKitTests.ExportTests testCollisionUnicodeCategoriesAndRepeatedExportNeverOverwrite]' started.
+Test Case '-[PaperloftKitTests.ExportTests testCollisionUnicodeCategoriesAndRepeatedExportNeverOverwrite]' passed (0.060 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testEmptyAndMultipageSummary]' started.
+Test Case '-[PaperloftKitTests.ExportTests testEmptyAndMultipageSummary]' passed (0.091 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testHashChangesDuplicateIDsAndTraversalAreRejected]' started.
+Test Case '-[PaperloftKitTests.ExportTests testHashChangesDuplicateIDsAndTraversalAreRejected]' passed (0.006 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testInclusiveRangeCSVExactCurrencyTotalsPDFAndOriginalHashes]' started.
+Test Case '-[PaperloftKitTests.ExportTests testInclusiveRangeCSVExactCurrencyTotalsPDFAndOriginalHashes]' passed (0.010 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testOptionalSystemZIPContainsCSVAndOriginalBytes]' started.
+Test Case '-[PaperloftKitTests.ExportTests testOptionalSystemZIPContainsCSVAndOriginalBytes]' passed (0.079 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testOverflowRejectedAndCurrenciesWithDifferentPrecision]' started.
+Test Case '-[PaperloftKitTests.ExportTests testOverflowRejectedAndCurrenciesWithDifferentPrecision]' passed (0.008 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testSymlinkFilesDirectoriesAndDestinationRejected]' started.
+Test Case '-[PaperloftKitTests.ExportTests testSymlinkFilesDirectoriesAndDestinationRejected]' passed (0.004 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testTraverseOnlyAncestorsAndSymlinkRejection]' started.
+Test Case '-[PaperloftKitTests.ExportTests testTraverseOnlyAncestorsAndSymlinkRejection]' passed (0.008 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testYearQuarterLeapCustomAndInvalidRanges]' started.
+Test Case '-[PaperloftKitTests.ExportTests testYearQuarterLeapCustomAndInvalidRanges]' passed (0.005 seconds).
+Test Suite 'ExportTests' passed at 2026-09-27 00:35:11.596.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.270 (0.273) seconds
+Test Suite 'StoredReviewAssessmentTests' started at 2026-09-27 00:35:11.596.
+Test Case '-[PaperloftKitTests.StoredReviewAssessmentTests testDifferentImmutableReviewsNeverShareStaleAssessment]' started.
+Test Case '-[PaperloftKitTests.StoredReviewAssessmentTests testDifferentImmutableReviewsNeverShareStaleAssessment]' passed (0.005 seconds).
+Test Case '-[PaperloftKitTests.StoredReviewAssessmentTests testExistingInboxSchemaRestoresAssessmentAndKeepsDraftIndependent]' started.
+Test Case '-[PaperloftKitTests.StoredReviewAssessmentTests testExistingInboxSchemaRestoresAssessmentAndKeepsDraftIndependent]' passed (0.004 seconds).
+Test Suite 'StoredReviewAssessmentTests' passed at 2026-09-27 00:35:11.605.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.009 (0.009) seconds
+Test Suite 'PaperloftKitTests.xctest' passed at 2026-09-27 00:35:11.605.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 0.692 (0.699) seconds
+Test Suite 'All tests' passed at 2026-09-27 00:35:11.605.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 0.692 (0.700) seconds
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test symlinkedCategoryCannotEscapeLibrary() started.
+◇ Test parserPrefersIssueDateOverDueDate() started.
+◇ Test currencyPrecisionAndUnicodeFilenames() started.
+◇ Suite ResilienceTests started.
+◇ Test randomizedThousandFileOperationsPreserveEveryOriginal() started.
+◇ Test partialClassificationFailurePreservesReviewButNeverAutoFiles() started.
+◇ Test engineReviewFileSearchUndoAndSourceChange() started.
+◇ Test filenameDoesNotTraversePaths() started.
+◇ Test decodedDatesAreValidated() started.
+◇ Test calendarValidation() started.
+◇ Test rotatedRowsAreNotMistakenForAdjacentLines() started.
+◇ Test stubReturnsInjectedFields() started.
+◇ Test emptyAndInvalidFragmentsDoNotCreateText() started.
+◇ Test savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals() started.
+◇ Test exactMoneyRejectsRoundingAndOverflow() started.
+◇ Suite NameTemplateTests started.
+◇ Test parserRecognizesNonFinancialText() started.
+◇ Test invoiceOpticalCharacterConfusionIsRecognized() started.
+◇ Test extractionPayloadWithoutClassificationDiagnosticRemainsReadable() started.
+◇ Test assessmentRequiresAgreementAndValidFields() started.
+◇ Test parserUsesFinalTotalRatherThanTenderedCash() started.
+◇ Test indexRebuildRestoresSearchFromLibraryAlone() started.
+◇ Test duplicatesAndModifiedDestinationsAreNeverOverwritten() started.
+◇ Test separateColumnsPreserveAmountsOnTheirRows() started.
+◇ Test copyCollisionsAndUndoPreserveExistingFiles() started.
+◇ Test amountsKeepTheirCents() started.
+◇ Test adjacentHeaderDoesNotBecomePartOfVendor() started.
+◇ Test moveAndUndoRestoreOriginalIdentityAndBytes() started.
+◇ Test cardPaymentAndAmountDueAreRecognized() started.
+✔ Test decodedDatesAreValidated() passed after 0.006 seconds.
+◇ Test emptyCorruptLockedAndLongPDFsFailClearly() started.
+✔ Test stubReturnsInjectedFields() passed after 0.006 seconds.
+✔ Test rotatedRowsAreNotMistakenForAdjacentLines() passed after 0.006 seconds.
+✔ Test emptyAndInvalidFragmentsDoNotCreateText() passed after 0.006 seconds.
+✔ Test filenameDoesNotTraversePaths() passed after 0.006 seconds.
+✔ Test calendarValidation() passed after 0.006 seconds.
+✔ Test parserRecognizesNonFinancialText() passed after 0.006 seconds.
+✔ Test extractionPayloadWithoutClassificationDiagnosticRemainsReadable() passed after 0.006 seconds.
+◇ Test boundsExpandedUTF8FilenameWithoutDroppingRequiredFields() started.
+◇ Test defaultAndCustomNamesPreserveMetadata() started.
+◇ Test rejectsTraversalUnknownTokensAndMissingMetadata() started.
+✔ Test invoiceOpticalCharacterConfusionIsRecognized() passed after 0.007 seconds.
+✔ Test currencyPrecisionAndUnicodeFilenames() passed after 0.007 seconds.
+✔ Test parserPrefersIssueDateOverDueDate() passed after 0.007 seconds.
+✔ Test savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals() passed after 0.007 seconds.
+✔ Test partialClassificationFailurePreservesReviewButNeverAutoFiles() passed after 0.006 seconds.
+✔ Test separateColumnsPreserveAmountsOnTheirRows() passed after 0.007 seconds.
+✔ Test cardPaymentAndAmountDueAreRecognized() passed after 0.007 seconds.
+✔ Test adjacentHeaderDoesNotBecomePartOfVendor() passed after 0.007 seconds.
+✔ Test exactMoneyRejectsRoundingAndOverflow() passed after 0.007 seconds.
+✔ Test amountsKeepTheirCents() passed after 0.007 seconds.
+✔ Test parserUsesFinalTotalRatherThanTenderedCash() passed after 0.009 seconds.
+✔ Test symlinkedCategoryCannotEscapeLibrary() passed after 0.009 seconds.
+✔ Test assessmentRequiresAgreementAndValidFields() passed after 0.009 seconds.
+✔ Test defaultAndCustomNamesPreserveMetadata() passed after 0.002 seconds.
+✔ Test boundsExpandedUTF8FilenameWithoutDroppingRequiredFields() passed after 0.003 seconds.
+CoreGraphics PDF has logged an error. Set environment variable "CG_PDF_VERBOSE" to learn more.
+✔ Test rejectsTraversalUnknownTokensAndMissingMetadata() passed after 0.003 seconds.
+✔ Suite NameTemplateTests passed after 0.010 seconds.
+✔ Test emptyCorruptLockedAndLongPDFsFailClearly() passed after 0.011 seconds.
+◇ Test fiftyMegapixelImageIsRejectedBeforeOCR() started.
+✔ Test duplicatesAndModifiedDestinationsAreNeverOverwritten() passed after 0.025 seconds.
+✔ Test moveAndUndoRestoreOriginalIdentityAndBytes() passed after 0.028 seconds.
+✔ Test indexRebuildRestoresSearchFromLibraryAlone() passed after 0.031 seconds.
+✔ Test engineReviewFileSearchUndoAndSourceChange() passed after 0.037 seconds.
+✔ Test copyCollisionsAndUndoPreserveExistingFiles() passed after 0.041 seconds.
+✔ Test fiftyMegapixelImageIsRejectedBeforeOCR() passed after 0.356 seconds.
+◇ Test ordinaryImageAndPDFCompleteWithoutCrashing() started.
+✔ Test ordinaryImageAndPDFCompleteWithoutCrashing() passed after 0.224 seconds.
+◇ Test missingLibraryAndInvalidPermissionHaveActionableErrors() started.
+2026-09-27 00:35:12.208165-0700 xctest[9578:1433350] [bookmark] BookmarkData: invalid header
+✔ Test missingLibraryAndInvalidPermissionHaveActionableErrors() passed after 0.001 seconds.
+✔ Suite ResilienceTests passed after 0.600 seconds.
+✔ Test randomizedThousandFileOperationsPreserveEveryOriginal() passed after 15.341 seconds.
+✔ Test run with 34 tests in 2 suites passed after 15.341 seconds.
+2026-09-27 00:35:27.224 xcodebuild[9533:1433907]  IDETestOperationsObserverDebug: Failure collecting logarchive: Error Domain=OSLogErrorDomain Code=13 "Log archive creation failed with error 13, warnings during creation: failed to read version.plist
+" UserInfo={NSLocalizedDescription=Log archive creation failed with error 13, warnings during creation: failed to read version.plist
+}
+2026-09-27 00:35:27.235 xcodebuild[9533:1433079] [MT] IDETestOperationsObserverDebug: 17.167 elapsed -- Testing started completed.
+2026-09-27 00:35:27.235 xcodebuild[9533:1433079] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-09-27 00:35:27.235 xcodebuild[9533:1433079] [MT] IDETestOperationsObserverDebug: 17.167 sec, +17.167 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/builder/Factory/paperloft-performance/build/ReviewAssessmentDerivedData/Logs/Test/Test-PaperloftApp-2026.09.27_00-35-09--0700.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started
