@@ -111,11 +111,8 @@ final class ShareSheetModel: ObservableObject {
         }
     }
 
-    nonisolated private static func stageProviderFile(_ source: URL, name: String, type: HandoffFileType) throws -> URL {
+    nonisolated static func stageProviderFile(_ source: URL, name: String, type: HandoffFileType) throws -> URL {
         let fm = FileManager.default
-        let attributes = try source.resourceValues(forKeys: [.isRegularFileKey, .isSymbolicLinkKey, .fileSizeKey])
-        guard source.isFileURL, attributes.isRegularFile == true, attributes.isSymbolicLink != true else { throw HandoffError.unsafePath }
-        guard Int64(attributes.fileSize ?? Int.max) <= HandoffStore.maximumFileBytes else { throw HandoffError.fileTooLarge }
         let staging = fm.temporaryDirectory.resolvingSymlinksInPath().appendingPathComponent(UUID().uuidString, isDirectory: true)
         try fm.createDirectory(at: staging, withIntermediateDirectories: false)
         var succeeded = false
@@ -123,16 +120,7 @@ final class ShareSheetModel: ObservableObject {
         let safeName = (name as NSString).lastPathComponent.replacingOccurrences(of: "\\", with: "-")
         let filename = type.accepts(filename: safeName) ? safeName : safeName + "." + type.fileExtension
         let target = staging.appendingPathComponent(filename)
-        guard fm.createFile(atPath: target.path, contents: nil) else { throw HandoffError.invalidItem }
-        let reader = try FileHandle(forReadingFrom: source), writer = try FileHandle(forWritingTo: target)
-        defer { try? reader.close(); try? writer.close() }
-        var count: Int64 = 0
-        while let data = try reader.read(upToCount: 256 * 1_024), !data.isEmpty {
-            count += Int64(data.count)
-            guard count <= HandoffStore.maximumFileBytes else { throw HandoffError.fileTooLarge }
-            try writer.write(contentsOf: data)
-        }
-        try writer.synchronize()
+        try HandoffFileCopy.copy(source: source, destination: target)
         succeeded = true
         return target
     }
