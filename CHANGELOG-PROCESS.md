@@ -106,3 +106,9 @@ Added real AppModel adapter tests using ordinary constructor dependency injectio
 Added actual-AppModel tests through ordinary constructor/path/entitlement injection, without new launch hooks. They target crash gaps between immutable input copy, inbox commit, delivery proof and scanner acknowledgment, plus restart and Pro/disable behavior. Existing frozen tests remain unchanged. Scope and limits: evidence/watched-folder/app-integration.md. Builds paused during independent machine performance measurements rather than contaminating those timings.
 
 Early independent review requested main-actor I/O and configuration-overlap checks. Moved immutable input copy and bounded delivery-ledger work off-main while keeping the inbox metadata snapshot/commit ordered on-main; configuration generations protect newer choices from stale continuations. Added an overlap regression and a separate quiet-machine worst-case heartbeat test. Evidence: watched-folder/app-integration.md; maximum measured heartbeat gap 13.51 ms with 32 MB inputs and a near-capacity ledger.
+
+## Native watched-folder lifecycle verification follow-up
+
+- Added a new public-UI lifecycle regression using the existing documented sample, stub model and Store mock arguments, a generated synthetic PDF folder, native directory panel, explicit off/on, bookmark restoration and source-byte checks.
+- Computer Use could observe the initial Inbox but subsequently failed with a closed native pipe even after reset/reselection. The new test is an independent verification route, not a relaxation of product assertions or an additional launch hook. Initial window recovery through the public Window menu is explicit; no launch-window acceptance is claimed.
+- Native test execution and results are recorded in evidence/watched-folder/app-integration.md; existing tests and protected criteria remain unchanged.
