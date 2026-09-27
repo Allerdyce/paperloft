@@ -9,7 +9,7 @@ From the repository root:
 
 ```sh
 mkdir -p build/share-smoke
-xcrun swiftc -swift-version 6 -warnings-as-errors -emit-library -emit-module -module-name PaperloftHandoff Packages/PaperloftHandoff/Sources/PaperloftHandoff/HandoffStore.swift -emit-module-path build/share-smoke/PaperloftHandoff.swiftmodule -o build/share-smoke/libPaperloftHandoff.dylib
+xcrun swiftc -swift-version 6 -warnings-as-errors -emit-library -emit-module -module-name PaperloftHandoff Packages/PaperloftHandoff/Sources/PaperloftHandoff/*.swift -emit-module-path build/share-smoke/PaperloftHandoff.swiftmodule -o build/share-smoke/libPaperloftHandoff.dylib
 xcrun swiftc -swift-version 6 -warnings-as-errors -parse-as-library -I build/share-smoke -L build/share-smoke -lPaperloftHandoff -Xlinker -rpath -Xlinker @executable_path Apps/PaperloftShare/ShareViewController.swift Tests/PaperloftShareTests/ShareSmoke.swift -o build/share-smoke/ShareSmoke
 build/share-smoke/ShareSmoke
 ```

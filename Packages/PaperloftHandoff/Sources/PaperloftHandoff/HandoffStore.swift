@@ -64,7 +64,6 @@ public actor HandoffStore {
     public static let maximumFileBytes: Int64 = 200_000_000
     private let inbox: URL
     private let fm = FileManager.default
-    private let chunkSize = 256 * 1_024
 
     public init(containerURL: URL) throws {
         guard containerURL.isFileURL else { throw HandoffError.unsafePath }
@@ -87,13 +86,19 @@ public actor HandoffStore {
             try validateName(input.fileURL.lastPathComponent)
             guard (input.sourceApp?.utf8.count ?? 0) <= 1_024 else { throw HandoffError.invalidItem }
             guard input.type.accepts(filename: input.fileURL.lastPathComponent) else { throw HandoffError.unsupportedType }
-            try Self.rejectSymlinks(input.fileURL)
         }
         for input in inputs {
             if try isKnown(input.id) { continue }
             try publishOne(input, now: now)
         }
         return inputs.map(\.id)
+    }
+
+    /// Returns nil immediately when another process/actor owns the consumer lease.
+    /// Hold the returned token through recovery, ingestion and acknowledgement.
+    public func acquireConsumerLease() throws -> HandoffConsumerLease? {
+        try safeDirectory(inbox)
+        return try HandoffConsumerLease.acquire(at: inbox.appendingPathComponent(".consumer.lock"))
     }
 
     /// Only fully published directories are discoverable. Partial stages stay hidden.
@@ -164,31 +169,8 @@ public actor HandoffStore {
         try safeDirectory(staging.deletingLastPathComponent())
         try fm.createDirectory(at: staging, withIntermediateDirectories: false)
         defer { try? removeOwned(staging) }
-        let attrs = try fm.attributesOfItem(atPath: input.fileURL.path)
-        guard attrs[.type] as? FileAttributeType == .typeRegular else { throw HandoffError.unsafePath }
-        let originalSize = (attrs[.size] as? NSNumber)?.int64Value ?? -1
-        guard originalSize >= 0, originalSize <= Self.maximumFileBytes else { throw HandoffError.fileTooLarge }
         let payload = staging.appendingPathComponent("document." + input.type.fileExtension)
-        guard fm.createFile(atPath: payload.path, contents: nil) else { throw HandoffError.invalidItem }
-        let reader = try FileHandle(forReadingFrom: input.fileURL)
-        defer { try? reader.close() }
-        let writer = try FileHandle(forWritingTo: payload)
-        defer { try? writer.close() }
-        var count: Int64 = 0
-        while let chunk = try reader.read(upToCount: chunkSize), !chunk.isEmpty {
-            count += Int64(chunk.count)
-            guard count <= Self.maximumFileBytes else { throw HandoffError.fileTooLarge }
-            try writer.write(contentsOf: chunk)
-        }
-        try writer.synchronize()
-        try writer.close()
-        let after = try fm.attributesOfItem(atPath: input.fileURL.path)
-        try Self.rejectSymlinks(input.fileURL)
-        guard count == originalSize, after[.size] as? NSNumber == attrs[.size] as? NSNumber,
-              after[.modificationDate] as? Date == attrs[.modificationDate] as? Date,
-              after[.systemFileNumber] as? NSNumber == attrs[.systemFileNumber] as? NSNumber else {
-            throw HandoffError.sourceChanged
-        }
+        let count = try HandoffFileCopy.copy(source: input.fileURL, destination: payload)
         let item = HandoffItem(id: input.id, originalName: input.fileURL.lastPathComponent,
                                type: input.type, createdAt: now, sourceApp: input.sourceApp, byteCount: count)
         let metadata = staging.appendingPathComponent("item.json")

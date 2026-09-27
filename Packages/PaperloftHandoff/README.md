@@ -1,6 +1,6 @@
 # PaperloftHandoff
 
-Local 1.1 foundation only. A standalone Foundation-only Swift package: no model,
+Local 1.1 foundation only. A standalone Swift package using Foundation and Darwin file descriptors: no model,
 OCR, index, library, network or UI dependency. This is not the Share extension,
 a watcher, app integration, or a completed 1.1 acceptance gate.
 
@@ -29,9 +29,22 @@ receipt creation but before deletion is cleaned during recovery. Receipts persis
 indefinitely to retain retry identity; do not remove them without an explicit
 application retention/idempotency policy.
 
-One consumer owns claim recovery. `outstandingClaims` is startup recovery, not
-an expiring lease, and must not race another live consumer. Writers may run in
-other processes. Actors serialize operations within each store instance.
+Acquire `try await store.acquireConsumerLease()` before any recovery/claim batch.
+A nil result means another process is consuming; return and retry later. Retain
+the returned `HandoffConsumerLease` across every await in the complete batch:
+
+```swift
+guard let lease = try await store.acquireConsumerLease() else { return }
+defer { withExtendedLifetime(lease) {} }
+// Recover, claim, durably ingest and acknowledge while lease stays alive.
+```
+
+The descriptor holds nonblocking exclusive `flock`; deinit unlocks/closes it,
+and process exit releases it. Never delete `Inbox/.consumer.lock`, whose stable
+inode coordinates all processes. A symlink/nonregular/multiply-linked lock fails
+closed. The lock covers consumers, not writers. Actors additionally serialize
+operations within each store instance. `outstandingClaims` is startup recovery,
+not an expiring claim lease.
 
 ## Files and limits
 
@@ -50,9 +63,16 @@ other processes. Actors serialize operations within each store instance.
 - Publication is atomic **per item**, not per batch. If a batch throws, earlier
   items may already be published. Retry all inputs using the original UUIDs.
   IDs represent immutable submissions; never reuse one for a different document.
-- The container is private to cooperating, trusted app-group processes. The
-  Foundation path checks are not a security boundary against a hostile process
-  continuously replacing filesystem nodes between validation and use.
+- External source/provider copies traverse directories with descriptor-relative
+  `openat` and `O_NOFOLLOW`, then open the leaf without following symlinks.
+  Only the fixed macOS root aliases `/var/` and `/tmp/` are mapped to `/private/`
+  for system item-provider URLs; user-controlled symlinks are never resolved.
+  `O_NONBLOCK` prevents a FIFO substitution from hanging before `fstat` rejects
+  nonregular files. Size and nanosecond modification/change times are compared
+  on the opened descriptor before/after copying; a final safe reopen verifies
+  pathname identity. Destinations are exclusively created, never overwritten.
+  The container's internal metadata, publication and cleanup still assume
+  cooperating trusted app-group processes; they are not an adversarial sandbox.
 - `cleanupStaleIncoming()` deletes only UUID-named staging directories older than
   24 hours. Run before starting writers, without overlapping writes in another
   process. Published items and claims never expire; originals are never modified.
@@ -65,7 +85,8 @@ other processes. Actors serialize operations within each store instance.
 Run `swift test --package-path Packages/PaperloftHandoff` from the repository root.
 Tests cover 1,000 seeded retry scenarios, crash windows around intake and receipt
 commit, half-written stages, stale cleanup, corrupt metadata/payloads, byte/count
-bounds, symlink rejection, partial-batch retries and unchanged originals. A
+bounds, symlink/FIFO/racing-source rejection, partial-batch retries, unchanged
+originals, and lease exclusivity/release across actors and a child process. A
 20-file/100 MB copy test exercises streaming scale. Peak process memory, actual
 process-kill tests, extension integration and all live Share-menu tests remain
 separate validation work; these unit tests do not establish AC-109 or AC-111.

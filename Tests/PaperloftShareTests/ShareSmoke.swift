@@ -36,9 +36,15 @@ import PaperloftHandoff
         let copiedBytes = try Data(contentsOf: copy), originalBytes = try Data(contentsOf: original)
         precondition(copiedBytes == bytes)
         precondition(originalBytes == bytes)
+        let unsafe = workspace.appendingPathComponent("linked.pdf")
+        try FileManager.default.createSymbolicLink(at: unsafe, withDestinationURL: original)
+        do {
+            _ = try ShareSheetModel.stageProviderFile(unsafe, name: "linked.pdf", type: .pdf)
+            preconditionFailure("Provider symlink must be rejected")
+        } catch { precondition(error as? HandoffError == .unsafePath) }
         model.add()
         for _ in 0..<200 where model.isAdding { try await Task.sleep(for: .milliseconds(10)) }
         precondition(!model.isAdding && model.message?.contains("signed Paperloft build") == true)
-        print("PASS: unsigned fallback; seven activation types; rejects text/URL/HTML; mixed share; 20-file cap and skipped reasons; provider callback copy survives and original unchanged")
+        print("PASS: provider symlink rejection; unsigned fallback; seven activation types; rejects text/URL/HTML; mixed share; 20-file cap and skipped reasons; provider callback copy survives and original unchanged")
     }
 }
