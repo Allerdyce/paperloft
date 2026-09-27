@@ -218,7 +218,7 @@ struct InboxView: View {
                                 Image(systemName: "exclamationmark.triangle").font(.largeTitle).foregroundStyle(.orange).accessibilityHidden(true)
                                 Text("This document needs attention").font(.headline)
                                 Text(item.issue ?? "Import the document again.").foregroundStyle(.primary).multilineTextAlignment(.center)
-                                Button("Remove") { model.setAside(item.id) }.foregroundStyle(.red).help("Remove from Inbox. The original file stays in place.").accessibilityIdentifier("inbox.setAsideError")
+                                Button { model.setAside(item.id) } label: { Text("Remove").foregroundStyle(.red) }.help("Remove from Inbox. The original file stays in place.").accessibilityIdentifier("inbox.setAsideError")
                             } else { ProgressView("Reading your document…").accessibilityIdentifier("inbox.reading") }
                         }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
@@ -280,6 +280,23 @@ struct ReviewView: View {
         guard let review = item.review else { return true }
         return !review.assessment.canAutoFile
     }
+    private func explanation(_ reason: ReviewReason) -> String {
+        switch reason {
+        case .lowConfidence: return "The reading is uncertain. Compare the suggested details with the original before confirming."
+        case .parserUnavailable: return "The date and total could not be independently checked against the receipt text. Verify both, including the year."
+        case .parserDisagreement: return "Two readings disagree on the date or total. Verify both against the original."
+        case .classificationUnavailable: return "The document type could not be verified. Check Receipt, Invoice or Bill."
+        case .notReceipt: return "This may not be a receipt. Check the document or remove it from the Inbox."
+        case .invalidKind: return "The original reading did not identify a valid document type. Check the selected type."
+        case .missingVendor: return "The original reading did not identify a merchant. Check the vendor field."
+        case .invalidDate: return "The original reading did not identify a valid date. Choose the receipt date."
+        case .invalidTotal: return "The original reading did not identify a valid total. Enter the amount shown on the receipt."
+        case .invalidTax: return "The original tax reading was invalid. Check the tax amount, or leave it empty if none is shown."
+        case .taxSourceUnverified: return "The suggested tax could not be verified in the source. Compare it with the receipt."
+        case .invalidCurrency: return "The original reading did not identify a supported currency. Check the currency code."
+        case .missingCategory: return "The original reading did not identify a category. Choose one before confirming."
+        }
+    }
     private func fieldMessage(_ field: String) -> String? {
         let currency = draft.currency.uppercased().trimmingCharacters(in: .whitespaces)
         let validCurrency = (try? Money(minorUnits: 0, currency: currency)) != nil
@@ -323,7 +340,17 @@ struct ReviewView: View {
                     } else if item.review?.fields.kind == "not_receipt" {
                         Label("This may not be a receipt. Check the details or remove it from the Inbox.", systemImage: "questionmark.circle").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.warning")
                     } else if needsReview {
-                        Label("Check the suggested fields before filing.", systemImage: "checkmark.circle").font(.callout).foregroundStyle(.primary).accessibilityIdentifier("review.warning")
+                        ScrollView {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Why this needs checking").font(.callout.weight(.semibold))
+                                ForEach(item.review?.assessment.reasons ?? [], id: \.rawValue) { reason in
+                                    Label(explanation(reason), systemImage: "exclamationmark.circle")
+                                        .font(.caption).foregroundStyle(.primary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .accessibilityIdentifier("review.reason." + reason.rawValue)
+                                }
+                            }.frame(maxWidth: .infinity, alignment: .leading)
+                        }.frame(maxHeight: 130).accessibilityIdentifier("review.warning")
                     }
                 }
                 if item.review?.fields.taxNeedsReview == true {
@@ -377,7 +404,7 @@ struct ReviewView: View {
                 Text(model.mode == .copy ? "Saves a copy to your library. Your original stays in place." : "Moves the original to your library. You can undo this in History.")
                     .font(.caption).foregroundStyle(.secondary)
                 HStack {
-                    Button("Remove") { model.setAside(item.id) }.foregroundStyle(.red).help("Remove from Inbox. The original file stays in place.").accessibilityIdentifier("review.setAside")
+                    Button { model.setAside(item.id) } label: { Text("Remove").foregroundStyle(.red) }.help("Remove from Inbox. The original file stays in place.").accessibilityIdentifier("review.setAside")
                     Spacer()
                     Button("Confirm") { Task { await model.fileSelected() } }
                         .buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)

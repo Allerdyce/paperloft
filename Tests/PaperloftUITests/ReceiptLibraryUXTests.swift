@@ -42,6 +42,8 @@ final class ReceiptLibraryUXTests: XCTestCase {
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.buttons["review.file"].isEnabled)
         XCTAssertTrue(app.staticTexts["Issue"].firstMatch.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Why this needs checking"].exists)
+        XCTAssertTrue(app.descendants(matching: .any)["review.reason.parserUnavailable"].firstMatch.exists)
         XCTAssertFalse(app.staticTexts["Waiting"].exists)
         XCTAssertEqual(app.buttons["review.file"].label, "Confirm")
         XCTAssertEqual(app.buttons["review.setAside"].label, "Remove")

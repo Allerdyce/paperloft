@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Review workflow refinements independently scoped PASS: background-safe Confirm, red Remove, Issues taxonomy, calendar, field-level messages, stable review selection. Unit/concurrency and native UI checks pass, final strict Release built. Owner active session preserved; reopen exact Release when ready. Extraction/full P3/release gates remain open.",
+  "step": "Issue explanation list implemented and independently source-reviewed; strict Release and native reason-display test PASS. Owner app not restarted. Continue real-receipt accuracy fixes; full P3/release gates remain open.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -13,5 +13,5 @@
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
     "Real receipts: OCR loses visible totals; unsupported total, merchant and transaction-date errors require follow-up. Tax safeguard is partial mitigation only."
   ],
-  "updated": "2026-09-27T20:16:13.948743+00:00"
+  "updated": "2026-09-27T20:19:44.730463+00:00"
 }
