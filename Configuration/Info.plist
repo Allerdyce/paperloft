@@ -7,4 +7,6 @@
 <key>LSHandlerRank</key><string>Alternate</string>
 <key>LSItemContentTypes</key><array><string>com.adobe.pdf</string><string>public.png</string><string>public.jpeg</string><string>public.heic</string><string>com.apple.mail.email</string></array>
 </dict></array>
+<key>PaperloftAppGroupIdentifier</key><string>$(TeamIdentifierPrefix)app.paperloft.receipts</string>
+<key>PaperloftAppGroupEnabled</key><string>$(PAPERLOFT_APP_GROUP_ENABLED)</string>
 </dict></plist>
