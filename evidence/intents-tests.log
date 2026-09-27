@@ -1,0 +1,96 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project Paperloft.xcodeproj -scheme PaperloftApp -destination platform=macOS -derivedDataPath build/IntentsDerivedData "-only-testing:PaperloftIntentLogicTests" "-only-testing:PaperloftUITests/AppIntentFrameworkTests" -resultBundlePath build/IntentsTests.xcresult test-without-building
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  PaperloftKit: /Users/builder/Factory/paperloft-intents/Packages/PaperloftKit @ local
+
+Writing result bundle at path:
+	/Users/builder/Factory/paperloft-intents/build/IntentsTests.xcresult
+
+2026-09-26 23:34:12.465 xcodebuild[73361:1203706]  DVTAssertions: Warning in IDEFrameworks/IDEFoundation/Execution/LaunchSystem/IDELaunchSession.m:395
+Details:  setRunnablePIDWithDiagnostics:logSection:andCompletionHandler: called without a completion handler - blocking until diagnostics setup completes. Callers should migrate to using a completion handler for better performance.
+Object:   <IDELaunchSession: 0x7ab8bd6a00>
+Method:   -setRunnablePIDWithDiagnostics:logSection:andCompletionHandler:
+Thread:   <NSThread: 0x7abb024080>{number = 5, name = (null)}
+Please file a bug at https://feedbackassistant.apple.com with this warning message and any useful information you can provide.
+Test Suite 'All tests' started at 2026-09-26 23:34:13.598.
+Test Suite 'PaperloftIntentLogicTests.xctest' started at 2026-09-26 23:34:13.599.
+Test Suite 'IntentLogicTests' started at 2026-09-26 23:34:13.599.
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testExportEnforcesProAndValidDates]' started.
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testExportEnforcesProAndValidDates]' passed (0.006 seconds).
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testFileQueuesReviewWithoutClaimingFiled]' started.
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testFileQueuesReviewWithoutClaimingFiled]' passed (0.002 seconds).
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testFileRejectsEmptyAndUnsupportedInputs]' started.
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testFileRejectsEmptyAndUnsupportedInputs]' passed (0.001 seconds).
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testMissingServiceFailsClearly]' started.
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testMissingServiceFailsClearly]' passed (0.001 seconds).
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testOpenInboxAndTotalUseInjectedService]' started.
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testOpenInboxAndTotalUseInjectedService]' passed (0.002 seconds).
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testPeriodBoundariesAndLeapYear]' started.
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testPeriodBoundariesAndLeapYear]' passed (0.002 seconds).
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testTotalsKeepCurrenciesSeparateAndFilter]' started.
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testTotalsKeepCurrenciesSeparateAndFilter]' passed (0.001 seconds).
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testTotalsRejectOverflow]' started.
+Test Case '-[PaperloftIntentLogicTests.IntentLogicTests testTotalsRejectOverflow]' passed (0.001 seconds).
+Test Suite 'IntentLogicTests' passed at 2026-09-26 23:34:13.618.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.017 (0.020) seconds
+Test Suite 'PaperloftIntentLogicTests.xctest' passed at 2026-09-26 23:34:13.619.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.017 (0.020) seconds
+Test Suite 'All tests' passed at 2026-09-26 23:34:13.619.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.017 (0.021) seconds
+2026-09-26 23:34:14.420113-0700 PaperloftUITests-Runner[73400:1204044] [Default] Running tests...
+Test Suite 'Selected tests' started at 2026-09-26 23:34:14.468.
+Test Suite 'PaperloftUITests.xctest' started at 2026-09-26 23:34:14.469.
+Test Suite 'AppIntentFrameworkTests' started at 2026-09-26 23:34:14.469.
+Test Case '-[PaperloftUITests.AppIntentFrameworkTests testExportRejectsInvalidDates]' started.
+    t =     0.00s Start Test at 2026-09-26 23:34:14.469
+    t =     0.13s Set Up
+/Users/builder/Factory/paperloft-intents/Tests/PaperloftUITests/AppIntentFrameworkTests.swift:34: error: -[PaperloftUITests.AppIntentFrameworkTests testExportRejectsInvalidDates] : XCTAssertTrue failed - app.paperloft.receipts is not present
+    t =     0.25s Tear Down
+Test Case '-[PaperloftUITests.AppIntentFrameworkTests testExportRejectsInvalidDates]' failed (0.317 seconds).
+Test Case '-[PaperloftUITests.AppIntentFrameworkTests testFileDocumentRejectsEmptyInput]' started.
+    t =     0.00s Start Test at 2026-09-26 23:34:14.787
+    t =     0.12s Set Up
+/Users/builder/Factory/paperloft-intents/Tests/PaperloftUITests/AppIntentFrameworkTests.swift:26: error: -[PaperloftUITests.AppIntentFrameworkTests testFileDocumentRejectsEmptyInput] : XCTAssertTrue failed - app.paperloft.receipts is not present
+    t =     0.13s Tear Down
+Test Case '-[PaperloftUITests.AppIntentFrameworkTests testFileDocumentRejectsEmptyInput]' failed (0.189 seconds).
+Test Case '-[PaperloftUITests.AppIntentFrameworkTests testOpenInbox]' started.
+    t =     0.00s Start Test at 2026-09-26 23:34:14.977
+    t =     0.12s Set Up
+/Users/builder/Factory/paperloft-intents/Tests/PaperloftUITests/AppIntentFrameworkTests.swift:12: error: -[PaperloftUITests.AppIntentFrameworkTests testOpenInbox] : failed: caught error: "Error Domain=AppIntentsServicesMetadataErrorDomain Code=400 "app.paperloft.receipts is not present" UserInfo={NSLocalizedDescription=app.paperloft.receipts is not present}"
+    t =     0.12s Tear Down
+Test Case '-[PaperloftUITests.AppIntentFrameworkTests testOpenInbox]' failed (0.184 seconds).
+Test Case '-[PaperloftUITests.AppIntentFrameworkTests testTotalSpent]' started.
+    t =     0.00s Start Test at 2026-09-26 23:34:15.161
+    t =     0.13s Set Up
+/Users/builder/Factory/paperloft-intents/Tests/PaperloftUITests/AppIntentFrameworkTests.swift:15: error: -[PaperloftUITests.AppIntentFrameworkTests testTotalSpent] : failed: caught error: "Error Domain=AppIntentsServicesMetadataErrorDomain Code=400 "app.paperloft.receipts is not present" UserInfo={NSLocalizedDescription=app.paperloft.receipts is not present}"
+    t =     0.13s Tear Down
+Test Case '-[PaperloftUITests.AppIntentFrameworkTests testTotalSpent]' failed (0.197 seconds).
+Test Suite 'AppIntentFrameworkTests' failed at 2026-09-26 23:34:15.359.
+	 Executed 4 tests, with 4 failures (2 unexpected) in 0.888 (0.890) seconds
+Test Suite 'PaperloftUITests.xctest' failed at 2026-09-26 23:34:15.359.
+	 Executed 4 tests, with 4 failures (2 unexpected) in 0.888 (0.890) seconds
+Test Suite 'Selected tests' failed at 2026-09-26 23:34:15.359.
+	 Executed 4 tests, with 4 failures (2 unexpected) in 0.888 (0.891) seconds
+2026-09-26 23:34:15.625 xcodebuild[73361:1203704]  IDETestOperationsObserverDebug: Failure collecting logarchive: Error Domain=OSLogErrorDomain Code=13 "Log archive creation failed with error 13, warnings during creation: failed to read version.plist
+" UserInfo={NSLocalizedDescription=Log archive creation failed with error 13, warnings during creation: failed to read version.plist
+}
+2026-09-26 23:34:15.631 xcodebuild[73361:1203675] [MT] IDETestOperationsObserverDebug: 3.208 elapsed -- Testing started completed.
+2026-09-26 23:34:15.631 xcodebuild[73361:1203675] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-09-26 23:34:15.631 xcodebuild[73361:1203675] [MT] IDETestOperationsObserverDebug: 3.208 sec, +3.208 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/builder/Factory/paperloft-intents/build/IntentsTests.xcresult
+
+Failing tests:
+	AppIntentFrameworkTests.testExportRejectsInvalidDates()
+	AppIntentFrameworkTests.testFileDocumentRejectsEmptyInput()
+	AppIntentFrameworkTests.testOpenInbox()
+	AppIntentFrameworkTests.testTotalSpent()
+
+** TEST EXECUTE FAILED **
+
+Testing started

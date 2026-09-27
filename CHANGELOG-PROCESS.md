@@ -71,3 +71,7 @@ All 34 tests passed in the first two complete app runs, but runtime priority inv
 - Added `ExportTests.swift` with independent CSV parsing, PDFKit inspection, SHA-256 checks and system ZIP extraction; this makes AC-12 output assertions independent of exporter totals.
 - Added local subtask evidence under `evidence/export/`; SwiftPM unit/Release checks avoid GUI contention with parent UI work. These do not replace the parent P4 gate or independent verifier.
 - The first ZIP test exposed Foundation retaining the `/var` alias even after URL symlink resolution. Canonicalized only the Apple-coordinated temporary archive with `realpath`; user library/destination ancestry and document components still reject symlinks through descriptor-relative no-follow opens.
+
+## 2026-09-26 — isolated App Intents component checks
+
+Added a non-hosted `PaperloftIntentLogicTests` target that compiles the shipping intent source and injects the public service contract. This permits deterministic local logic checks independently of Apple's out-of-process signing prerequisite. Added genuine AppIntentsTesting tests to the existing UI bundle; they remain enabled and currently fail metadata lookup. Eight logic tests pass; none is treated as AC-15. Details and three runtime approaches: `evidence/intents-component.md`. No frozen verifier or criterion changed.
