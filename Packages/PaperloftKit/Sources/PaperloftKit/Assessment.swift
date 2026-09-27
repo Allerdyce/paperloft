@@ -2,7 +2,7 @@ import Foundation
 
 public enum ReviewReason: String, Codable, Sendable {
     case notReceipt, invalidKind, missingVendor, invalidDate, invalidTotal, invalidTax
-    case invalidCurrency, missingCategory, lowConfidence, parserDisagreement, parserUnavailable
+    case invalidCurrency, missingCategory, lowConfidence, parserDisagreement, parserUnavailable, classificationUnavailable
 }
 
 public struct ExtractionAssessment: Sendable {
@@ -32,6 +32,7 @@ public struct ExtractionAssessment: Sendable {
                                    currency: currency, category: category, kind: kind, taxMinorUnits: tax?.minorUnits)
         } else { receipt = nil }
         if !fields.confidence.isFinite || fields.confidence < 0.9 { reasons.append(.lowConfidence) }
+        if fields.classificationError != nil { reasons.append(.classificationUnavailable) }
         if fields.backend != "system" || parser.date == nil || parser.total == nil { reasons.append(.parserUnavailable) }
         else if parser.date != fields.date || parser.total.flatMap({ try? Money(decimal: $0, currency: currency) }) != total {
             reasons.append(.parserDisagreement)

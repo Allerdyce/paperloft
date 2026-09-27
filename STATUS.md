@@ -9,3 +9,5 @@ The first holdout attempt was invalid because the reviewer's label audit failed;
 Formal gates remain FAIL on deferred prerequisites. No release archive, distribution signing, upload, submission or phase-completion tags. Owner authorization covers continued local phases after independent checks without further local approval.
 
 The first type-prompt fix regressed fixture totals to94.81% and was rejected. Approach2 separates type classification from the restored numeric extraction prompt; clean builds and all30 tests pass, with fixture accuracy still running.
+
+The separate classifier caused16 omissions on its first regression run. Completed field extraction is now retained on optional classification failure, with explicit diagnostic counts and auto-file blocked. All32 tests and clean builds pass; full fixture regression is active before further independent scoring.

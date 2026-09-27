@@ -1,0 +1,8 @@
+{
+  "target": "PaperloftKit",
+  "coveredLines": 889,
+  "executableLines": 1001,
+  "lineCoverage": 0.8881118881118881,
+  "xcresult": "build/Verifier-P2-6b22.xcresult",
+  "result": "PASS"
+}

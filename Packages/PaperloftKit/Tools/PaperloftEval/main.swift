@@ -11,6 +11,7 @@ struct Evaluate {
         let total: String?
         let category: String?
         let backend: String
+        let classificationError: String?
     }
     static func main() async throws {
         let args = Array(CommandLine.arguments.dropFirst())
@@ -44,14 +45,16 @@ struct Evaluate {
         var failures = 0
         var failureTypes: [String: Int] = [:]
         var backends: [String: Int] = [:]
+        var classificationFailures: [String: Int] = [:]
         for (index, file) in files.enumerated() {
             do {
                 let text = try recognizer.text(at: file)
                 let fields = try await backend.extract(text: text)
-                let prediction = Prediction(id: file.deletingPathExtension().lastPathComponent, kind: fields.kind, vendor: fields.vendor, date: fields.date, total: fields.total, category: fields.category, backend: fields.backend)
+                let prediction = Prediction(id: file.deletingPathExtension().lastPathComponent, kind: fields.kind, vendor: fields.vendor, date: fields.date, total: fields.total, category: fields.category, backend: fields.backend, classificationError: fields.classificationError)
                 var row = try encoder.encode(prediction); row.append(10)
                 try outputHandle.write(contentsOf: row)
                 backends[fields.backend, default: 0] += 1
+                if let error = fields.classificationError { classificationFailures[error, default: 0] += 1 }
             } catch {
                 // Missing predictions are scored as failures. Never fabricate a result.
                 failures += 1
@@ -62,7 +65,7 @@ struct Evaluate {
                 FileHandle.standardError.write(Data("Progress: \(index + 1)/\(files.count) documents\n".utf8))
             }
         }
-        let summary = "Processed \(files.count) documents; failures \(failures); backends \(backends); failure types \(failureTypes)\n"
+        let summary = "Processed \(files.count) documents; failures \(failures); backends \(backends); failure types \(failureTypes); classification fallbacks \(classificationFailures)\n"
         FileHandle.standardError.write(Data(summary.utf8))
     }
 }
