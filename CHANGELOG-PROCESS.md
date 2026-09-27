@@ -125,3 +125,7 @@ Ported only the scalar Equatable InboxRow rendering change from373d4ca after ind
 - Combined integration verification after1d1bff7 runs all root core tests and the full interface suite, plus a strict Release build. Independent scoped component passes do not replace the failing P3 gate. Preserve fresh system358.972s timing failure and missing signpost evidence; no threshold/test changes.
 
 - Draft FACTORY_NOTES.md from observed setup, test-infrastructure, startup, watcher and performance evidence. This records recommendations for a future kit; it changes no current acceptance criterion or frozen file.
+## Current-root menu-bar reopen diagnostic
+
+- Added separate MenuReopenDiagnosticTests without changing existing acceptance tests or product source. The real status-item/Open Inbox path passed17.485s on13db8a4 after selectingLibrary and closingmain; main returned withInbox heading.
+- Preserved before/after accessibility trees and screenshots in evidence/menu-reopen and localxcresult. Prior failed native-Mail-wrapper experiments were read but not repeated; no speculative repair was added and this result is scoped to the current root product.
