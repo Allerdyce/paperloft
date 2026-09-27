@@ -1,0 +1,25 @@
+Progress: 1/150 documents
+Progress: 10/150 documents
+Progress: 20/150 documents
+Progress: 30/150 documents
+Progress: 40/150 documents
+Progress: 50/150 documents
+Progress: 60/150 documents
+Progress: 70/150 documents
+Progress: 80/150 documents
+Progress: 90/150 documents
+Progress: 100/150 documents
+Progress: 110/150 documents
+Progress: 120/150 documents
+Progress: 130/150 documents
+Progress: 140/150 documents
+Progress: 150/150 documents
+Processed 150 documents; failures 0; backends ["parser": 150]; failure types [:]
+mode=parser documents=150 missing_predictions=0
+PASS   date      100.00%  135/135  (needs 90.0%)
+FAIL   total      87.41%  118/135  (needs 90.0%)
+REPORT vendor     97.04%  131/135
+REPORT kind       97.33%  146/150
+REPORT category  100.00%  135/135
+PASS   difficulty: parser total 87.41% (fixtures are too easy above 98%)
+SCORE parser: FAIL

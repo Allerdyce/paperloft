@@ -36,3 +36,6 @@ Added native test targets, shared test scheme, local Debug/Release/test CI comma
 - The light-reasoning experiment failed all 150 requests with unsupportedCapability on this installed model. A one-document diagnostic confirmed it. Removed the unsupported context option; retained the response bound and aggregate error-type reporting. This failed run is recorded, not a passing score.
 
 - Bounded system smoke test initially returned only kind while omitting optional extraction fields. Required explicit field responses (empty for unknown) and normalized empties to nil. The same synthetic sample then returned its correct vendor/date/total/category. Added tax to the extraction schema and bounded OCR autorelease lifetime per document.
+
+## P1 independent fix cycle 1 — structural fixtures
+The independent review rejected typography-only layout variants. Replaced the still-unlocked generator with 12 different field/item arrangements, merchant-appropriate descriptions, varied item prices, and explicit photo rotation. No product/scorer/threshold/locked-test changes. Evidence: evidence/gates/P1-cycle1/P1.md. New corpus must pass independent review before locking.

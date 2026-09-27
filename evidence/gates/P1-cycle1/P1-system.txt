@@ -1,0 +1,28 @@
+Progress: 1/150 documents
+Progress: 10/150 documents
+Progress: 20/150 documents
+Progress: 30/150 documents
+Progress: 40/150 documents
+Progress: 50/150 documents
+Progress: 60/150 documents
+Progress: 70/150 documents
+Progress: 80/150 documents
+Progress: 90/150 documents
+Progress: 100/150 documents
+Progress: 110/150 documents
+Progress: 120/150 documents
+Progress: 130/150 documents
+Progress: 140/150 documents
+Progress: 150/150 documents
+Processed 150 documents; failures 0; backends ["system": 150]; failure types [:]
+mode=fixtures documents=150 missing_predictions=0
+PASS   date      100.00%  135/135  (needs 97.0%)
+PASS   total      97.04%  131/135  (needs 97.0%)
+PASS   vendor     97.78%  132/135  (needs 92.0%)
+PASS   kind      100.00%  150/150  (needs 95.0%)
+FAIL   category   51.11%  69/135  (needs 80.0%)
+PASS   mix:confusable   25.3%  (needs 10%)
+PASS   mix:long         20.0%  (needs 20%)
+PASS   mix:not_receipt  10.0%  (needs 10%)
+PASS   mix:photo        50.0%  (needs 30%)
+SCORE fixtures: FAIL

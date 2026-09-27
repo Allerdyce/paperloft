@@ -1,10 +1,10 @@
 {
   "phase": "P1",
-  "step": "P1 OCR/backends and 150 fixtures implemented; system evaluation running",
-  "last_green_commit": "3f29e10",
+  "step": "P1 independent cycle1 rejected layout diversity; replacing unlocked corpus with 12 structural layouts",
+  "last_green_commit": "5c698fb",
   "parked": [
     "Membership, distribution signing and ASC upload",
     "Formal acceptance tag and gates deferred"
   ],
-  "updated": "2026-09-27T02:45:32.031380+00:00"
+  "updated": "2026-09-27T03:09:42.751015+00:00"
 }
