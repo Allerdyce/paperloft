@@ -7,3 +7,17 @@ Menu-bar test closes the main window, finds/clicks the actual menubar.status and
 The synthetic provider is reproducibly built with scripts/build_mail_promise_probe.sh (ad-hoc local signature only), public AppKit and no product hook. Tests use public XCUITest cross-app coordinate gestures. No Mail account or mailbox access.
 
 Root ended its own windowless app process and released GUI lock. Product repair/recheck required before acceptance; no tests skipped or thresholds relaxed.
+
+## Mail branch follow-up (2026-09-27)
+
+Merged root diagnostic revision 05d3a00 normally. All following runs used the same strict Debug build settings and unchanged expected controls/timeouts. Three attempted product repairs were compiled and tested, then **fully reverted** because none repaired initial launch:
+
+1. Resolve OpenWindowAction before the hosting boundary plus `.defaultLaunchBehavior(.presented)`: MailReopen1.xcresult and MailReopenTree.xcresult fail at the initial toolbar wait.
+2. Add `.restorationBehavior(.disabled)`: MailReopen2.xcresult fails at the same initial toolbar wait.
+3. Propagate the representable's context.environment into the nested NSHostingView: MailReopen3.xcresult fails at the same initial toolbar wait.
+
+Full failure accessibility trees contain menus/status but no window, so this is not merely a changed main-window identifier. These experiments **did not reach the Open Inbox click** and cannot establish whether any one would repair that separate action. Product source is restored to 05d3a00.
+
+A separate `testWindowMenuReopensWindowlessAppDiagnostic` uses the standard Window > Paperloft Receipts menu. Its first query was ambiguous because the global menu-item query matched duplicates; scoping it to the Window menu fixes the test query. MailWindowMenuDiagnostic2.xcresult **PASS**, 6.382 seconds: the native Window menu opens the real toolbar. No product hook or fallback was added to existing tests. This demonstrates live scene creation but does not establish launch or menu-bar recovery.
+
+Recovered-baseline rerun `build/MailRecoveredBaseline.xcresult`: **FAIL, 3 tests**. File-picker (16.624s), menu-bar (17.829s), and promised-file drag (17.501s) all fail their initial toolbar wait after launch. The menu action and drag are not reached. Thus live Window-menu recovery does not persist across termination/relaunch; earlier independent file-picker passes remain historical evidence only. No current end-to-end pass, promise component acceptance or full P4 acceptance is claimed. Builds compile with warnings-as-errors; Xcode runtime logarchive diagnostics still occur, so no blanket zero-runtime-warning claim. All local bundles/logs are retained under build; no mailbox access.

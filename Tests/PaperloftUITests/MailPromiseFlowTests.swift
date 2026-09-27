@@ -5,7 +5,9 @@ final class MailPromiseFlowTests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
         app.launch(); app.activate()
-        XCTAssertTrue(app.buttons["toolbar.settings"].waitForExistence(timeout: 15))
+        let launched = app.buttons["toolbar.settings"].waitForExistence(timeout: 15)
+        if !launched { print("LAUNCH_FAILURE_TREE \(app.debugDescription)") }
+        XCTAssertTrue(launched)
         app.buttons["toolbar.settings"].click()
         let fresh = app.buttons["settings.newSampleLibrary"]
         XCTAssertTrue(fresh.waitForExistence(timeout: 10)); fresh.click()
@@ -13,6 +15,17 @@ final class MailPromiseFlowTests: XCTestCase {
         app.buttons["sidebar.inbox"].click()
         XCTAssertTrue(app.buttons["inbox.import"].waitForExistence(timeout: 10))
         return app
+    }
+    @MainActor func testWindowMenuReopensWindowlessAppDiagnostic() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
+        app.launch(); app.activate(); defer { app.terminate() }
+        app.menuBarItems["Window"].click()
+        app.menuBarItems["Window"].menuItems["Paperloft Receipts"].click()
+        let shown = app.buttons["toolbar.settings"].waitForExistence(timeout: 15)
+        print("WINDOW_MENU_DIAGNOSTIC \(app.debugDescription)")
+        XCTAssertTrue(shown)
     }
     @MainActor func testNativePromisedEmailDragReachesReview() throws {
         continueAfterFailure = false
@@ -52,7 +65,9 @@ final class MailPromiseFlowTests: XCTestCase {
         XCTAssertTrue(status.waitForExistence(timeout: 10)); status.click()
         let open = app.buttons["menubar.open"]
         XCTAssertTrue(open.waitForExistence(timeout: 10)); open.click()
-        XCTAssertTrue(app.windows["main"].waitForExistence(timeout: 10))
+        let reopened = app.windows["main"].waitForExistence(timeout: 10)
+        if !reopened { print("REOPEN_FAILURE_TREE \(app.debugDescription)") }
+        XCTAssertTrue(reopened)
         XCTAssertTrue(app.buttons["inbox.import"].waitForExistence(timeout: 10))
     }
 }

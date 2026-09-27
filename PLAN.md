@@ -34,3 +34,10 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 - Latest fullCI Tests-20260926-234415:45unit+5functional UI tests pass; accessibility remains15findings. Source/permission regressions pass, traverse-only ancestor case passes. External real-panel ZIP export and subsequent PDF Quick Look verified. Current Release and QA compile zero warnings. Save as unfinished checkpoint with last_green=d9454df; keep P3 active.
 
 - PDF public-protocol workaround independently demonstrated and integrated; targeted audit removes PDF missing-description while preserving native text. Result build/P3-pdf-label.xcresult remainsFAIL with14system/contrast findings. No root page-label failures remain; fullAC13 is not accepted.
+
+## Mail window reopening investigation (2026-09-27)
+
+- Approach 1: capture OpenWindowAction before native hosting and explicitly present the main scene at launch. Fresh launch still exposes menus/status only; MailReopen1 and MailReopenTree fail the unchanged toolbar assertion. Full AX tree confirms no window under another identifier.
+- Approach 2: disable main-scene restoration in addition to presented launch. MailReopen2 fails identically; no repair proven.
+- Approach 3: propagate context.environment into the nested NSHostingView root. MailReopen3 compiles strictly but still has no main window at launch. All experimental product changes reverted after three approaches. Native promised-file interaction remains blocked before drag execution.
+- Separate diagnostic uses standard Window > Paperloft Receipts to distinguish scene creation from the menu-bar action. Existing acceptance assertions and timeout thresholds are unchanged.
