@@ -13,37 +13,42 @@ struct LibraryView: View {
     private func navigationButton(_ title: String, symbol: String) -> some View {
         Button { model.selection = title } label: {
             HStack {
-                Label(title, systemImage: symbol)
+                Label { Text(title) } icon: { Image(systemName: symbol).foregroundStyle(Color(red: 0.36, green: 0.86, blue: 0.61)) }
                 Spacer()
-                if title == "Inbox", model.inboxCount > 0 { Text(model.inboxCount.formatted()).monospacedDigit().foregroundStyle(.primary) }
+                if title == "Inbox", model.inboxCount > 0 { Text(model.inboxCount.formatted()).monospacedDigit().foregroundStyle(.white) }
             }.frame(maxWidth: .infinity, alignment: .leading).contentShape(Rectangle())
         }
-        .buttonStyle(.plain).padding(.vertical, 7)
-        .listRowBackground(model.selection == title ? Color.accentColor.opacity(0.15) : Color.clear)
+        .buttonStyle(.plain).foregroundStyle(.white).padding(.vertical, 10)
+        .listRowBackground(model.selection == title ? Color.white.opacity(0.12) : Color.clear)
         .accessibilityIdentifier("sidebar." + title.lowercased())
     }
     var body: some View {
         NavigationSplitView {
             List {
                 HStack(spacing: 10) {
-                    Image(systemName: "tray.full.fill").font(.title2).foregroundStyle(Color.accentColor)
-                    Text("Paperloft").font(.system(size: 22, weight: .semibold, design: .serif))
+                    Image(systemName: "tray.full.fill").font(.title2).foregroundStyle(Color(red: 0.36, green: 0.86, blue: 0.61))
+                    Text("Paperloft").font(.system(size: 22, weight: .semibold, design: .serif)).foregroundStyle(.white)
                 }.padding(.vertical, 18).accessibilityElement(children: .combine)
                 navigationButton("Inbox", symbol: "tray")
                 navigationButton("Library", symbol: "folder")
                 navigationButton("History", symbol: "clock.arrow.circlepath")
+                Section {
+                    SettingsLink { Label { Text("Settings") } icon: { Image(systemName: "gearshape").foregroundStyle(Color(red: 0.36, green: 0.86, blue: 0.61)) } }
+                        .buttonStyle(.plain).foregroundStyle(.white.opacity(0.85)).padding(.vertical, 10)
+                        .accessibilityIdentifier("sidebar.settings")
+                }
             }
             .scrollContentBackground(.hidden)
-            .background(scheme == .dark ? Color(nsColor: .windowBackgroundColor) : Color(red: 0.97, green: 0.96, blue: 0.94))
+            .background(Color(red: 0.025, green: 0.15, blue: 0.12))
             .navigationTitle("Paperloft")
             .safeAreaInset(edge: .bottom) {
                 VStack(alignment: .leading, spacing: 5) {
                     Label(model.isSampleLibrary ? "Sample library" : "Your library", systemImage: "externaldrive")
                         .font(.caption.weight(.medium))
                     Text(model.isSampleLibrary ? "Practice receipts" : (model.libraryURL?.lastPathComponent ?? "Choose a folder to begin"))
-                        .font(.callout).foregroundStyle(.primary).lineLimit(2)
-                    if model.isSampleLibrary { Text("Samples do not count toward your monthly limit.").font(.caption).foregroundStyle(.primary) }
-                }.padding(14).frame(maxWidth: .infinity, alignment: .leading)
+                        .font(.callout).foregroundStyle(.white.opacity(0.8)).lineLimit(2)
+                    if model.isSampleLibrary { Text("Samples do not count toward your monthly limit.").font(.caption).foregroundStyle(.white.opacity(0.8)) }
+                }.foregroundStyle(.white).padding(14).frame(maxWidth: .infinity, alignment: .leading).background(Color(red: 0.025, green: 0.15, blue: 0.12))
             }
             .navigationSplitViewColumnWidth(min: 170, ideal: 190, max: 240)
             .accessibilityElement(children: .contain).accessibilityLabel("Navigation and library location")
@@ -104,6 +109,25 @@ struct LibraryView: View {
 
 struct InboxView: View {
     @Bindable var model: AppModel
+    @State private var filter = "All"
+    private let filters = ["All", "Ready", "Processing", "Duplicates", "Needs attention"]
+    private func matches(_ item: InboxItem, _ choice: String) -> Bool {
+        guard item.status != "aside" else { return false }
+        switch choice {
+        case "Ready": return item.status == "ready" && item.review?.duplicate == nil
+        case "Processing": return item.status == "processing" || item.status == "waiting"
+        case "Duplicates": return item.review?.duplicate != nil
+        case "Needs attention": return item.status == "failed"
+        default: return true
+        }
+    }
+    private var visibleItems: [InboxItem] { model.items.filter { matches($0, filter) } }
+    private func syncSelection() {
+        if !visibleItems.contains(where: { $0.id == model.selectedItemID }) { model.selectedItemID = visibleItems.first?.id }
+    }
+    private func filterColor(_ value: String) -> Color {
+        switch value { case "Ready": return .green; case "Processing": return .blue; case "Duplicates", "Needs attention": return .orange; default: return .accentColor }
+    }
     var body: some View {
         if model.libraryURL == nil {
             VStack(spacing: 18) {
@@ -130,15 +154,33 @@ struct InboxView: View {
                 Button("Paste an Image") { Task { await model.pasteImage() } }.buttonStyle(.link).accessibilityIdentifier("inbox.paste")
             }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
+            VStack(spacing: 0) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(filters, id: \.self) { value in
+                            Button { filter = value } label: {
+                                HStack(spacing: 5) {
+                                    if filter == value { Image(systemName: "checkmark") }
+                                    Text(value)
+                                    Text(model.items.filter { matches($0, value) }.count.formatted()).monospacedDigit()
+                                }.font(.callout.weight(.medium)).padding(.horizontal, 12).padding(.vertical, 8)
+                                    .background(filterColor(value).opacity(filter == value ? 0.22 : 0.08), in: Capsule())
+                                    .overlay(Capsule().strokeBorder(filter == value ? filterColor(value) : .clear))
+                            }.buttonStyle(.plain).accessibilityIdentifier("inbox.filter." + value)
+                                .accessibilityAddTraits(filter == value ? [.isSelected] : [])
+                        }
+                    }.padding(.horizontal, 20).padding(.vertical, 12)
+                }
+                Divider()
             HSplitView {
                 List(selection: $model.selectedItemID) {
-                    ForEach(model.items.filter { $0.status != "aside" }) { item in
+                    ForEach(visibleItems) { item in
                         InboxRow(id: item.id, name: item.name, status: item.status, duplicate: item.review?.duplicate != nil)
                             .equatable().tag(item.id)
                     }
                 }.frame(minWidth: 175, idealWidth: 200, maxWidth: 250).accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
                     .background(WindowAccessibility(label: "Documents awaiting review", target: .splitPane))
-                if let item = model.selectedItem {
+                if let item = visibleItems.first(where: { $0.id == model.selectedItemID }) {
                     if item.status == "ready" { ReviewView(model: model, item: item).id(item.id) }
                     else {
                         VStack(spacing: 14) {
@@ -150,8 +192,14 @@ struct InboxView: View {
                             } else { ProgressView("Reading your document…").accessibilityIdentifier("inbox.reading") }
                         }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
+                } else {
+                    PaperloftEmptyState(title: "No receipts in this view", symbol: "tray", detail: "Choose another status above to see the rest of your inbox.")
                 }
             }
+            }.onAppear { syncSelection() }
+                .onChange(of: filter) { syncSelection() }
+                .onChange(of: model.selectedItemID) { syncSelection() }
+                .onChange(of: visibleItems.map(\.id)) { syncSelection() }
         }
     }
 }
@@ -208,7 +256,7 @@ struct ReviewView: View {
         case "vendor": return reasons.contains(.missingVendor)
         case "date": return reasons.contains(.invalidDate) || reasons.contains(.parserDisagreement) || reasons.contains(.parserUnavailable)
         case "total": return reasons.contains(.invalidTotal) || reasons.contains(.parserDisagreement) || reasons.contains(.parserUnavailable)
-        case "tax": return reasons.contains(.invalidTax)
+        case "tax": return reasons.contains(.invalidTax) || reasons.contains(.taxSourceUnverified)
         case "currency": return reasons.contains(.invalidCurrency)
         case "category": return reasons.contains(.missingCategory)
         case "kind": return reasons.contains(.invalidKind) || reasons.contains(.classificationUnavailable)
@@ -236,6 +284,11 @@ struct ReviewView: View {
                     } else if needsReview {
                         Label("Check the suggested fields before filing.", systemImage: "checkmark.circle").font(.callout).foregroundStyle(.primary).accessibilityIdentifier("review.warning")
                     }
+                }
+                if item.review?.fields.taxNeedsReview == true {
+                    Label("Check tax against the receipt. Paperloft could not verify this amount in the source.", systemImage: "exclamationmark.triangle")
+                        .font(.callout).foregroundStyle(.orange)
+                        .accessibilityIdentifier("review.taxSourceWarning")
                 }
                 Form {
                     TextField("Vendor", text: $draft.vendor).focused($focusedField, equals: .vendor).accessibilityIdentifier("review.vendor").modifier(ReviewHighlight(needed: highlight("vendor")))

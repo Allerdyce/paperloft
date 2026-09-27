@@ -29,3 +29,5 @@
 
 - macOS open can reactivate an old running process after its on-disk app was rebuilt. Inspect running paths, gracefully quit project copies, explicitly launch the exact rebuilt binary, and verify the new PID/path before telling the owner it is current.
 - Functional UX changes are not a visual redesign. Compare a populated window directly with the owner's reference; verify spacing, row surfaces, icons, filters and actions in both appearances.
+
+- Real-world saved emails expose source-grounding and OCR failures absent from synthetic fixtures. Keep private evidence local, distinguish import success from field accuracy, and flag unsupported values rather than silently accepting them.

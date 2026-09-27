@@ -15,3 +15,5 @@ Source and reports are pushed; raw result bundles/screenshots remain locally pre
 Followup: Settings > Appearance now offers System/Light/Dark, verified across restart. Paul team GQ4UA5C6RQ local development signing works with separate bundle ID; no further certificate setup currently needed. Existing launch gates and release/upload block remain.
 
 Visual-reference correction: redesigned library now has warm rounded rows, colored receipt icons, compact filters and per-row View. Exact new Release process launched after quitting old QA/Release instances; Computer Use verified owner's actual library screen. Scoped independent review and relevant native tests PASS. Full launch gates remain open.
+
+Real-receipt update: 22 original document outputs audited locally. Unsupported tax now flagged for review; date/merchant/OCR-total problems remain open. Forest sidebar, Settings navigation and Inbox status filters independently reviewed; strict builds and targeted tests pass. Fresh updated Release launched. Final screenshot unavailable after Computer Use pipe failure. See evidence/owner-receipt-audit-summary.md. Not launch ready.

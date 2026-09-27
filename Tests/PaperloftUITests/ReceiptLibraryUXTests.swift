@@ -2,6 +2,41 @@ import XCTest
 
 final class ReceiptLibraryUXTests: XCTestCase {
     @MainActor
+    func testInboxStatusFiltersKeepReviewSelectionConsistent() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
+        app.launch(); app.activate(); defer { app.terminate() }
+        if !app.buttons["toolbar.settings"].waitForExistence(timeout: 3) {
+            app.menuBars.menuBarItems["Window"].click()
+            app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
+        }
+        app.buttons["toolbar.settings"].click()
+        XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
+        app.buttons["settings.newSampleLibrary"].click(); app.typeKey("w", modifierFlags: .command)
+        app.buttons["sidebar.inbox"].click()
+        XCTAssertTrue(app.buttons["inbox.samples"].waitForExistence(timeout: 10)); app.buttons["inbox.samples"].click()
+        XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
+        app.buttons["inbox.filter.Processing"].click()
+        XCTAssertTrue(app.staticTexts["No receipts in this view"].waitForExistence(timeout: 30))
+        XCTAssertFalse(app.buttons["review.file"].exists)
+        app.buttons["inbox.filter.Ready"].click()
+        XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["review.file"].isEnabled)
+        let ready = XCTAttachment(screenshot: app.windows["main"].screenshot()); ready.name = "Inbox status filters"; ready.lifetime = .keepAlways; add(ready)
+        app.buttons["review.file"].click()
+        app.buttons["toolbar.samples"].click()
+        XCTAssertTrue(app.buttons["inbox.filter.Duplicates"].waitForExistence(timeout: 10))
+        app.buttons["inbox.filter.Duplicates"].click()
+        XCTAssertTrue(app.staticTexts["review.duplicate"].waitForExistence(timeout: 60))
+        XCTAssertFalse(app.buttons["review.file"].isEnabled)
+        app.buttons["inbox.filter.Needs attention"].click()
+        XCTAssertTrue(app.staticTexts["No receipts in this view"].waitForExistence(timeout: 10))
+        app.buttons["inbox.filter.All"].click()
+        XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 10))
+    }
+
+    @MainActor
     func testLibraryVisualReferenceAndFilters() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
