@@ -14,7 +14,7 @@ if ! mkdir "$lock" 2>/dev/null; then
   exit 3
 fi
 printf 'performance %s %s\n' "$mode" "$(date -u +%FT%TZ)" > "$lock/owner"
-trap 'rm -f "$lock/owner"; rmdir "$lock"' EXIT
+trap 'rm "$lock/owner"; rmdir "$lock"' EXIT
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 output="evidence/performance/$mode-$stamp"
 mkdir -p "$output" build

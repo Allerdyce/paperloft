@@ -87,12 +87,15 @@ final class PipelinePerformanceTests: XCTestCase {
                     let started = ProcessInfo.processInfo.systemUptime
                     let priorInboxCount = model.items.count
                     model.intake(inputs.urls)
+                    let synchronousIntakeSeconds = ProcessInfo.processInfo.systemUptime - started
                     let cohort = Set(model.items.filter { $0.status != "aside" }.map(\.id))
                     while model.processing || model.items.contains(where: { $0.status == "waiting" || $0.status == "processing" }) {
                         if ProcessInfo.processInfo.systemUptime - started > limit + 120 { break }
                         try await Task.sleep(for: .milliseconds(10))
                     }
+                    let layoutStarted = ProcessInfo.processInfo.systemUptime
                     NSApplication.shared.windows.forEach { $0.contentView?.layoutSubtreeIfNeeded(); $0.contentView?.displayIfNeeded() }
+                    let finalLayoutSeconds = ProcessInfo.processInfo.systemUptime - layoutStarted
                     let elapsed = ProcessInfo.processInfo.systemUptime - started
                     sampler.stop()
                     self.stopMeasuring(); measuring = false
@@ -103,7 +106,7 @@ final class PipelinePerformanceTests: XCTestCase {
                     let backends = Dictionary(grouping: model.items.filter { cohort.contains($0.id) }.compactMap { $0.review?.fields.backend }, by: { $0 }).mapValues(\.count)
                     let report = PipelineReport(backend: name, iteration: ordinal, inputCount: inputs.urls.count, priorInboxCount: priorInboxCount, recordedBackends: backends,
                         completed: complete, persistedCompleted: persisted.filter { cohort.contains($0.id) && $0.status == "ready" && $0.review != nil }.count,
-                        seconds: elapsed, maximumMainHeartbeatGapSeconds: sample.maxDelay,
+                        seconds: elapsed, synchronousIntakeSeconds: synchronousIntakeSeconds, finalLayoutSeconds: finalLayoutSeconds, longestGapEndedAtSeconds: sample.longestGapEndedAtSeconds, maximumMainHeartbeatGapSeconds: sample.maxDelay,
                         lifetimePeakPhysicalBytes: sample.peakBytes, memoryReadFailures: sample.memoryFailures,
                         heartbeatCount: sample.heartbeats, failures: failures)
                     let attachment = XCTAttachment(data: try JSONEncoder().encode(report), uniformTypeIdentifier: UTType.json.identifier)
@@ -140,6 +143,9 @@ struct PipelineReport: Codable {
     let completed: Int
     let persistedCompleted: Int
     let seconds: Double
+    let synchronousIntakeSeconds: Double
+    let finalLayoutSeconds: Double
+    let longestGapEndedAtSeconds: Double
     let maximumMainHeartbeatGapSeconds: Double
     let lifetimePeakPhysicalBytes: UInt64
     let memoryReadFailures: Int
@@ -153,16 +159,17 @@ struct PipelineReport: Codable {
 /// task_vm_info reports the kernel's lifetime physical-footprint peak, so a short
 /// memory spike between polls cannot escape the 600 MB assertion.
 final class PipelineSampler: @unchecked Sendable {
-    struct Snapshot { var maxDelay = 0.0; var peakBytes: UInt64 = 0; var memoryFailures = 0; var heartbeats = 0 }
+    struct Snapshot { var maxDelay = 0.0; var peakBytes: UInt64 = 0; var memoryFailures = 0; var heartbeats = 0; var longestGapEndedAtSeconds = 0.0 }
     private let lock = NSLock()
     private let queue = DispatchQueue(label: "app.paperloft.performance.sampler", qos: .userInitiated)
     private var timer: DispatchSourceTimer?
     private var pending: TimeInterval?
     private var lastHeartbeat = 0.0
+    private var started = 0.0
     private var active = false
     private var sample = Snapshot()
     func start() {
-        lock.lock(); active = true; lastHeartbeat = ProcessInfo.processInfo.systemUptime; lock.unlock()
+        lock.lock(); active = true; lastHeartbeat = ProcessInfo.processInfo.systemUptime; started = lastHeartbeat; lock.unlock()
         let timer = DispatchSource.makeTimerSource(queue: queue)
         timer.schedule(deadline: .now(), repeating: .milliseconds(10), leeway: .milliseconds(1))
         timer.setEventHandler { [weak self] in self?.tick() }
@@ -172,7 +179,7 @@ final class PipelineSampler: @unchecked Sendable {
         timer?.cancel(); timer = nil
         lock.lock()
         guard active else { lock.unlock(); return }
-        sample.maxDelay = max(sample.maxDelay, ProcessInfo.processInfo.systemUptime - lastHeartbeat)
+        recordGapLocked(at: ProcessInfo.processInfo.systemUptime)
         active = false
         lock.unlock()
         recordMemory()
@@ -183,7 +190,7 @@ final class PipelineSampler: @unchecked Sendable {
         lock.lock()
         guard active else { lock.unlock(); return }
         let now = ProcessInfo.processInfo.systemUptime
-        sample.maxDelay = max(sample.maxDelay, now - lastHeartbeat)
+        recordGapLocked(at: now)
         if pending != nil { lock.unlock(); return }
         pending = now; lock.unlock()
         DispatchQueue.main.async { [weak self] in
@@ -191,11 +198,19 @@ final class PipelineSampler: @unchecked Sendable {
             self.lock.lock(); defer { self.lock.unlock() }
             if self.active, self.pending != nil {
                 let completed = ProcessInfo.processInfo.systemUptime
-                self.sample.maxDelay = max(self.sample.maxDelay, completed - self.lastHeartbeat)
+                self.recordGapLocked(at: completed)
                 self.lastHeartbeat = completed
                 self.sample.heartbeats += 1
             }
             self.pending = nil
+        }
+    }
+    // Caller holds lock. Timestamp localizes the longest gap without stack sampling overhead.
+    private func recordGapLocked(at time: TimeInterval) {
+        let gap = time - lastHeartbeat
+        if gap > sample.maxDelay {
+            sample.maxDelay = gap
+            sample.longestGapEndedAtSeconds = time - started
         }
     }
     private func recordMemory() {

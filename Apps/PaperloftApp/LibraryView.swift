@@ -120,11 +120,8 @@ struct InboxView: View {
             HSplitView {
                 List(selection: $model.selectedItemID) {
                     ForEach(model.items.filter { $0.status != "aside" }) { item in
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(item.name).lineLimit(2).font(.callout.weight(.medium))
-                            Label(status(item), systemImage: item.status == "failed" ? "exclamationmark.triangle" : item.status == "ready" ? "doc.text" : "clock")
-                                .font(.caption).foregroundStyle(.primary)
-                        }.padding(.vertical, 4).tag(item.id).accessibilityIdentifier("inbox.item." + item.id.uuidString)
+                        InboxRow(id: item.id, name: item.name, status: item.status, duplicate: item.review?.duplicate != nil)
+                            .equatable().tag(item.id)
                     }
                 }.frame(minWidth: 145, idealWidth: 175, maxWidth: 240).accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
                     .background(WindowAccessibility(label: "Documents awaiting review", target: .splitPane))
@@ -144,9 +141,25 @@ struct InboxView: View {
             }
         }
     }
-    private func status(_ item: InboxItem) -> String {
-        if item.review?.duplicate != nil { return "Duplicate" }
-        switch item.status { case "ready": return "Ready to review"; case "processing": return "Reading…"; case "failed": return "Needs attention"; default: return "Waiting" }
+}
+
+/// Each row depends only on its visible values. Unrelated documents finishing
+/// extraction need not rebuild this row's content and automatic-height layout.
+struct InboxRow: View, Equatable {
+    let id: UUID
+    let name: String
+    let status: String
+    let duplicate: Bool
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(name).lineLimit(2).font(.callout.weight(.medium))
+            Label(statusLabel, systemImage: status == "failed" ? "exclamationmark.triangle" : status == "ready" ? "doc.text" : "clock")
+                .font(.caption).foregroundStyle(.primary)
+        }.padding(.vertical, 4).accessibilityIdentifier("inbox.item." + id.uuidString)
+    }
+    private var statusLabel: String {
+        if duplicate { return "Duplicate" }
+        switch status { case "ready": return "Ready to review"; case "processing": return "Reading…"; case "failed": return "Needs attention"; default: return "Waiting" }
     }
 }
 

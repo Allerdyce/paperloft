@@ -1,0 +1,282 @@
+[
+  {
+    "samples": 942,
+    "frame": "__NSWindowGetDisplayCycleObserverForLayout_block_invoke  (in AppKit) + 364  [0x19123dca8]"
+  },
+  {
+    "samples": 637,
+    "frame": "__NSWindowGetDisplayCycleObserverForLayout_block_invoke  (in AppKit) + 364  [0x19123dca8]"
+  },
+  {
+    "samples": 439,
+    "frame": "AppModel.loadStartupState()  (in Paperloft Receipts) + 1008  [0x102101938]  AppModel.swift:195"
+  },
+  {
+    "samples": 371,
+    "frame": "-[NSTableView layout]  (in AppKit) + 160  [0x191220300]"
+  },
+  {
+    "samples": 316,
+    "frame": "__NSWindowGetDisplayCycleObserverForLayout_block_invoke  (in AppKit) + 364  [0x19123dca8]"
+  },
+  {
+    "samples": 267,
+    "frame": "__59-[NSTableRowData _automaticRowHeightsUpdateVisibleRowViews]_block_invoke  (in AppKit) + 144  [0x1913c4000]"
+  },
+  {
+    "samples": 262,
+    "frame": "-[NSTableRowData _doAutomaticRowHeightForRowView:row:]  (in AppKit) + 76  [0x1913d6414]"
+  },
+  {
+    "samples": 258,
+    "frame": "-[NSTableRowView _uncachedAutomaticRowHeight]  (in AppKit) + 168  [0x191dd42d0]"
+  },
+  {
+    "samples": 217,
+    "frame": "__NSWindowGetDisplayCycleObserverForLayout_block_invoke  (in AppKit) + 396  [0x19123dcc8]"
+  },
+  {
+    "samples": 97,
+    "frame": "__59-[NSTableRowData _automaticRowHeightsUpdateVisibleRowViews]_block_invoke  (in AppKit) + 40  [0x1913c3f98]"
+  },
+  {
+    "samples": 39,
+    "frame": "-[NSTableView layout]  (in AppKit) + 160  [0x191220300]"
+  },
+  {
+    "samples": 38,
+    "frame": "closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1612  [0x10213d2fc]  LibraryView.swift:184"
+  },
+  {
+    "samples": 38,
+    "frame": "ReviewView.body.getter  (in Paperloft Receipts) + 664  [0x10213c274]  LibraryView.swift:180"
+  },
+  {
+    "samples": 33,
+    "frame": "__NSWindowGetDisplayCycleObserverForLayout_block_invoke  (in AppKit) + 364  [0x19123dca8]"
+  },
+  {
+    "samples": 25,
+    "frame": "__NSWindowGetDisplayCycleObserverForLayout_block_invoke  (in AppKit) + 364  [0x19123dca8]"
+  },
+  {
+    "samples": 24,
+    "frame": "__59-[NSTableRowData _automaticRowHeightsUpdateVisibleRowViews]_block_invoke  (in AppKit) + 144  [0x1913c4000]"
+  },
+  {
+    "samples": 24,
+    "frame": "-[NSTableRowView _uncachedAutomaticRowHeight]  (in AppKit) + 168  [0x191dd42d0]"
+  },
+  {
+    "samples": 24,
+    "frame": "-[NSTableRowData _doAutomaticRowHeightForRowView:row:]  (in AppKit) + 76  [0x1913d6414]"
+  },
+  {
+    "samples": 22,
+    "frame": "-[NSTableView layout]  (in AppKit) + 160  [0x191220300]"
+  },
+  {
+    "samples": 20,
+    "frame": "closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 3152  [0x10213e3c8]  LibraryView.swift:214"
+  },
+  {
+    "samples": 18,
+    "frame": "closure #4 in closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1724  [0x10214166c]  LibraryView.swift:219"
+  },
+  {
+    "samples": 17,
+    "frame": "__NSWindowGetDisplayCycleObserverForLayout_block_invoke  (in AppKit) + 364  [0x19123dca8]"
+  },
+  {
+    "samples": 14,
+    "frame": "__59-[NSTableRowData _automaticRowHeightsUpdateVisibleRowViews]_block_invoke  (in AppKit) + 40  [0x1913c3f98]"
+  },
+  {
+    "samples": 14,
+    "frame": "__59-[NSTableRowData _automaticRowHeightsUpdateVisibleRowViews]_block_invoke  (in AppKit) + 144  [0x1913c4000]"
+  },
+  {
+    "samples": 13,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 420  [0x10210ca64]  AppModel.swift:552"
+  },
+  {
+    "samples": 13,
+    "frame": "AppModel.loadStartupState()  (in Paperloft Receipts) + 1  [0x10210396d]  AppModel.swift:215"
+  },
+  {
+    "samples": 13,
+    "frame": "-[NSTableRowView _uncachedAutomaticRowHeight]  (in AppKit) + 168  [0x191dd42d0]"
+  },
+  {
+    "samples": 13,
+    "frame": "-[NSTableRowData _doAutomaticRowHeightForRowView:row:]  (in AppKit) + 76  [0x1913d6414]"
+  },
+  {
+    "samples": 10,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 328  [0x10210ca08]  AppModel.swift:552"
+  },
+  {
+    "samples": 8,
+    "frame": "closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1780  [0x10213de6c]  LibraryView.swift:208"
+  },
+  {
+    "samples": 8,
+    "frame": "closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1736  [0x10213de40]  LibraryView.swift:208"
+  },
+  {
+    "samples": 8,
+    "frame": "__59-[NSTableRowData _automaticRowHeightsUpdateVisibleRowViews]_block_invoke  (in AppKit) + 40  [0x1913c3f98]"
+  },
+  {
+    "samples": 8,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 420  [0x10210ca64]  AppModel.swift:552"
+  },
+  {
+    "samples": 8,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 328  [0x10210ca08]  AppModel.swift:552"
+  },
+  {
+    "samples": 7,
+    "frame": "-[NSTableView layout]  (in AppKit) + 160  [0x191220300]"
+  },
+  {
+    "samples": 5,
+    "frame": "__59-[NSTableRowData _automaticRowHeightsUpdateVisibleRowViews]_block_invoke  (in AppKit) + 184  [0x1913c4028]"
+  },
+  {
+    "samples": 5,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 328  [0x10210ca08]  AppModel.swift:552"
+  },
+  {
+    "samples": 5,
+    "frame": "-[NSTableRowData _doAutomaticRowHeightForRowView:row:]  (in AppKit) + 112  [0x1913d6438]"
+  },
+  {
+    "samples": 4,
+    "frame": "closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1612  [0x10213d2fc]  LibraryView.swift:184"
+  },
+  {
+    "samples": 4,
+    "frame": "__NSWindowGetDisplayCycleObserverForLayout_block_invoke  (in AppKit) + 396  [0x19123dcc8]"
+  },
+  {
+    "samples": 4,
+    "frame": "ReviewView.body.getter  (in Paperloft Receipts) + 664  [0x10213c274]  LibraryView.swift:180"
+  },
+  {
+    "samples": 4,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 420  [0x10210ca64]  AppModel.swift:552"
+  },
+  {
+    "samples": 4,
+    "frame": "-[NSTableRowView _uncachedAutomaticRowHeight]  (in AppKit) + 176  [0x191dd42d8]"
+  },
+  {
+    "samples": 3,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 420  [0x10210ca64]  AppModel.swift:552"
+  },
+  {
+    "samples": 3,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 328  [0x10210ca08]  AppModel.swift:552"
+  },
+  {
+    "samples": 3,
+    "frame": "-[NSTableRowView _uncachedAutomaticRowHeight]  (in AppKit) + 176  [0x191dd42d8]"
+  },
+  {
+    "samples": 2,
+    "frame": "closure #2 in DocumentPreview.body.getter  (in Paperloft Receipts) + 108  [0x102142b34]  LibraryView.swift:255"
+  },
+  {
+    "samples": 2,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 420  [0x10210ca64]  AppModel.swift:552"
+  },
+  {
+    "samples": 2,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 400  [0x10210ca50]  AppModel.swift:552"
+  },
+  {
+    "samples": 2,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 328  [0x10210ca08]  AppModel.swift:552"
+  },
+  {
+    "samples": 2,
+    "frame": "-[NSTableView layout]  (in AppKit) + 160  [0x191220300]"
+  },
+  {
+    "samples": 1,
+    "frame": "closure #4 in closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1864  [0x1021416f8]  LibraryView.swift:219"
+  },
+  {
+    "samples": 1,
+    "frame": "closure #4 in closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1724  [0x10214166c]  LibraryView.swift:219"
+  },
+  {
+    "samples": 1,
+    "frame": "closure #4 in closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1660  [0x10214162c]  LibraryView.swift:218"
+  },
+  {
+    "samples": 1,
+    "frame": "closure #2 in closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 5516  [0x10214071c]  /<compiler-generated>:0"
+  },
+  {
+    "samples": 1,
+    "frame": "closure #2 in closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1224  [0x10213f658]  LibraryView.swift:196"
+  },
+  {
+    "samples": 1,
+    "frame": "closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 3996  [0x10213e714]  LibraryView.swift:184"
+  },
+  {
+    "samples": 1,
+    "frame": "closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 3268  [0x10213e43c]  LibraryView.swift:221"
+  },
+  {
+    "samples": 1,
+    "frame": "closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 3152  [0x10213e3c8]  LibraryView.swift:214"
+  },
+  {
+    "samples": 1,
+    "frame": "closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1780  [0x10213de6c]  LibraryView.swift:208"
+  },
+  {
+    "samples": 1,
+    "frame": "closure #1 in closure #1 in ReviewView.body.getter  (in Paperloft Receipts) + 1324  [0x10213dca4]  LibraryView.swift:195"
+  },
+  {
+    "samples": 1,
+    "frame": "__59-[NSTableRowData _automaticRowHeightsUpdateVisibleRowViews]_block_invoke  (in AppKit) + 276  [0x1913c4084]"
+  },
+  {
+    "samples": 1,
+    "frame": "ReviewView.body.getter  (in Paperloft Receipts) + 552  [0x10213c204]  <stdin>:0"
+  },
+  {
+    "samples": 1,
+    "frame": "DocumentPreview.body.getter  (in Paperloft Receipts) + 584  [0x10214212c]  LibraryView.swift:247"
+  },
+  {
+    "samples": 1,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 400  [0x10210ca50]  AppModel.swift:552"
+  },
+  {
+    "samples": 1,
+    "frame": "AppModel.persist()  (in Paperloft Receipts) + 328  [0x10210ca08]  AppModel.swift:552"
+  },
+  {
+    "samples": 1,
+    "frame": "AppModel.loadStartupState()  (in Paperloft Receipts) + 412  [0x1021016e4]  AppModel.swift:193"
+  },
+  {
+    "samples": 1,
+    "frame": "-[NSTableView layout]  (in AppKit) + 176  [0x191220310]"
+  },
+  {
+    "samples": 1,
+    "frame": "-[NSTableRowView _uncachedAutomaticRowHeight]  (in AppKit) + 168  [0x191dd42d0]"
+  },
+  {
+    "samples": 1,
+    "frame": "-[NSTableRowData _doAutomaticRowHeightForRowView:row:]  (in AppKit) + 112  [0x1913d6438]"
+  }
+]
