@@ -14,7 +14,12 @@
 {"backend":"system","category":"Travel","date":"2026-02-21","id":"document-014","kind":"invoice","total":"319.77","vendor":"Meadow Lodging"}
 {"backend":"system","category":"Travel","date":"2026-08-25","id":"document-015","kind":"receipt","total":"370.39","vendor":"North Taxi"}
 {"backend":"system","category":"Travel","date":"2026-08-18","id":"document-016","kind":"invoice","total":"82.16","vendor":"Orchard Rail"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.guardrailViolation","date":"2026-06-18","id":"document-017","kind":"bill","total":"312.21","vendor":"Pine Electric"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.guardrailViolation","date":"2026-02-24","id":"document-018","kind":"bill","total":"386.94","vendor":"Quartz Internet"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.guardrailViolation","date":"2026-06-02","id":"document-019","kind":"bill","total":"141.49","vendor":"River Water Service"}
 {"backend":"system","id":"document-020","kind":"not_receipt"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.refusal","date":"2026-09-23","id":"document-021","kind":"bill","total":"270.21","vendor":"Spruce Utility"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.guardrailViolation","date":"2026-03-18","id":"document-022","kind":"bill","total":"142.19","vendor":"Tamarack Electric"}
 {"backend":"system","category":"Advertising","date":"2026-09-07","id":"document-023","kind":"receipt","total":"300.16","vendor":"Union Advertising"}
 {"backend":"system","category":"Advertising","date":"2026-07-17","id":"document-024","kind":"invoice","total":"202.04","vendor":"Vista Marketing"}
 {"backend":"system","category":"Advertising","date":"2026-09-14","id":"document-025","kind":"receipt","total":"160.39","vendor":"Willow Print Studio"}
@@ -49,10 +54,16 @@
 {"backend":"system","category":"Meals","date":"2026-08-21","id":"document-054","kind":"receipt","total":"98.70","vendor":"Iris Diner"}
 {"backend":"system","category":"Meals","date":"2026-02-10","id":"document-055","kind":"invoice","total":"497.92","vendor":"Juniper Bakery"}
 {"backend":"system","category":"Travel","date":"2026-09-22","id":"document-056","kind":"receipt","total":"403.43","vendor":"Kestrel Hotel"}
+{"backend":"system","category":"Travel","classificationError":"FoundationModels.LanguageModelError.refusal","date":"2026-08-03","id":"document-057","kind":"invoice","total":"73.88","vendor":"Larch Airline"}
 {"backend":"system","category":"Travel","date":"2026-08-20","id":"document-058","kind":"receipt","total":"282.69","vendor":"Meadow Lodging"}
 {"backend":"system","category":"Travel","date":"2026-06-21","id":"document-059","kind":"receipt","total":"440.71","vendor":"North Taxi"}
 {"backend":"system","id":"document-060","kind":"not_receipt"}
 {"backend":"system","category":"Travel","date":"2026-08-19","id":"document-061","kind":"receipt","total":"306.93","vendor":"Orchard Rail"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.guardrailViolation","date":"2026-08-28","id":"document-062","kind":"bill","total":"159.75","vendor":"Pine Electric"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.refusal","date":"2026-06-11","id":"document-063","kind":"bill","total":"301.75","vendor":"Quartz Internet"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.guardrailViolation","date":"2026-08-28","id":"document-064","kind":"bill","total":"217.91","vendor":"River Water Service"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.refusal","date":"2026-03-02","id":"document-065","kind":"bill","total":"384.27","vendor":"Spruce Utility"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.guardrailViolation","date":"2026-02-12","id":"document-066","kind":"bill","total":"409.62","vendor":"Tamarack Electric"}
 {"backend":"system","category":"Advertising","date":"2026-06-04","id":"document-067","kind":"invoice","total":"306.43","vendor":"Union Advertising"}
 {"backend":"system","category":"Advertising","date":"2026-03-15","id":"document-068","kind":"receipt","total":"54.98","vendor":"Vista Marketing"}
 {"backend":"system","category":"Advertising","date":"2026-08-08","id":"document-069","kind":"invoice","total":"210.62","vendor":"Willow Print Studio"}
@@ -92,7 +103,12 @@
 {"backend":"system","category":"Travel","date":"2026-02-10","id":"document-103","kind":"invoice","total":"192.01","vendor":"Meadow Lodging"}
 {"backend":"system","category":"Travel","date":"2026-04-05","id":"document-104","kind":"receipt","total":"216.23","vendor":"North Taxi"}
 {"backend":"system","category":"Travel","date":"2026-07-05","id":"document-105","kind":"invoice","total":"215.02","vendor":"Orchard Rail"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.guardrailViolation","date":"2026-03-04","id":"document-106","kind":"bill","total":"385.91","vendor":"Pine Electric"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.guardrailViolation","date":"2026-09-12","id":"document-107","kind":"bill","total":"246.38","vendor":"Quartz Internet"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.refusal","date":"2026-05-14","id":"document-108","kind":"bill","total":"143.18","vendor":"River Water Service"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.refusal","date":"2026-06-12","id":"document-109","kind":"bill","total":"358.64","vendor":"Spruce Utility"}
 {"backend":"system","id":"document-110","kind":"not_receipt"}
+{"backend":"system","category":"Utilities","classificationError":"FoundationModels.LanguageModelError.refusal","date":"2026-04-21","id":"document-111","kind":"bill","total":"106.5","vendor":"Tamarack Electric"}
 {"backend":"system","category":"Advertising","date":"2026-01-22","id":"document-112","kind":"invoice","total":"401.44","vendor":"Union Advertising"}
 {"backend":"system","category":"Advertising","date":"2026-05-06","id":"document-113","kind":"receipt","total":"150.02","vendor":"Vista Marketing"}
 {"backend":"system","category":"Advertising","date":"2026-02-11","id":"document-114","kind":"receipt","total":"384.7","vendor":"Willow Print Studio"}
