@@ -131,3 +131,5 @@ Ported only the scalar Equatable InboxRow rendering change from373d4ca after ind
 - Preserved before/after accessibility trees and screenshots in evidence/menu-reopen and localxcresult. Prior failed native-Mail-wrapper experiments were read but not repeated; no speculative repair was added and this result is scoped to the current root product.
 
 - Owner explicitly authorized a standing Apple-agreement exception on2026-09-27. Added that scoped exception to AGENTS.md; release/uploads and all other restrictions remain. No acceptance criteria, locked test or baseline verifier changes.
+
+- Ported only reviewed native AppIcon.icon package and three app-icon buildsettings fromdaf145d. Independent critic accepted faithful native reconstruction for scoped local integration;16px polish3/5 and AC16 remainopen. One translucency-only candidate did not improve16px and was discarded; original artwork/colors retained. Root strictRelease verification follows; no engine/source logic changed.

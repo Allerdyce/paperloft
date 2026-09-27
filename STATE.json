@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Native icon daf145d authored, strict Debug/Release PASS; independent reconstruction/build review suitable for local integration,16px tray polish3/5 and background verification remain. Isolated material experiment preserves sourcecolors/geometry before final integration. QA app ComputerUse selection stillfails despite successfulIconComposer controls. Owneragreementexception recorded; release/uploads blocked.",
+  "step": "Owner Apple-agreement exception9ad4c75 recorded. Restart enabled IconComposer clicks/keyboard; nativeicon baseline daf145d integrated into root after independent scopedreview, root strictRelease+compiledresources+protectedbaselinePASS. Ineffective material trial rejected.16pxtraypolish3/5 remainsproposal; Paperloft-specificComputerUse selection stillfails. No activeGUI/build processes; release/uploads blocked.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -10,7 +10,8 @@
     "AppIntentsTesting metadata discovery fails; adapter independently passes16tests, AC15 unverified",
     "Native Computer Use click bridge failure blocks complete design/persona review",
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
-    "System throughput exceeds240s; required signpost collection unavailable after three approaches"
+    "System throughput exceeds240s; required signpost collection unavailable after three approaches",
+    "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete"
   ],
-  "updated": "2026-09-27T18:25:56.663327+00:00"
+  "updated": "2026-09-27T18:30:59.650936+00:00"
 }

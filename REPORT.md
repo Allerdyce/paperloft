@@ -30,6 +30,8 @@
 - Current-root menu-bar Open Inbox independently passed17.485s after Library selection and closing main; new regression merged atdaef890 without product changes. evidence/menu-reopen/README.md. Final protected baseline check passed (build/final-local-baseline.log).
 - Isolated prewarm candidate ed8b84e preserved all150 accepted predictions exactly (parent independently compared IDs/objects) and passed frozen accuracy, but timing failed80/100 at360.001s with one model error. No benefit established; source rejected, never integrated into root. Raw memory439.63MB/heartbeat220.70ms observations do not constitute completed acceptance assertions.
 
+- Native four-vector-layer icon integrated after independent scoped reconstruction review. Root strictRelease zero warnings/errors, compiledAppIcon.icns/Assets.car/CFBundleIconName and protectedbaselinePASS (evidence/icon/native-assembly.md).16pxtraypolish3/5 and fullAC16 remainopen; material-only trial rejected, originalcolors/geometry retained.
+
 ## Assumed
 - Owner-confirmed manual app preferences; formal manual prerequisites are not all independently verified.
 - Third-party synced-folder behavior is not independently tested.

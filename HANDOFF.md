@@ -47,3 +47,7 @@ Current root menu-bar Open Inbox independently passes on reviewed product13db8a4
 ## Restart recovery and owner amendment —2026-09-27
 
 Owner restarted ChatGPT and opened Icon Composer. Root verified New Document click, Cmd+S opening the native save sheet, then Cancel after refreshing the app binding. No agreement screen remains; native icon assembly resumed on local/icon. This clears the previous first-use prerequisite for this app, not every native bridge interaction. Owner explicitly authorized future Apple agreements; scoped standing exception is recorded in AGENTS.md at9ad4c75. Existing release/upload/account/payment restrictions remain. Design review resumes when GUI is available.
+
+## Native icon integrated; first-use blocker cleared
+
+Owner restart cleared the agreement screen; standing Apple agreement exception recorded at9ad4c75. Native four-layer icon fromdaf145d now integrated into root with three buildsettings only. Root strictRelease/compiledicon/CFBundleIconName/protectedbaselinePASS. Independentcritic accepted faithful localreconstruction;16pxtraycontrast still3/5 and background checks incomplete. Translucency-only experiment was independently rejected and reverted exactly; evidence retained. PROPOSALS.md records minimalcontrastoption without alteringownerartwork. MainPaperloft QA selection stillfailsnativepipe even thoughIconComposer controlswork; fullpersona/designchecks remainblocked. No additionalpermissions inferred missing fromthisfailure.
