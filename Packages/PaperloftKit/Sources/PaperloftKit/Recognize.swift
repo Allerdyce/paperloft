@@ -2,6 +2,7 @@ import Foundation
 import CoreGraphics
 import ImageIO
 import Vision
+import CoreImage
 
 public enum RecognitionError: Error { case unreadableDocument, tooManyPages, oversizedImage }
 
@@ -35,11 +36,42 @@ public struct DocumentRecognizer: Sendable {
         return try recognize(image)
     }
     private func recognize(_ image: CGImage) throws -> String {
+        let image = flattenDocument(image)
         let request = VNRecognizeTextRequest()
         request.recognitionLevel = .accurate
         request.recognitionLanguages = ["en-US"]
         request.usesLanguageCorrection = true
         try VNImageRequestHandler(cgImage: image).perform([request])
-        return (request.results ?? []).compactMap { $0.topCandidates(1).first?.string }.joined(separator: "\n")
+        let fragments = (request.results ?? []).compactMap { observation -> TextFragment? in
+            guard let candidate = observation.topCandidates(1).first else { return nil }
+            let text = candidate.string
+            // The observation's rectangle may be axis aligned. The recognized range
+            // retains the oriented text quadrilateral needed to deskew its baseline.
+            let rectangle = (try? candidate.boundingBox(for: text.startIndex..<text.endIndex)) ?? observation
+            let width = rectangle.bottomRight.x - rectangle.bottomLeft.x
+            let slope = width > 0 ? (rectangle.bottomRight.y - rectangle.bottomLeft.y) / width : 0
+            return TextFragment(text: text, bounds: rectangle.boundingBox, baselineSlope: slope)
+        }
+        return TextLayout.readingOrder(fragments)
+    }
+
+    /// Straighten a confidently detected photographed sheet before joining text rows.
+    /// Otherwise a tilted amount column can line up with the next printed label.
+    private func flattenDocument(_ image: CGImage) -> CGImage {
+        let request = VNDetectDocumentSegmentationRequest()
+        guard (try? VNImageRequestHandler(cgImage: image).perform([request])) != nil,
+              let page = request.results?.first, page.confidence >= 0.8,
+              page.boundingBox.width * page.boundingBox.height >= 0.5 else { return image }
+        let horizontalTilt = abs(page.topRight.y - page.topLeft.y) + abs(page.bottomRight.y - page.bottomLeft.y)
+        let verticalTilt = abs(page.topLeft.x - page.bottomLeft.x) + abs(page.topRight.x - page.bottomRight.x)
+        guard horizontalTilt + verticalTilt > 0.01 else { return image }
+        func point(_ p: CGPoint) -> CIVector { CIVector(x: p.x * Double(image.width), y: p.y * Double(image.height)) }
+        let flattened = CIImage(cgImage: image).applyingFilter("CIPerspectiveCorrection", parameters: [
+            "inputTopLeft": point(page.topLeft), "inputTopRight": point(page.topRight),
+            "inputBottomLeft": point(page.bottomLeft), "inputBottomRight": point(page.bottomRight)
+        ])
+        guard flattened.extent.width > 0, flattened.extent.height > 0,
+              flattened.extent.width * flattened.extent.height <= 50_000_000 else { return image }
+        return CIContext().createCGImage(flattened, from: flattened.extent) ?? image
     }
 }

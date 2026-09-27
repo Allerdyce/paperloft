@@ -1,10 +1,10 @@
 {
   "phase": "P2",
-  "step": "Implement spatial OCR, validated extraction and naming; then journaled filing, index, undo and engine acceptance tests",
-  "last_green_commit": "5c4130b",
+  "step": "OCR deskew and parser fixture target pass; run system evaluation, then validated fields and safe filing engine",
+  "last_green_commit": "46807b8",
   "parked": [
     "Membership, distribution signing and ASC upload",
     "Formal acceptance tag and release gates deferred"
   ],
-  "updated": "2026-09-27T03:29:36.971587+00:00"
+  "updated": "2026-09-27T03:36:57.954269+00:00"
 }

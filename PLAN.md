@@ -10,3 +10,5 @@ P1 local readiness independently passed at 5c4130b; tests and fixtures locked ap
 6. Implement P2 gate, run self-check, then a fresh independent verifier. At most five fixes per failed item, three genuinely different technical approaches before parking. Advance only after applicable local checks pass.
 
 Initial known failure: current Vision output loses spatial associations, giving parser total0% and system total71.85%. Improve the general pipeline, never special-case fixture IDs/vendors/layout IDs.
+
+P2 OCR: row grouping first raised parser total to71.11%; oriented text-range rectangles alone did not fix rotated columns. Confident document segmentation plus perspective correction before OCR raised date100%, total99.26%, vendor100% on the locked corpus. All15 tests and clean Debug/Release builds pass. Frozen parser scorer exits0; its diagnostic difficulty line is nowFAIL (>98%) after engine improvement. Initial P1 difficulty acceptance remains documented at0%; fixtures remain unchanged and locked. The independent P2 review must evaluate this distinction.

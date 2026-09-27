@@ -14,6 +14,10 @@ struct Evaluate {
     }
     static func main() async throws {
         let args = Array(CommandLine.arguments.dropFirst())
+        if args.count == 2, args[0] == "inspect-text" {
+            print(try DocumentRecognizer().text(at: URL(fileURLWithPath: args[1])))
+            return
+        }
         guard args.count == 3, ["stub", "parser", "system"].contains(args[0]) else {
             throw NSError(domain: "PaperloftEval", code: 2, userInfo: [NSLocalizedDescriptionKey: "Usage: PaperloftEval stub|parser|system input-directory predictions.jsonl"])
         }

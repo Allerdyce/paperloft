@@ -39,8 +39,8 @@ public struct ParserBackend: ExtractionBackend {
         let lines = text.components(separatedBy: .newlines).map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
         let lower = text.lowercased()
         var result = ExtractedFields(backend: "parser")
-        result.kind = lower.contains("invoice") ? "invoice" : (lower.contains("utility bill") ? "bill" : "receipt")
-        let totalLines = lines.filter { firstCapture(#"(?i)\b(?:grand\s+total|amount\s+paid|balance\s+due|total\s+due|total)\b"#, $0) != nil }
+        result.kind = firstCapture(#"(?i)\binv[o0][i1l]ce\b"#, lower) != nil ? "invoice" : (lower.contains("utility bill") ? "bill" : "receipt")
+        let totalLines = lines.filter { firstCapture(#"(?i)\b(?:grand\s+total|amount\s+(?:paid|due)|card\s+payment|balance\s+due|total\s+due|total)\b"#, $0) != nil }
         let candidates = totalLines.filter { !$0.lowercased().contains("subtotal") }
         for line in candidates.reversed() {
             if let amount = firstCapture(#"(?:\$\s*|USD\s*)?([0-9][0-9,]*[.,][0-9]{2})(?:\s*(?:USD|paid))?\s*$"#, line, group: 1) {
@@ -59,6 +59,9 @@ public struct ParserBackend: ExtractionBackend {
             line.rangeOfCharacter(from: .letters) != nil &&
             firstCapture(#"(?i)^(receipt|invoice|utility bill|tax invoice|order|date|tel|phone|www\.|https?:)"#, line) == nil &&
             firstCapture(#"^\d"#, line) == nil
+        }
+        if let vendor = result.vendor, let range = vendor.range(of: #"\s{2,}(?:INVOICE\b|RECEIPT\b|UTILITY BILL\b|Date:|Issued:).*$"#, options: [.regularExpression, .caseInsensitive]) {
+            result.vendor = String(vendor[..<range.lowerBound]).trimmingCharacters(in: .whitespaces)
         }
         if let taxLine = lines.first(where: { firstCapture(#"(?i)^sales\s+tax\b|^tax\b"#, $0) != nil }),
            let amount = firstCapture(#"([0-9][0-9,]*\.[0-9]{2})\s*$"#, taxLine, group: 1) {
@@ -88,7 +91,7 @@ public struct ParserBackend: ExtractionBackend {
         return NSDecimalNumber(decimal: number).stringValue
     }
     private static func parseDate(_ text: String) -> String? {
-        for (pattern, format) in [(#"\b\d{4}-\d{2}-\d{2}\b"#, "yyyy-MM-dd"), (#"\b\d{1,2}/\d{1,2}/\d{4}\b"#, "M/d/yyyy"), (#"\b[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}\b"#, "MMM d, yyyy")] {
+        for (pattern, format) in [(#"\b\d{4}-\d{2}-\d{2}\b"#, "yyyy-MM-dd"), (#"\b\d{1,2}/\d{1,2}/\d{4}\b"#, "M/d/yyyy"), (#"\b[A-Za-z]{3,9}\s+\d{1,2},?\s*\d{4}\b"#, "MMM d, yyyy")] {
             guard let value = firstCapture(pattern, text) else { continue }
             let formatter = DateFormatter()
             formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -96,7 +99,8 @@ public struct ParserBackend: ExtractionBackend {
             formatter.timeZone = TimeZone(secondsFromGMT: 0)
             formatter.dateFormat = format
             formatter.isLenient = false
-            if let date = formatter.date(from: value) {
+            let normalized = value.replacingOccurrences(of: #",\s*"#, with: ", ", options: .regularExpression)
+            if let date = formatter.date(from: normalized) {
                 formatter.dateFormat = "yyyy-MM-dd"
                 return formatter.string(from: date)
             }

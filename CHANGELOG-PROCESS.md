@@ -39,3 +39,6 @@ Added native test targets, shared test scheme, local Debug/Release/test CI comma
 
 ## P1 independent fix cycle 1 — structural fixtures
 The independent review rejected typography-only layout variants. Replaced the still-unlocked generator with 12 different field/item arrangements, merchant-appropriate descriptions, varied item prices, and explicit photo rotation. No product/scorer/threshold/locked-test changes. Evidence: evidence/gates/P1-cycle1/P1.md. New corpus must pass independent review before locking.
+
+## P2 OCR diagnostics
+Added an explicit inspect-text command to the developer-only evaluator for inspecting authorized synthetic fixture OCR. eval.sh never invokes it for scored/private/holdout runs; it is not a product launch hook. A standalone probe initially waited in Vision; compiling with the app deployment target and allowing initialization completed. Evidence: P2-parser-layout.txt and P2-parser-deskew.txt. Frozen scoring and fixture files unchanged.
