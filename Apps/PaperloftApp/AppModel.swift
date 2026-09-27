@@ -535,7 +535,8 @@ final class FileGrant: @unchecked Sendable {
                 }
             }
             persist()
-            documents = results.filter { result in records.contains { $0 == result } }
+            let activeByID = Dictionary(records.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            documents = results.filter { activeByID[$0.id] == $0 }
         } catch { if token == generation, !Task.isCancelled { message = error.localizedDescription } }
     }
     private var query: ReceiptQuery {

@@ -15,3 +15,5 @@ Validation:
 - Existing malformed-PDF/bookmark/Apple OCR diagnostics appear in resilience tests; those tests pass. No UI, release archive, upload or phase acceptance performed.
 
 Independent source review is required before integration.
+
+Independent review follow-up: metadata matching now normalizes only the stale stored relative path to the validated current path, permitting Finder-renamed receipts while retaining exact receipt/hash/filed-date matching. Added Finder rename/delete/restore regression. Active-result filtering now uses an ID dictionary instead of quadratic membership checks. Strict actual-model test passed in `build/DeleteReviewFix.xcresult`. Reviewer independently passed all six deletion core tests with warnings as errors and actual-model test; reviewer artifacts `build/verifier-deletion-followup.log`, `build/VerifierDeleteModel.xcresult`. Scoped backend PASS; UI and complete app integration remain coordinating-root checks.

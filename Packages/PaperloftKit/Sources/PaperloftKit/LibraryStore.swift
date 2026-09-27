@@ -147,8 +147,10 @@ public actor LibraryStore {
     }
     private func matches(_ document: FiledDocument, at url: URL) throws -> Bool {
         guard LibraryFiles.exists(url) else { return false }
-        guard try LibraryFiles.metadata(url) == document,
-              try LibraryFiles.hash(url) == document.contentHash else { throw LibraryError.conflict(url.path) }
+        guard var metadata = try LibraryFiles.metadata(url) else { throw LibraryError.conflict(url.path) }
+        // Finder may rename a filed file; enumeration supplies its current path.
+        metadata.relativePath = document.relativePath
+        guard metadata == document, try LibraryFiles.hash(url) == document.contentHash else { throw LibraryError.conflict(url.path) }
         return true
     }
     private func finishDeletion(_ journal: inout DeletionJournal) throws {
