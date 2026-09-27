@@ -10,6 +10,7 @@ public struct MailDocument: Sendable, Equatable {
     public let body: String
     public let pdfs: [PDF]
     public let notices: [String]
+    private var containsPlainBody = false
 
     public enum Failure: Error, LocalizedError, Equatable {
         case malformed(String), unsupported(String), limit(String)
@@ -35,7 +36,7 @@ public struct MailDocument: Sendable, Equatable {
         var parser = Parser()
         let result = try parser.entity(Array(data), depth: 0)
         guard !result.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !result.pdfs.isEmpty else {
-            throw Failure.unsupported("no plain-text body or PDF attachment; save a PDF from Mail instead")
+            throw Failure.unsupported("no readable body or PDF attachment; save a PDF from Mail instead")
         }
         return result
     }
@@ -63,29 +64,32 @@ public struct MailDocument: Sendable, Equatable {
                     throw Failure.malformed("missing or invalid multipart boundary")
                 }
                 let children = try splitMultipart(raw, boundary: boundary)
-                var bodies: [String] = [], pdfs: [PDF] = [], notices: [String] = []
+                var bodies: [(String, Bool)] = [], pdfs: [PDF] = [], notices: [String] = []
                 for child in children {
                     let result = try entity(child, depth: depth + 1)
-                    if !result.body.isEmpty { bodies.append(result.body) }
+                    if !result.body.isEmpty { bodies.append((result.body, result.containsPlainBody)) }
                     pdfs += result.pdfs; notices += result.notices
                 }
                 // Alternative representations describe the same message, not multiple receipts.
-                let body = content.0 == "multipart/alternative" ? (bodies.first ?? "") : bodies.joined(separator: "\n\n")
-                return MailDocument(body: body, pdfs: pdfs, notices: notices)
+                let body = content.0 == "multipart/alternative" ? (bodies.first(where: { $0.1 }) ?? bodies.first)?.0 ?? "" : bodies.map(\.0).joined(separator: "\n\n")
+                return MailDocument(body: body, pdfs: pdfs, notices: notices, containsPlainBody: bodies.contains { $0.1 })
             }
-            guard content.0 == "text/plain" || content.0 == "application/pdf" else {
+            let filename = disposition.1["filename"] ?? content.1["name"] ?? "Attachment"
+            let isPDF = content.0 == "application/pdf" || (content.0 == "application/octet-stream" && filename.lowercased().hasSuffix(".pdf"))
+            let isText = content.0 == "text/plain" || content.0 == "text/html"
+            guard isText || isPDF else {
                 return MailDocument(body: "", pdfs: [], notices: ["Ignored \(content.0) content; external resources were not loaded."])
             }
-            if content.0 == "text/plain", disposition.0 == "attachment" {
+            if isText, disposition.0 == "attachment" {
                 return MailDocument(body: "", pdfs: [], notices: ["Ignored non-PDF attachment."])
             }
             let decoded = try decode(raw, encoding: encoding)
-            if content.0 == "application/pdf" {
+            if isPDF {
                 guard decoded.count <= maximumPDFBytes else { throw Failure.limit("16 MB PDF") }
                 guard decoded.starts(with: Array("%PDF-".utf8)) else { throw Failure.malformed("PDF attachment has no PDF signature") }
                 pdfCount += 1
                 guard pdfCount <= maximumPDFs else { throw Failure.limit("20 PDF attachments") }
-                let name = safeName(disposition.1["filename"] ?? content.1["name"] ?? "Attachment")
+                let name = safeName(filename)
                 return MailDocument(body: "", pdfs: [PDF(name: name, data: Data(decoded))], notices: [])
             }
             textBytes += decoded.count
@@ -100,7 +104,8 @@ public struct MailDocument: Sendable, Equatable {
             default: throw Failure.unsupported("text character set \(charset)")
             }
             guard let text, !text.contains("\0") else { throw Failure.malformed("invalid text encoding") }
-            return MailDocument(body: text, pdfs: [], notices: [])
+            let body = content.0 == "text/html" ? try HTMLText.extract(text) : text
+            return MailDocument(body: body, pdfs: [], notices: [], containsPlainBody: content.0 == "text/plain")
         }
 
         func splitHeaders(_ bytes: [UInt8]) throws -> ([String: String], [UInt8]) {
@@ -225,5 +230,79 @@ public struct MailDocument: Sendable, Equatable {
             result = result.trimmingCharacters(in: .whitespaces)
             return (result.isEmpty ? "Attachment" : result) + ".pdf"
         }
+    }
+}
+
+/// A deliberately non-rendering tokenizer: attributes and external resource URLs are discarded.
+/// No DOM, scripts, CSS, images or document loaders are involved.
+private enum HTMLText {
+    static func extract(_ html: String) throws -> String {
+        let chars = Array(html)
+        var i = 0, output = "", hidden: [String] = []
+        let blocks: Set<String> = ["p", "div", "br", "tr", "td", "th", "li", "table", "h1", "h2", "h3", "hr"]
+        while i < chars.count {
+            // Script/style content is raw text, including comparison operators and angle brackets.
+            if let current = hidden.last, current == "script" || current == "style" {
+                let marker = Array(("</" + current).utf8)
+                let end = i + marker.count
+                let matches = end < chars.count && String(chars[i..<end]).lowercased() == "</" + current
+                    && (chars[end] == ">" || chars[end].isWhitespace)
+                if !matches { i += 1; continue }
+            }
+            if chars[i] == "<" {
+                if i + 3 < chars.count && String(chars[i...i+3]) == "<!--" {
+                    i += 4
+                    while i + 2 < chars.count && String(chars[i...i+2]) != "-->" { i += 1 }
+                    guard i + 2 < chars.count else { throw MailDocument.Failure.malformed("unterminated HTML comment") }
+                    i += 3; continue
+                }
+                i += 1
+                var tag = "", quote: Character?
+                while i < chars.count {
+                    let c = chars[i]
+                    if let current = quote { if c == current { quote = nil } }
+                    else if c == "\"" || c == "'" { quote = c }
+                    else if c == ">" { break }
+                    tag.append(c); i += 1
+                }
+                guard i < chars.count else { throw MailDocument.Failure.malformed("unterminated HTML tag") }
+                i += 1
+                let trimmed = tag.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+                let closing = trimmed.hasPrefix("/")
+                let name = trimmed.drop(while: { $0 == "/" }).prefix(while: { $0.isLetter || $0.isNumber })
+                if closing, let current = hidden.last, name == current { hidden.removeLast() }
+                else if ["script", "style", "head", "template"].contains(String(name)) && !closing {
+                    guard hidden.count < 64 else { throw MailDocument.Failure.limit("HTML nesting") }
+                    hidden.append(String(name))
+                } else if hidden.isEmpty && blocks.contains(String(name)) { output += "\n" }
+                continue
+            }
+            if hidden.isEmpty {
+                if chars[i] == "&", let end = chars[(i + 1)...].prefix(12).firstIndex(of: ";") {
+                    let entity = String(chars[(i + 1)..<end])
+                    guard let decoded = decodeEntity(entity) else { throw MailDocument.Failure.unsupported("HTML entity &\(entity);") }
+                    output += decoded; i = end + 1; continue
+                }
+                output.append(chars[i])
+            }
+            i += 1
+        }
+        guard hidden.isEmpty else { throw MailDocument.Failure.malformed("unterminated hidden HTML section") }
+        return output.split(whereSeparator: { $0.isNewline }).map {
+            $0.split(whereSeparator: { $0.isWhitespace }).joined(separator: " ")
+        }.filter { !$0.isEmpty }.joined(separator: "\n")
+    }
+    private static func decodeEntity(_ entity: String) -> String? {
+        let named = ["amp": "&", "lt": "<", "gt": ">", "quot": "\"", "apos": "'", "nbsp": " ", "pound": "£", "euro": "€", "cent": "¢", "yen": "¥", "copy": "©"]
+        if let value = named[entity] { return value }
+        let latin = "nbsp iexcl cent pound curren yen brvbar sect uml copy ordf laquo not shy reg macr deg plusmn sup2 sup3 acute micro para middot cedil sup1 ordm raquo frac14 frac12 frac34 iquest Agrave Aacute Acirc Atilde Auml Aring AElig Ccedil Egrave Eacute Ecirc Euml Igrave Iacute Icirc Iuml ETH Ntilde Ograve Oacute Ocirc Otilde Ouml times Oslash Ugrave Uacute Ucirc Uuml Yacute THORN szlig agrave aacute acirc atilde auml aring aelig ccedil egrave eacute ecirc euml igrave iacute icirc iuml eth ntilde ograve oacute ocirc otilde ouml divide oslash ugrave uacute ucirc uuml yacute thorn yuml".split(separator: " ")
+        if let index = latin.firstIndex(of: Substring(entity)), let scalar = UnicodeScalar(index + 160) { return String(scalar) }
+        let punctuation = ["ndash": "–", "mdash": "—", "lsquo": "‘", "rsquo": "’", "ldquo": "“", "rdquo": "”", "hellip": "…", "bull": "•", "trade": "™", "OElig": "Œ", "oelig": "œ"]
+        if let value = punctuation[entity] { return value }
+        guard entity.hasPrefix("#") else { return nil }
+        let hex = entity.lowercased().hasPrefix("#x")
+        guard let value = UInt32(entity.dropFirst(hex ? 2 : 1), radix: hex ? 16 : 10),
+              value >= 32, let scalar = UnicodeScalar(value) else { return nil }
+        return String(scalar)
     }
 }

@@ -70,3 +70,5 @@ All 34 tests passed in the first two complete app runs, but runtime priority inv
 ## Mail parser component tests (2026-09-27)
 
 Added synthetic MailDocumentTests for the independent P4 MIME parser, including all resource limits, transfer encodings, exact PDF bytes, multipart alternatives, remote-HTML avoidance and unsafe names. No fixture, frozen test, or acceptance threshold changed. Component evidence: evidence/mail/README.md and build/mail-{debug,release}.log. App integration and independent review remain separate gates.
+
+Independent review identified two scope gaps before merge: HTML-only message bodies and generic binary PDF attachments. Added bounded non-rendering HTML text extraction and filename-plus-signature generic PDF detection with two new tests; no browser, network or HTML document loader.

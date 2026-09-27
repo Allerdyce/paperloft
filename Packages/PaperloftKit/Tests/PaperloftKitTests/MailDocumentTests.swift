@@ -26,12 +26,38 @@ struct MailDocumentTests {
 
     @Test func alternativeDoesNotDuplicateBodyOrLoadHTML() throws {
         let html = "Content-Type: text/html\r\n\r\n<script>danger()</script><img src='https://invalid.test/tracker'>"
-        let alternative = mixed([plain, html, plain], boundary: "ALT", type: "alternative")
+        let alternative = mixed([html, plain, plain], boundary: "ALT", type: "alternative")
         let result = try parse(mixed([alternative, pdf]))
         #expect(result.body == "Vendor: Café\r\nTotal: 12.50")
         #expect(result.pdfs.count == 1)
-        #expect(result.notices.contains { $0.contains("text/html") })
+        #expect(result.notices.isEmpty)
         #expect(throws: MailDocument.Failure.self) { try parse(html) }
+    }
+
+    @Test func htmlBodyIsReadWithoutResourcesOrHiddenContent() throws {
+        let html = "Content-Type: text/html; charset=utf-8\nContent-Transfer-Encoding: 8bit\n\n<head><title>Hidden</title><style>bad</style></head><body><script>evil()</script><!--ignore--><p>Caf&#xE9; &amp; Co</p><table><tr><td>Total</td><td>&euro;12.50</td></tr></table><img src='https://invalid.test/track?x=1>0'><div>Tax&nbsp;&#50;.00</div></body>"
+        let result = try parse(html)
+        #expect(result.body == "Café & Co\nTotal\n€12.50\nTax 2.00")
+        #expect(!result.body.contains("invalid.test"))
+        #expect(!result.body.contains("evil"))
+        for hidden in ["<script>if (a < b) { run(); }</script>", "<template><template>ignore</template>Wrong Total: 999</template>", "<head><style>a > b { color: red }</style><script>if (x < y) run()</script></head>"] {
+            let value = try parse("Content-Type: text/html\n\n" + hidden + "<p>Total: 12.50</p>")
+            #expect(value.body == "Total: 12.50")
+        }
+        #expect(try parse("Content-Type: text/html\n\n<p>Caf&eacute; &mdash; &pound;5</p>").body == "Café — £5")
+        #expect(throws: MailDocument.Failure.self) { try parse("Content-Type: text/html\n\n<p>&unknown;</p>") }
+        for fragment in ["<!--", "<p title='unterminated", "<script>hidden"] {
+            #expect(throws: MailDocument.Failure.self) { try parse("Content-Type: text/html\n\n" + fragment) }
+        }
+    }
+
+    @Test func genericBinaryPDFAttachmentRequiresNameAndSignature() throws {
+        let generic = pdf.replacingOccurrences(of: "application/pdf", with: "application/octet-stream")
+        #expect(try parse(generic).pdfs.count == 1)
+        let invalid = "Content-Type: application/octet-stream\nContent-Disposition: attachment; filename=test.pdf\n\nnot PDF"
+        #expect(throws: MailDocument.Failure.self) { try parse(invalid) }
+        let unnamed = "Content-Type: application/octet-stream\n\n%PDF-1.7"
+        #expect(throws: MailDocument.Failure.self) { try parse(unnamed) }
     }
 
     @Test func transferEncodingsAndCharsets() throws {
