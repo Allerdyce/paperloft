@@ -1,10 +1,10 @@
 {
   "phase": "P2",
-  "step": "P2 fix3 fixture regression passes all thresholds; fresh independent review and holdout next",
-  "last_green_commit": "1e9f9cb",
+  "step": "P2 accuracy independently passes; run complete local gate with coverage-enabled clean-test fix, then independent process verification",
+  "last_green_commit": "9283f0c",
   "parked": [
     "Membership, distribution signing and ASC upload",
     "Formal acceptance tag and release gates deferred"
   ],
-  "updated": "2026-09-27T05:00:53.083480+00:00"
+  "updated": "2026-09-27T05:19:45.686407+00:00"
 }

@@ -3,8 +3,7 @@
 - `scripts/preflight_check.sh --local --log`: exit 0
 - `scripts/verify_local_baseline.sh`: exit 0
 - `scripts/ci.sh`: exit 0
-- `scripts/privacy_check.sh`: exit 0
-- `python3 scripts/coverage_check.py`: exit 1
+- `scripts/privacy_check.sh`: exit 1
 - Source integrity: PASS
 
 LOCAL CHECKS: FAIL

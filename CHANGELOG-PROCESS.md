@@ -52,3 +52,9 @@ P2 gate now requires whole-target xccov>=75% with every library source represent
 - P2 verification repair: the independent generator's original labels failed its own source-to-rendered-fact audit. Preserved invalid aggregate evidence; a prediction-blind generator repair and separately seeded valid run isolated document-kind accuracy as the remaining defect. No product change was based on the invalid score.
 
 - Evaluation diagnostics now retain optional classification-error tags and count fallbacks, so partial model failures cannot be hidden by an otherwise successful extraction. Frozen scoring and labels are unchanged; evidence: P2-fix2/system-regression.txt.
+
+- P2 clean-checkout coverage fix: ci.sh now runs coverage-enabled `clean test` after its standalone Debug/Release builds. Independent9283f0c verification proved non-clean tests reused uninstrumented package output and omitted PaperloftKit from xccov; clean test reported894/1015 lines (88.08%) with32/32 tests. This makes the existing whole-target check reliable; no coverage threshold/exclusion or product source changed.
+
+- Follow-up coverage ordering correction: clean test also removes earlier Release output, causing privacy_check.sh to correctly fail its missing-app assertion. Run coverage-enabled clean tests first, then standalone clean Debug/Release builds, keeping Release as the final artifact. All prior checks and warning failures remain active. Evidence: gates/P2-coverage-order/first-clean-test-gate.md.
+
+- Final coverage diagnosis: xccov needs the coverage-built binaries after tests finish. Reordering alone still removes those binaries during subsequent clean builds, causing the kit target to disappear from the report. Independent dedicated-DerivedData test yielded88.08%. ci.sh now keeps each coverage run in its own retained build/CoverageDerivedData-* directory and ordinary builds in build/DerivedData. All targets/tests remain included; no scoring changes.

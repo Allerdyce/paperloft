@@ -1,0 +1,15 @@
+Progress: 1/60 documents
+Progress: 10/60 documents
+Progress: 20/60 documents
+Progress: 30/60 documents
+Progress: 40/60 documents
+Progress: 50/60 documents
+Progress: 60/60 documents
+Processed 60 documents; failures 0; backends ["system": 60]; failure types [:]; classification fallbacks ["FoundationModels.LanguageModelError.refusal": 15]
+mode=holdout documents=60 missing_predictions=0
+PASS   date      100.00%  54/54  (needs 94.0%)
+PASS   total      96.30%  52/54  (needs 94.0%)
+PASS   vendor    100.00%  54/54  (needs 89.0%)
+PASS   kind      100.00%  60/60  (needs 92.0%)
+PASS   category  100.00%  54/54  (needs 77.0%)
+SCORE holdout: PASS

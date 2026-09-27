@@ -1,0 +1,14 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project Paperloft.xcodeproj -scheme PaperloftKit -destination platform=macOS -derivedDataPath build/VerifierKitDerivedData -configuration Debug -enableCodeCoverage YES -resultBundlePath build/Verifier-P2-9283-kit.xcresult SWIFT_TREAT_WARNINGS_AS_ERRORS=YES test
+
+Build settings from command line:
+    SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  PaperloftKit: /Users/builder/Factory/paperloft/evidence/checkouts/p2-checkpoint9283f0c/Packages/PaperloftKit @ local
+
+xcodebuild: error: Scheme PaperloftKit is not currently configured for the test action.
+

@@ -1,0 +1,11 @@
+Packages/PaperloftKit/Tests/PaperloftKitTests/ClassificationRecoveryTests.swift
+Packages/PaperloftKit/Tests/PaperloftKitTests/IndexTests.swift
+Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift
+Packages/PaperloftKit/Tests/PaperloftKitTests/ParserRobustnessTests.swift
+Packages/PaperloftKit/Tests/PaperloftKitTests/ResilienceTests.swift
+Packages/PaperloftKit/Tests/PaperloftKitTests/TextLayoutTests.swift
+Packages/PaperloftKit/Tests/PaperloftKitTests/ValidationTests.swift
+Packages/PaperloftKit/Tools/PaperloftCrashWorker/main.swift
+Tests/PaperloftUITests/TestSupport.swift
+scripts/coverage_check.py
+scripts/crash_recovery_test.py
