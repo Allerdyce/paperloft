@@ -25,3 +25,9 @@ Build integration adds only ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon to all th
 Independent native 16/32/128px and appearance critique is in progress; this author report does not claim AC-16 or whole P7 PASS.
 
 Strict Debug build also PASS, zero warning/error diagnostics (build/icon-integrated-debug.log). Compared all four packaged SVGs byte-for-byte with draft inputs: identical. git diff --check PASS.
+
+## One material-only refinement, reverted
+
+Independent critic found16px Default tray definition weak (polish3/5). Tested exactly one native material change: Group Liquid Glass Translucency OFF instead of30% ON, with all SVGbytes, geometry and original colors unchanged. Native serializer rounded background decimals; verified they still map to8-bit#083920. Strict Release passed with zero warning/error diagnostics (build/icon-material-release.log).
+
+Independent reviewer inspected actual compiled ICNS16/32/128 and native Default16/32/128 plus Dark16. Paper became more opaque at128, but16px tray still merged into the green background; intended improvement not established, score remained3/5. Reverted icon.json byte-for-byte to daf145d. No ineffective change retained. Critique/candidate evidence is in root evidence/design/2026-09-27-critique.md and evidence/design/2026-09-27/material-candidate. Minimal color contrast proposal remains for owner decision; do not claim AC-16 PASS or accepted icon polish.

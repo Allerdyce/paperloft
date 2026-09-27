@@ -98,3 +98,5 @@ Added new WatchedFolderTests for the independent P4 scanner: stable observations
 - Prepared four1024pxSVG icon layers from the supplied artwork, preserving SPEC colors/composition for native Icon Composer authoring. No mask/shadow baked in, no source artwork changed. XML parses; native .icon packaging, visual review and16/32/128px independent critic remain pending. See design/icon-layers/README.md.
 
 - 2026-09-27: Resumed native icon after owner cleared first-use agreement. Authored .icon in actual Icon Composer, verified native reopen after exact background source-field edit, and integrated AppIcon in all app configurations. Evidence: evidence/icon/native-assembly.md; strict local builds and independent small-size critique required before merge.
+
+- 2026-09-27: Tested native group translucency-off icon candidate without color/geometry edits after independent16px critique. Strict build passed; independent critic found no sufficient tray improvement, so restored daf145d asset exactly. Kept evidence rather than weakening design criteria.
