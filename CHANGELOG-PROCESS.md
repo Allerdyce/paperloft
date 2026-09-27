@@ -21,3 +21,5 @@ Added native test targets, shared test scheme, local Debug/Release/test CI comma
 - Import the Apple AppIntents framework so the metadata processor can find its dependency. CI now also rejects non-Swift warning lines rather than relying only on Swift compiler warnings-as-errors.
 
 - Gate runner now writes formal/local self-reports and fingerprints source files before/after checks, excluding evidence and BUGS.md. Local mode uses the owner-approved pre-tag integrity check; default formal mode retains strict prerequisites.
+
+- Independent P0 review found the privacy helper omitted its required Package.resolved check. Added an explicit absence assertion across the repository before inspecting the built app.
