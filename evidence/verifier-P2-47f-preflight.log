@@ -1,0 +1,77 @@
+Paperloft factory pre-flight  2026-09-26 22:27:38  user=builder  repo=/Users/builder/Factory/paperloft/evidence/checkouts/p2-checkpoint47fdb2c
+
+== Machine ==
+PASS   macOS 27.0
+PASS   Apple silicon
+PASS   user 'builder' is a Standard user
+PASS   241 GB free
+PASS   Retina-class display connected
+
+== Power, sleep, lock, updates ==
+PASS   on wall power
+PASS   pmset sleep 0
+PASS   pmset displaysleep 0
+PASS   pmset disksleep 0
+WARN   pmset autorestart is unset; fix: sudo pmset -a autorestart 1
+PASS   screen saver never starts
+PASS   screen lock is off
+PASS   automatic macOS update install off
+PASS   automatic security responses off
+PASS   App Store automatic updates off (Xcode will not update mid-run)
+PASS   Time Machine automatic backups off
+PASS   BluetoothAutoSeekKeyboard off
+PASS   BluetoothAutoSeekPointingDevice off
+
+== Xcode and UI automation ==
+PASS   xcode-select: /Applications/Xcode.app/Contents/Developer
+PASS   Xcode 27.0
+PASS   Xcode first launch complete
+PASS   developer mode enabled
+PASS   builder is in _developer
+PASS   UI automation needs no password
+
+== Signing and keychain ==
+MANUAL DEFERRED (local development only): no valid 'Apple Development' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
+MANUAL DEFERRED (local development only): no valid 'Apple Distribution' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
+MANUAL DEFERRED (local development only): no Mac Installer Distribution identity; create it in Xcode > Settings > Accounts > Manage Certificates
+PASS   login keychain does not auto-lock
+
+== Secrets and App Store Connect ==
+PASS   secrets file present, mode 600
+MANUAL DEFERRED (local development only): ASC_KEY_ID requires active membership before release
+MANUAL DEFERRED (local development only): ASC_ISSUER_ID requires active membership before release
+MANUAL DEFERRED (local development only): ASC_KEY_PATH requires active membership before release
+MANUAL DEFERRED (local development only): TEAM_ID requires active membership before release
+PASS   BUNDLE_ID set
+PASS   APP_NAME set
+PASS   SUPPORT_EMAIL set
+PASS   SITE_DOMAIN set
+PASS   LEGAL_ENTITY set
+MANUAL DEFERRED (local development only): App Store Connect key file not found at '/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8'
+MANUAL DEFERRED (local development only): no signing identity for team ABCDE12345
+MANUAL DEFERRED (local development only): App Store Connect API, app record and products require full preflight before release
+
+== Apple Intelligence ==
+PASS   on-device model available
+
+== Repo and GitHub ==
+PASS   repo is under /Users/builder/Factory
+PASS   git repository
+PASS   origin uses the github-paperloft deploy key
+MANUAL DEFERRED (local development only): tag acceptance-v1 missing; commit the kit, tag it and push (section 3.5)
+PASS   ssh github-paperloft
+PASS   ssh github-paperloft-site
+PASS   site repo cloned at /Users/builder/Factory/paperloft-site
+
+== Site domain ==
+PASS   paperloft.app points at GitHub Pages
+
+== Confirm by hand (not readable from a script) ==
+MANUAL Focus: Do Not Disturb on, always, no allowed people or apps
+MANUAL Codex: Full access for this project; Prevent sleep while running on; notifications off; memories off
+MANUAL Computer Use: Screen Recording and Accessibility granted; Locked use on; Always allow Xcode, Finder, Preview (and the app after the shakedown)
+MANUAL GitHub rulesets: no force-push to main; acceptance-* tags cannot be updated or deleted
+MANUAL App Store Connect: Paid Apps Agreement active; Small Business Program enrolled
+
+Summary: 38 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 16 MANUAL
+GO: LOCAL DEVELOPMENT ONLY. Distribution signing, upload and release remain blocked.

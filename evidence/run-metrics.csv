@@ -1,2 +1,3 @@
 phase,hours,fix_cycles,tests_added,flaky_tests,eval_scores
 P1,0.93,1,4,0,system date99.26 total71.85 vendor97.78 kind98.67 category99.26; parser total0
+P2,2.15,3,23,0,fixture100/99.26/97.78/99.33/100; holdout100/96.30/100/100/100; coverage88.08; evaluation repair1; coverage process repair3

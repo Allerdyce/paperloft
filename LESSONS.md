@@ -20,3 +20,9 @@
 - Fixture layout diversity needed one independent fix cycle: fonts and widths were not distinct document structures.
 - A visual layout inventory before generating the full corpus would have caught that problem earlier.
 - The revised generator uses structural templates and merchant-appropriate content; accepted fixtures are now immutable.
+
+- P2 spent most time in complete on-device regressions and independent fresh-set checks.
+- The first private generator failed its own label audit; retain that evidence and repair evaluation before changing product code.
+- Document type needed three fix cycles: broad guidance perturbed totals, then separate classification could refuse.
+- Isolate field tasks and retain valid partial output with explicit diagnostics and mandatory review.
+- Coverage needs retained instrumented binaries: use an isolated test build directory alongside ordinary Release builds.

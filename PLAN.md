@@ -1,30 +1,11 @@
-# P2 local engine plan
+# P3 app and core UX
 
-P1 local readiness independently passed at 5c4130b; tests and fixtures locked append-only. Formal release remains blocked. Each numbered work chunk is scoped to two hours or less and may be split further.
+P2 independently accepted locally at47fdb2c. Release remains blocked. Work chunks are at most two hours; split further as needed.
 
-1. Preserve Vision row/column relationships; add generic geometric OCR tests; validate extracted dates, money, currency, kind and categories; bound filenames by UTF-8 bytes. Run fixture evals without changing the accepted corpus.
-2. Implement safe journaled copy filing, collision handling, content hashes and duplicate review. Preserve original bytes; never overwrite a destination.
-3. Add move/undo recovery with conservative conflict handling, durable history, metadata extended attributes, and a rebuildable local index.
-4. Add randomized 1,000-operation property tests, an actual killed-process recovery integration test, and engine edge-case tests. Measure whole-target coverage; minimum75%.
-5. Run parser/system fixture scoring and report optional private scores through eval.sh only. Independent verifier owns freshly generated holdout scoring. Do not inspect holdout/private data or alter thresholds.
-6. Implement P2 gate, run self-check, then a fresh independent verifier. At most five fixes per failed item, three genuinely different technical approaches before parking. Advance only after applicable local checks pass.
+1. Build main-actor app model, security-scoped library setup, persistent inbox, five bundled synthetic samples and real engine integration. Preserve locked navigation identifiers/behavior.
+2. Native split-view review with preview and editable validated fields; keyboard confirm/tab; duplicate/error handling; safe copy/move and persistent history/undo.
+3. File import, window/Dock/menu bar drops and image paste; library table/search/year/category/kind filters; Quick Look and Reveal; editable categories and settings.
+4. QA build configuration and documented launch hooks only. Add deterministic UI flows and first accessibility pass; account for export/purchase phase dependencies explicitly without claiming unimplemented flows pass.
+5. Clean CI, P3 self-gate and fresh independent verifier. From P3, independent P4/P5 work can branch from a stable app checkpoint; merge only after their own gates.
 
-Initial known failure: current Vision output loses spatial associations, giving parser total0% and system total71.85%. Improve the general pipeline, never special-case fixture IDs/vendors/layout IDs.
-
-P2 OCR: row grouping first raised parser total to71.11%; oriented text-range rectangles alone did not fix rotated columns. Confident document segmentation plus perspective correction before OCR raised date100%, total99.26%, vendor100% on the locked corpus. All15 tests and clean Debug/Release builds pass. Frozen parser scorer exits0; its diagnostic difficulty line is nowFAIL (>98%) after engine improvement. Initial P1 difficulty acceptance remains documented at0%; fixtures remain unchanged and locked. The independent P2 review must evaluate this distinction.
-
-Core engine checkpoint: exact currency-aware integer money; immutable validated receipts; reviewed source-hash check; journaled copy/move, collision suffixes and duplicate guard; non-destructive recovery copies, undo, SwiftData rebuild/search. 1,000 randomized filings plus undo pass. Two real SIGKILL interruptions recovered120 documents and restored all original hashes. xccov whole PaperloftKit:787/954 lines (82.49%). System fixture scores all pass atf516b02. Recognition-boundary tests and a P2 gate/independent holdout are next.
-
-P2 independent cycle 1: clean builds, 30 tests, 89.53% whole-target coverage, randomized operations, real crash recovery, privacy, and fixture accuracy pass. Fresh holdout failed: date83.33%, total94.44%, vendor100%, kind65%, category42.59%. Only totals are available to the builder. The verifier is auditing its ground-truth semantics independently; no private data or examples may be disclosed. P2 remains open; do not advance to P3. Next approach: improve explicit semantic extraction rules for dates, document types and organizational categories, then repeat frozen fixture scoring and a fresh independent holdout.
-
-Independent follow-up: verifier's label audit FAIL found some expected fields not uniquely supported by rendered text. The reported holdout score is preserved but is not a valid AC-04 measurement. No product change is justified by that score. Verifier repairs and audits its private generator, then scores a newly seeded batch against unchanged166c3cb. AC-04 stays unverified until valid evidence exists. The proposed prompt change is deferred, not implemented.
-
-Valid audited holdout attempt: date98.15%, total96.30%, vendor100%, kind83.33%, category100%. Only document kind fails. Product fix cycle1 now constrains the generated type vocabulary and explicitly separates printed document type from payment status, with general receipt/invoice/bill/non-transaction definitions. No parser substitution, fixture changes, or threshold changes. Re-run CI and frozen fixture scores, then request a new independent holdout.
-
-Fix cycle1 regression: constrained combined extraction raised fixture kind99.33% but dropped total94.81%, below97%; version7a86abe rejected before another holdout. Approach2 restores the exact passing field-extraction schema/prompt and classifies document type in a separate short constrained on-device response. A disagreement between the two model responses lowers confidence for review. This isolates numeric extraction from type-specific instructions; performance remains a later measured gate.
-
-Fix cycle2: separate type classification refused/triggered model guardrails for16/150 documents, causing whole-document omissions. Preserve this failed run. The next correction retains the already-completed field response when the optional type refinement fails, records the classification error in predictions/aggregate diagnostics, and explicitly disallows auto-filing partial results. It does not retry a refusal or alter model safety settings. New recovery tests verify usable review fields plus blocked auto-file, and older JSON compatibility.
-
-Fix3 fixture regression PASS: all150 returned fields; date100%, total99.26%, vendor97.78%, kind99.33%, category100%. All16 optional type-refinement failures are counted explicitly (7 refusal,9 guardrailViolation), preserve original system output and prohibit auto-file. CI32/32 pass. Fresh independent P2 review is required; AC-04 remains open.
-
-Independent9283f0c product checks PASS: fixture date100/total99.26/vendor97.78/kind99.33/category100; fresh holdout date100/total96.30/vendor100/kind100/category100; parser passes;32 tests; forced crashes recover120 documents. Local gate still failed because non-clean coverage test reused uninstrumented SwiftPM artifacts. Correct ci.sh to clean test and rerun complete local gate; product source remains unchanged.
+Do not read private samples/holdout, weaken locks or ask for more local approval. Keep sample and test data within the app container or Factory-owned build paths. All real external folders require user-granted bookmarks.

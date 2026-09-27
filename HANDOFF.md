@@ -1,7 +1,7 @@
 # Local development continues autonomously
 
-P0/P1 local readiness independently passed; accepted tests and P1 fixtures are locked. Resume P2 from STATE.json. See evidence/gates/P1.md and PLAN.md. No owner action is needed for current local development.
+P0–P2 local readiness independently passed; accepted files are locked. Resume P3 from STATE.json. No owner action is needed for local development.
 
-Parked external prerequisites: EvidencePair Apple Developer membership, real signing identities and App Store Connect credentials/app/products, the supervised full shakedown, and the postponed acceptance-v1 baseline. Before any future distribution work, complete those prerequisites and pass full preflight/frozen lock verification plus manual checks. Current authorization explicitly keeps release and uploads blocked.
+Parked: EvidencePair Apple Developer membership, real signing identities, ASC credentials/app/products, full supervised shakedown and postponed acceptance-v1. Before future distribution, complete prerequisites and pass full preflight/frozen lock verification plus manual checks. Current authorization explicitly blocks release and uploads.
 
-Recurring wakeup/automation tools are not exposed in this session. Progress occurs while this agent turn is active; persisted state supports resuming after an interruption. No background schedule has been created.
+Recurring wakeup tools are unavailable in this session. Work progresses while this turn is active; persisted state supports resumption after interruption. No background schedule has been created.

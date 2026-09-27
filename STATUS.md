@@ -1,13 +1,9 @@
 # Paperloft status
 
-P0 and P1 independently PASS for local readiness. P2 engine is implemented but its independent accuracy gate remains open.
+P0–P2 independently PASS for local development. P2 accepted tests and safety helpers are locked. P3 app and core UX is now active; no owner action is needed.
 
-At 166c3cb, independent clean builds and all 30 tests pass; engine coverage is 89.53%. The 1,000-operation test and forced-crash recovery of 120 originals pass. Fixture accuracy passes all thresholds: date100%, total99.26%, vendor97.78%, kind98.67%, category100%.
+Engine evidence:32 passing tests,88.08% whole-target coverage,1,000 randomized file operations, and forced-crash recovery restoring all120 originals. Fixture accuracy: date100%, total99.26%, vendor97.78%, kind99.33%, category100%. Independent fresh holdout: date100%, total96.30%, vendor100%, kind100%, category100%. See evidence/gates/P2.md. Optional type-classification failures preserve extracted fields and force review; they are counted explicitly.
 
-The first holdout attempt was invalid because the reviewer's label audit failed; its evidence is preserved. A repaired, independently audited fresh set passed date98.15%, total96.30%, vendor100%, category100%, but kind83.33% failed the92% requirement. P2 stays open. Generic document-type guidance is improved; all30 tests and clean builds pass after that fix, fixture regression is running, and a fresh independent review follows. P3 has not started. No owner action needed.
+Next: native folder setup, sample receipts, review/edit/file, search and filters, history/undo, settings, intake and menu bar UI. Performance and complete app-facing resilience remain unverified until later gates.
 
-Formal gates remain FAIL on deferred prerequisites. No release archive, distribution signing, upload, submission or phase-completion tags. Owner authorization covers continued local phases after independent checks without further local approval.
-
-The first type-prompt fix regressed fixture totals to94.81% and was rejected. Approach2 separates type classification from the restored numeric extraction prompt; clean builds and all30 tests pass, with fixture accuracy still running.
-
-The separate classifier caused16 omissions on its first regression run. Completed field extraction is now retained on optional classification failure, with explicit diagnostic counts and auto-file blocked. All32 tests and clean builds pass; full fixture regression is active before further independent scoring.
+Formal release remains blocked: membership/signing/ASC, supervised shakedown and acceptance-v1 are deferred. No release archive, upload, submission or phase-completion tags.

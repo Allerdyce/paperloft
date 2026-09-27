@@ -1,16 +1,18 @@
 # Development report
 
 ## Verified
-- P0/P1 local readiness independently PASS: evidence/gates/P0.md and P1.md. Formal gates remain FAIL.
-- Clean fresh-checkout Debug/Release builds, Swift6 strict concurrency, zero warnings; all nine unit/UI tests passed with no skips at5c4130b. Evidence in P1 report and verifier-P1-cycle2 logs.
-- Accepted 150 synthetic documents across40 vendors and12 structural layouts; required mix and initial parser difficulty pass. Corpus and extraction tests appended to ACCEPTANCE.lock.
-- Independent extraction runs completed150/150 with zero errors. System: date99.26%, total71.85%, vendor97.78%, kind98.67%, category99.26%; parser date99.26%, total0%. Evidence: P1-parser.txt, P1-system.txt and eval-history.csv.
-- Local preflight, protected-file baseline and privacy checks passed; the acceptance tag remains explicitly deferred.
+- P0–P2 local readiness independently PASS; formal gates remain deferred. Evidence: evidence/gates/P0.md, P1.md and P2.md. Accepted tests/fixtures/helpers appended to ACCEPTANCE.lock.
+- Fresh Debug/Release builds with Swift6 strict concurrency and zero warnings;32 tests passed, none skipped; every locked test executed. Whole-kit coverage894/1015 lines(88.08%). See verifier-P2-47fd evidence and P2 report for exact xcresult/log paths.
+- System fixture scores: date100%, total99.26%, vendor97.78%, kind99.33%, category100%; fresh independent holdout:100%,96.30%,100%,100%,100%. Parser date100%,total99.26%. Scored only by frozen scorer. See verifier-P2-9283-system.txt, holdout.txt, parser.txt and P2 report.
+- Classification refinement can fail without losing completed fields:16 fixture and15 holdout fallbacks explicitly reported; partial results require review. No guardrails disabled or refused requests retried.
+-1,000 randomized filing/undo operations passed; actual SIGKILL during filing and undo recovered120 originals with matching paths/hashes. P2 engine boundary only; literal app relaunch remains a later check.
+- Local protected baseline and privacy checks pass. Dedicated coverage build directories preserve instrumented artifacts while Release remains available for privacy inspection.
 
 ## Assumed
-- Owner-confirmed manual app preferences; not every manual release prerequisite independently verified.
+- Owner-confirmed manual app preferences; formal manual prerequisites are not all independently verified.
+- Third-party synced-folder behavior is not independently tested.
 
 ## Not done
-- P2 extraction accuracy, journaled filing, index/undo, coverage/property/crash gates.
-- Product UI beyond bootstrap, export/intents, purchases, hardening, design/QA and documentation phases.
-- Membership/signing/ASC setup, full shakedown, acceptance-v1 and all distribution/upload/release work.
+- Product UI beyond bootstrap; export/intents, purchases, performance, accessibility, design/QA and final documentation.
+- Full app-facing resilience and actual app relaunch recovery.
+- Membership/signing/ASC, full shakedown, acceptance tag and all distribution/upload/release work.

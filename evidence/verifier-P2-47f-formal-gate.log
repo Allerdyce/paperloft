@@ -1,0 +1,78 @@
+Paperloft factory pre-flight  2026-09-26 22:28:07  user=builder  repo=/Users/builder/Factory/paperloft/evidence/checkouts/p2-checkpoint47fdb2c
+
+== Machine ==
+PASS   macOS 27.0
+PASS   Apple silicon
+PASS   user 'builder' is a Standard user
+PASS   241 GB free
+PASS   Retina-class display connected
+
+== Power, sleep, lock, updates ==
+PASS   on wall power
+PASS   pmset sleep 0
+PASS   pmset displaysleep 0
+PASS   pmset disksleep 0
+WARN   pmset autorestart is unset; fix: sudo pmset -a autorestart 1
+PASS   screen saver never starts
+PASS   screen lock is off
+PASS   automatic macOS update install off
+PASS   automatic security responses off
+PASS   App Store automatic updates off (Xcode will not update mid-run)
+PASS   Time Machine automatic backups off
+PASS   BluetoothAutoSeekKeyboard off
+PASS   BluetoothAutoSeekPointingDevice off
+
+== Xcode and UI automation ==
+PASS   xcode-select: /Applications/Xcode.app/Contents/Developer
+PASS   Xcode 27.0
+PASS   Xcode first launch complete
+PASS   developer mode enabled
+PASS   builder is in _developer
+PASS   UI automation needs no password
+
+== Signing and keychain ==
+FAIL   no valid 'Apple Development' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
+FAIL   no valid 'Apple Distribution' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
+FAIL   no Mac Installer Distribution identity; create it in Xcode > Settings > Accounts > Manage Certificates
+PASS   login keychain does not auto-lock
+
+== Secrets and App Store Connect ==
+PASS   secrets file present, mode 600
+FAIL   ASC_KEY_ID still has the example value from asc.env.example
+FAIL   ASC_ISSUER_ID still has the example value from asc.env.example
+FAIL   ASC_KEY_PATH still has the example value from asc.env.example
+FAIL   TEAM_ID still has the example value from asc.env.example
+PASS   BUNDLE_ID set
+PASS   APP_NAME set
+PASS   SUPPORT_EMAIL set
+PASS   SITE_DOMAIN set
+PASS   LEGAL_ENTITY set
+FAIL   App Store Connect key file not found at '/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8'
+FAIL   no signing identity for team ABCDE12345
+PASS   App Store Connect API reachable
+FAIL   App Store Connect check failed (exit 2): ASC_ERROR could not build a token from the key file: Error Domain=NSCocoaErrorDomain Code=260 "The file “AuthKey_ABC123DEFG.p8” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8, NSURL=file:///Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8, NSUnderlyingError=0x10e8f63f0 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}
+
+== Apple Intelligence ==
+PASS   on-device model available
+
+== Repo and GitHub ==
+PASS   repo is under /Users/builder/Factory
+PASS   git repository
+PASS   origin uses the github-paperloft deploy key
+FAIL   tag acceptance-v1 missing; commit the kit, tag it and push (section 3.5)
+PASS   ssh github-paperloft
+PASS   ssh github-paperloft-site
+PASS   site repo cloned at /Users/builder/Factory/paperloft-site
+
+== Site domain ==
+PASS   paperloft.app points at GitHub Pages
+
+== Confirm by hand (not readable from a script) ==
+MANUAL Focus: Do Not Disturb on, always, no allowed people or apps
+MANUAL Codex: Full access for this project; Prevent sleep while running on; notifications off; memories off
+MANUAL Computer Use: Screen Recording and Accessibility granted; Locked use on; Always allow Xcode, Finder, Preview (and the app after the shakedown)
+MANUAL GitHub rulesets: no force-push to main; acceptance-* tags cannot be updated or deleted
+MANUAL App Store Connect: Paid Apps Agreement active; Small Business Program enrolled
+
+Summary: 39 PASS, 1 WARN, 11 FAIL, 0 TFAIL, 5 MANUAL
+NO-GO: fix every FAIL before starting a run.
