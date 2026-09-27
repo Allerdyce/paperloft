@@ -154,3 +154,5 @@ Added TaxExportTests alongside unchanged export verification to check newly requ
 2026-09-27: Unlocked UI tests now use native preferences/import shortcuts and File > Try with Samples after owner requested removing redundant toolbar controls. Frozen tests unchanged. BulkAndSelection.xcresult validates navigation, bulk removal and Library flow.
 
 2026-09-27: Owner removed sample onboarding. Unlocked UI tests load diagnostic receipts through DEBUG-only File > Load Development Receipts; production sample menu and reset controls removed. Frozen tests unchanged. Scoped Inbox test now checks Paste image in populated/empty states and absence of redundant header Ready badge.
+
+2026-09-27: Updated unlocked Inbox UI check to require reachable Add receipts in top creation area. InboxCreation.xcresult PASS; protected tests unchanged.

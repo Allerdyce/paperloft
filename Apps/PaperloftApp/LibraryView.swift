@@ -126,6 +126,13 @@ struct InboxView: View {
         if !visibleItems.contains(where: { $0.id == model.selectedItemID }) { model.selectedItemID = visibleItems.first?.id }
         pinnedReviewID = model.items.first(where: { $0.id == model.selectedItemID && $0.status == "ready" })?.id
     }
+    private func revealPastedImage() {
+        guard let id = model.pastedItemID, model.items.contains(where: { $0.id == id && $0.status != "aside" }) else { return }
+        filter = "All"
+        removalSelection.removeAll()
+        pinnedReviewID = id
+        model.selectedItemID = id
+    }
     private func filterColor(_ value: String) -> Color {
         switch value { case "Ready": return .green; case "Processing": return .blue; case "Duplicates", "Issues": return .orange; default: return .accentColor }
     }
@@ -170,9 +177,6 @@ struct InboxView: View {
                     }.padding(.horizontal, 20).padding(.vertical, 12)
                 }
                 HStack(spacing: 12) {
-                    Button("Paste image", systemImage: "doc.on.clipboard") { Task { await model.pasteImage() } }
-                        .accessibilityIdentifier("inbox.paste")
-                        .help("Paste a copied image into the Inbox (Shift-Command-V)")
                     Button("Select all") { removalSelection = Set(visibleItems.map(\.id)) }.disabled(visibleItems.isEmpty)
                         .accessibilityIdentifier("inbox.selectAll")
                     if !removalSelection.isEmpty {
@@ -190,7 +194,23 @@ struct InboxView: View {
                 }.padding(.horizontal, 20).padding(.bottom, 10)
                 Divider()
             HSplitView {
-                List(selection: $model.selectedItemID) {
+                VStack(spacing: 0) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Button("Add receipts…", systemImage: "plus") { Task { await model.importFiles() } }
+                            .accessibilityIdentifier("inbox.addMore")
+                        Button("Paste image", systemImage: "doc.on.clipboard") { Task { await model.pasteImage() } }
+                            .accessibilityIdentifier("inbox.paste")
+                            .help("Paste a copied image into the Inbox (Shift-Command-V)")
+                        if let pastedID = model.pastedItemID, model.selectedItemID == pastedID,
+                           model.items.contains(where: { $0.id == pastedID && $0.status != "aside" }) {
+                            Label("Image added", systemImage: "checkmark.circle.fill")
+                                .font(.caption).foregroundStyle(Color.accentColor)
+                                .accessibilityIdentifier("inbox.pasteFeedback")
+                        }
+                    }.frame(maxWidth: .infinity, alignment: .leading).padding(12)
+                    Divider()
+                    ScrollViewReader { proxy in
+                        List(selection: $model.selectedItemID) {
                     ForEach(visibleItems) { item in
                         HStack(spacing: 8) {
                             Toggle("Select receipt", isOn: Binding(get: { removalSelection.contains(item.id) }, set: { selected in
@@ -199,28 +219,29 @@ struct InboxView: View {
                                 .accessibilityLabel("Select " + item.name)
                                 .accessibilityIdentifier("inbox.select." + item.id.uuidString)
                             InboxRow(id: item.id, name: item.name, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil).equatable()
-                        }.tag(item.id)
+                        }.tag(item.id).id(item.id)
                     }
-                    Button { Task { await model.importFiles() } } label: {
-                        HStack(spacing: 10) {
-                            Image(systemName: "plus.circle.fill").font(.title3)
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text("Add more receipts…").font(.callout.weight(.semibold))
-                                Text("PDF, images or email").font(.caption).foregroundStyle(.secondary)
+                        }.accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
+                            .onChange(of: model.selectedItemID) {
+                                if let id = model.selectedItemID { proxy.scrollTo(id, anchor: .center) }
                             }
-                            Spacer(minLength: 0)
-                        }
-                        .padding(12).frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.accentColor.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
-                        .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.accentColor.opacity(0.35), style: StrokeStyle(lineWidth: 1, dash: [4])))
-                        .contentShape(Rectangle())
+                            .onChange(of: model.pastedItemID) {
+                                revealPastedImage()
+                                if let id = model.pastedItemID {
+                                    Task { @MainActor in
+                                        await Task.yield()
+                                        if model.selectedItemID == id { proxy.scrollTo(id, anchor: .center) }
+                                    }
+                                }
+                            }
+                            .onChange(of: visibleItems.map(\.id)) {
+                                if let id = model.selectedItemID { proxy.scrollTo(id, anchor: .center) }
+                            }
+                            .onAppear {
+                                if let id = model.selectedItemID { proxy.scrollTo(id, anchor: .center) }
+                            }
                     }
-                    .buttonStyle(.plain).foregroundStyle(Color.accentColor)
-                    .listRowSeparator(.hidden)
-                    .accessibilityIdentifier("inbox.addMore")
-                    .accessibilityLabel("Add more receipts")
-                    .help("Import more receipts while reviewing your inbox")
-                }.frame(minWidth: 175, idealWidth: 200, maxWidth: 250).accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
+                }.frame(minWidth: 175, idealWidth: 220, maxWidth: 270)
                     .background(WindowAccessibility(label: "Documents awaiting review", target: .splitPane))
                 if let item = visibleItems.first(where: { $0.id == model.selectedItemID }) {
                     if item.status == "ready" { ReviewView(model: model, item: item).id(item.id) }

@@ -116,6 +116,7 @@ final class FileGrant: @unchecked Sendable {
     var selection = "Inbox"
     var items: [InboxItem] = []
     var selectedItemID: UUID?
+    var pastedItemID: UUID?
     var documents: [FiledDocument] = []
     var deletedDocuments: [DeletedReceipt] = []
     var allDocuments: [FiledDocument] = []
@@ -419,6 +420,10 @@ final class FileGrant: @unchecked Sendable {
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             let url = folder.appendingPathComponent(UUID().uuidString + ".png"); try png.write(to: url, options: .atomic)
             await intake([url])
+            if let item = items.first(where: { $0.source == url && $0.status != "aside" }) {
+                selectedItemID = item.id
+                pastedItemID = item.id
+            }
         } catch { message = error.localizedDescription }
     }
     private func processWaiting() {

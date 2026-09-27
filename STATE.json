@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Inbox cleanup: header shows only Processing while pending; all result counts remain in filters. Paste image is available as a button in empty and populated Inbox. Owner-facing sample actions removed; fixture loading/reset are DEBUG-only. Strict Release build and protected baseline PASS. InboxCleanup2.xcresult scoped native Inbox flow PASS, including Paste button availability in both states and absent Ready header; first run caught link-style accessibility mismatch, corrected. Actual clipboard import was not exercised. Full P3 and release gates remain open; running owner session preserved.",
+  "step": "Inbox creation controls: Add receipts and Paste image now fixed above left receipt list, replacing bottom add row and global paste action. Successful paste selects new item, reveals All filter, scrolls to it and shows Image added. Returning to Inbox preserves selection/filter. Strict Release, local preflight and protected baseline PASS; independent source review PASS. InboxCreation.xcresult native Inbox flow PASS; screenshot inspected confirms fixed top-left controls. Actual long-list clipboard paste/scroll was source-reviewed, not exercised end-to-end; owner clipboard untouched. Full launch gates unchanged.",
   "last_green_commit": "d9454df",
   "parked": [
     "Membership, distribution signing and ASC upload",
@@ -13,5 +13,5 @@
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
     "Real receipts: OCR loses visible totals; unsupported total, merchant and transaction-date errors require follow-up. Tax safeguard is partial mitigation only."
   ],
-  "updated": "2026-09-27T20:59:44.924909+00:00"
+  "updated": "2026-09-27T21:07:01.139488+00:00"
 }
