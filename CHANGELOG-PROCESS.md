@@ -75,3 +75,19 @@ All 34 tests passed in the first two complete app runs, but runtime priority inv
 ## 2026-09-26 — isolated App Intents component checks
 
 Added a non-hosted `PaperloftIntentLogicTests` target that compiles the shipping intent source and injects the public service contract. This permits deterministic local logic checks independently of Apple's out-of-process signing prerequisite. Added genuine AppIntentsTesting tests to the existing UI bundle; they remain enabled and currently fail metadata lookup. Eight logic tests pass; none is treated as AC-15. Details and three runtime approaches: `evidence/intents-component.md`. No frozen verifier or criterion changed.
+## P3 QA configuration and expanded flows
+
+Added an optimized QA configuration with explicit QA compilation condition and `scripts/build_qa.sh`; Debug now explicitly defines DEBUG. The QA script preserves warnings-as-errors, scans warnings, produces only an ad-hoc local app, and never archives/uploads. New unlocked UI checks cover persisted draft edits, duplicate state after filing/undo, and unfiltered accessibility audits of core screens. The samples timer now begins before launch/setup rather than after setup. No locked tests modified.
+
+AGENTS section2 permits independent parallel work fromP3 in separate worktrees. Export engine and commerce components branch from clean checkpoint d9454df in Factory-owned worktrees. Each must pass its own subtask tests and parent review before integration; full phase independent verification remains separate. Managed worktree tools were unavailable, so standard git worktrees were used.
+
+## P3 expanded checks and independent diagnostic evidence
+- Added draft relaunch, duplicate-after-undo and complete default accessibility audit to new CoreFlowTests; issue handler records evidence and never ignores issues. Kept all protected tests intact. Functional tests expose sidebar hit-region bug and confirm its fix.
+- Added optimized QA build configuration/script with warnings-as-errors and log scan. Added filename-template tests for safe required tokens, currency formatting and UTF-8 bounds.
+- Independently reviewed export component merged for local integration; real sandbox UI flow passes. Full UI result remains FAIL due accessibility findings; last_green_commit is unchanged.
+- Minimal standalone native probe reproduces framework audit findings; recorded as diagnostic failures, not acceptance passes. Picker screenshot reveals overlapping layout; fixing source instead of weakening audit.
+
+- Independent app review found operation serialization and export grant lifetime defects. Added two AppModelOperationTests using the actual app model in the existing unit target (no launch-hook simulation); guarded library switches and retained grants. External real-panel QA export/preview now verified.
+- External sandbox export exposed overly broad ancestor directory-read requests. O_SEARCH traversal preserves descriptor/no-symlink safety; added traverse-only ancestor regression and retained symlink rejection. Export errors now appear inline in the active sheet.
+
+- Added P3 dispatch to gate_check.py with unchanged full CI/privacy/baseline checks plus QA build and coverage. No failed audit is excluded or downgraded. The self-gate is expected to remain FAIL while current accessibility findings persist.

@@ -8,6 +8,7 @@ struct PaperloftApp: App {
     var body: some Scene {
         Window("Paperloft Receipts", id: "main") {
             LibraryView(model: model)
+                .background(WindowAccessibility(label: "Paperloft workspace"))
                 .task { await model.start() }
                 .onOpenURL { model.intake([$0]) }
         }
@@ -37,7 +38,7 @@ struct PaperloftApp: App {
                 .accessibilityIdentifier("command.undo")
             }
         }
-        Settings { PaperloftSettings(model: model) }
+        Settings { PaperloftSettings(model: model).background(WindowAccessibility(label: "Paperloft settings")) }
         MenuBarExtra {
             MenuBarInbox(model: model)
         } label: {

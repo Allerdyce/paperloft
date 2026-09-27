@@ -1,6 +1,7 @@
 import XCTest
 import PDFKit
 import CryptoKit
+import Darwin
 @testable import PaperloftKit
 
 final class ExportTests: XCTestCase {
@@ -21,6 +22,33 @@ final class ExportTests: XCTestCase {
         return FiledDocument(receipt: receipt, contentHash: digest(data), relativePath: path, filedAt: Date())
     }
     private func digest(_ data: Data) -> String { SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined() }
+
+    func testTraverseOnlyAncestorsAndSymlinkRejection() throws {
+        let root = try workspace()
+        let sourceParent = root.appendingPathComponent("source-parent")
+        let targetParent = root.appendingPathComponent("target-parent")
+        let source = sourceParent.appendingPathComponent("library")
+        let target = targetParent.appendingPathComponent("packs")
+        for url in [source, target] { try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true) }
+        let doc = try document(source, date: "2026-01-01", amount: 2592)
+        defer { chmod(sourceParent.path, 0o700); chmod(targetParent.path, 0o700) }
+        XCTAssertEqual(chmod(sourceParent.path, 0o100), 0)
+        XCTAssertEqual(chmod(targetParent.path, 0o100), 0)
+        for url in [sourceParent, targetParent] {
+            let descriptor = open(url.path, O_RDONLY | O_DIRECTORY)
+            XCTAssertEqual(descriptor, -1, "Regression requires traversal without directory-read permission")
+            if descriptor >= 0 { close(descriptor) }
+        }
+        let result = try AccountantPackExporter.export(documents: [doc], libraryRoot: source, destination: target, range: .year(2026))
+        let rows = try parseCSV(Data(contentsOf: result.folderURL.appendingPathComponent("transactions.csv")))
+        XCTAssertEqual(rows.count, 2)
+        XCTAssertEqual(rows[1][6], "2592")
+        XCTAssertEqual(digest(try Data(contentsOf: result.folderURL.appendingPathComponent(rows[1][8]))), doc.contentHash)
+        XCTAssertTrue(try XCTUnwrap(PDFDocument(url: result.folderURL.appendingPathComponent("summary.pdf"))?.string).contains("USD | 25.92"))
+        let link = root.appendingPathComponent("linked-ancestor")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: sourceParent)
+        XCTAssertThrowsError(try AccountantPackExporter.export(documents: [doc], libraryRoot: link.appendingPathComponent("library"), destination: target, range: .year(2026)))
+    }
 
     /// Independent RFC 4180 state machine; rejects malformed quote/record delimiters.
     private func parseCSV(_ data: Data) throws -> [[String]] {

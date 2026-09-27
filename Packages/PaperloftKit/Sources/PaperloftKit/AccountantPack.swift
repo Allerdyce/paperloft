@@ -153,10 +153,12 @@ private final class ExportDirectory {
         guard url.isFileURL else { throw LibraryError.unsafePath }
         let components = url.path.split(separator: "/").map(String.init)
         guard components.allSatisfy({ $0 != "." && $0 != ".." && !$0.contains("\0") }) else { throw LibraryError.unsafePath }
-        var descriptor = open("/", O_RDONLY | O_DIRECTORY | O_CLOEXEC)
+        // Ancestors need traversal, not directory-listing access. O_SEARCH is
+        // O_EXEC | O_DIRECTORY on Darwin; this works with scoped folder grants.
+        var descriptor = open("/", O_EXEC | O_DIRECTORY | O_CLOEXEC)
         guard descriptor >= 0 else { throw LibraryError.unsafePath }
         for component in components {
-            let next = openat(descriptor, component, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+            let next = openat(descriptor, component, O_EXEC | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
             close(descriptor)
             guard next >= 0 else { throw LibraryError.unsafePath }
             descriptor = next
