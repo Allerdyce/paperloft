@@ -97,3 +97,20 @@ import Testing
     #expect(try await reopened.deletedDocuments().isEmpty)
     #expect(try await reopened.documents() == [document])
 }
+
+@Test func finderRenamedReceiptCanBeDeletedAndRestoredAtCurrentPath() async throws {
+    let folder = try EngineTestFolder(); defer { folder.clean() }
+    let source = try folder.source("receipt.pdf", bytes: Data("renamed receipt".utf8))
+    let store = try LibraryStore(root: folder.library)
+    let filed = try #require(try await store.file([FilingRequest(source: source, receipt: exampleReceipt())]).documents.first)
+    let original = folder.library.appendingPathComponent(filed.relativePath)
+    let renamed = original.deletingLastPathComponent().appendingPathComponent("Finder name.pdf")
+    try FileManager.default.moveItem(at: original, to: renamed)
+    let current = try #require(try await store.documents().first)
+    #expect(current.relativePath != filed.relativePath)
+    try await store.delete(current)
+    let deleted = try #require(try await store.deletedDocuments().first)
+    try await store.restore(deleted)
+    #expect(try await store.documents() == [current])
+    #expect(try Data(contentsOf: renamed) == Data("renamed receipt".utf8))
+}
