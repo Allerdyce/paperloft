@@ -40,3 +40,8 @@
 - P3 full independent UX acceptance; export/intents, purchases, performance, accessibility, design/QA and final documentation.
 - Full app-facing resilience and actual app relaunch recovery.
 - Membership/signing/ASC, full shakedown, acceptance tag and all distribution/upload/release work.
+
+## 2026-09-27 receipt UX update
+- **Verified:** scoped independent review, optimized build and two native UI tests pass for double-click source opening, deletion/restart/restore, existing duplicate/Undo flow and tax-export entry. Export12 tests and deletion6 core + actual-model case independently pass. Details: evidence/receipt-ux/verification.md.
+- **Assumed:** transient blue Processing pill appearance is code-reviewed but was not captured; Paul signing setup depends on real team details.
+- **Not done:** full P3/launch acceptance, personal-team signing, release/upload; prior accessibility/performance and isolated integration blockers remain.

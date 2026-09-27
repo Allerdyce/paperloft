@@ -137,3 +137,8 @@ Ported only the scalar Equatable InboxRow rendering change from373d4ca after ind
 ## 2026-09-27 — Tax export regression coverage
 
 Added TaxExportTests alongside unchanged export verification to check newly requested recorded-tax summaries: missing versus zero, multicurrency precision, inclusive period boundaries, overflow rejection, PDF/CSV values and source preservation. Strict targeted test run passed12 tests; evidence/tax-export/implementation.md records scope and outstanding independent UI review.
+
+## 2026-09-27 — owner receipt UX scope
+- Added scoped native ReceiptLibraryUXTests for opening source content, recoverable deletion across restart, restoration and export discoverability. Existing tests/acceptance untouched.
+- Split root UI, deletion backend and tax export into independently reviewed worktrees under existing P3 parallel rule. Review caught Finder-rename deletion mismatch; regression and fix integrated before UI test.
+- New Quick Look assertion corrected after real UI evidence showed generic native window title; assert actual source text instead. Evidence: evidence/receipt-ux/verification.md.

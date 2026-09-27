@@ -47,6 +47,12 @@ struct LibraryView: View {
                     Text(model.selection == "Inbox" ? "A place for your paperwork" : model.selection)
                         .font(.title2.weight(.semibold)).accessibilityIdentifier("content.title")
                     Spacer()
+                    if model.selection == "Inbox", model.inboxCount > 0 {
+                        let ready = model.items.filter { $0.status == "ready" }.count
+                        let pending = model.items.filter { $0.status == "processing" || $0.status == "waiting" }.count
+                        if pending > 0 { ReceiptStatusPill(title: "Processing · \(pending)", symbol: "clock.fill", color: .blue).accessibilityIdentifier("inbox.processingCount") }
+                        if ready > 0 { ReceiptStatusPill(title: "Ready to review · \(ready)", symbol: "checkmark.circle.fill", color: .green).accessibilityIdentifier("inbox.readyCount") }
+                    }
                     if model.busy || model.processing { ProgressView().controlSize(.small).accessibilityLabel("Working") }
                 }.padding(.horizontal, 24).padding(.top, 22).padding(.bottom, 16)
                 Divider()
@@ -123,7 +129,7 @@ struct InboxView: View {
                         InboxRow(id: item.id, name: item.name, status: item.status, duplicate: item.review?.duplicate != nil)
                             .equatable().tag(item.id)
                     }
-                }.frame(minWidth: 145, idealWidth: 175, maxWidth: 240).accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
+                }.frame(minWidth: 175, idealWidth: 200, maxWidth: 250).accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
                     .background(WindowAccessibility(label: "Documents awaiting review", target: .splitPane))
                 if let item = model.selectedItem {
                     if item.status == "ready" { ReviewView(model: model, item: item).id(item.id) }
@@ -153,13 +159,26 @@ struct InboxRow: View, Equatable {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(name).lineLimit(2).font(.callout.weight(.medium))
-            Label(statusLabel, systemImage: status == "failed" ? "exclamationmark.triangle" : status == "ready" ? "doc.text" : "clock")
-                .font(.caption).foregroundStyle(.primary)
-        }.padding(.vertical, 4).accessibilityIdentifier("inbox.item." + id.uuidString)
+            ReceiptStatusPill(title: statusLabel, symbol: status == "failed" ? "exclamationmark.triangle.fill" : status == "ready" ? "checkmark.circle.fill" : "clock.fill", color: duplicate || status == "failed" ? .orange : status == "ready" ? .green : .blue)
+        }.padding(.vertical, 8).accessibilityIdentifier("inbox.item." + id.uuidString)
     }
     private var statusLabel: String {
         if duplicate { return "Duplicate" }
-        switch status { case "ready": return "Ready to review"; case "processing": return "Reading…"; case "failed": return "Needs attention"; default: return "Waiting" }
+        switch status { case "ready": return "Ready to review"; case "processing": return "Processing"; case "failed": return "Needs attention"; default: return "Waiting" }
+    }
+}
+
+struct ReceiptStatusPill: View {
+    let title: String
+    let symbol: String
+    let color: Color
+    var body: some View {
+        Label(title, systemImage: symbol)
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.primary)
+            .padding(.horizontal, 9).padding(.vertical, 5)
+            .background(color.opacity(0.18), in: Capsule())
+            .overlay(Capsule().strokeBorder(color.opacity(0.55), lineWidth: 1))
     }
 }
 
@@ -309,6 +328,8 @@ final class AccessiblePDFView: PDFView {
 struct BrowseView: View {
     @Bindable var model: AppModel
     @State private var selected: UUID?
+    @State private var pendingDelete: FiledDocument?
+    @State private var showDeleted = false
     var body: some View {
         VStack(spacing: 14) {
             HStack {
@@ -319,26 +340,89 @@ struct BrowseView: View {
                 AccessiblePicker(label: "Category", identifier: "library.category", choices: ["All categories"] + Array(Set(model.categories + model.allDocuments.map { $0.receipt.category })).sorted(), selection: $model.categoryFilter)
                 AccessiblePicker(label: "Type", identifier: "library.kind", choices: ["All types", "Receipt", "Invoice", "Bill"], selection: Binding(get: { model.kindFilter == "All types" ? model.kindFilter : model.kindFilter.capitalized }, set: { model.kindFilter = $0 == "All types" ? $0 : $0.lowercased() }))
                 Spacer()
-                Button("Export Pack…") { model.beginExport() }.disabled(model.libraryURL == nil || model.busy).accessibilityIdentifier("library.export")
-                Button("Quick Look") { if let document = selectedDocument, let root = model.libraryURL { model.quickLookURL = root.appendingPathComponent(document.relativePath) } }
+                Button("Tax & Accountant Export…") { model.beginExport() }.disabled(model.libraryURL == nil || model.busy).accessibilityIdentifier("library.export")
+            }
+            HStack {
+                Button("Open Receipt", systemImage: "doc.text.magnifyingglass") { open(selectedDocument) }
                     .disabled(selectedDocument == nil).accessibilityIdentifier("library.quickLook")
-                Button("Reveal") { model.reveal(selectedDocument) }.disabled(selectedDocument == nil).accessibilityIdentifier("library.reveal")
+                Button("Reveal in Finder", systemImage: "folder") { model.reveal(selectedDocument) }
+                    .disabled(selectedDocument == nil).accessibilityIdentifier("library.reveal")
+                Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = selectedDocument }
+                    .disabled(selectedDocument == nil || model.busy).accessibilityIdentifier("library.delete")
+                Spacer()
+                Button("Recently Deleted") { showDeleted = true }.accessibilityIdentifier("library.deleted")
             }
             Table(model.documents, selection: $selected) {
                 TableColumn("Date") { Text($0.receipt.date.formatted).monospacedDigit() }.width(100)
-                TableColumn("Vendor") { Text($0.receipt.vendor) }
+                TableColumn("Vendor") { document in
+                    Label(document.receipt.vendor, systemImage: "doc.text").fontWeight(.medium).padding(.vertical, 8)
+                }
                 TableColumn("Category") { Text($0.receipt.category) }
                 TableColumn("Total") { Text(amount($0.receipt)).monospacedDigit() }.width(100)
                 TableColumn("Type") { Text($0.receipt.kind.rawValue.capitalized) }.width(75)
-            }.accessibilityIdentifier("library.table").accessibilityLabel("Filed documents")
+            }
+            .contextMenu(forSelectionType: UUID.self) { ids in
+                if let id = ids.first, let document = model.documents.first(where: { $0.id == id }) {
+                    Button("Open Receipt") { open(document) }
+                    Button("Reveal in Finder") { model.reveal(document) }
+                    Divider()
+                    Button("Delete", role: .destructive) { pendingDelete = document }.disabled(model.busy)
+                }
+            } primaryAction: { ids in
+                if let id = ids.first { open(model.documents.first { $0.id == id }) }
+            }
+            .onDeleteCommand { if !model.busy { pendingDelete = selectedDocument } }
+            .accessibilityIdentifier("library.table").accessibilityLabel("Filed documents")
                 .overlay { if model.documents.isEmpty { PaperloftEmptyState(title: "No matching documents", symbol: "doc.text.magnifyingglass", detail: "File a receipt from the Inbox, or adjust your search and filters.") } }
             Text("\(model.documents.count) documents").font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading).accessibilityIdentifier("library.count")
+            Text("Double-click a receipt to open it. Deleted receipts can be restored from Recently Deleted.")
+                .font(.caption).foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .leading)
         }.padding(20)
+        .confirmationDialog("Delete this receipt?", isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }), titleVisibility: .visible) {
+            Button("Delete Receipt", role: .destructive) {
+                if let document = pendingDelete { Task { await model.deleteDocument(document) } }
+                pendingDelete = nil
+            }.accessibilityIdentifier("library.confirmDelete")
+            Button("Cancel", role: .cancel) { pendingDelete = nil }
+        } message: { Text("It will leave your library and future exports. You can restore it from Recently Deleted; external originals are preserved.") }
+        .sheet(isPresented: $showDeleted) { RecentlyDeletedView(model: model) }
         .onChange(of: model.search) { model.scheduleSearch() }.onChange(of: model.yearFilter) { model.scheduleSearch() }
         .onChange(of: model.categoryFilter) { model.scheduleSearch() }.onChange(of: model.kindFilter) { model.scheduleSearch() }
     }
+    private func open(_ document: FiledDocument?) {
+        guard let document, let root = model.libraryURL else { return }
+        model.quickLookURL = root.appendingPathComponent(document.relativePath)
+    }
     private var selectedDocument: FiledDocument? { model.documents.first { $0.id == selected } }
     private func amount(_ receipt: Receipt) -> String { receipt.currency + " " + ((try? Money(minorUnits: receipt.totalMinorUnits, currency: receipt.currency).decimal) ?? "—") }
+}
+
+struct RecentlyDeletedView: View {
+    @Bindable var model: AppModel
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Recently Deleted").font(.title2.weight(.semibold))
+            Text("These receipts are excluded from your library and exports. Restore them whenever you need them.")
+                .foregroundStyle(.secondary)
+            if model.deletedDocuments.isEmpty {
+                ContentUnavailableView("No deleted receipts", systemImage: "trash")
+            } else {
+                List(model.deletedDocuments) { item in
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(item.document.receipt.vendor).font(.headline)
+                            Text("Deleted " + item.deletedAt.formatted(date: .abbreviated, time: .shortened)).font(.caption)
+                        }
+                        Spacer()
+                        Button("Restore") { Task { await model.restoreDocument(item) } }
+                            .disabled(model.busy).accessibilityIdentifier("deleted.restore." + item.id.uuidString)
+                    }.padding(.vertical, 6)
+                }.accessibilityIdentifier("deleted.list")
+            }
+            HStack { Spacer(); Button("Done") { dismiss() }.keyboardShortcut(.cancelAction).accessibilityIdentifier("deleted.done") }
+        }.padding(24).frame(width: 560, height: 380)
+    }
 }
 
 struct HistoryView: View {

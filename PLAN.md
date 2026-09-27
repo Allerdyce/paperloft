@@ -57,3 +57,11 @@ Do not read private samples/holdout, weaken locks or ask for more local approval
 - Prewarm experiment preserved150 predictions exactly but failed100-document completion at360s. Reject/revert isolated source; retain evidence; no repeat without new justified repair.
 - Full design/persona work is parked on native Computer Use pipe failure. Native icon agreement, AppIntents discovery, StoreKit SDK, Mail promise gesture, system throughput/signpost and accessibility remain recorded blockers.
 - No current heavy process, distribution, upload or background scheduling is planned after evidence is saved. Resume from STATE when a concrete blocker changes or a justified new approach becomes available.
+
+## Owner usability revision — 2026-09-27
+
+- Root: native library double-click/Open action, direct recoverable Delete, Recently Deleted restore sheet, distinct status pills and ready/processing counts; retain scalar row rendering and locked UI identifiers.
+- receipt_delete isolated worktree: journaled deletion/recovery + AppModel integration and crash/safety tests.
+- tax_export isolated worktree: clear tax/accountant pack UI and recorded-tax PDF groups, missing-tax semantics, export regressions.
+- Independent scoped review before integration, then actual native UI delete/relaunch/restore/open/export flow and strict optimized build. Existing P3 accessibility/performance failures remain separately reported.
+- Temporary personal-team signing awaits real membership/team details; this does not block local UI implementation.
