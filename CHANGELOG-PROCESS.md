@@ -109,3 +109,5 @@ Read the installed AppKit NSFilePromiseReceiver/NSFilePromiseProvider headers be
 ## Mail reopening failure diagnostics (2026-09-27)
 
 Added complete launch/reopen accessibility-tree logging on assertion failure and a separate standard Window-menu recovery diagnostic. The first diagnostic query matched multiple menu items; narrowed it to the actual Window menu without changing its expected outcome. Three product experiments (captured scene action/presented launch, restoration disabled, nested hosting environment propagation) failed to produce a main window and were reverted. No launch hook, test exclusion or threshold weakening.
+
+- Added separate Window-menu-primed menu-bar diagnostic to isolate Open Inbox from initial restored-window launch. Exact NSWorkspace process paths prove the intended build; standard Window menu opens main, close succeeds, actual status/Open Inbox click yields no main within10seconds. Failure preserved in MailPrimedMenuDiagnostic.xcresult; no product patch or acceptance-test fallback.

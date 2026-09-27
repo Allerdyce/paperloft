@@ -31,6 +31,30 @@ final class MailPromiseFlowTests: XCTestCase {
         print("WINDOW_MENU_DIAGNOSTIC \(app.debugDescription)")
         XCTAssertTrue(shown)
     }
+    @MainActor func testWindowMenuPrimedMenuBarOpenInboxDiagnostic() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
+        app.launch(); app.activate(); defer { app.terminate() }
+        for running in NSWorkspace.shared.runningApplications where running.bundleIdentifier == "app.paperloft.receipts" {
+            print("PRIMED_MAIL_RUNNING_APP pid=\(running.processIdentifier) bundle=\(running.bundleURL?.path ?? "nil") executable=\(running.executableURL?.path ?? "nil")")
+        }
+        // This diagnostic deliberately isolates the menu-bar action from launch restoration.
+        app.menuBarItems["Window"].click()
+        app.menuBarItems["Window"].menuItems["Paperloft Receipts"].click()
+        XCTAssertTrue(app.buttons["toolbar.settings"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.windows["main"].exists)
+        app.buttons["sidebar.library"].click()
+        app.typeKey("w", modifierFlags: .command)
+        XCTAssertFalse(app.windows["main"].exists)
+        let status = app.descendants(matching: .any).matching(identifier: "menubar.status").firstMatch
+        XCTAssertTrue(status.waitForExistence(timeout: 10)); status.click()
+        let open = app.buttons["menubar.open"]
+        XCTAssertTrue(open.waitForExistence(timeout: 10)); open.click()
+        let reopened = app.windows["main"].waitForExistence(timeout: 10)
+        print("PRIMED_REOPEN_TREE \(app.debugDescription)")
+        XCTAssertTrue(reopened)
+    }
     @MainActor func testNativePromisedEmailDragReachesReview() throws {
         continueAfterFailure = false
         let app = try freshApp(); defer { app.terminate() }
