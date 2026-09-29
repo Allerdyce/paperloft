@@ -10,7 +10,7 @@
 - Display/startup blocker cleared; local preflight and protected baseline pass.
 
 ## Current work
-Common container-owned intake is merged after independent review:185unit tests and strictRelease pass in the author worktree. Root complete native UI regression finished: all 15 functional tests passed; the accessibility test failed. Reviewed temporary-copy cleanup is merged; root 189-unit verification passed. Fresh Release compiles but emits a Share-extension metadata warning; privacy and protected baseline pass. Safe temporary-copy cleanup and synthetic email accuracy diagnostics continue. Development continues independently of the Share setting permission.
+Common owned intake and conservative cleanup are merged. Root200unit tests and3focused native restart flows pass; the complete earlier UI target passed15functional tests and failed only accessibility. Email diagnostics found two real selection failures, now under investigation. Share metadata warning has a reviewed target-specific fix; final integrated build remains pending.
 
 ## Remaining launch gates
 Full regression/accessibility, extraction accuracy and fresh email holdout, performance, live Mail/Share/scan, StoreKit/App Intents integration, icon review, formal acceptance baseline and final readiness checks remain open. The last full green CI commit remains `d9454df`; scoped passes above are not full acceptance.

@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Owned intake native regression complete:15functional PASS, accessibility FAIL18findings. Reviewed temporary cleanup merged5b0a88f; root189unitPASS, Release compiles with Share metadata warning (not strictPASS); privacy/baselinePASS. Startup Remove retirement held for two safety review fixes; synthetic email parser smoke underway. Conditional distribution authorization persists; readiness not passed.",
+  "step": "Owned intake/cleanup merged9719ddb:root200unit+3native restartPASS; full earlier UI15functionalPASS/a11yFAIL18. Diagnostic harness303fd42 and Share metadatafixc5e1a4f integrated. Investigating parser incidental-title classification and empty PDF OCR from5email smoke; no80/systemmodel run yet. Signed integrated build follows fixes. Authorization persists; no distribution before readiness.",
   "last_green_commit": "d9454df",
   "parked": [
     "Formal acceptance tag and release gates deferred",
@@ -15,5 +15,5 @@
     "Sandboxed WebKit content process terminates without network entitlement; native CoreText fallback verified and documented as implementation deviation",
     "Live Finder Share test awaits permission to enable Paperloft sharing extension in System Settings; extension currently OFF. Real iPhone scan remains unverified."
   ],
-  "updated": "2026-09-29T23:02:52.024994+00:00"
+  "updated": "2026-09-29T23:10:03.125852+00:00"
 }
