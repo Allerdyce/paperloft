@@ -150,7 +150,7 @@ public actor WatchedFolderScanner {
             if name == "." || name == ".." { continue }
             if name.hasPrefix(".") || !Self.safeName(name) { continue }
             let ext = (name as NSString).pathExtension.lowercased()
-            guard ["pdf", "png", "jpg", "jpeg", "heic", "eml"].contains(ext) else { continue }
+            guard ["pdf", "png", "jpg", "jpeg", "heic", "tif", "tiff", "eml"].contains(ext) else { continue }
             var metadata = stat()
             guard fstatat(rootFD, name, &metadata, AT_SYMLINK_NOFOLLOW) == 0 else {
                 issues.append(Issue(filename: name, message: "The file could not be inspected.")); continue

@@ -186,6 +186,7 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var sharedIntakeBusy = false
     @ObservationIgnored private var sharedAcceptedIDs: Set<UUID> = []
     @ObservationIgnored private var engine: ReceiptEngine?
+    @ObservationIgnored private let extractionBackend: (any ExtractionBackend)?
     @ObservationIgnored private var processingTask: Task<Void, Never>?
     @ObservationIgnored private var searchTask: Task<Void, Never>?
     @ObservationIgnored private var generation = UUID()
@@ -205,10 +206,12 @@ final class FileGrant: @unchecked Sendable {
     init(support suppliedSupport: URL? = nil, preferences suppliedPreferences: UserDefaults? = nil,
          proEntitlement: @escaping @MainActor () -> Bool = AppModel.defaultProEntitlement,
          mailCommit: ((MailDeliveryLedger.Proof) throws -> UUID)? = nil,
-         mailSnapshotWriter: ((Data, URL) throws -> Void)? = nil) {
+         mailSnapshotWriter: ((Data, URL) throws -> Void)? = nil,
+         extractionBackend: (any ExtractionBackend)? = nil) {
         testMode = Self.argument("-PaperloftUITestMode") == "YES"
         preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard)
         self.proEntitlement = proEntitlement
+        self.extractionBackend = extractionBackend
         mailCommitOverride = mailCommit; mailSnapshotOverride = mailSnapshotWriter
         categories = preferences.stringArray(forKey: "categories") ?? ["Advertising", "Contract labor", "Insurance", "Legal and professional services", "Meals", "Office supplies", "Rent", "Repairs", "Software", "Taxes and licenses", "Travel", "Utilities", "Vehicle", "Other expenses"]
         filenameTemplate = preferences.string(forKey: "filenameTemplate") ?? ReceiptNameTemplate.defaultPattern
@@ -372,7 +375,7 @@ final class FileGrant: @unchecked Sendable {
         case "parser": backend = ParserBackend()
         default: backend = SystemBackend()
         }
-        engine = ReceiptEngine(library: library, index: index, backend: backend)
+        engine = ReceiptEngine(library: library, index: index, backend: extractionBackend ?? backend)
         libraryURL = library.root; isSampleLibrary = sample
         do { try await library.recover() } catch { message = "Recovery needs attention: " + error.localizedDescription }
         let records = try await library.documents()
@@ -596,6 +599,7 @@ final class FileGrant: @unchecked Sendable {
                         if try markMailDuplicate(parentID: id, messageID: imported.envelope?.messageID) { continue }
                         guard let current = items.firstIndex(where: { $0.id == id && $0.status == "processing" }) else { continue }
                         let sample = items[current].sample
+                        let watchedContext = items[current].watchedDelivery == nil ? nil : items[current].intakeSource
                         var renderedBodyText: String?
                         let prepared = try await MailReviewPreparation.prepare(attachments: imported.attachments, body: imported.bodyDocument, understand: { url in
                             try await engine.understand(url, emailBodyText: url == imported.bodyDocument ? renderedBodyText : nil, emailHints: imported.envelope)
@@ -615,7 +619,7 @@ final class FileGrant: @unchecked Sendable {
                             let url = candidate.source
                             let access = try FileGrant(url: url)
                             let subject = imported.envelope?.subject ?? source.lastPathComponent
-                            var item = InboxItem(id: UUID(), source: url, bookmark: access.bookmark, sample: sample, importNotices: imported.notices + prepared.notices, intakeSource: "From Mail: " + subject, receivedAt: Date())
+                            var item = InboxItem(id: UUID(), source: url, bookmark: access.bookmark, sample: sample, importNotices: imported.notices + prepared.notices, intakeSource: "From Mail: " + subject + (watchedContext.map { " · " + $0 } ?? ""), receivedAt: Date())
                             if let review = candidate.review {
                                 item.review = StoredReview(review); item.draft = ReceiptDraft(review.fields); item.status = "ready"
                             } else { item.status = "failed"; item.issue = candidate.issue ?? "This email attachment could not be read." }
@@ -667,7 +671,10 @@ final class FileGrant: @unchecked Sendable {
             throw AppIssue("One or more email documents could not be read. Nothing from this email was added. Retry the email, or save its receipts individually from Mail.")
         }
         let proof = MailDeliveryLedger.proof(messageID: messageID)
-        let prepared = replacements.map { original in var item = original; item.mailDelivery = proof; return item }
+        let watchedProof = items[index].watchedDelivery
+        let prepared = replacements.map { original in
+            var item = original; item.mailDelivery = proof; item.watchedDelivery = watchedProof; return item
+        }
         var updated = items; updated.replaceSubrange(index...index, with: prepared)
         do {
             let data = try JSONEncoder().encode(updated), url = support.appendingPathComponent("inbox.json")
@@ -976,10 +983,6 @@ final class FileGrant: @unchecked Sendable {
             var queued = 0
             for candidate in result.candidates {
                 guard watchedEnabled, watchedGeneration == token, isPro, !Task.isCancelled else { break }
-                if (candidate.filename as NSString).pathExtension.lowercased() == "eml" {
-                    watchedIssues.append(candidate.filename + ": Mail import is not connected to watched folders yet. This file remains unacknowledged.")
-                    continue
-                }
                 do {
                     try await queueWatchedCandidate(candidate, generation: token)
                     guard watchedEnabled, watchedGeneration == token, isPro else { break }
@@ -987,7 +990,7 @@ final class FileGrant: @unchecked Sendable {
                     queued += 1
                 } catch {
                     guard watchedEnabled, watchedGeneration == token else { break }
-                    watchedIssues.append(candidate.filename + ": " + error.localizedDescription)
+                    watchedIssues.append(candidate.filename + ": " + error.localizedDescription + " This file remains unacknowledged.")
                 }
             }
             watchedStatus = watchedIssues.isEmpty ? (queued > 0 ? "Copied \(queued) documents to review. Originals are unchanged." : "Watching for stable documents. Every document needs review.") : "Some documents need attention; they will be checked again."
@@ -1004,8 +1007,9 @@ final class FileGrant: @unchecked Sendable {
         guard watchedEnabled, token == nil || token == watchedGeneration, let root = watchedFolderURL else {
             throw AppIssue("The watched folder was turned off or changed. This document remains pending.")
         }
-        guard ["pdf", "png", "jpg", "jpeg", "heic"].contains((candidate.filename as NSString).pathExtension.lowercased()) else {
-            throw AppIssue("Watched folders support PDF, PNG, JPEG and HEIC documents.")
+        let fileExtension = (candidate.filename as NSString).pathExtension.lowercased()
+        guard ["pdf", "png", "jpg", "jpeg", "heic", "tif", "tiff", "eml"].contains(fileExtension) else {
+            throw AppIssue("Watched folders support PDF, PNG, JPEG, HEIC, TIFF and EML documents.")
         }
         let operation = beginOperation(.background); defer { endOperation(operation) }
         let legacyKey = SHA256.hash(data: Data((root.path + "\0" + candidate.filename).utf8)).map { String(format: "%02x", $0) }.joined()
@@ -1031,13 +1035,16 @@ final class FileGrant: @unchecked Sendable {
         // committed only after returning, using the current items so concurrent edits survive.
         let source = folder.appendingPathComponent(candidate.filename), storage = support
         try await Task.detached(priority: .utility) {
+            // Validate the supplied stable mail bytes before taking responsibility for
+            // them. Rendering and extraction use the ordinary Mail pipeline afterward.
+            if fileExtension == "eml" { _ = try MailDocument.parse(candidate.data) }
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             try Self.writeWatchedData(candidate.data, to: source)
             try Self.synchronizeWatchedDirectory(folder.deletingLastPathComponent())
             try Self.synchronizeWatchedDirectory(storage)
         }.value
         guard inboxMayBeMutated, watchedEnabled, token == nil || token == watchedGeneration, isPro else { throw CancellationError() }
-        let item = InboxItem(id: UUID(), source: source, watchedDelivery: proof)
+        let item = InboxItem(id: UUID(), source: source, watchedDelivery: proof, intakeSource: "Watched folder: " + root.lastPathComponent, receivedAt: Date(), displayName: candidate.filename)
         let updated = items + [item]
         try Self.writeWatchedData(JSONEncoder().encode(updated), to: support.appendingPathComponent("inbox.json"))
         items = updated; selectedItemID = item.id; selection = "Inbox"
