@@ -35,14 +35,7 @@ public struct DocumentRecognizer: DocumentTextRecognizing {
             guard document.numberOfPages < 200 else { throw RecognitionError.tooManyPages }
             return try (1...max(1, document.numberOfPages)).map { index in
                 guard let page = document.page(at: index) else { throw RecognitionError.unreadableDocument }
-                let rect = page.getBoxRect(.mediaBox)
-                guard rect.width.isFinite, rect.height.isFinite, rect.width > 0, rect.height > 0 else { throw RecognitionError.unreadableDocument }
-                let scale = min(2, 2400 / max(rect.width, rect.height))
-                guard let context = CGContext(data: nil, width: max(1, Int(rect.width * scale)), height: max(1, Int(rect.height * scale)), bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { throw RecognitionError.unreadableDocument }
-                context.setFillColor(CGColor(gray: 1, alpha: 1)); context.fill(CGRect(x: 0, y: 0, width: context.width, height: context.height))
-                context.concatenate(page.getDrawingTransform(.mediaBox, rect: CGRect(x: 0, y: 0, width: context.width, height: context.height), rotate: 0, preserveAspectRatio: true))
-                context.drawPDFPage(page)
-                guard let image = context.makeImage() else { throw RecognitionError.unreadableDocument }
+                let image = try Self.rasterizePDFPage(page)
                 return try recognize(image)
             }.joined(separator: "\n\n")
         }
@@ -58,6 +51,38 @@ public struct DocumentRecognizer: DocumentTextRecognizing {
         guard let image = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else { throw RecognitionError.unreadableDocument }
         return try recognize(image)
     }
+    /// PDF drawing transforms downscale to fit but do not upscale. Scale the
+    /// bitmap context explicitly so small print gets the intended resolution.
+    static func rasterizePDFPage(_ page: CGPDFPage) throws -> CGImage {
+        let box = page.getBoxRect(.mediaBox)
+        guard box.origin.x.isFinite, box.origin.y.isFinite,
+              box.width.isFinite, box.height.isFinite, box.width > 0, box.height > 0 else {
+            throw RecognitionError.unreadableDocument
+        }
+        let rotation = ((page.rotationAngle % 360) + 360) % 360
+        let sideways = rotation == 90 || rotation == 270
+        let width = sideways ? box.height : box.width
+        let height = sideways ? box.width : box.height
+        let scale = min(2, 2400 / max(width, height))
+        let pixelsWide = max(1, min(2400, Int(width * scale)))
+        let pixelsHigh = max(1, min(2400, Int(height * scale)))
+        guard let context = CGContext(data: nil, width: pixelsWide, height: pixelsHigh,
+            bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else {
+            throw RecognitionError.unreadableDocument
+        }
+        context.setFillColor(CGColor(gray: 1, alpha: 1))
+        context.fill(CGRect(x: 0, y: 0, width: pixelsWide, height: pixelsHigh))
+        let scaleX = CGFloat(pixelsWide) / width, scaleY = CGFloat(pixelsHigh) / height
+        guard scaleX.isFinite, scaleY.isFinite else { throw RecognitionError.unreadableDocument }
+        context.scaleBy(x: scaleX, y: scaleY)
+        context.concatenate(page.getDrawingTransform(.mediaBox,
+            rect: CGRect(x: 0, y: 0, width: width, height: height), rotate: 0, preserveAspectRatio: true))
+        context.drawPDFPage(page)
+        guard let image = context.makeImage() else { throw RecognitionError.unreadableDocument }
+        return image
+    }
+
     private func recognize(_ image: CGImage) throws -> String {
         let image = flattenDocument(image)
         let request = VNRecognizeTextRequest()
