@@ -1,0 +1,724 @@
+Issue 1 — D12B17C5-6B9F-4BA4-925E-FD0E88F4A9B6.txt
+Contrast is not high enough for Choose how to add your first receipt. unless font size is larger.
+Attributes: StaticText, 0x74bd561680, {{599.0, 394.0}, {224.5, 16.0}}, value: Choose how to add ...
+Element subtree:
+ →StaticText, 0x74bd561680, {{599.0, 394.0}, {224.5, 16.0}}, value: Choose how to add ...
+Path to element:
+ →Application, 0x74bd986080, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bd985b80, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Inbox', Keyboard Focused, Disabled
+   ↳Group, 0x74bd985400, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bd987200, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bd987340, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bd561040, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Inbox', Disabled
+       ↳Group, 0x74bd561180, {{464.0, 269.0}, {990.0, 686.0}}, label: 'Inbox workspace'
+        ↳ScrollView, 0x74bd561400, {{464.0, 320.0}, {990.0, 635.0}}, Disabled
+         ↳StaticText, 0x74bd561680, {{599.0, 394.0}, {224.5, 16.0}}, value: Choose how to add ...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bd581cc0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jUgAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bd985cc0, {{599.0, 394.0}, {224.5, 16.0}}, value: Choose how to add ...
+    }
+
+
+Issue 2 — 43A7328D-B6D1-4E74-9DF0-9A5D5A6C1EE0.txt
+Contrast is not high enough for Add receipt files from your Mac. Choose PDFs, images or saved emails. unless font size is larger.
+Attributes: StaticText, 0x74bd581180, {{623.0, 542.5}, {286.0, 32.0}}, value: Add receipt files ...
+Element subtree:
+ →StaticText, 0x74bd581180, {{623.0, 542.5}, {286.0, 32.0}}, value: Add receipt files ...
+Path to element:
+ →Application, 0x74bdb49e00, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb49400, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Inbox', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb49540, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb49680, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb497c0, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bd581a40, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Inbox', Disabled
+       ↳Group, 0x74bd581b80, {{464.0, 269.0}, {990.0, 686.0}}, label: 'Inbox workspace'
+        ↳ScrollView, 0x74bd581540, {{464.0, 320.0}, {990.0, 635.0}}, Disabled
+         ↳Group, 0x74bd581400, {{599.0, 434.0}, {350.0, 228.5}}
+          ↳StaticText, 0x74bd581180, {{623.0, 542.5}, {286.0, 32.0}}, value: Add receipt files ...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bd5657c0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jXAAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb48500, {{623.0, 542.5}, {286.0, 32.0}}, value: Add receipt files ...
+    }
+
+
+Issue 3 — 73D0EE72-0486-4CF5-9E64-645574A1A1C6.txt
+Contrast failed for Copied a receipt or screenshot? Paste the image straight into your Inbox.
+Attributes: StaticText, 0x74bd5643c0, {{993.0, 542.5}, {297.5, 32.0}}, value: Copied a receipt o...
+Element subtree:
+ →StaticText, 0x74bd5643c0, {{993.0, 542.5}, {297.5, 32.0}}, value: Copied a receipt o...
+Path to element:
+ →Application, 0x74bdb38f00, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb392c0, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Inbox', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb39900, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb3a440, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb3a580, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bd565540, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Inbox', Disabled
+       ↳Group, 0x74bd565680, {{464.0, 269.0}, {990.0, 686.0}}, label: 'Inbox workspace'
+        ↳ScrollView, 0x74bd565040, {{464.0, 320.0}, {990.0, 635.0}}, Disabled
+         ↳Group, 0x74bd564a00, {{969.0, 434.0}, {350.0, 228.5}}
+          ↳StaticText, 0x74bd5643c0, {{993.0, 542.5}, {297.5, 32.0}}, value: Copied a receipt o...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bd5617c0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jWAAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb38a00, {{993.0, 542.5}, {297.5, 32.0}}, value: Copied a receipt o...
+    }
+
+
+Issue 4 — 6A3F0427-9F50-4AFF-835F-2A3C212FF54E.txt
+Contrast is not high enough for You can also drag receipt files anywhere into this Inbox. unless font size is larger.
+Attributes: StaticText, 0x74bd560500, {{600.5, 686.5}, {334.0, 15.0}}, value: You can also drag ...
+Element subtree:
+ →StaticText, 0x74bd560500, {{600.5, 686.5}, {334.0, 15.0}}, value: You can also drag ...
+Path to element:
+ →Application, 0x74bdb40dc0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb42800, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Inbox', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb412c0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb41900, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb42440, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb43e80, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Inbox', Disabled
+       ↳Group, 0x74bd561540, {{464.0, 269.0}, {990.0, 686.0}}, label: 'Inbox workspace'
+        ↳ScrollView, 0x74bd561400, {{464.0, 320.0}, {990.0, 635.0}}, Disabled
+         ↳StaticText, 0x74bd560500, {{600.5, 686.5}, {334.0, 15.0}}, value: You can also drag ...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bd569680, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jVQAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb40640, {{600.5, 686.5}, {334.0, 15.0}}, value: You can also drag ...
+    }
+
+
+Issue 5 — 520CE2F6-2C00-46FF-9F4D-8C24DCC720D5.txt
+Contrast failed for PDF, PNG, JPEG, HEIC and EML · Originals stay in place when you confirm a copy.
+Attributes: StaticText, 0x74bd568640, {{599.0, 725.5}, {393.5, 13.0}}, value: PDF, PNG, JPEG, HE...
+Element subtree:
+ →StaticText, 0x74bd568640, {{599.0, 725.5}, {393.5, 13.0}}, value: PDF, PNG, JPEG, HE...
+Path to element:
+ →Application, 0x74bdb3cdc0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb3d180, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Inbox', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb3d7c0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb3e1c0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb3e300, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb3fe80, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Inbox', Disabled
+       ↳Group, 0x74bd569400, {{464.0, 269.0}, {990.0, 686.0}}, label: 'Inbox workspace'
+        ↳ScrollView, 0x74bd5692c0, {{464.0, 320.0}, {990.0, 635.0}}, Disabled
+         ↳StaticText, 0x74bd568640, {{599.0, 725.5}, {393.5, 13.0}}, value: PDF, PNG, JPEG, HE...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bd57d680, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jVgAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb3c3c0, {{599.0, 725.5}, {393.5, 13.0}}, value: PDF, PNG, JPEG, HE...
+    }
+
+
+Issue 6 — 35B07BAF-744D-4F28-BAC3-63D3CAC7695A.txt
+This element is missing useful accessibility information.
+Attributes: TouchBar, 0x74bd568780, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x74bd568780, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x74bdb35540, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳TouchBar, 0x74bd568780, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bd56a440, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jLQAAAAAAAAA=
+    Output: {
+      TouchBar, 0x74bdb3c3c0, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+    }
+
+
+Issue 7 — F5732CCD-D655-4F2E-A75B-1A5403152C24.txt
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: MenuButton, 0x74bd5683c0, {{516.5, 417.0}, {72.0, 17.0}}, identifier: 'library.kind', title: 'Type', value: All types
+Element subtree:
+ →MenuButton, 0x74bd5683c0, {{516.5, 417.0}, {72.0, 17.0}}, identifier: 'library.kind', title: 'Type', value: All types
+Path to element:
+ →Application, 0x74bdb3cdc0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb3d040, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Library', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb3d180, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb3d2c0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb3d900, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb3fd40, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Library', Disabled
+       ↳Group, 0x74bdb3fe80, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Library workspace'
+        ↳MenuButton, 0x74bd5683c0, {{516.5, 417.0}, {72.0, 17.0}}, identifier: 'library.kind', title: 'Type', value: All types
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb34280, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jygAAAAAAAAA=
+    Output: {
+      MenuButton, 0x74bdb3d680, {{516.5, 417.0}, {72.0, 17.0}}, identifier: 'library.kind', title: 'Type', value: All types
+    }
+
+
+Issue 8 — 448F6348-5B9D-4F0B-AD55-6F45466BA5DA.txt
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: MenuButton, 0x74bdb34b40, {{665.5, 417.0}, {97.0, 17.0}}, identifier: 'library.category', title: 'Category', value: All categories
+Element subtree:
+ →MenuButton, 0x74bdb34b40, {{665.5, 417.0}, {97.0, 17.0}}, identifier: 'library.category', title: 'Category', value: All categories
+Path to element:
+ →Application, 0x74bd568140, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bd568280, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Library', Keyboard Focused, Disabled
+   ↳Group, 0x74bd569a40, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bd56bd40, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bd56b980, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb37ac0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Library', Disabled
+       ↳Group, 0x74bdb37840, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Library workspace'
+        ↳MenuButton, 0x74bdb34b40, {{665.5, 417.0}, {97.0, 17.0}}, identifier: 'library.category', title: 'Category', value: All categories
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb3c280, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jywAAAAAAAAA=
+    Output: {
+      MenuButton, 0x74bd568a00, {{665.5, 417.0}, {97.0, 17.0}}, identifier: 'library.category', title: 'Category', value: All categories
+    }
+
+
+Issue 9 — 5F1E4025-333C-4633-8250-355894553C2C.txt
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: MenuButton, 0x74bdb3fac0, {{841.0, 417.0}, {69.0, 17.0}}, identifier: 'library.year', title: 'Year', value: All years
+Element subtree:
+ →MenuButton, 0x74bdb3fac0, {{841.0, 417.0}, {69.0, 17.0}}, identifier: 'library.year', title: 'Year', value: All years
+Path to element:
+ →Application, 0x74bdb35680, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb37700, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Library', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb37c00, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb35040, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb35e00, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb3f480, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Library', Disabled
+       ↳Group, 0x74bdb3f5c0, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Library workspace'
+        ↳MenuButton, 0x74bdb3fac0, {{841.0, 417.0}, {69.0, 17.0}}, identifier: 'library.year', title: 'Year', value: All years
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bd568000, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jzAAAAAAAAAA=
+    Output: {
+      MenuButton, 0x74bdb37980, {{841.0, 417.0}, {69.0, 17.0}}, identifier: 'library.year', title: 'Year', value: All years
+    }
+
+
+Issue 10 — 75EDBC58-68C6-4200-8E53-D095278BD11B.txt
+Contrast is not high enough for Receipt unless font size is larger.
+Attributes: StaticText, 0x74bd57d040, {{504.0, 501.0}, {37.5, 13.0}}, value: Receipt
+Element subtree:
+ →StaticText, 0x74bd57d040, {{504.0, 501.0}, {37.5, 13.0}}, value: Receipt
+Path to element:
+ →Application, 0x74bdb3d040, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb3d900, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Library', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb3fe80, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb3ef80, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb3f200, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb3c780, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Library', Disabled
+       ↳Group, 0x74bdb3d540, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Library workspace'
+        ↳StaticText, 0x74bd57d040, {{504.0, 501.0}, {37.5, 13.0}}, value: Receipt
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb34280, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29j0wAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb3db80, {{504.0, 501.0}, {37.5, 13.0}}, value: Receipt
+    }
+
+
+Issue 11 — EAD266CA-D030-47BC-A76F-BDC9C233709B.txt
+Contrast is not high enough for Date unless font size is larger.
+Attributes: StaticText, 0x74bdb39b80, {{558.0, 501.0}, {23.5, 13.0}}, value: Date
+Element subtree:
+ →StaticText, 0x74bdb39b80, {{558.0, 501.0}, {23.5, 13.0}}, value: Date
+Path to element:
+ →Application, 0x74bd56b980, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bd56a940, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Library', Keyboard Focused, Disabled
+   ↳Group, 0x74bd56b700, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bd56bac0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bd568780, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb37480, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Library', Disabled
+       ↳Group, 0x74bdb36580, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Library workspace'
+        ↳StaticText, 0x74bdb39b80, {{558.0, 501.0}, {23.5, 13.0}}, value: Date
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb3c000, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29j1AAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bd569cc0, {{558.0, 501.0}, {23.5, 13.0}}, value: Date
+    }
+
+
+Issue 12 — 41554FBE-07F8-4B8B-AA11-E275FB05D552.txt
+Contrast is not high enough for Merchant unless font size is larger.
+Attributes: StaticText, 0x74bdb3d040, {{656.0, 501.0}, {47.0, 13.0}}, value: Merchant
+Element subtree:
+ →StaticText, 0x74bdb3d040, {{656.0, 501.0}, {47.0, 13.0}}, value: Merchant
+Path to element:
+ →Application, 0x74bdb35680, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb34b40, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Library', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb36440, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb36080, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb36940, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb3cb40, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Library', Disabled
+       ↳Group, 0x74bdb3ebc0, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Library workspace'
+        ↳StaticText, 0x74bdb3d040, {{656.0, 501.0}, {47.0, 13.0}}, value: Merchant
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bd569a40, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29j1QAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb348c0, {{656.0, 501.0}, {47.0, 13.0}}, value: Merchant
+    }
+
+
+Issue 13 — EAA87410-C413-41DD-8C72-C4AA226C2899.txt
+Contrast is not high enough for Category unless font size is larger.
+Attributes: StaticText, 0x74bdb39e00, {{1102.0, 501.0}, {45.5, 13.0}}, value: Category
+Element subtree:
+ →StaticText, 0x74bdb39e00, {{1102.0, 501.0}, {45.5, 13.0}}, value: Category
+Path to element:
+ →Application, 0x74bdb3fe80, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb3c780, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Library', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb3d680, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb3e440, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb3ee40, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb3d180, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Library', Disabled
+       ↳Group, 0x74bdb3ca00, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Library workspace'
+        ↳StaticText, 0x74bdb39e00, {{1102.0, 501.0}, {45.5, 13.0}}, value: Category
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb34280, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29j1gAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb3c3c0, {{1102.0, 501.0}, {45.5, 13.0}}, value: Category
+    }
+
+
+Issue 14 — 6F8AAC35-E665-497C-AED7-C62D2BECB0BA.txt
+Contrast is not high enough for Total unless font size is larger.
+Attributes: StaticText, 0x74bd57c280, {{1307.5, 501.0}, {24.5, 13.0}}, value: Total
+Element subtree:
+ →StaticText, 0x74bd57c280, {{1307.5, 501.0}, {24.5, 13.0}}, value: Total
+Path to element:
+ →Application, 0x74bd568780, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bd568f00, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Library', Keyboard Focused, Disabled
+   ↳Group, 0x74bd568dc0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bd56ae40, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bd56af80, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb37340, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Library', Disabled
+       ↳Group, 0x74bdb36d00, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Library workspace'
+        ↳StaticText, 0x74bd57c280, {{1307.5, 501.0}, {24.5, 13.0}}, value: Total
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb3c280, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29j1wAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bd568500, {{1307.5, 501.0}, {24.5, 13.0}}, value: Total
+    }
+
+
+Issue 15 — FDC04033-1626-40C6-9A03-99842EA746D6.txt
+Contrast is not high enough for Action unless font size is larger.
+Attributes: StaticText, 0x74bdb39900, {{1363.0, 501.0}, {32.0, 13.0}}, value: Action
+Element subtree:
+ →StaticText, 0x74bdb39900, {{1363.0, 501.0}, {32.0, 13.0}}, value: Action
+Path to element:
+ →Application, 0x74bdb35680, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb37480, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Library', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb37d40, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb34a00, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb34c80, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb3fc00, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Library', Disabled
+       ↳Group, 0x74bdb3e080, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Library workspace'
+        ↳StaticText, 0x74bdb39900, {{1363.0, 501.0}, {32.0, 13.0}}, value: Action
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bd56b700, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29j2AAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb36bc0, {{1363.0, 501.0}, {32.0, 13.0}}, value: Action
+    }
+
+
+Issue 16 — FB795F0B-86E9-4652-A68B-137A49087B04.txt
+Contrast is not high enough for Double-click a receipt to open it. Deleted receipts can be restored from Recently Deleted. unless font size is larger.
+Attributes: StaticText, 0x74bd57c500, {{488.0, 918.0}, {433.0, 13.0}}, value: Double-click a rec...
+Element subtree:
+ →StaticText, 0x74bd57c500, {{488.0, 918.0}, {433.0, 13.0}}, value: Double-click a rec...
+Path to element:
+ →Application, 0x74bdb3d680, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb3d180, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Library', Keyboard Focused, Disabled
+   ↳Group, 0x74bdb3f480, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb3e300, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb3ea80, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb3ef80, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Library', Disabled
+       ↳Group, 0x74bdb3db80, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Library workspace'
+        ↳StaticText, 0x74bd57c500, {{488.0, 918.0}, {433.0, 13.0}}, value: Double-click a rec...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb34280, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29j3QAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb40b40, {{488.0, 918.0}, {433.0, 13.0}}, value: Double-click a rec...
+    }
+
+
+Issue 17 — 54F58C2D-FDA4-47D3-9B26-3219E676E6E2.txt
+This element is missing useful accessibility information.
+Attributes: TouchBar, 0x74bdb3df40, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x74bdb3df40, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x74bd56b480, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳TouchBar, 0x74bdb3df40, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb3c000, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jLQAAAAAAAAA=
+    Output: {
+      TouchBar, 0x74bdb36e40, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+    }
+
+
+Issue 18 — 7F9B4D8B-4438-4430-B9C3-E7A3415998A4.txt
+This element is missing useful accessibility information.
+Attributes: TouchBar, 0x74bdb3a580, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x74bdb3a580, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x74bdb37c00, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳TouchBar, 0x74bdb3a580, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb397c0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jLQAAAAAAAAA=
+    Output: {
+      TouchBar, 0x74bdb3e800, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+    }
+
+
+Issue 19 — 15EAC616-2F6E-49D5-8731-474ECA8405A8.txt
+Contrast failed for System follows your Mac’s appearance. Light and Dark apply only to Paperloft.
+Attributes: StaticText, 0x74bdb3e080, {{596.0, 391.5}, {378.5, 13.0}}, value: System follows you...
+Element subtree:
+ →StaticText, 0x74bdb3e080, {{596.0, 391.5}, {378.5, 13.0}}, value: System follows you...
+Path to element:
+ →Application, 0x74bdb3df40, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb3f200, {{559.0, 229.0}, {610.0, 692.0}}, identifier: 'com_apple_SwiftUI_Settings_window', title: 'Paperloft Receipts Settings', Disabled
+   ↳Group, 0x74bdb3c8c0, {{559.0, 229.0}, {610.0, 692.0}}, label: 'Paperloft settings', Keyboard Focused, Disabled
+    ↳ScrollView, 0x74bdb3da40, {{559.0, 261.0}, {610.0, 660.0}}, identifier: 'settings.root', Disabled
+     ↳Group, 0x74bdb3e580, {{583.0, 329.5}, {562.0, 88.0}}
+      ↳StaticText, 0x74bdb3e080, {{596.0, 391.5}, {378.5, 13.0}}, value: System follows you...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74be9b26c0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jJAEAAAAAAAA=
+    Output: {
+      StaticText, 0x74be9b35c0, {{596.0, 391.5}, {378.5, 13.0}}, value: System follows you...
+    }
+
+
+Issue 20 — 9540A3DE-A51C-4CC1-A7CF-A04100036FDE.txt
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: PopUpButton, 0x74be9c3200, {{789.5, 655.5}, {237.5, 24.0}}, identifier: 'settings.scannedPages', value: Each page is a sep...
+Element subtree:
+ →PopUpButton, 0x74be9c3200, {{789.5, 655.5}, {237.5, 24.0}}, identifier: 'settings.scannedPages', value: Each page is a sep...
+Path to element:
+ →Application, 0x74be9c0640, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74be9c1400, {{559.0, 229.0}, {610.0, 692.0}}, identifier: 'com_apple_SwiftUI_Settings_window', title: 'Paperloft Receipts Settings', Disabled
+   ↳Group, 0x74be9c0b40, {{559.0, 229.0}, {610.0, 692.0}}, label: 'Paperloft settings', Keyboard Focused, Disabled
+    ↳ScrollView, 0x74be9c21c0, {{559.0, 261.0}, {610.0, 660.0}}, identifier: 'settings.root', Disabled
+     ↳Group, 0x74be9c2e40, {{583.0, 625.5}, {457.5, 88.0}}
+      ↳PopUpButton, 0x74be9c3200, {{789.5, 655.5}, {237.5, 24.0}}, identifier: 'settings.scannedPages', value: Each page is a sep...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb38500, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jAQEAAAAAAAA=
+    Output: {
+      PopUpButton, 0x74bdb39540, {{789.5, 655.5}, {237.5, 24.0}}, identifier: 'settings.scannedPages', value: Each page is a sep...
+    }
+
+
+Issue 21 — 69F22302-D69A-424C-93CE-68CD70A7C1D6.txt
+Contrast is not high enough for Scan from File → Import from iPhone or iPad. Your devices need the same Apple Account. unless font size is larger.
+Attributes: StaticText, 0x74be9bb340, {{596.0, 687.5}, {431.5, 13.0}}, value: Scan from File → I...
+Element subtree:
+ →StaticText, 0x74be9bb340, {{596.0, 687.5}, {431.5, 13.0}}, value: Scan from File → I...
+Path to element:
+ →Application, 0x74be9b8640, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74be9b9400, {{559.0, 229.0}, {610.0, 692.0}}, identifier: 'com_apple_SwiftUI_Settings_window', title: 'Paperloft Receipts Settings', Disabled
+   ↳Group, 0x74be9b8b40, {{559.0, 229.0}, {610.0, 692.0}}, label: 'Paperloft settings', Keyboard Focused, Disabled
+    ↳ScrollView, 0x74be9ba1c0, {{559.0, 261.0}, {610.0, 660.0}}, identifier: 'settings.root', Disabled
+     ↳Group, 0x74be9bae40, {{583.0, 625.5}, {457.5, 88.0}}
+      ↳StaticText, 0x74be9bb340, {{596.0, 687.5}, {431.5, 13.0}}, value: Scan from File → I...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74be9b2f80, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jAgEAAAAAAAA=
+    Output: {
+      StaticText, 0x74be9b9680, {{596.0, 687.5}, {431.5, 13.0}}, value: Scan from File → I...
+    }
+
+
+Issue 22 — AAB624DC-753F-4F43-8934-48FF5EA1AD14.txt
+Contrast failed for Original documents
+Attributes: StaticText, 0x74be9b2300, {{596.0, 945.5}, {118.0, 16.0}}, value: Original documents
+Element subtree:
+ →StaticText, 0x74be9b2300, {{596.0, 945.5}, {118.0, 16.0}}, value: Original documents
+Path to element:
+ →Application, 0x74be9c0640, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74be9c1400, {{559.0, 229.0}, {610.0, 692.0}}, identifier: 'com_apple_SwiftUI_Settings_window', title: 'Paperloft Receipts Settings', Disabled
+   ↳Group, 0x74be9c0b40, {{559.0, 229.0}, {610.0, 692.0}}, label: 'Paperloft settings', Keyboard Focused, Disabled
+    ↳ScrollView, 0x74be9c21c0, {{559.0, 261.0}, {610.0, 660.0}}, identifier: 'settings.root', Disabled
+     ↳Group, 0x74be9c3d40, {{583.0, 915.5}, {562.0, 196.0}}
+      ↳StaticText, 0x74be9b2300, {{596.0, 945.5}, {118.0, 16.0}}, value: Original documents
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb38280, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jCgEAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb3af80, {{596.0, 945.5}, {118.0, 16.0}}, value: Original documents
+    }
+
+
+Issue 23 — B9E181D9-02DA-4BB1-92E9-F40560BC6928.txt
+Contrast failed for Keep {date}, {vendor} and {total}; optionally add {currency}, {category} or {kind}.
+Attributes: StaticText, 0x74bd564280, {{596.0, 1028.3}, {388.0, 13.0}}, value: Keep {date}, {vend...
+Element subtree:
+ →StaticText, 0x74bd564280, {{596.0, 1028.3}, {388.0, 13.0}}, value: Keep {date}, {vend...
+Path to element:
+ →Application, 0x74be9b8640, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74be9b9400, {{559.0, 229.0}, {610.0, 692.0}}, identifier: 'com_apple_SwiftUI_Settings_window', title: 'Paperloft Receipts Settings', Disabled
+   ↳Group, 0x74be9b8b40, {{559.0, 229.0}, {610.0, 692.0}}, label: 'Paperloft settings', Keyboard Focused, Disabled
+    ↳ScrollView, 0x74be9ba1c0, {{559.0, 261.0}, {610.0, 660.0}}, identifier: 'settings.root', Disabled
+     ↳Group, 0x74be9bbd40, {{583.0, 915.5}, {562.0, 196.0}}
+      ↳StaticText, 0x74bd564280, {{596.0, 1028.3}, {388.0, 13.0}}, value: Keep {date}, {vend...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74be9b2d00, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jDAEAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb3f200, {{596.0, 1028.3}, {388.0, 13.0}}, value: Keep {date}, {vend...
+    }
+
+
+Issue 24 — B43BC683-8BFE-40D0-974A-8B098E354367.txt
+Contrast failed for Moving requires access to the original folder. Recovery copies are kept so Undo can restore your files.
+Attributes: StaticText, 0x74be9b1cc0, {{596.0, 1051.3}, {492.0, 13.0}}, value: Moving requires ac...
+Element subtree:
+ →StaticText, 0x74be9b1cc0, {{596.0, 1051.3}, {492.0, 13.0}}, value: Moving requires ac...
+Path to element:
+ →Application, 0x74be9c0640, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74be9c1400, {{559.0, 229.0}, {610.0, 692.0}}, identifier: 'com_apple_SwiftUI_Settings_window', title: 'Paperloft Receipts Settings', Disabled
+   ↳Group, 0x74be9c0b40, {{559.0, 229.0}, {610.0, 692.0}}, label: 'Paperloft settings', Keyboard Focused, Disabled
+    ↳ScrollView, 0x74be9c21c0, {{559.0, 261.0}, {610.0, 660.0}}, identifier: 'settings.root', Disabled
+     ↳Group, 0x74be9c3d40, {{583.0, 915.5}, {562.0, 196.0}}
+      ↳StaticText, 0x74be9b1cc0, {{596.0, 1051.3}, {492.0, 13.0}}, value: Moving requires ac...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb388c0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jDQEAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb3abc0, {{596.0, 1051.3}, {492.0, 13.0}}, value: Moving requires ac...
+    }
+
+
+Issue 25 — D83FBC14-1EF7-4D83-9AC6-E222FE3B9DDE.txt
+Contrast failed for Your filing history will appear here
+Attributes: StaticText, 0x74bdb49680, {{837.5, 641.0}, {243.0, 19.0}}, value: Your filing histor...
+Element subtree:
+ →StaticText, 0x74bdb49680, {{837.5, 641.0}, {243.0, 19.0}}, value: Your filing histor...
+Path to element:
+ →Application, 0x74be9b8b40, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window, 0x74bd5812c0, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'History', Disabled
+   ↳Group, 0x74bd580f00, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bd5808c0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bd5803c0, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb4a580, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'History', Disabled
+       ↳Group, 0x74bdb4bd40, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'History workspace'
+        ↳StaticText, 0x74bdb49680, {{837.5, 641.0}, {243.0, 19.0}}, value: Your filing histor...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74be9c0000, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29j7AAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb3f340, {{837.5, 641.0}, {243.0, 19.0}}, value: Your filing histor...
+    }
+
+
+Issue 26 — 5EF1BE8A-5223-4BC8-8961-87E4C1380AA5.txt
+Contrast failed for Every filing can be undone. Your original documents are preserved.
+Attributes: StaticText, 0x74bdb42f80, {{756.5, 674.0}, {405.0, 16.0}}, value: Every filing can b...
+Element subtree:
+ →StaticText, 0x74bdb42f80, {{756.5, 674.0}, {405.0, 16.0}}, value: Every filing can b...
+Path to element:
+ →Application, 0x74bdb36bc0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window, 0x74bd56ae40, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'History', Disabled
+   ↳Group, 0x74bd568f00, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bd5688c0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bd56b480, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74bdb41a40, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'History', Disabled
+       ↳Group, 0x74bdb42d00, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'History workspace'
+        ↳StaticText, 0x74bdb42f80, {{756.5, 674.0}, {405.0, 16.0}}, value: Every filing can b...
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74bdb39900, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29j7QAAAAAAAAA=
+    Output: {
+      StaticText, 0x74bdb48780, {{756.5, 674.0}, {405.0, 16.0}}, value: Every filing can b...
+    }
+
+
+Issue 27 — 286FFE52-3D8F-43F1-8DCA-37428CD5734B.txt
+Contrast failed for History
+Attributes: StaticText, 0x74bd987c00, {{468.0, 195.0}, {982.0, 52.0}}, value: History
+Element subtree:
+ →StaticText, 0x74bd987c00, {{468.0, 195.0}, {982.0, 52.0}}, value: History
+Path to element:
+ →Application, 0x74be9c17c0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window, 0x74bd5648c0, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'History', Disabled
+   ↳StaticText, 0x74bd987c00, {{468.0, 195.0}, {982.0, 52.0}}, value: History
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74be9b3340, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jLAAAAAAAAAAFAAAAAAAAAA==
+    Output: {
+      StaticText, 0x74bd57ed00, {{468.0, 195.0}, {982.0, 52.0}}, value: History
+    }
+
+
+Issue 28 — 021258AB-67AA-4FAC-B07A-9B5931241F48.txt
+This element is missing useful accessibility information.
+Attributes: TouchBar, 0x74be9c17c0, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x74be9c17c0, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x74bdb34f00, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳TouchBar, 0x74be9c17c0, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74be9c0f00, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jLQAAAAAAAAA=
+    Output: {
+      TouchBar, 0x74be9b9180, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+    }
+
+
+Issue 29 — D2C15810-33AD-48D1-A5EF-2ACFF4D38AD1.txt
+This element is not an accessibility child of the parent element.
+No element
+
+Issue 30 — 82E578D0-3EDB-4F8A-ACEE-BF4B5F0DEB30.txt
+Contrast failed for Processing
+Attributes: StaticText, 0x74be9b8000, {{516.0, 457.0}, {46.0, 13.0}}, identifier: 'inbox.item.53A4C839-C536-463E-8D4F-AE2CFB8C2E8D', value: Issue
+Element subtree:
+ →StaticText, 0x74be9b8000, {{516.0, 457.0}, {46.0, 13.0}}, identifier: 'inbox.item.53A4C839-C536-463E-8D4F-AE2CFB8C2E8D', value: Issue
+Path to element:
+ →Application, 0x74bdb37980, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳Window (Main), 0x74bdb37700, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main', title: 'Inbox', Disabled
+   ↳Group, 0x74bdb375c0, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace', Disabled
+    ↳Group, 0x74bdb37480, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Paperloft workspace'
+     ↳SplitGroup, 0x74bdb37340, {{274.0, 195.0}, {1180.0, 760.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x74be9bad00, {{274.0, 195.0}, {1180.0, 760.0}}, label: 'Inbox', Disabled
+       ↳Group, 0x74be9b9900, {{274.0, 269.0}, {1180.0, 686.0}}, label: 'Inbox workspace'
+        ↳SplitGroup, 0x74be9b9680, {{274.0, 410.0}, {1180.0, 545.0}}, Disabled
+         ↳Group, 0x74be9b92c0, {{274.0, 410.0}, {460.0, 545.0}}, label: 'Documents awaiting review', Disabled
+          ↳ScrollView, 0x74be9b8a00, {{464.0, 410.0}, {270.0, 545.0}}, Disabled
+           ↳Outline, 0x74be9ba080, {{463.0, 409.0}, {272.0, 547.0}}, identifier: 'inbox.list', label: 'Documents awaiting review'
+            ↳OutlineRow, 0x74be9ba1c0, {{464.0, 420.0}, {270.0, 67.0}}, Selected, Disabled
+             ↳Cell, 0x74be9b8280, {{474.0, 420.0}, {250.0, 67.0}}, Keyboard Focused, Selected
+              ↳StaticText, 0x74be9b8000, {{516.0, 457.0}, {46.0, 13.0}}, identifier: 'inbox.item.53A4C839-C536-463E-8D4F-AE2CFB8C2E8D', value: Issue
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74be9c03c0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jYwEAAAAAAAA=
+    Output: {
+      StaticText, 0x74be9b2080, {{516.0, 457.0}, {46.0, 13.0}}, identifier: 'inbox.item.53A4C839-C536-463E-8D4F-AE2CFB8C2E8D', value: Issue
+    }
+
+
+Issue 31 — F764D6B1-185F-48AC-9758-E611427C1044.txt
+This element is missing useful accessibility information.
+No element
+
+Issue 32 — E4D010FA-7DDF-4238-978A-2D8BF9007742.txt
+This element is missing useful accessibility information.
+Attributes: TouchBar, 0x74be9b8140, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x74be9b8140, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+    PopUpButton, 0x74be9b83c0, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+    DisclosureTriangle, 0x74be9b88c0, {{721.0, 0.0}, {45.0, 30.0}}, title: 'Candidate Bar', value: 0, Disabled
+Path to element:
+ →Application, 0x74beb548c0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  ↳TouchBar, 0x74be9b8140, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'app.paperloft.a11y.app.paperloft.receipts.development'
+  Output: {
+    Application, 0x74be9b97c0, pid: 46558, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 46558, token: 3rUAAAAAAABvY29jLQAAAAAAAAA=
+    Output: {
+      TouchBar, 0x74be2dc280, {{80.0, 0.0}, {686.0, 30.0}}, Disabled
+    }
