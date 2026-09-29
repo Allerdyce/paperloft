@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "1.1 Mail dedup and watched EML/TIFF integrated; root native Mail2/2 and Libraryfilters1/1 PASS. Common owned IntakeQueue primitive and app migration in progress. Accessibility improved but21findings remain in latest full audit; followup captions compiled, not reaudited.",
+  "step": "Hardening integrated: classification failure survives negative assessment/restoration; signed extension copy warning removed;10000diverse MIME stress cases pass. Root214unit testsPASS; fresh developmentReleasezero warnings,signature/privacy/baselinePASS. No model retries; system80 classification failures unresolved. Next: supported model reliability triage, accessibility/integration/performance and formal readiness; liveShare switch/iPhone remain owner dependencies. No archive/upload/submission/publicrelease.",
   "last_green_commit": "d9454df",
   "parked": [
     "Formal acceptance tag and release gates deferred",
@@ -10,10 +10,10 @@
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
     "System throughput exceeds240s; required signpost collection unavailable after three approaches",
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
-    "Real receipts: OCR loses visible totals; unsupported total, merchant and transaction-date errors require follow-up. Tax safeguard is partial mitigation only.",
-    "1.1 email fixture/holdout scoring and unified intake/live Mail/Share checks incomplete",
+    "Real receipt targeted recheck: two cases improved after PDF fix; pickup confirmation still selected without a total. Broader unsupported amount, merchant and date findings need follow-up.",
+    "1.1 system-model classification reliability, formal email fixture/holdout scoring and live Mail/Share checks incomplete; owned intake is implemented and locally tested",
     "Sandboxed WebKit content process terminates without network entitlement; native CoreText fallback verified and documented as implementation deviation",
     "Live Finder Share test awaits permission to enable Paperloft sharing extension in System Settings; extension currently OFF. Real iPhone scan remains unverified."
   ],
-  "updated": "2026-09-29T22:28:13.251819+00:00"
+  "updated": "2026-09-29T23:46:23.136674+00:00"
 }

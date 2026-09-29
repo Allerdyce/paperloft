@@ -17,11 +17,11 @@ This authorizes local work now, before the document's proposed post-launch sched
 ## Acceptance tracking
 
 AC-101: full 1.0 regression remains open (existing accessibility/performance/integration gates unresolved).
-AC-102–107: Mail parser/candidate/render/holdout/live drag pending; existing .eml support is not a full pass.
-AC-108–111: Share extension/activation/live handoff/memory pending.
-AC-112: scan provider formats and page handling implementation/tests in progress.
+AC-102–107: parser, candidate pipeline and sandbox body-render fallback implemented with scoped tests. Synthetic parser80 passes, but system80 has31messages with classification failures; formal email scoring/holdout/live drag remain open. Renderer fallback is a documented WebKit deviation, not a full pass.
+AC-108–111: signed Share extension and bounded handoff implemented; component tests pass. Live system Share remains pending its disabled extension switch; formal activation/latency/memory evidence incomplete.
+AC-112: scan provider formats and page modes implemented and locally tested; formal criterion review remains open.
 AC-113: real iPhone hardware check deferred, not passed.
-AC-114: watched burst/stability/rename testing in progress.
+AC-114: watched burst/stability/rename and EML/TIFF recovery implemented with component/native regression evidence; formal criterion review remains open.
 AC-115–117: new surfaces accessibility/design/privacy pending.
 AC-118–119: readiness/final gates remain open; missing baseline and unresolved technical checks prevent distribution. Submission/public release remain outside authorization.
 

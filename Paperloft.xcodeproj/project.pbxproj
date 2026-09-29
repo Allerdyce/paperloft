@@ -15,6 +15,7 @@
 		B11000000000000000000006 /* PaperloftShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B11000000000000000000010 /* PaperloftShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B30000000000000000000001 /* Apps/PaperloftApp/AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000002 /* Apps/PaperloftApp/AppModel.swift */; };
 		B51000000000000000000001 /* Apps/PaperloftApp/EmailBodyRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51000000000000000000002 /* Apps/PaperloftApp/EmailBodyRenderer.swift */; };
+		B52000000000000000000001 /* MailReviewPreparation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52000000000000000000002 /* MailReviewPreparation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		B11000000000000000000010 /* PaperloftShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; path = PaperloftShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B30000000000000000000002 /* Apps/PaperloftApp/AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/AppModel.swift; sourceTree = SOURCE_ROOT; };
 		B51000000000000000000002 /* Apps/PaperloftApp/EmailBodyRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/EmailBodyRenderer.swift; sourceTree = SOURCE_ROOT; };
+		B52000000000000000000002 /* MailReviewPreparation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/MailReviewPreparation.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -107,6 +109,7 @@
 			children = (
 				B30000000000000000000002 /* Apps/PaperloftApp/AppModel.swift */,
 				B51000000000000000000002 /* Apps/PaperloftApp/EmailBodyRenderer.swift */,
+				B52000000000000000000002 /* MailReviewPreparation.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			files = (
 				B30000000000000000000001 /* Apps/PaperloftApp/AppModel.swift in Sources */,
 				B51000000000000000000001 /* Apps/PaperloftApp/EmailBodyRenderer.swift in Sources */,
+				B52000000000000000000001 /* MailReviewPreparation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +387,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 EvidencePair LLC";
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development;
+				COPY_PHASE_STRIP = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts;
 				PRODUCT_NAME = "Paperloft Receipts";
 			};
@@ -405,6 +410,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 EvidencePair LLC";
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development;
+				COPY_PHASE_STRIP = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts;
 				PRODUCT_NAME = "Paperloft Receipts";
 			};
@@ -493,6 +499,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 EvidencePair LLC";
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development;
+				COPY_PHASE_STRIP = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts;
 				PRODUCT_NAME = "Paperloft Receipts";
 			};
@@ -541,6 +548,7 @@
 				);
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development.share;
+				LM_SKIP_METADATA_EXTRACTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -565,6 +573,7 @@
 				);
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development.share;
+				LM_SKIP_METADATA_EXTRACTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -589,6 +598,7 @@
 				);
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development.share;
+				LM_SKIP_METADATA_EXTRACTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
