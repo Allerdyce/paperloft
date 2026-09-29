@@ -1,0 +1,9 @@
+From: Synthetic Shop <orders@example.invalid>
+To: Test Reader <reader@example.invalid>
+Date: Tue, 29 Sep 2026 10:00:00 -0700
+Subject: Synthetic receipt
+Message-ID: <synthetic-body@example.invalid>
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+<html><body><h1>Synthetic Shop</h1><p>Receipt</p><p>Purchase date: 2026-09-28</p><p>Total: USD 12.50</p><img src="https://example.invalid/tracker"></body></html>

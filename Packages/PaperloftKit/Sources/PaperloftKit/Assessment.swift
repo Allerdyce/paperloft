@@ -2,7 +2,7 @@ import Foundation
 
 public enum ReviewReason: String, Codable, Sendable {
     case notReceipt, invalidKind, missingVendor, invalidDate, invalidTotal, invalidTax
-    case taxSourceUnverified
+    case taxSourceUnverified, emailDateHint, emailVendorHint
     case invalidCurrency, missingCategory, lowConfidence, parserDisagreement, parserUnavailable, classificationUnavailable
 }
 
@@ -32,6 +32,8 @@ public struct ExtractionAssessment: Sendable {
             receipt = try? Receipt(vendor: vendor, date: date, totalMinorUnits: total.minorUnits,
                                    currency: currency, category: category, kind: kind, taxMinorUnits: tax?.minorUnits)
         } else { receipt = nil }
+        if fields.emailDateHint == true { reasons.append(.emailDateHint) }
+        if fields.emailVendorHint == true { reasons.append(.emailVendorHint) }
         if fields.taxNeedsReview == true { reasons.append(.taxSourceUnverified) }
         if !fields.confidence.isFinite || fields.confidence < 0.9 { reasons.append(.lowConfidence) }
         if fields.classificationError != nil { reasons.append(.classificationUnavailable) }

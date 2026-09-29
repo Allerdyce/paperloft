@@ -100,3 +100,23 @@ Implemented scan page modes, bounded provider copying, an embedded Share extensi
 Verified: Intake11OwnershipUnit.xcresult passes 41 XCTest + 79 Swift tests; signed development Release and deep signature/privacy checks pass. Handoff package independently passes 14 strict tests; headless provider smoke passes. These are local checks, not full CI or acceptance.
 
 Still open: real Finder/Preview/Photos sharing (system Share menu displayed “Unlock Mac to continue with Siri request”), actual iPhone scan, complete Mail candidate/rendering/scoring work, watched app-level rename identity and existing accessibility/performance gates. No release or upload.
+
+## 2026-09-29 — Authorized distribution boundary and Mail integration
+
+### Verified
+
+- Conditional distribution signing/archive/ASC upload permission recorded in docs/DISTRIBUTION-AUTHORIZATION.md; submission and public release remain blocked. Display preflight cleared (build/intake11-authorized-preflight.log).
+- Receipt attachment selection, notices, relaunch, removal and original bytes: native test PASS. Body-only HTML import exercises actual sandbox fallback and the same lifecycle: native test PASS. Evidence: build/Intake11MailNativeFallback.xcresult (2 tests). Earlier WebKit-only failure retained in build/Intake11MailNativeIsolated.xcresult.
+- Final integrated root unit run: 46 XCTest + 100 Swift tests PASS (build/Intake11MailFinalUnit.xcresult), including the additive ledger. Earlier hint run passed 46 + 93 (build/Intake11MailHints2.xcresult). Ledger tests and integration contract: evidence/intake11-mail/message-id-dedup.md.
+- Signed development Release: build/intake11-mail-fallback-signed-release.log; deep strict signature verification PASS; app/extension privacy checks PASS (build/intake11-mail-fallback-privacy.log); protected baseline PASS (build/intake11-mail-fallback-baseline.log). This is development signing, not a distribution archive.
+- Independent scoped source reviews PASS for candidate selection/integration, hints, native renderer fallback and Message-ID ledger. Renderer sandbox and hostile-resource probes documented in Tests/EmailBodyRendererTests/README.md.
+
+### Assumed / limited
+
+- Sender-derived merchant is only a hint. Existing nonempty document values are never replaced; low-confidence nonempty merchant refinement remains conservative.
+- HTML becomes a bounded text transcription, not a faithful recreation of the original HTML layout. Native PDF fallback is an explicit deviation from the requested WebKit path.
+
+### Not done
+
+- Message-ID ledger-to-Inbox transaction integration, partial-failure retry policy, unified intake queue, full email fixture and holdout scoring, live Mail promises, Finder/Preview/Photos Share and real iPhone scanning.
+- Existing full accessibility, system throughput, StoreKit/App Intents, icon and formal/final gates. No full CI/1.1 completion claim, archive, upload, submission or public release.

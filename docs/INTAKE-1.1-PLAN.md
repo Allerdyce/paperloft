@@ -2,7 +2,7 @@
 
 Owner requested continued testing and inclusion of the supplied Paperloft Receipts 1.1 Intake Add-on Spec on 2026-09-27. Source: /Users/builder/Downloads/Paperloft Receipts 1.1 Intake Add-on Spec.md.
 
-This authorizes local work now, before the document's proposed post-launch schedule. Existing frozen 1.0 contract, scoring and tests remain intact. No v1.0/acceptance-v1.1 tag, run/1.1 shipped baseline, App Store version, archive or upload is fabricated. Release and uploads remain blocked. The embedded kickoff/final-verifier prompts are reference material, not executed instructions.
+This authorizes local work now, before the document's proposed post-launch schedule. Existing frozen 1.0 contract, scoring and tests remain intact. No v1.0/acceptance-v1.1 tag, run/1.1 shipped baseline, App Store version, archive or upload is fabricated. Distribution signing, archives and App Store Connect uploads are now authorized when readiness checks pass (2026-09-29); submission and public release remain blocked. The embedded kickoff/final-verifier prompts are reference material, not executed instructions.
 
 ## Work order
 
@@ -23,7 +23,7 @@ AC-112: scan provider formats and page handling implementation/tests in progress
 AC-113: real iPhone hardware check deferred, not passed.
 AC-114: watched burst/stability/rename testing in progress.
 AC-115–117: new surfaces accessibility/design/privacy pending.
-AC-118–119: release/final gates blocked by owner boundary and missing shipped baseline.
+AC-118–119: readiness/final gates remain open; missing baseline and unresolved technical checks prevent distribution. Submission/public release remain outside authorization.
 
 No source receipt values or private screenshots belong in this plan.
 
@@ -34,3 +34,12 @@ Implemented scan page modes, bounded provider copying, an embedded Share extensi
 Verified: Intake11OwnershipUnit.xcresult passes 41 XCTest + 79 Swift tests; signed development Release and deep signature/privacy checks pass. Handoff package independently passes 14 strict tests; headless provider smoke passes. These are local checks, not full CI or acceptance.
 
 Still open: real Finder/Preview/Photos sharing (system Share menu displayed “Unlock Mac to continue with Siri request”), actual iPhone scan, complete Mail candidate/rendering/scoring work, watched app-level rename identity and existing accessibility/performance gates. No release or upload.
+
+## 2026-09-29 — Mail integration and sandbox repair
+
+- Watched delivery identity/recovery implemented and tested, including A→B→A and persistence recovery.
+- MIME image candidates and receipt-attachment suppression integrated. Root unit run: 46 XCTest + 90 Swift tests pass (build/Intake11MailIntegrated2.xcresult).
+- Native attachment selection, restart, notices, removal and original-byte preservation pass (build/Intake11MailNativeIsolated.xcresult). HTML body flow fails: WebContent terminates under app-sandbox with no network entitlement.
+- Approach 1: bounded WebKit renderer passes standalone but fails native sandbox. Approach 2: minimal sandbox probe isolates WebContent termination, not rule compilation. Approach 3: native CoreText fallback using the same sanitized text/pagination under implementation. No network entitlement relaxation; WebKit implementation deviation remains explicit.
+- Envelope hints are being added only for missing document fields, with persistent provenance and field-level review warnings. Message-ID dedup ledger is being built independently; integration must preserve durable Inbox proof across crash windows.
+- Re-run native HTML flow after fallback, strict builds/privacy/baseline and scoped independent review. Full 1.1 acceptance, fixture scoring, live Share/scan/Mail checks and existing accessibility/performance criteria remain open.

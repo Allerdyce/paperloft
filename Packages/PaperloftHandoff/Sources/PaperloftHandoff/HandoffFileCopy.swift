@@ -22,11 +22,15 @@ public enum HandoffFileCopy {
         let writer = FileHandle(fileDescriptor: destinationFD, closeOnDealloc: false)
         try didOpen?()
         var count: Int64 = 0
-        while let chunk = try reader.read(upToCount: 256 * 1_024), !chunk.isEmpty {
+        // Foundation may autorelease each read buffer. Drain per chunk so a
+        // long share does not retain the entire payload until the task finishes.
+        while try autoreleasepool(invoking: {
+            guard let chunk = try reader.read(upToCount: 256 * 1_024), !chunk.isEmpty else { return false }
             count += Int64(chunk.count)
             guard count <= HandoffStore.maximumFileBytes else { throw HandoffError.fileTooLarge }
             try writer.write(contentsOf: chunk)
-        }
+            return true
+        }) { }
         let after = try SafeFileDescriptor.regularFileStatus(sourceFD)
         guard count == before.st_size, before.st_size == after.st_size,
               before.st_dev == after.st_dev, before.st_ino == after.st_ino,

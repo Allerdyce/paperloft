@@ -31,3 +31,9 @@
 - Functional UX changes are not a visual redesign. Compare a populated window directly with the owner's reference; verify spacing, row surfaces, icons, filters and actions in both appearances.
 
 - Real-world saved emails expose source-grounding and OCR failures absent from synthetic fixtures. Keep private evidence local, distinguish import success from field accuracy, and flag unsupported values rather than silently accepting them.
+
+- A standalone WebKit renderer pass does not prove it can start in App Sandbox; test the native app before claiming body import works.
+- Preserve the no-network entitlement when a local rendering service fails; native selectable PDF text can provide a bounded fallback with an explicit implementation deviation.
+- Mail transport headers belong in the exported source context, not in confident receipt extraction; persist provenance when using them as missing-field hints.
+- Email candidate policy changes require matching unlocked UI assertions; retain frozen acceptance tests and record the policy source.
+- Treat Message-ID persistence as a committed-delivery transaction, not an eager seen-ID set; failed imports must remain retryable.
