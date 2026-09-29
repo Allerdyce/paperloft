@@ -32,3 +32,17 @@ Optimized package build with warnings as errors also passed. A final focused str
 
 ## Independent review correction
 The reviewer identified a rename/content-cycle regression: an acknowledged identity's newest hash could mismatch while an old filename's historical hash still suppressed the document. The scanner now makes known identity history authoritative and uses filename fallback only for unknown identities. Added regressions exercise A at filename a → rename b and change to B → rename a and change back to A with in-place writes preserving the inode; the final A must be offered. A separate legacy-history test removes identity metadata and confirms the unchanged original filename remains consumed after restart.
+
+
+## MIME images and HTML handoff follow-up (2026-09-29)
+
+This follow-up supersedes the earlier missing-image/filename/TIFF notes for the scope below. It does not establish full AC-102/106 or a release-readiness gate.
+
+- JPEG, PNG, HEIC and single-page TIFF MIME candidates are inspected locally with ImageIO, limited to 16 MiB each, 20 images and fewer than 50 million pixels. Both dimensions must be at least 200 pixels. HTML-referenced inline CID images are excluded; explicit attachments remain candidates. Actual image type determines its materialized extension; original bytes are preserved.
+- RFC 2047 display filenames and RFC 2231 extended/continued filename parameters decode before octet-stream type selection. Malformed or ambiguous continuations fail boundedly. Filenames are sanitized display metadata only; generated UUID paths prevent sender-controlled traversal.
+- `MailImport.Result` adds `bodyDocument`, `attachments`, `bodyText` and `htmlBody`. Existing `documents` behavior remains body then attachments. Plaintext alternatives remain preferred in the existing body renderer. Raw HTML is explicitly untrusted and requires an app renderer that blocks all remote resource loading.
+- TIFF is accepted consistently by shared core validation and receipt naming. The real recognition-and-filing test confirms byte-identical TIFF source and filed output. Multipage TIFF is rejected rather than silently reading only its first page; exporting as PDF is the supported fallback.
+
+Final warnings-as-errors full package run passed 12 XCTest and 86 Swift Testing tests, including seven new synthetic MIME/image tests. Log: ignored `build/intake11/image-attachment-final4.log`. Optimized strict package build log: `build/intake11/image-release-final.log`. Earlier failed runs exposed missing test-directory initialization and inconsistent TIFF filename allowlists; those were repaired without changing existing tests.
+
+Remaining app integration: classify attachment candidates once and select receipt/bill/invoice attachments before body fallback; safely render HTML plus source envelope; ensure desired direct picker/drop/watch TIFF policy is consistent. The watched-folder scanner still excludes standalone TIFF. No real mailboxes or private receipts were accessed, no network resources were fetched, and no original/frozen tests were modified. Independent review and integrated app checks remain required.

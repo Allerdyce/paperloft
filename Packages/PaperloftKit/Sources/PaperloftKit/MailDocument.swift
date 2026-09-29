@@ -7,8 +7,20 @@ public struct MailDocument: Sendable, Equatable {
         public let name: String
         public let data: Data
     }
+    public struct ImageAttachment: Sendable, Equatable {
+        public let name: String
+        public let data: Data
+        public let fileExtension: String
+        public let width: Int
+        public let height: Int
+        let contentID: String?
+        let inline: Bool
+    }
     public let body: String
     public let pdfs: [PDF]
+    public private(set) var images: [ImageAttachment] = []
+    /// Untrusted source markup. A renderer must block all remote resource loading.
+    public private(set) var htmlBody: String? = nil
     public let notices: [String]
     public private(set) var envelope: MailEnvelope? = nil
     private var containsPlainBody = false
@@ -31,14 +43,18 @@ public struct MailDocument: Sendable, Equatable {
     public static let maximumParts = 100
     public static let maximumDepth = 8
     public static let maximumPDFs = 20
+    public static let maximumImages = 20
+    public static let maximumImageBytes = 16 * 1024 * 1024
 
     public static func parse(_ data: Data) throws -> MailDocument {
         guard data.count <= maximumBytes else { throw Failure.limit("50 MB message") }
         var parser = Parser()
         var result = try parser.entity(Array(data), depth: 0)
         result.envelope = parser.envelope
-        guard !result.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !result.pdfs.isEmpty else {
-            throw Failure.unsupported("no readable body or PDF attachment; save a PDF from Mail instead")
+        let referenced = MailAttachmentSupport.referencedContentIDs(in: result.htmlBody ?? "")
+        result.images.removeAll { $0.inline && $0.contentID.map(referenced.contains) == true }
+        guard !result.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !result.pdfs.isEmpty || !result.images.isEmpty else {
+            throw Failure.unsupported("no readable body or supported attachment; save a PDF from Mail instead")
         }
         return result
     }
@@ -46,6 +62,7 @@ public struct MailDocument: Sendable, Equatable {
     private struct Parser {
         var parts = 0
         var pdfCount = 0
+        var imageCount = 0
         var textBytes = 0
         var envelope: MailEnvelope?
 
@@ -68,37 +85,54 @@ public struct MailDocument: Sendable, Equatable {
                     throw Failure.malformed("missing or invalid multipart boundary")
                 }
                 let children = try splitMultipart(raw, boundary: boundary)
-                var bodies: [(String, Bool)] = [], pdfs: [PDF] = [], notices: [String] = []
+                var bodies: [(String, Bool)] = [], pdfs: [PDF] = [], notices: [String] = [], images: [ImageAttachment] = [], htmlBodies: [String] = []
                 for child in children {
                     let result = try entity(child, depth: depth + 1)
                     if !result.body.isEmpty { bodies.append((result.body, result.containsPlainBody)) }
-                    pdfs += result.pdfs; notices += result.notices
+                    pdfs += result.pdfs; notices += result.notices; images += result.images
+                    if let html = result.htmlBody { htmlBodies.append(html) }
                 }
                 // Alternative representations describe the same message, not multiple receipts.
                 let body = content.0 == "multipart/alternative" ? (bodies.first(where: { $0.1 }) ?? bodies.first)?.0 ?? "" : bodies.map(\.0).joined(separator: "\n\n")
-                return MailDocument(body: body, pdfs: pdfs, notices: notices, containsPlainBody: bodies.contains { $0.1 })
+                var result = MailDocument(body: body, pdfs: pdfs, notices: notices, containsPlainBody: bodies.contains { $0.1 })
+                result.images = images
+                result.htmlBody = content.0 == "multipart/alternative" ? htmlBodies.first : (htmlBodies.isEmpty ? nil : htmlBodies.joined(separator: "\n"))
+                return result
             }
             if content.0 == "message/rfc822" {
                 // Forwarded messages share the same global depth/part/body budgets.
                 // Decode only the supplied bytes; never retrieve an external message.
                 return try entity(decode(raw, encoding: encoding), depth: depth + 1)
             }
-            let filename = disposition.1["filename"] ?? content.1["name"] ?? "Attachment"
+            let filename = try MailAttachmentSupport.filename(disposition.1, key: "filename") ?? MailAttachmentSupport.filename(content.1, key: "name") ?? "Attachment"
             let isPDF = content.0 == "application/pdf" || (content.0 == "application/octet-stream" && filename.lowercased().hasSuffix(".pdf"))
             let isText = content.0 == "text/plain" || content.0 == "text/html"
-            guard isText || isPDF else {
+            let isImage = ["image/jpeg", "image/png", "image/heic", "image/heif", "image/tiff"].contains(content.0)
+                || (content.0 == "application/octet-stream" && ["jpg", "jpeg", "png", "heic", "tif", "tiff"].contains((filename as NSString).pathExtension.lowercased()))
+            guard isText || isPDF || isImage else {
                 return MailDocument(body: "", pdfs: [], notices: ["Ignored \(content.0) content; external resources were not loaded."])
             }
             if isText, disposition.0 == "attachment" {
                 return MailDocument(body: "", pdfs: [], notices: ["Ignored non-PDF attachment."])
             }
             let decoded = try decode(raw, encoding: encoding)
+            if isImage {
+                guard decoded.count <= maximumImageBytes else { throw Failure.limit("16 MB image attachment") }
+                imageCount += 1
+                guard imageCount <= maximumImages else { throw Failure.limit("20 image attachments") }
+                guard let image = MailAttachmentSupport.image(data: Data(decoded), name: filename, contentID: headers["content-id"], inline: disposition.0 != "attachment") else {
+                    return MailDocument(body: "", pdfs: [], notices: ["Ignored \(content.0) content: image is invalid, smaller than 200 × 200 pixels, or too large to read safely."])
+                }
+                var result = MailDocument(body: "", pdfs: [], notices: [])
+                result.images = [image]
+                return result
+            }
             if isPDF {
                 guard decoded.count <= maximumPDFBytes else { throw Failure.limit("16 MB PDF") }
                 guard decoded.starts(with: Array("%PDF-".utf8)) else { throw Failure.malformed("PDF attachment has no PDF signature") }
                 pdfCount += 1
                 guard pdfCount <= maximumPDFs else { throw Failure.limit("20 PDF attachments") }
-                let name = safeName(filename)
+                let name = MailAttachmentSupport.safeName(filename, extension: "pdf")
                 return MailDocument(body: "", pdfs: [PDF(name: name, data: Data(decoded))], notices: [])
             }
             textBytes += decoded.count
@@ -114,7 +148,9 @@ public struct MailDocument: Sendable, Equatable {
             }
             guard let text, !text.contains("\0") else { throw Failure.malformed("invalid text encoding") }
             let body = content.0 == "text/html" ? try HTMLText.extract(text) : text
-            return MailDocument(body: body, pdfs: [], notices: [], containsPlainBody: content.0 == "text/plain")
+            var result = MailDocument(body: body, pdfs: [], notices: [], containsPlainBody: content.0 == "text/plain")
+            if content.0 == "text/html" { result.htmlBody = text }
+            return result
         }
 
         func splitHeaders(_ bytes: [UInt8]) throws -> ([String: String], [UInt8]) {
@@ -229,16 +265,7 @@ public struct MailDocument: Sendable, Equatable {
         func hex(_ byte: UInt8) -> UInt8? {
             switch byte { case 48...57: byte - 48; case 65...70: byte - 55; case 97...102: byte - 87; default: nil }
         }
-        func safeName(_ name: String) -> String {
-            var result = ""
-            for scalar in name.unicodeScalars {
-                let piece = CharacterSet.alphanumerics.contains(scalar) || scalar == "-" || scalar == "_" || scalar == " " ? String(scalar) : "_"
-                if result.utf8.count + piece.utf8.count > 100 { break }
-                result += piece
-            }
-            result = result.trimmingCharacters(in: .whitespaces)
-            return (result.isEmpty ? "Attachment" : result) + ".pdf"
-        }
+
     }
 }
 

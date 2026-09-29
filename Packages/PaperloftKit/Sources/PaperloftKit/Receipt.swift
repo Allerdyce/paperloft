@@ -100,7 +100,7 @@ public enum ReceiptFilename {
 
     public static func name(for receipt: Receipt, fileExtension: String) throws -> String {
         let ext = fileExtension.lowercased()
-        guard ["pdf", "png", "jpg", "jpeg", "heic"].contains(ext) else { throw ReceiptError.unsupportedFileType }
+        guard LibraryFiles.extensions.contains(ext) else { throw ReceiptError.unsupportedFileType }
         return String(pdfName(for: receipt).dropLast(3)) + ext
     }
 }
