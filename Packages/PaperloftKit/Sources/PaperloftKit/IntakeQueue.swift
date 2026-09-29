@@ -35,7 +35,20 @@ public struct IntakeRecord: Codable, Equatable, Sendable {
 /// its lifetime and serializes discard against consumers. Published records are
 /// never automatically removed; incomplete hidden stages are not publications.
 public actor IntakeQueue {
-    public enum Failure: Error { case unsafePath, unsupportedType, tooLarge, empty, changed, conflict, corrupt }
+    public enum Failure: Error, LocalizedError {
+        case unsafePath, unsupportedType, tooLarge, empty, changed, conflict, corrupt
+        public var errorDescription: String? {
+            switch self {
+            case .unsafePath: "Import a regular receipt file rather than a link."
+            case .unsupportedType: "Import a PDF, PNG, JPEG, HEIC, TIFF or EML file."
+            case .tooLarge: "This file or its source details exceed the import size limit. Try a smaller file."
+            case .empty: "This file is empty. Wait for it to finish saving, then import it again."
+            case .changed: "This file changed while importing. Wait for it to finish saving, then import it again."
+            case .conflict: "This import already has a different saved copy. Import the receipt again as a new item."
+            case .corrupt: "The saved intake copy or its details could not be verified. Reimport the original receipt."
+            }
+        }
+    }
     private static let maximumRecordBytes = 16_384
     public static let maximumFileBytes: Int64 = 200_000_000
     private let directory: URL
