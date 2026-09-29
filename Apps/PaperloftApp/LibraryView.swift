@@ -415,7 +415,7 @@ struct ReviewView: View {
         HSplitView {
             VStack(spacing: 0) {
                 HStack {
-                    Text("Receipt preview").font(.caption).foregroundStyle(.secondary)
+                    Text("Receipt preview").font(.caption).foregroundStyle(.primary)
                     Spacer()
                     Button("Expand preview", systemImage: "arrow.up.left.and.arrow.down.right") { model.quickLookURL = item.source }
                         .accessibilityIdentifier("review.expandPreview")
@@ -483,7 +483,7 @@ struct ReviewView: View {
                 Text("Files into \(String(draft.date.prefix(4)))/\(draft.category)/")
                     .font(.caption).foregroundStyle(.primary).lineLimit(2).accessibilityIdentifier("review.destination")
                 Text(model.mode == .copy ? "Saves a copy to your library. Your original stays in place." : "Moves the original to your library. You can undo this in History.")
-                    .font(.caption).foregroundStyle(.secondary)
+                    .font(.caption).foregroundStyle(.primary)
                 HStack {
                     Button { model.setAside(item.id) } label: { Text("Remove").foregroundStyle(.red) }.help("Remove from Inbox. The original file stays in place.").accessibilityIdentifier("review.setAside")
                     Spacer()
