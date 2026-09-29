@@ -14,6 +14,9 @@ public struct ExtractedFields: Codable, Equatable, Sendable {
     public var classificationError: String?
     /// Tax was not matched to a single unambiguous printed tax amount.
     public var taxNeedsReview: Bool?
+    /// Suggested from transport headers, never verified against the receipt.
+    public var emailDateHint: Bool?
+    public var emailVendorHint: Bool?
 
     public init(kind: String = "receipt", vendor: String? = nil, date: String? = nil,
                 total: String? = nil, tax: String? = nil, currency: String? = nil, category: String? = nil,

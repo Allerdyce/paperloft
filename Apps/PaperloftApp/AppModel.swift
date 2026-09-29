@@ -422,7 +422,7 @@ final class FileGrant: @unchecked Sendable {
     func importFiles() async {
         let panel = NSOpenPanel(); panel.title = "Import receipts"
         panel.canChooseFiles = true; panel.canChooseDirectories = false; panel.allowsMultipleSelection = true
-        panel.allowedContentTypes = [.pdf, .png, .jpeg, .heic, UTType(filenameExtension: "eml") ?? .emailMessage]
+        panel.allowedContentTypes = [.pdf, .png, .jpeg, .heic, .tiff, UTType(filenameExtension: "eml") ?? .emailMessage]
         if await panel.begin() == .OK { await intake(panel.urls) }
     }
     func intake(_ urls: [URL], sample: Bool = false, sourceLabel: String? = nil) async {
@@ -431,7 +431,7 @@ final class FileGrant: @unchecked Sendable {
         var grants: [FileGrant] = []
         for url in urls {
             do {
-                guard ["pdf", "png", "jpg", "jpeg", "heic", "eml"].contains(url.pathExtension.lowercased()) else { throw AppIssue("Import PDF, PNG, JPEG, HEIC or EML email files.") }
+                guard ["pdf", "png", "jpg", "jpeg", "heic", "tif", "tiff", "eml"].contains(url.pathExtension.lowercased()) else { throw AppIssue("Import PDF, PNG, JPEG, HEIC, TIFF or EML email files.") }
                 grants.append(try FileGrant(url: url))
             } catch { message = error.localizedDescription }
         }
@@ -570,11 +570,28 @@ final class FileGrant: @unchecked Sendable {
                         guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
                         guard items[index].status == "processing" else { continue }
                         let sample = items[index].sample
+                        var renderedBodyText: String?
+                        let prepared = try await MailReviewPreparation.prepare(attachments: imported.attachments, body: imported.bodyDocument, understand: { url in
+                            try await engine.understand(url, emailBodyText: url == imported.bodyDocument ? renderedBodyText : nil, emailHints: imported.envelope)
+                        }, prepareBody: { url in
+                            let envelope = imported.envelope
+                            let request = EmailBodyRenderRequest(body: imported.htmlBody.map { .html($0) } ?? .plainText(imported.bodyText),
+                                envelope: .init(from: envelope?.from ?? "", to: envelope?.to ?? "", date: envelope?.date ?? "", subject: envelope?.subject ?? ""))
+                            let pdf = try await OfflineEmailBodyRenderer().render(request)
+                            try Task.checkCancellation()
+                            try pdf.data.write(to: url, options: .atomic)
+                            renderedBodyText = pdf.bodyText
+                        })
+                        guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }), items[index].status == "processing" else { continue }
                         var replacements: [InboxItem] = []
-                        for url in imported.documents {
+                        for candidate in prepared.candidates {
+                            let url = candidate.source
                             let access = try FileGrant(url: url)
                             let subject = imported.envelope?.subject ?? source.lastPathComponent
-                            let item = InboxItem(id: UUID(), source: url, bookmark: access.bookmark, sample: sample, importNotices: imported.notices, intakeSource: "From Mail: " + subject, receivedAt: Date())
+                            var item = InboxItem(id: UUID(), source: url, bookmark: access.bookmark, sample: sample, importNotices: imported.notices + prepared.notices, intakeSource: "From Mail: " + subject, receivedAt: Date())
+                            if let review = candidate.review {
+                                item.review = StoredReview(review); item.draft = ReceiptDraft(review.fields); item.status = "ready"
+                            } else { item.status = "failed"; item.issue = candidate.issue ?? "This email attachment could not be read." }
                             sourceGrants[item.id] = access; replacements.append(item)
                         }
                         items.replaceSubrange(index...index, with: replacements)
@@ -1036,5 +1053,58 @@ final class FileGrant: @unchecked Sendable {
         guard canMutateRestoredInbox() else { return }
         do { try writeInboxSnapshot() }
         catch { message = "The inbox could not be saved. Your originals are unchanged. " + error.localizedDescription }
+    }
+}
+
+@MainActor enum MailReviewPreparation {
+    struct Candidate {
+        let source: URL
+        let review: ReviewedDocument?
+        let issue: String?
+    }
+    struct Result {
+        let candidates: [Candidate]
+        let notices: [String]
+    }
+    static func prepare(attachments: [URL], body: URL?,
+                        understand: (URL) async throws -> ReviewedDocument,
+                        prepareBody: (URL) async throws -> Void) async throws -> Result {
+        var candidates: [Candidate] = []
+        var dispositions: [MailCandidateSelection.Disposition] = []
+        for source in attachments {
+            try Task.checkCancellation()
+            do {
+                let review = try await understand(source)
+                candidates.append(Candidate(source: source, review: review, issue: nil))
+                if review.fields.classificationError != nil {
+                    dispositions.append(.unresolved)
+                } else if DocumentKind(rawValue: review.fields.kind) != nil {
+                    dispositions.append(.receipt)
+                } else if review.fields.kind == "not_receipt" {
+                    dispositions.append(.other)
+                } else { dispositions.append(.unresolved) }
+            } catch is CancellationError { throw CancellationError() }
+            catch {
+                candidates.append(Candidate(source: source, review: nil, issue: error.localizedDescription))
+                dispositions.append(.unresolved)
+            }
+        }
+        let selected = MailCandidateSelection.select(dispositions, hasBody: body != nil)
+        var output = selected.attachmentIndices.map { candidates[$0] }
+        if selected.includeBody, let body {
+            try Task.checkCancellation()
+            do {
+                try await prepareBody(body)
+                let review = try await understand(body)
+                output.insert(Candidate(source: body, review: review, issue: nil), at: 0)
+            } catch is CancellationError { throw CancellationError() }
+            catch { output.insert(Candidate(source: body, review: nil, issue: error.localizedDescription), at: 0) }
+        }
+        try Task.checkCancellation()
+        var notices: [String] = []
+        let omitted = attachments.count - selected.attachmentIndices.count
+        if omitted > 0 { notices.append("Skipped \(omitted) attachment(s) classified as non-receipts. The original email is unchanged.") }
+        if body != nil && !selected.includeBody { notices.append("Used the receipt attachment(s); the accompanying email body was not added.") }
+        return Result(candidates: output, notices: notices)
     }
 }

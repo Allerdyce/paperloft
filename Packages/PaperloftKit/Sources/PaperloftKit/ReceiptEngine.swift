@@ -30,16 +30,20 @@ public actor ReceiptEngine {
         self.library = library; self.index = index; self.backend = backend; self.reader = reader
     }
 
-    public func understand(_ source: URL) async throws -> ReviewedDocument {
+    public func understand(_ source: URL, emailBodyText: String? = nil, emailHints: MailEnvelope? = nil) async throws -> ReviewedDocument {
         guard LibraryFiles.extensions.contains(source.pathExtension.lowercased()) else { throw LibraryError.unsupportedFile }
+        if let emailBodyText, emailBodyText.utf8.count > MailDocument.maximumBodyBytes { throw MailDocument.Failure.limit("1 MB text body") }
         let reader = reader
         let (hash, text) = try await Task.detached {
             let before = try LibraryFiles.hash(source)
-            let text = try reader.text(at: source)
+            // Transport headers appear in the PDF but must not become confident
+            // transaction dates or merchants during body-receipt extraction.
+            let text = try emailBodyText ?? reader.text(at: source)
             guard try LibraryFiles.hash(source) == before else { throw LibraryError.sourceChanged(source.path) }
             return (before, text)
         }.value
-        let fields = try await backend.extract(text: text)
+        let extracted = try await backend.extract(text: text)
+        let fields = MailFieldHints.apply(to: extracted, envelope: emailHints)
         let duplicate = try await library.documents().first { $0.contentHash == hash }?.relativePath
         return ReviewedDocument(source: source, contentHash: hash, text: text, fields: fields, duplicateOf: duplicate)
     }

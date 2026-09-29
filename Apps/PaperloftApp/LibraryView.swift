@@ -355,7 +355,10 @@ struct ReviewView: View {
         let reasons = review.assessment.reasons
         let crossCheck = reasons.contains(.parserUnavailable) || reasons.contains(.parserDisagreement)
         switch field {
+        case "vendor" where draft.vendor == review.fields.vendor:
+            if review.fields.emailVendorHint == true { return "From email sender. Verify merchant." }
         case "date" where draft.date == review.fields.date:
+            if review.fields.emailDateHint == true { return "From email date. Verify receipt date." }
             if crossCheck && sourceCheck.date == nil { return "Verify date and year against receipt." }
             if crossCheck && sourceCheck.date != review.fields.date { return "Verify date against receipt." }
         case "total" where draft.total == review.fields.total:
@@ -378,7 +381,7 @@ struct ReviewView: View {
         let total = try? Money(decimal: draft.total, currency: validCurrency ? currency : "USD")
         switch field {
         case "vendor":
-            return draft.vendor.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Enter the merchant name." : nil
+            return draft.vendor.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Enter the merchant name." : verificationMessage("vendor")
         case "date":
             return (try? ReceiptDate(iso8601: draft.date)) == nil ? "Choose a valid receipt date." : verificationMessage("date")
         case "total":
