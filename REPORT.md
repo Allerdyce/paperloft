@@ -154,3 +154,11 @@ Verified: final development-signed Release compiles, strict/deep signature and p
 Assumed: neither simple synthetic diagnostics nor three targeted private examples establishes general receipt accuracy. No formal email holdout or end-to-end readiness verdict.
 
 Not done: model classification reliability, full accessibility, performance, live intake integrations and existing formal release gates. Conditional distribution authorization is recorded but readiness has not passed; no archive/upload/submission/public release.
+
+## 2026-09-29 — Hardening continuation
+
+Verified: root214unit tests PASS, fresh development-signed Release0warnings/errors, strict deep signature/privacy/pre-tag baselinePASS. Negative assessments retain classification-failure provenance across saved Inbox restoration. Signed-extension copy no longer asks to strip signed bytes. Additive10000-case MIME corpus safety test independently reviewed and passed. See evidence/intake11/hardening-followup.md.
+
+Assumed: none of these changes solves the separate system-model classification failures or establishes broad extraction accuracy.
+
+Not done: previously recorded accessibility, model reliability, performance, live integrations and formal readiness remain. No distribution archive/upload/submission/public release.

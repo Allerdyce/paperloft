@@ -96,3 +96,7 @@ Next bounded tasks: (1) implement/review/test PaperloftKit IntakeQueue streaming
 ### System diagnostic follow-up (2026-09-29)
 
 Completed80 synthetic on-device messages:31messages have partial classification failures; independent audit confirms projector denominators and no false accuracy pass. Preserve refusals; no retry or safety-setting changes. Bounded next work: repair diagnostic summary/exit accounting with regression checks; review three private owner cases with production pipeline and immutable source hashes; record results and remaining field-level product issues. Fresh development-signed build and privacy/signature/baseline checks complete; packaging signed-extension strip warning recorded. No readiness/archive/upload claim.
+
+### 2026-09-29 — Continued hardening after model diagnostics
+
+Local preflight39PASS1WARN0FAIL0TFAIL15MANUAL and protected baselinePASS. Bounded work: (1) preserve classification failure provenance through not-receipt assessment and durable review restoration, using existing orange field guidance; (2) remove contradictory copy-time stripping of already signed extension without suppressing compiler/build warnings; (3) expand MIME mutations across all80synthetic messages and nested/invalid/truncated inputs, retaining existing frozen tests. No refused model-call retries, no safety-setting changes. Model reliability and full accessibility remain unresolved, not silently substituted with parser scores.
