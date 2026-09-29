@@ -100,3 +100,9 @@ Completed80 synthetic on-device messages:31messages have partial classification 
 ### 2026-09-29 — Continued hardening after model diagnostics
 
 Local preflight39PASS1WARN0FAIL0TFAIL15MANUAL and protected baselinePASS. Bounded work: (1) preserve classification failure provenance through not-receipt assessment and durable review restoration, using existing orange field guidance; (2) remove contradictory copy-time stripping of already signed extension without suppressing compiler/build warnings; (3) expand MIME mutations across all80synthetic messages and nested/invalid/truncated inputs, retaining existing frozen tests. No refused model-call retries, no safety-setting changes. Model reliability and full accessibility remain unresolved, not silently substituted with parser scores.
+
+### 2026-09-29 — Classification and signed Shortcuts continuation
+
+Preflight39PASS1WARN0FAIL0TFAIL15MANUAL; protected baselinePASS. Read-only classifier review finds fixed-choice generation supported, no proven schema bug. One fresh synthetic classifier-only diagnostic is authorized to retain native refusal details under unchanged prompt/schema/options/default guardrails; no async explanation, retry or old refused-input resubmission. Prior unsupported reasoning/prewarm changes remain rejected.
+
+New App Intents approach is justified by paid same-team signing now available, unlike three prior ad-hoc attempts. Isolated current-root port must use owned IntakeQueue/durable publication, match development bundle identity in tests, verify actual app/runner signatures+four-intent metadata, then run seven framework tests once. No account/system-setting changes. Accessibility read-only triage found no new evidenced contrast repair; preserve failing audit. Stale watched-email help corrected separately.

@@ -1,3 +1,7 @@
+# Latest continuation checkpoint
+
+The owner requested a credit-saving handoff on2026-09-29. Read **[NEXT-MODEL-HANDOFF.md](NEXT-MODEL-HANDOFF.md)** first; it supersedes historical status below where noted. All jobs stopped and GUI lock is free.
+
 # Local development continues autonomously
 
 P0–P2 local readiness independently passed; accepted files are locked. Resume P3 from STATE.json. No owner action is needed for local development.

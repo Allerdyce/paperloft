@@ -1,6 +1,6 @@
 # Paperloft development status — 2026-09-29
 
-**Actively developing 1.1; not launch-ready.** Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass. Submission and public release remain blocked.
+**Checkpointed for the next model at the owner’s request; not launch-ready.** Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass. Submission and public release remain blocked.
 
 ## Latest verified work
 - Email attachment selection and searchable body-PDF fallback work in the sandbox. Native import/restart/removal tests pass.
@@ -10,6 +10,8 @@
 - Display/startup blocker cleared; local preflight and protected baseline pass.
 
 ## Current work
+Read NEXT-MODEL-HANDOFF.md for exact resumption steps. Signed App Intents discovery is now working in isolation:229unit tests and6/7framework tests pass; ZIP return transport remains blocked. Email routing repair is designed but not implemented. No jobs remain running.
+
 Owned intake, conservative cleanup, PDF scaling and parser classification fixes are merged. Root214unit tests pass. Full80 synthetic parser diagnostics match all selected documents and labelled receipt fields; the set is simple and no formal accuracy pass is claimed. The separate80-email model run failed readiness expectations:31messages had classification refusals,49/80 selected identities matched, and33/64 labelled field predictions received credit. Diagnostic error reporting is fixed and its regressions pass. Three private checks are complete: two improved, one pickup confirmation remains incorrectly selected with no total. Current development-signed Release is warning-free; signature, privacy and protected baseline pass. Classification failure markers survive negative assessment/restoration. Added10000diverse MIME safety cases pass with independent review.
 
 ## Remaining launch gates
