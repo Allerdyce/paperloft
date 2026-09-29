@@ -32,7 +32,7 @@ public struct IntakeRecord: Codable, Equatable, Sendable {
 /// its inbox and source-specific proofs before acknowledging any upstream source.
 /// Originals and their move permissions remain the caller's responsibility.
 /// `directory` must be an app-private, stable container directory. The app owns
-/// its lifetime and serializes discard against consumers. Published records are
+/// its lifetime, creates the parent directory beforehand, and serializes discard against consumers. Published records are
 /// never automatically removed; incomplete hidden stages are not publications.
 public actor IntakeQueue {
     public enum Failure: Error, LocalizedError {
@@ -60,7 +60,9 @@ public actor IntakeQueue {
     func observeCopy(_ observer: @escaping @Sendable () throws -> Void) { didCopyChunk = observer }
     public init(directory: URL) throws {
         guard directory.isFileURL else { throw Failure.unsafePath }
-        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        guard mkdir(directory.path, 0o700) == 0 || errno == EEXIST else { throw Self.posix() }
+        // Persist the new queue entry before any publication can depend on it.
+        try Self.syncDirectory(directory.deletingLastPathComponent())
         rootFD = try Self.openSafe(directory, flags: O_EXEC | O_DIRECTORY)
         self.directory = directory
     }
