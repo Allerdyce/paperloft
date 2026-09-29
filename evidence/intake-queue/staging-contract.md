@@ -22,3 +22,5 @@ Focused tests cover owned-copy independence, Codable restore, explicit discard, 
 Warnings-as-errors package run PASS: 24 XCTest + 101 Swift Testing tests. Optimized warnings-as-errors package build PASS. After strengthening cancellation to actual Task cancellation and mutation to a same-size multi-chunk overwrite, all 12 focused queue tests PASS.
 
 Logs (local, not committed): `build/intake-queue/tests-final.log`, `build/intake-queue/release-final.log`, `build/intake-queue/focused-final.log`. Native sandbox app integration and final independent review belong to the parent integration task.
+
+Follow-up: queue initialization now requires an existing private parent, creates only its leaf with mode 0700, and synchronizes the parent entry before publication. Existing queues remain reopenable. Strict focused suite: 13/13 PASS (`build/intake-queue/parent-sync-tests.log`). This closes the first-use directory-entry durability gap; it does not simulate actual power loss.

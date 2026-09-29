@@ -138,4 +138,11 @@ final class IntakeQueueTests: XCTestCase, @unchecked Sendable {
         XCTAssertEqual(retry, published)
     }
 
+    func testInitializationRequiresExistingOwnedParent() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: root) }
+        XCTAssertThrowsError(try IntakeQueue(directory: root.appendingPathComponent("nested/queue")))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: root.path))
+    }
+
 }
