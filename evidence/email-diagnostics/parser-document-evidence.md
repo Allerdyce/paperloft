@@ -15,3 +15,11 @@ The new blank-text contract exposed two unlocked tests using solid-color images 
 Full package warnings-as-errors suite passed: 28 XCTest + 106 Swift Testing tests (`build/intake11/parser-evidence-full3.log`). Package Release warnings-as-errors build passed (`build/intake11/parser-evidence-release-final.log`). The native full run before the independent PDF raster repair failed on legitimate generated PDFs yielding empty OCR (`build/intake11/parser-native-tests.log`); this failure is retained, not represented as a pass. Combined native verification follows recognition-fix integration.
 
 The strengthened native `WatchedMailIntakeTests` subset passed all four tests (`build/intake11/parser-watched-tests.log`), including stable Mail replacement/relaunch, partial failure preservation and TIFF filing.
+
+## Combined recognition verification and review repairs
+
+Independent review also required preserving whole-line paid/unpaid annotations, such as `PAID INVOICE`, `INVOICE — PAID` and `INVOICE (UNPAID)`. These bounded status prefixes/suffixes now preserve invoice type with or without a readable total; cover-note/negation controls remain. No arbitrary trailing prose is accepted as a heading.
+
+Recognition fixes `dae2de8` and `61f79c3` were integrated locally as `55d2382` and `fbeee52`. The combined native hostless run then passed **99 XCTest + 109 Swift Testing tests**, zero failures (`build/intake11/parser-recognizer-native-final2.log`); the earlier legitimate generated-PDF failures passed without editing those fixtures/tests. Incremental Release with Swift warnings as errors passed (`build/intake11/parser-recognizer-release-final.log`). This is not a fresh warning-free claim; the root separately records the Share AppIntents metadata warning from a fresh build.
+
+The recognizer's roughly 64-second cold Vision startup observed by the recognition investigator remains a performance finding. No final email accuracy score or full 1.1 readiness is asserted by these component tests; the production synthetic diagnostic rerun remains separate.

@@ -22,6 +22,10 @@ struct ParserDocumentEvidenceTests {
     @Test func paidInvoiceAndItsTermsRetainInvoiceType() {
         let fields = ParserBackend.parse("Example Services\nTAX INVOICE #INV-284\nIssued: 2026-05-06\nTotal USD 80.00\nPAID\nTerms and conditions\nKeep this payment receipt for your records.")
         #expect(fields.kind == "invoice"); #expect(fields.total == "80")
+        for heading in ["PAID INVOICE", "Paid tax invoice", "INVOICE - PAID", "INVOICE (PAID)", "INVOICE — PAID", "INVOICE (UNPAID)", "Unpaid invoice"] {
+            #expect(ParserBackend.parse("Example Services\n\(heading)\nTotal USD 80.00").kind == "invoice")
+            #expect(ParserBackend.parse("Example Services\n\(heading)\nUnreadable amount").kind == "invoice")
+        }
         #expect(ParserBackend.parse("Example Services  INVOICE\nTotal USD 80.00\nReceipt included with payment").kind == "invoice")
         #expect(ParserBackend.parse("This Is Not A Receipt Or  INVOICE\nTotal USD 12.00").kind != "invoice")
         #expect(ParserBackend.parse("Example Shop\nDate: 2026-05-06\nTotal USD 12.00\nTerms and conditions\nAsk for an invoice when needed.").kind == "receipt")

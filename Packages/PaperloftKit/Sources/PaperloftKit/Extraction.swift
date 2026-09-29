@@ -106,7 +106,7 @@ public struct ParserBackend: ExtractionBackend {
             if firstCapture(#"(?i)^(?:terms(?:\s+and\s+conditions)?|privacy\s+policy|service\s+agreement|quotation|quote|estimate|menu|price\s+list|advertisement)(?:\s*[:#].*)?$"#, line) != nil {
                 return "not_receipt"
             }
-            guard let title = firstCapture(#"(?i)^(tax\s+inv[o0][i1l]ce|inv[o0][i1l]ce|utility\s+bill|bill|account\s+statement|sales\s+receipt|receipt|payment\s+confirmation)(?:\s*(?:[:#]|no\.?\s|number\s).+|\s+[a-z0-9/-]*[0-9][a-z0-9/-]*)?\s*$"#, line, group: 1)?.lowercased() else { continue }
+            guard let title = firstCapture(#"(?i)^(?:(?:un)?paid\s+)?(tax\s+inv[o0][i1l]ce|inv[o0][i1l]ce|utility\s+bill|bill|account\s+statement|sales\s+receipt|receipt|payment\s+confirmation)(?:\s*(?:[:#]|no\.?\s|number\s).+|\s+[a-z0-9/-]*[0-9][a-z0-9/-]*)?(?:\s+[-—]?\s*(?:un)?paid|\s+\((?:un)?paid\))?\s*$"#, line, group: 1)?.lowercased() else { continue }
             if title.contains("bill") || title == "account statement" { return "bill" }
             if firstCapture(#"inv[o0][i1l]ce"#, title) != nil { return "invoice" }
             return "receipt"
