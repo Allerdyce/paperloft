@@ -1,16 +1,24 @@
 import Foundation
 import CoreGraphics
+import CoreText
 import ImageIO
 import UniformTypeIdentifiers
 import Testing
 @testable import PaperloftKit
 
 struct MailImageAttachmentTests {
-    private func image(_ type: UTType = .png, width: Int = 256, height: Int = 256, pages: Int = 1) throws -> Data {
+    private func image(_ type: UTType = .png, width: Int = 256, height: Int = 256, pages: Int = 1, receiptText: Bool = false) throws -> Data {
         let context = try #require(CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
                                             space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue))
         context.setFillColor(CGColor(red: 0.2, green: 0.5, blue: 0.8, alpha: 1))
         context.fill(CGRect(x: 0, y: 0, width: width, height: height))
+        if receiptText {
+            context.setFillColor(CGColor(gray: 1, alpha: 1)); context.fill(CGRect(x: 0, y: 0, width: width, height: height))
+            let text = NSAttributedString(string: "SYNTHETIC SHOP\nRECEIPT\nDate: 2026-09-29\nTotal USD 10.00", attributes: [NSAttributedString.Key(kCTFontAttributeName as String): CTFontCreateWithName("Helvetica" as CFString, 24, nil)])
+            let setter = CTFramesetterCreateWithAttributedString(text)
+            let frame = CTFramesetterCreateFrame(setter, CFRange(location: 0, length: 0), CGPath(rect: CGRect(x: 25, y: 25, width: width - 50, height: height - 50), transform: nil), nil)
+            CTFrameDraw(frame, context)
+        }
         let bitmap = try #require(context.makeImage()), data = NSMutableData()
         let destination = try #require(CGImageDestinationCreateWithData(data, type.identifier as CFString, pages, nil))
         for _ in 0..<pages { CGImageDestinationAddImage(destination, bitmap, nil) }
@@ -48,7 +56,7 @@ struct MailImageAttachmentTests {
     }
 
     @Test func TIFFCandidateUsesNormalRecognitionAndFilingValidation() async throws {
-        let bytes = try image(.tiff)
+        let bytes = try image(.tiff, width: 600, height: 500, receiptText: true)
         let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
             .appendingPathComponent(".build/MailImageTests/" + UUID().uuidString)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)

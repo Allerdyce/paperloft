@@ -42,6 +42,10 @@ public actor ReceiptEngine {
             guard try LibraryFiles.hash(source) == before else { throw LibraryError.sourceChanged(source.path) }
             return (before, text)
         }.value
+        // Empty OCR is an unreadable candidate, not evidence that an attachment
+        // is non-financial. Let intake preserve/retry it instead of silently
+        // falling back to an accompanying cover note.
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw RecognitionError.unreadableDocument }
         let extracted = try await backend.extract(text: text)
         let fields = MailFieldHints.apply(to: extracted, envelope: emailHints)
         let duplicate = try await library.documents().first { $0.contentHash == hash }?.relativePath
