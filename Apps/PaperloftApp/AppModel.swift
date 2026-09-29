@@ -206,7 +206,9 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var mailLedger: MailDeliveryLedger?
     @ObservationIgnored private let mailCommitOverride: ((MailDeliveryLedger.Proof) throws -> UUID)?
     @ObservationIgnored private let snapshotWriterOverride: ((Data, URL) throws -> Void)?
+    @ObservationIgnored private let retirementSnapshotWriterOverride: ((Data, URL) throws -> Void)?
     @ObservationIgnored private var startupTask: Task<Void, any Error>?
+    @ObservationIgnored private var hasAttemptedStartup = false
     @ObservationIgnored private let proEntitlement: @MainActor () -> Bool
 
     static func argument(_ key: String) -> String? {
@@ -219,18 +221,23 @@ final class FileGrant: @unchecked Sendable {
          mailCommit: ((MailDeliveryLedger.Proof) throws -> UUID)? = nil,
          mailSnapshotWriter: ((Data, URL) throws -> Void)? = nil,
          extractionBackend: (any ExtractionBackend)? = nil,
-         intakeSnapshotWriter: ((Data, URL) throws -> Void)? = nil) {
+         intakeSnapshotWriter: ((Data, URL) throws -> Void)? = nil,
+         retirementSnapshotWriter: ((Data, URL) throws -> Void)? = nil) {
         testMode = Self.argument("-PaperloftUITestMode") == "YES"
         preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard)
         self.proEntitlement = proEntitlement
         self.extractionBackend = extractionBackend
         mailCommitOverride = mailCommit; snapshotWriterOverride = intakeSnapshotWriter ?? mailSnapshotWriter
+        retirementSnapshotWriterOverride = retirementSnapshotWriter
         categories = preferences.stringArray(forKey: "categories") ?? ["Advertising", "Contract labor", "Insurance", "Legal and professional services", "Meals", "Office supplies", "Rent", "Repairs", "Software", "Taxes and licenses", "Travel", "Utilities", "Vehicle", "Other expenses"]
         filenameTemplate = preferences.string(forKey: "filenameTemplate") ?? ReceiptNameTemplate.defaultPattern
         scannedPages = ScannedPages(rawValue: preferences.string(forKey: "scannedPages") ?? "") ?? .separate
         mode = FilingMode(rawValue: preferences.string(forKey: "filingMode") ?? "copy") ?? .copy
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         support = suppliedSupport ?? base.appendingPathComponent(testMode ? "Paperloft-UI" : "Paperloft", isDirectory: true)
+        let ownershipKey = support.standardizedFileURL.path
+        Self.liveInboxModels[ownershipKey, default: []].removeAll { $0.model == nil }
+        Self.liveInboxModels[ownershipKey, default: []].append(WeakInboxModel(self))
     }
     var selectedItem: InboxItem? { items.first { $0.id == selectedItemID } ?? items.first { $0.status != "aside" } }
     var inboxCount: Int { items.filter { $0.status != "aside" }.count }
@@ -279,6 +286,11 @@ final class FileGrant: @unchecked Sendable {
     // with stale state between handoff batches. Same-process restoration tests
     // may create another model; they share this process ownership.
     private static var inboxProcessLeases: [String: HandoffConsumerLease] = [:]
+    private final class WeakInboxModel {
+        weak var model: AppModel?
+        init(_ model: AppModel) { self.model = model }
+    }
+    private static var liveInboxModels: [String: [WeakInboxModel]] = [:]
     private func acquireInboxProcessOwnership() async throws {
         let key = support.standardizedFileURL.path
         if Self.inboxProcessLeases[key] != nil { return }
@@ -289,6 +301,8 @@ final class FileGrant: @unchecked Sendable {
         Self.inboxProcessLeases[key] = lease
     }
     private func loadStartupState() async throws {
+        let coldStartup = !hasAttemptedStartup
+        hasAttemptedStartup = true
         let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
         inboxMayBeMutated = false
         try await acquireInboxProcessOwnership()
@@ -298,16 +312,16 @@ final class FileGrant: @unchecked Sendable {
         let restored = try await Task.detached(priority: .userInitiated) {
             try FileManager.default.createDirectory(at: support, withIntermediateDirectories: true)
             let inboxURL = support.appendingPathComponent("inbox.json")
-            do { return try JSONDecoder().decode([InboxItem].self, from: Data(contentsOf: inboxURL)) }
+            do { return (items: try JSONDecoder().decode([InboxItem].self, from: Data(contentsOf: inboxURL)), existed: true) }
             catch let error as CocoaError where error.code == .fileReadNoSuchFile {
                 // A broken symlink or inaccessible history is not an empty inbox.
                 // lstat also avoids following a dangling link when checking absence.
                 var status = stat()
-                if lstat(inboxURL.path, &status) == -1 && errno == ENOENT { return [InboxItem]() }
+                if lstat(inboxURL.path, &status) == -1 && errno == ENOENT { return (items: [InboxItem](), existed: false) }
                 throw error
             }
         }.value
-        items = restored
+        items = restored.items
         intakeQueue = try IntakeQueue(directory: support.appendingPathComponent("IntakeQueue", isDirectory: true))
         mailLedger = try MailDeliveryLedger(directory: support)
         do {
@@ -375,6 +389,9 @@ final class FileGrant: @unchecked Sendable {
                 if items[i].status == "processing" { items[i].status = "waiting" }
             } catch { items[i].status = "failed"; items[i].issue = error.localizedDescription }
         }
+        if coldStartup && restored.existed {
+            try await retireOwnedIntakeAtStartup()
+        }
         inboxMayBeMutated = true
         let saved = preferences.dictionary(forKey: "moveFolderBookmarks") as? [String: Data] ?? [:]
         for (path, bookmark) in saved { if let access = try? LibraryAccess(bookmark: bookmark) { moveGrants[path] = access } }
@@ -391,6 +408,44 @@ final class FileGrant: @unchecked Sendable {
                 guard let self, self.watchedConfiguration == configuration else { return }
                 await self.restoreWatchedFolder()
             }
+        }
+    }
+    private func retireOwnedIntakeAtStartup() async throws {
+        // Same-process models share the process lease for restoration tests, but
+        // must never collect bytes that another model could still preview/read.
+        let key = support.standardizedFileURL.path
+        guard !Self.liveInboxModels[key, default: []].contains(where: { $0.model != nil && $0.model !== self }),
+              let intakeQueue else { return }
+        let queuePrefix = support.appendingPathComponent("IntakeQueue", isDirectory: true).standardizedFileURL.path + "/"
+        // A legacy/inconsistent active URL inside owned storage is still a byte
+        // dependency even without a record. Preserve everything until repaired.
+        guard !items.contains(where: { $0.status != "aside" && $0.intakeRecord == nil && $0.source.standardizedFileURL.path.hasPrefix(queuePrefix) }) else { return }
+        let liveIDs = Set(items.compactMap { $0.status == "aside" ? nil : $0.intakeRecord?.id })
+        var candidates: [UUID: IntakeRecord] = [:]
+        for item in items where item.status == "aside" {
+            guard let record = item.intakeRecord, !liveIDs.contains(record.id) else { continue }
+            // A durable Remove disposition authorizes only this exact verified
+            // record. Absence from Inbox is never sufficient deletion authority.
+            if (try? await intakeQueue.payloadURL(for: record)) != nil { candidates[record.id] = record }
+        }
+        guard !candidates.isEmpty else { return }
+        var authoritative = items
+        for index in authoritative.indices where authoritative[index].status == "aside" {
+            guard let record = authoritative[index].intakeRecord, candidates[record.id] == record else { continue }
+            authoritative[index].intakeRecord = nil
+            authoritative[index].stagedSource = nil
+        }
+        do {
+            let data = try JSONEncoder().encode(authoritative), url = support.appendingPathComponent("inbox.json")
+            if let retirementSnapshotWriterOverride { try retirementSnapshotWriterOverride(data, url) }
+            else { try Self.writeWatchedData(data, to: url) }
+            items = authoritative
+        } catch { blockMailRecovery(error); throw error }
+        // No adapter, engine or preview is active. A crash here merely retains
+        // an orphan; it never makes an uncommitted import eligible for deletion.
+        for record in candidates.values {
+            do { try await intakeQueue.discard(record) }
+            catch { message = "Removed receipts remain safely stored because temporary cleanup could not finish." }
         }
     }
     private func configure(_ url: URL, sample: Bool) async throws {
