@@ -20,8 +20,9 @@ let result = try await OfflineEmailBodyRenderer().render(request)
 // Persist result.data in an app-owned destination through normal intake.
 ```
 
-`EmailBodyPDF` contains PDF data, page count, and the count of navigations rejected
-by the delegate. Envelope values are display context, not extraction truth. The
+`EmailBodyPDF` contains body-only extraction text, PDF data, page count, the
+selected engine, a fallback diagnostic code when applicable, and the count of
+navigations rejected by the delegate. Envelope values are display context, not extraction truth. The
 protocol can be replaced with a stub in intake tests. The app target discovers the
 new source through its synchronized folder; the unit target needs an explicit
 source reference if it compiles AppModel directly. This change does not edit the
@@ -64,6 +65,7 @@ and never creates or displays a window.
 mkdir -p build/email-render
 xcrun swiftc -swift-version 6 -warnings-as-errors -parse-as-library Apps/PaperloftApp/EmailBodyRenderer.swift Tests/EmailBodyRendererTests/EmailBodyRendererSmoke.swift -o build/email-render/EmailBodyRendererSmoke
 build/email-render/EmailBodyRendererSmoke
+build/email-render/EmailBodyRendererSmoke --native
 ```
 
 The harness verifies:
@@ -87,3 +89,46 @@ rules and delegate restrictions as additional layers.
 Local renderer checks do not establish the full 1.1 gate: MIME coverage, document
 selection, real email fidelity, live Mail dragging and signed app integration need
 separate verification.
+
+## Confirmed sandbox limitation and explicit fallback
+
+On macOS 27 / Xcode 27 (2026-09-29), the headless, ad-hoc-signed probe with only
+`com.apple.security.app-sandbox=true` reproduced WebKit content-process termination.
+The same WebKit-only harness succeeds without App Sandbox. Rule-list compilation
+succeeded: the fixed diagnostic is domain `app.paperloft.email-renderer`, code
+**1002** (WebContent terminated), not **1001** (rule-list unavailable). No email
+content, URL, sender or subject is included in these diagnostics.
+
+The renderer's default `.automatic` policy now falls back on those two explicit
+startup failures to native CoreText/CoreGraphics PDF generation. It consumes the
+same bounded, sanitized, pre-wrapped text, retains selectable text and real letter
+pages, and never grants network access. A failed WebKit startup is cached for the
+process so every subsequent receipt does not restart the failing WebKit process.
+Timeouts, cancellation, malformed content and limits remain errors; they are not
+silently converted into successes. Tests may request `.webKitOnly` or `.nativeOnly`.
+
+**This is an implementation deviation from the specified WebKit rendering path.**
+A successful native fallback is not evidence that sandboxed WebKit works, and is
+not a full 1.1 acceptance verdict. The no-outgoing-network contract is preserved.
+The historical issue is also described in the [original reporter's reproduction](https://github.com/feedback-assistant/reports/issues/1)
+and [Apple Developer Forums discussion](https://developer.apple.com/forums/thread/116359);
+current behavior was independently reproduced here, rather than inferred from
+those historical reports.
+
+Reproduce the sandbox probe while holding the GUI lock (it creates no windows):
+
+```sh
+mkdir -p build/email-render/SandboxProbe.app/Contents/MacOS
+cp Tests/EmailBodyRendererTests/SandboxProbe-Info.plist build/email-render/SandboxProbe.app/Contents/Info.plist
+xcrun swiftc -swift-version 6 -warnings-as-errors -parse-as-library Apps/PaperloftApp/EmailBodyRenderer.swift Tests/EmailBodyRendererTests/EmailSandboxProbe.swift -o build/email-render/SandboxProbe.app/Contents/MacOS/EmailSandboxProbe
+codesign --force --sign - --entitlements Tests/EmailBodyRendererTests/Sandbox.entitlements build/email-render/SandboxProbe.app
+build/email-render/SandboxProbe.app/Contents/MacOS/EmailSandboxProbe
+codesign -d --entitlements :- build/email-render/SandboxProbe.app
+```
+
+The automatic probe passes with engine `nativeText`, diagnostic 1002; all 95 lines
+appear exactly once on three letter pages, the header remains selectable but is
+excluded from `bodyText`, and malicious HTML retains the visible total while
+scripts/resource markup are discarded. Passing `--webkit-only` deliberately
+reproduces the platform failure (exit 1, code 1002) on this Mac. Passing
+`--native-only` verifies the native path without starting WebKit at all.
