@@ -16,7 +16,7 @@ public struct MailEnvelope: Sendable, Equatable {
         messageID = headers["message-id"]
     }
 
-    private static func decodedWords(_ value: String) -> String {
+    static func decodedWords(_ value: String) -> String {
         guard let regex = try? NSRegularExpression(pattern: #"=\?([^?\s]+)\?([bBqQ])\?([^?]*)\?="#) else { return value }
         let matches = regex.matches(in: value, range: NSRange(value.startIndex..., in: value))
         var result = "", cursor = value.startIndex, priorWasEncoded = false

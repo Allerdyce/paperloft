@@ -36,7 +36,7 @@ struct FileIdentity: Codable, Equatable, Sendable {
 
 enum LibraryFiles {
     static let metadataName = "app.paperloft.receipt"
-    static let extensions: Set<String> = ["pdf", "png", "jpg", "jpeg", "heic"]
+    static let extensions: Set<String> = ["pdf", "png", "jpg", "jpeg", "heic", "tif", "tiff"]
 
     static func identity(_ url: URL) throws -> FileIdentity {
         var information = stat()
