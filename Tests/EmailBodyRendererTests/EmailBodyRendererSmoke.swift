@@ -58,7 +58,8 @@ private final class LoopbackProbe {
 @main struct EmailBodyRendererSmoke {
     @MainActor static func main() async throws {
         NSApplication.shared.setActivationPolicy(.prohibited)
-        let renderer = OfflineEmailBodyRenderer()
+        let policy: OfflineEmailBodyRenderer.Policy = CommandLine.arguments.contains("--native") ? .nativeOnly : .webKitOnly
+        let renderer = OfflineEmailBodyRenderer(policy: policy)
         let envelope = EmailBodyRenderRequest.Envelope(from: "Synthetic Shop <orders@example.invalid>", to: "Test Person <person@example.invalid>", date: "2026-09-29", subject: "Receipt 123")
         let simple = try await renderer.render(.init(body: .plainText("Synthetic Shop\nCoffee\nTotal $12.34"), envelope: envelope))
         guard let first = PDFDocument(data: simple.data), let firstText = first.string else { throw Failure.check("readable PDF") }
@@ -118,10 +119,11 @@ private final class LoopbackProbe {
 
         try await expect(.payloadLimit) { _ = try await renderer.render(.init(body: .plainText(String(repeating: "x", count: 256 * 1_024 + 1)))) }
         try await expect(.payloadLimit) { _ = try await renderer.render(.init(body: .plainText("small"), envelope: .init(subject: String(repeating: "x", count: 4_097)))) }
-        try await expect(.pageLimit) { _ = try await OfflineEmailBodyRenderer(limits: .init(maximumPages: 1)).render(.init(body: .plainText(many))) }
+        try await expect(.pageLimit) { _ = try await OfflineEmailBodyRenderer(limits: .init(maximumPages: 1), policy: policy).render(.init(body: .plainText(many))) }
         try await expect(.payloadLimit) { _ = try await renderer.render(.init(body: .plainText("x" + String(repeating: "\u{0301}", count: 100)))) }
         try await expect(.malformedHTML) { _ = try await renderer.render(.init(body: .html("<script>never closed"))) }
-        try await expect(.timedOut) { _ = try await OfflineEmailBodyRenderer(limits: .init(timeout: .milliseconds(1))).render(.init(body: .plainText(many))) }
+        let timeoutBody = (1...1_300).map { "Synthetic line \($0)" }.joined(separator: "\n")
+        try await expect(.timedOut) { _ = try await OfflineEmailBodyRenderer(limits: .init(timeout: .milliseconds(1)), policy: policy).render(.init(body: .plainText(timeoutBody))) }
         let cancellation = Task { try await renderer.render(.init(body: .plainText(many))) }
         await Task.yield(); cancellation.cancel()
         do { _ = try await cancellation.value; throw Failure.check("cancellation must fail") }

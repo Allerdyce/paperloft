@@ -1,4 +1,6 @@
 import AppKit
+import CoreGraphics
+import CoreText
 import Foundation
 import PDFKit
 import WebKit
@@ -20,27 +22,55 @@ struct EmailBodyRenderRequest: Sendable {
 }
 
 struct EmailBodyPDF: Sendable {
+    enum Engine: String, Sendable { case webKit, nativeText }
+    /// Receipt text excludes transport headers, which are source hints only.
+    let bodyText: String
+    let engine: Engine
+    let fallbackDiagnosticCode: Int?
     let data: Data
     let pageCount: Int
     /// Observed navigation requests rejected by the deny-by-default delegate.
     /// This is not a system-wide network monitor. Resource-bearing input markup
     /// never enters WebKit; CSP and the blocking rule list provide further defense.
     let blockedNavigationCount: Int
+    init(bodyText: String, data: Data, pageCount: Int, blockedNavigationCount: Int,
+         engine: Engine = .webKit, fallbackDiagnosticCode: Int? = nil) {
+        self.bodyText = bodyText; self.data = data; self.pageCount = pageCount
+        self.blockedNavigationCount = blockedNavigationCount; self.engine = engine
+        self.fallbackDiagnosticCode = fallbackDiagnosticCode
+    }
 }
 
 @MainActor protocol EmailBodyRendering {
     func render(_ request: EmailBodyRenderRequest) async throws -> EmailBodyPDF
 }
 
-enum EmailBodyRenderError: Error, LocalizedError, Equatable {
+enum EmailBodyRenderError: Error, LocalizedError, CustomNSError, Equatable {
     case payloadLimit, pageLimit, outputLimit, malformedHTML, unavailable, timedOut, invalidPDF
+    case ruleListUnavailable, webContentTerminated
+
+    static let errorDomain = "app.paperloft.email-renderer"
+    var errorCode: Int {
+        switch self {
+        case .payloadLimit: 1
+        case .pageLimit: 2
+        case .outputLimit: 3
+        case .malformedHTML: 4
+        case .unavailable: 5
+        case .timedOut: 6
+        case .invalidPDF: 7
+        case .ruleListUnavailable: 1001
+        case .webContentTerminated: 1002
+        }
+    }
+    var errorUserInfo: [String: Any] { [NSLocalizedDescriptionKey: errorDescription ?? "Email rendering failed."] }
     var errorDescription: String? {
         switch self {
         case .payloadLimit: "This email body is too large to render safely."
         case .pageLimit: "This email body exceeds the PDF page limit."
         case .outputLimit: "The rendered email PDF exceeds the safe size limit."
         case .malformedHTML: "The email contains malformed HTML."
-        case .unavailable: "The offline email renderer is unavailable."
+        case .unavailable, .ruleListUnavailable, .webContentTerminated: "The offline email renderer is unavailable."
         case .timedOut: "Rendering the email took too long. Please try again."
         case .invalidPDF: "The email could not be rendered as a readable PDF."
         }
@@ -58,18 +88,72 @@ enum EmailBodyRenderError: Error, LocalizedError, Equatable {
             self.timeout = min(max(timeout, .milliseconds(1)), .seconds(30))
         }
     }
+    enum Policy { case automatic, webKitOnly, nativeOnly }
     private let limits: Limits
-    init(limits: Limits = .init()) { self.limits = limits }
+    private let policy: Policy
+    // A failed WebKit startup is not retried for every receipt in this process.
+    // No sandbox or network permission is relaxed to make WebKit start.
+    private static var unavailableWebKitCode: Int?
+    init(limits: Limits = .init(), policy: Policy = .automatic) { self.limits = limits; self.policy = policy }
 
     func render(_ request: EmailBodyRenderRequest) async throws -> EmailBodyPDF {
         try Task.checkCancellation()
         let prepared = try PreparedEmailBody(request: request, limits: limits)
-        let job = EmailRenderJob(prepared: prepared, timeout: limits.timeout)
-        return try await withTaskCancellationHandler {
-            try await job.run()
-        } onCancel: {
-            Task { @MainActor in job.cancel() }
+        if policy == .nativeOnly || (policy == .automatic && Self.unavailableWebKitCode != nil) {
+            return try await renderNative(prepared, diagnostic: policy == .automatic ? Self.unavailableWebKitCode : nil)
         }
+        let job = EmailRenderJob(prepared: prepared, timeout: limits.timeout)
+        do {
+            return try await withTaskCancellationHandler {
+                try await job.run()
+            } onCancel: {
+                Task { @MainActor in job.cancel() }
+            }
+        } catch let error as EmailBodyRenderError where policy == .automatic && (error == .ruleListUnavailable || error == .webContentTerminated) {
+            try Task.checkCancellation()
+            Self.unavailableWebKitCode = error.errorCode
+            return try await renderNative(prepared, diagnostic: error.errorCode)
+        }
+    }
+
+    /// This path never instantiates WebKit or parses HTML. It draws only already
+    /// sanitized, bounded, pre-wrapped text with native CoreText into real PDF pages.
+    private func renderNative(_ prepared: PreparedEmailBody, diagnostic: Int?) async throws -> EmailBodyPDF {
+        let deadline = ContinuousClock.now.advanced(by: limits.timeout)
+        let bytes = NSMutableData()
+        var box = CGRect(x: 0, y: 0, width: PreparedEmailBody.width, height: PreparedEmailBody.height)
+        guard let consumer = CGDataConsumer(data: bytes),
+              let context = CGContext(consumer: consumer, mediaBox: &box,
+                                      [kCGPDFContextCreator: "Paperloft Receipts"] as CFDictionary) else {
+            throw EmailBodyRenderError.invalidPDF
+        }
+        var closed = false
+        defer { if !closed { context.closePDF() } }
+        let font = CTFontCreateWithName("Menlo" as CFString, 12, nil)
+        for page in prepared.pages {
+            await Task.yield()
+            try Task.checkCancellation()
+            guard ContinuousClock.now < deadline else { throw EmailBodyRenderError.timedOut }
+            context.beginPDFPage(nil)
+            context.setFillColor(CGColor(gray: 1, alpha: 1)); context.fill(box)
+            context.setFillColor(CGColor(gray: 0.067, alpha: 1))
+            context.textMatrix = .identity
+            for (index, line) in page.components(separatedBy: "\n").enumerated() {
+                let attributed = NSAttributedString(string: line, attributes: [NSAttributedString.Key(kCTFontAttributeName as String): font])
+                context.textPosition = CGPoint(x: 48, y: PreparedEmailBody.height - 60 - CGFloat(index) * 18)
+                CTLineDraw(CTLineCreateWithAttributedString(attributed), context)
+            }
+            context.endPDFPage()
+            guard bytes.length <= 32 * 1_024 * 1_024 else { throw EmailBodyRenderError.outputLimit }
+        }
+        context.closePDF(); closed = true
+        try Task.checkCancellation()
+        guard ContinuousClock.now < deadline else { throw EmailBodyRenderError.timedOut }
+        guard bytes.length <= 32 * 1_024 * 1_024 else { throw EmailBodyRenderError.outputLimit }
+        let data = bytes as Data
+        guard let document = PDFDocument(data: data), document.pageCount == prepared.pages.count else { throw EmailBodyRenderError.invalidPDF }
+        return EmailBodyPDF(bodyText: prepared.bodyText, data: data, pageCount: document.pageCount,
+                            blockedNavigationCount: 0, engine: .nativeText, fallbackDiagnosticCode: diagnostic)
     }
 }
 
@@ -80,6 +164,7 @@ enum EmailBodyRenderError: Error, LocalizedError, Equatable {
     static let width: CGFloat = 612
     static let height: CGFloat = 792
     let pages: [String]
+    let bodyText: String
     var html: String {
         let content = pages.map { "<section><pre>" + Self.escape($0) + "</pre></section>" }.joined()
         return """
@@ -103,6 +188,7 @@ enum EmailBodyRenderError: Error, LocalizedError, Equatable {
         case .plainText(let text): body = text
         case .html(let html): body = try OfflineHTMLText.extract(html)
         }
+        bodyText = body
         let fields = ["From: " + envelope.from, "To: " + envelope.to, "Date: " + envelope.date, "Subject: " + envelope.subject]
         // A header field cannot forge additional fields by injecting newlines.
         let header = fields.map { $0.components(separatedBy: .newlines).joined(separator: " ") }.joined(separator: "\n")
@@ -231,7 +317,7 @@ private enum OfflineHTMLText {
                 [{"trigger":{"url-filter":".*"},"action":{"type":"block"}}]
                 """) { [weak self] rule, _ in
                 guard let self, self.continuation != nil else { return }
-                guard let rule else { self.finish(.failure(EmailBodyRenderError.unavailable)); return }
+                guard let rule else { self.finish(.failure(EmailBodyRenderError.ruleListUnavailable)); return }
                 let configuration = WKWebViewConfiguration()
                 configuration.websiteDataStore = .nonPersistent()
                 configuration.defaultWebpagePreferences.allowsContentJavaScript = false
@@ -255,7 +341,7 @@ private enum OfflineHTMLText {
     }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: any Error) { finish(.failure(error)) }
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: any Error) { finish(.failure(error)) }
-    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) { finish(.failure(EmailBodyRenderError.unavailable)) }
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) { finish(.failure(EmailBodyRenderError.webContentTerminated)) }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         guard !startedPDF, continuation != nil else { return }
         startedPDF = true
@@ -277,7 +363,7 @@ private enum OfflineHTMLText {
                     document.insert(page, at: document.pageCount)
                 }
                 guard let data = document.dataRepresentation(), data.count <= self.maximumPDFBytes else { throw EmailBodyRenderError.outputLimit }
-                self.finish(.success(EmailBodyPDF(data: data, pageCount: document.pageCount, blockedNavigationCount: self.blocked)))
+                self.finish(.success(EmailBodyPDF(bodyText: self.prepared.bodyText, data: data, pageCount: document.pageCount, blockedNavigationCount: self.blocked)))
             } catch { self.finish(.failure(error)) }
         }
     }
