@@ -10,3 +10,5 @@
 - Latest full accessibility regression at403f362:18 unsuppressed findings,15functional UI tests pass,1audit test fails. See evidence/intake-queue/native-regression.md. Earlier counts above are historical.
 
 2026-09-29 update: both synthetic Mail selection findings above are repaired in4b919a3 (bounded PDF scaling, document-heading evidence, blank-OCR refusal). Same5 examples and full80 parser diagnostic now match all expected identities. System-model and varied real-world accuracy remain separate; cold OCR latency remains open.
+
+- 1.1 on-device model diagnostic (2026-09-29): separate classification refused 37 candidates across 31/80 synthetic emails. Exact selection49/80; full labelled date/total/vendor33/64. Conservative retention can also surface a cover body when attachment classification is unresolved. No safety bypass/retry; unresolved classifications remain review issues. CLI exit accounting omitted classificationError despite retaining it in raw output; reporting repair1b7e517 is verified. Product classification reliability remains open. Evidence: evidence/intake11/corrected-email-diagnostics.md.

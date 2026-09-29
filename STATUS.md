@@ -10,7 +10,7 @@
 - Display/startup blocker cleared; local preflight and protected baseline pass.
 
 ## Current work
-Owned intake, conservative cleanup, PDF scaling and parser classification fixes are merged. Root208unit tests pass. Full80 synthetic parser diagnostics match all selected documents and labelled receipt fields; the set is simple and no formal accuracy pass is claimed. Separate80-email on-device model run is underway. Fresh development-signed build before the last extraction fixes was warning-free; final signed rebuild follows the model run.
+Owned intake, conservative cleanup, PDF scaling and parser classification fixes are merged. Root208unit tests pass. Full80 synthetic parser diagnostics match all selected documents and labelled receipt fields; the set is simple and no formal accuracy pass is claimed. The separate80-email model run failed readiness expectations:31messages had classification refusals,49/80 selected identities matched, and33/64 labelled field predictions received credit. Diagnostic error reporting is fixed and its regressions pass. Three private checks are complete: two improved, one pickup confirmation remains incorrectly selected with no total. Current development-signed Release build succeeds; signature, privacy and protected baseline pass. One packaging warning remains about stripping an already signed extension; no compiler warnings.
 
 ## Remaining launch gates
 Full regression/accessibility, extraction accuracy and fresh email holdout, performance, live Mail/Share/scan, StoreKit/App Intents integration, icon review, formal acceptance baseline and final readiness checks remain open. The last full green CI commit remains `d9454df`; scoped passes above are not full acceptance.

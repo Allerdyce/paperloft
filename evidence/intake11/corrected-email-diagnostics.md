@@ -14,4 +14,8 @@ The development corpus has 8 repeated simple layouts, 16 synthetic merchants and
 
 ## Separate on-device model run
 
-A system-backend 80-message run is in progress in build/email-diagnostics/system80-20260929. No accuracy result is claimed yet. Pipeline retains unsuccessful predictions in the denominator. Cold Vision startup latency remains independently observed at about 64 seconds; these diagnostics are not a performance gate.
+Completed system-backend run: build/email-diagnostics/system80-20260929. This run FAILED readiness expectations: 49/80 usable exact selected identities, 16 body-suppression observations, and 16/16 correct negatives. Original hashes all preserved. Frozen report-only scorer: body date/total/vendor/kind 15/24 (62.5%), all date/total/vendor 33/64 (51.56%), kind 49/80 (61.25%). Category is unlabelled and not assessed. Outputs: build/email-diagnostic-system80-body-score.txt and build/email-diagnostic-system80-all-score.txt.
+
+Raw records contain 37 classification refusals across 31 messages (`FoundationModels.LanguageModelError.refusal`). The initial extraction returned fields, but independent type classification failed; these records correctly receive no field credit in the projection. Conservative production selection retained unresolved attachments and in some cases also the cover body. There were no thrown candidate/top-level processing errors. The CLI exited zero because it did not include `fields.classificationError` in its failure accounting; that reporting defect is fixed in1b7e517; root model-free regressions pass. Exit zero was not an accuracy pass. Refused calls are not retried and safety settings remain unchanged.
+
+Cold Vision startup latency remains independently observed at about 64 seconds; these diagnostics are not a performance gate. Parser success above does not substitute for model accuracy. Independent audit confirms these counts and limitations: evidence/email-diagnostics/system80-independent-audit.md.

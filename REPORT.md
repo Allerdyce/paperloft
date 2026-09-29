@@ -144,3 +144,13 @@ Root Release5b0a88f compiles successfully but emits one Xcode PaperloftShare met
 Startup removal retirement merged9719ddb after independent re-review of99fceec+d21e08f. Root200unit tests and3native Mail/Library restart flows PASS; see evidence/intake-queue/startup-removal-retirement.md. Synthetic diagnostic harness38de26f merged303fd42 after unchanged-enum comparison and5projection tests. Its5-message parser smoke preserves two production failures (receipt attachment missed; terms treated as invoice); body subset2/2 is diagnostic only. No full80-email/system-model or formal gate claim.
 
 Share metadata warning fixed by target-only task configuration c5e1a4f after source review; fresh unsigned isolated Release has zero warnings, main-app extraction remains enabled. Root signed integration build remains pending subsequent extraction fixes.
+
+## 2026-09-29 — Recognition fixes and model diagnostic outcome
+
+Verified: bounded PDF raster scaling and generic parser document evidence fixes merged4b919a3; root208unit tests pass. Parser80 synthetic run matches all provisional source identities and labelled fields, independently audited. Separate system80 run does not pass readiness:37partial classification refusals across31messages;49/80usable identities and33/64labelled financial predictions. Independent audit preserves full denominators; see evidence/intake11/corrected-email-diagnostics.md and evidence/email-diagnostics/system80-independent-audit.md. No retries or safety-setting changes. Diagnostic CLI failure accounting is fixed in1b7e517; root model-free status and unresolved-candidate regressions pass.
+
+Verified: final development-signed Release compiles, strict/deep signature and privacy checks pass; one signed-extension stripping packaging warning remains. Pre-tag protected baseline passes, formal baseline deferred. See evidence/intake11/final-development-build.md. Three private owner cases ran once with unchanged originals; two improved and one no-total pickup confirmation remains incomplete. See evidence/owner-receipt-rerun/bounded-regression.md.
+
+Assumed: neither simple synthetic diagnostics nor three targeted private examples establishes general receipt accuracy. No formal email holdout or end-to-end readiness verdict.
+
+Not done: model classification reliability, full accessibility, performance, live intake integrations and existing formal release gates. Conditional distribution authorization is recorded but readiness has not passed; no archive/upload/submission/public release.

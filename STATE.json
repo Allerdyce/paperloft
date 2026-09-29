@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Root4b919a3 integrates PDFscaling/classifier repairs after independentreviews:208unitPASS. Corrected5smoke and parser80 syntheticdiagnostics allidentities/labelledfields match, no formalgateclaim. System80 diagnostic running session29925, GUIlock root; noGUIconcurrency. Fresh development-signing build pre-extractionfixes passed no warnings/privacy/signature; final rebuild pending. Distribution only after readiness.",
+  "step": "Completed system80 independent audit:37classification refusals across31messages;49/80usable identities,33/64labelledfield predictions. Diagnostic failure reporting fixed1b7e517; root regressionPASS. Owner3case run complete:2improved,1pickup confirmation still selected withouttotal; all originals unchanged. Final development-signed build/signature/privacy/baselinePASS with1packagingwarning. GUIlock free. Next: classification reliability and remaining accessibility/integration/formal gates; no readiness/archive/upload.",
   "last_green_commit": "d9454df",
   "parked": [
     "Formal acceptance tag and release gates deferred",
@@ -15,5 +15,5 @@
     "Sandboxed WebKit content process terminates without network entitlement; native CoreText fallback verified and documented as implementation deviation",
     "Live Finder Share test awaits permission to enable Paperloft sharing extension in System Settings; extension currently OFF. Real iPhone scan remains unverified."
   ],
-  "updated": "2026-09-29T23:23:13.304556+00:00"
+  "updated": "2026-09-29T23:35:11.917665+00:00"
 }
