@@ -38,6 +38,10 @@ public actor MailDeliveryLedger {
     }
 
     public func committedDelivery(messageID: String?) throws -> UUID? {
+        try committedDeliverySynchronously(messageID: messageID)
+    }
+
+    public nonisolated func committedDeliverySynchronously(messageID: String?) throws -> UUID? {
         guard let proof = Self.proof(messageID: messageID) else { return nil }
         return try locked { try read().deliveries[proof.messageKey] }
     }
@@ -45,6 +49,12 @@ public actor MailDeliveryLedger {
     /// Idempotent: an existing successful delivery wins. Caller must have durably saved
     /// the inbox proof before calling; this API intentionally has no begin/attempt marker.
     @discardableResult public func commit(_ proof: Proof) throws -> UUID {
+        try commitSynchronously(proof)
+    }
+
+    /// Short synchronous adapter for a main-actor inbox transaction: no suspension between
+    /// publishing its durable snapshot and recording its proof. The file lock still applies.
+    @discardableResult public nonisolated func commitSynchronously(_ proof: Proof) throws -> UUID {
         guard proof.messageKey.count == 64, proof.messageKey.allSatisfy({ "0123456789abcdef".contains($0) }) else { throw Failure.corrupt }
         return try locked {
             var state = try read()
@@ -58,7 +68,9 @@ public actor MailDeliveryLedger {
         }
     }
 
-    private func locked<T>(_ body: () throws -> T) throws -> T {
+    public nonisolated func validateSynchronously() throws { _ = try locked { try read() } }
+
+    private nonisolated func locked<T>(_ body: () throws -> T) throws -> T {
         try LibraryFiles.directory(directory)
         let descriptor = open(directory.appendingPathComponent("mail-deliveries.lock").path, O_RDWR | O_CREAT | O_NOFOLLOW, 0o600)
         guard descriptor >= 0 else { throw Failure.unsafePath }
@@ -70,7 +82,7 @@ public actor MailDeliveryLedger {
         return try body()
     }
 
-    private func read() throws -> State {
+    private nonisolated func read() throws -> State {
         let url = directory.appendingPathComponent("mail-deliveries.json")
         let descriptor = open(url.path, O_RDONLY | O_NOFOLLOW | O_NONBLOCK)
         if descriptor < 0 {
@@ -90,7 +102,7 @@ public actor MailDeliveryLedger {
         return state
     }
 
-    private func write(_ data: Data) throws {
+    private nonisolated func write(_ data: Data) throws {
         let target = directory.appendingPathComponent("mail-deliveries.json")
         if LibraryFiles.exists(target) { _ = try LibraryFiles.identity(target) }
         let temporary = directory.appendingPathComponent("mail-deliveries-" + UUID().uuidString + ".tmp")

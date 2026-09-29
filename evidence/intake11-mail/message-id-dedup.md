@@ -29,3 +29,15 @@ Seven synthetic tests cover changed message bodies sharing one ID, restart looku
 Warnings-as-errors full package tests passed: 12 XCTest and 93 Swift Testing tests. The optimized package build with warnings as errors also passed.
 
 Logs are ignored local artifacts in `build/intake11/mail-ledger-focused.log`, `mail-ledger-all.log`, and `mail-ledger-release.log`. App integration and independent review remain required; this document does not declare AC-102, full 1.1 or release readiness passed.
+
+## App integration follow-up (2026-09-29)
+
+The integration proposal above is now implemented in AppModel. Successful email replacement writes a synchronized atomic inbox snapshot carrying `mailDelivery` proofs, then commits the ledger without an actor suspension. Startup validates the ledger and replays all durable proofs before enabling inbox changes. The returned delivery UUID must equal the saved proof; a conflict blocks further changes rather than silently accepting inconsistent history.
+
+The app shows an explicit Duplicate row/filter/detail for an already delivered Message-ID. Failed email imports offer Retry email. Selected-candidate delivery is all-or-nothing: if any selected candidate has no successful review, none of its siblings are published, the original EML remains retryable, and no Message-ID is acknowledged. Temporary grants stay local until successful publication.
+
+If snapshot writing or ledger commitment fails, including failure after snapshot rename, all inbox mutations pause. Retry recovery reloads disk as authority, replays committed proofs, and only then permits intake, editing/removal, Confirm or library changes. Background refresh, shared intake and watched delivery recheck the mutation guard after asynchronous work. Email boundaries wait for in-flight filing/library operations so a committed file outcome cannot be lost behind an unrelated email recovery freeze. Parent IDs and statuses are revalidated after waiting; removed emails cannot be resurrected.
+
+Nine new hostless app tests cover successful relaunch and explicit duplicate state; partial failure/retry; snapshot failure before and after rename; ledger failure after saved replacement with blocked edits/intake; startup UUID conflict; commit-return UUID conflict; library-mutation overlap; and removal before late delivery. These are synthetic tests without GUI interaction. Native visual verification and an integrated end-to-end Mail drag remain separate checks.
+
+Final native strict unit run passed 55 XCTest plus 100 Swift Testing tests (`build/intake11/mail-app-final2.log`); strict optimized Release build passed (`build/intake11/mail-app-release-final.log`). Both logs contain no compiler/build warnings or errors. `COPY_PHASE_STRIP=NO` avoids stripping the already-signed embedded extension in these local builds. No UI tests were run for this scoped integration.
