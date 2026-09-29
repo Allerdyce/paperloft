@@ -86,3 +86,13 @@ See docs/INTAKE-1.1-PLAN.md. Prioritize scan staging tests, atomic share handoff
 4. Independently review integration, run relevant strict/native tests, preserve private originals and update precise remaining gates.
 
 Local startup preflight: 39 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 15 manual (build/intake11-continue-preflight.log). Protected baseline passes (build/intake11-continue-baseline.log). Conditional distribution authorization persists; submission/public release remain blocked.
+
+### Owned intake staging continuation
+
+Completed: Message-ID recovery, watched EML/TIFF routing, native duplicate/restart and Library filter checks. Root watched integration regression160testsPASS (`build/Intake11WatchCombined.xcresult`). Latest frozen accessibility audit21findings remainsFAIL; measured picker/caption fixes retain the audit and evidence.
+
+Next bounded tasks: (1) implement/review/test PaperloftKit IntakeQueue streaming publication, cancellation, same-ID retry, corruption and metadata bounds; (2) migrate AppModel adapters and preview/copy reads while preserving original identity/Move hash guards and legacy snapshots; (3) independent review, combined unit/strictRelease and native import/restart regression. Queue staging does not replace Mail/watched/shared proof ledgers or acknowledge upstream before Inbox persistence. New crash-orphan cleanup must never run without authoritative recovered Inbox and process ownership.
+
+### System diagnostic follow-up (2026-09-29)
+
+Completed80 synthetic on-device messages:31messages have partial classification failures; independent audit confirms projector denominators and no false accuracy pass. Preserve refusals; no retry or safety-setting changes. Bounded next work: repair diagnostic summary/exit accounting with regression checks; review three private owner cases with production pipeline and immutable source hashes; record results and remaining field-level product issues. Fresh development-signed build and privacy/signature/baseline checks complete; packaging signed-extension strip warning recorded. No readiness/archive/upload claim.

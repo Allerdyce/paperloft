@@ -128,3 +128,29 @@ Verified: durable Inbox proofs precede Message-ID ledger acknowledgment; startup
 Not done: watched EML integration and updated accessibility repairs are in progress. Live Share requires enabling the currently disabled system sharing extension; owner permission requested because AGENTS.md prohibits System Settings changes. Full launch readiness remains unverified.
 
 Root combined duplicate regression PASS:55XCTest+101Swift tests (156total), build/Intake11DuplicateCombined.xcresult. Native Library filter/search/View/light-dark flow PASS69.22s, build/Intake11NativeFilters.xcresult; both captures visually inspected. Scoped picker implementation reviewed independently. WatchedEML/TIFF merged8445cdd after independentreview: author59XCTest+101Swift tests and strictReleasePASS, evidence/intake11-mail/watched-mail-routing.md. Latest full accessibility audit21findings remainsFAIL; four product popup actions and11old nearcontrast findings cleared. Two further review-caption primarycolor changes compilePASS but not reaudited; see evidence/a11y-probe/intake11-current/repair-report.md.
+
+Common owned intake merged403f362 after independent source review. Author84XCTest+101Swift tests (185) and strictReleasePASS. All new adapters stage through IntakeQueue; restored queuedbytes validate before OCR/preview/Copy, original Move uses reviewedhash; corruption fails closed, ambiguous Inboxsave recovers before watched retry, and retained Shareclaims validate extant ownedcopy beforeack. Component tests include13author+3independent adversarialcases; see evidence/intake-queue/. Root complete nativeUITarget is running in build/Intake11OwnedNativeAll.xcresult. Temporary-record cleanup is separately in progress and no fullreadiness claim is made.
+
+
+## 2026-09-29 — Complete native regression and temporary cleanup
+
+Verified: root product403f362 passed all15 functional native UI tests, including Mail restart, Library deletion/restore/tax export and watched background recovery. The unchanged accessibility test failed18 findings (10contrast,6descriptions,1hierarchy,1action); complete suite exit65 remainsFAIL. See evidence/intake-queue/native-regression.md and build/Intake11OwnedNativeAll.xcresult. No excluded tests or weakened audit.
+
+Temporary cleanup73988db independently reviewed and merged5b0a88f: committed raw Mail parents and current-attempt scratch are removed only after durable owned delivery; failed/ambiguous transactions retain recovery copies. Root unit run build/Intake11CleanupUnit.xcresult passed88XCTest+101Swift tests (189total). This later cleanup was not part of the preceding UI run. Startup retirement99fceec remains unmerged pending fixes for same-process startup reentrancy and conflicting references; unknown orphans must remain preserved. Email field diagnostics are underway, not a formal accuracy pass.
+
+Root Release5b0a88f compiles successfully but emits one Xcode PaperloftShare metadata warning (no AppIntents.framework dependency). It does not meet warning-free strict CI. App/extension privacy checks and pre-tag protected baseline pass; logs build/intake11-cleanup-root-release.log and build/intake11-post-cleanup-baseline.log.
+
+
+Startup removal retirement merged9719ddb after independent re-review of99fceec+d21e08f. Root200unit tests and3native Mail/Library restart flows PASS; see evidence/intake-queue/startup-removal-retirement.md. Synthetic diagnostic harness38de26f merged303fd42 after unchanged-enum comparison and5projection tests. Its5-message parser smoke preserves two production failures (receipt attachment missed; terms treated as invoice); body subset2/2 is diagnostic only. No full80-email/system-model or formal gate claim.
+
+Share metadata warning fixed by target-only task configuration c5e1a4f after source review; fresh unsigned isolated Release has zero warnings, main-app extraction remains enabled. Root signed integration build remains pending subsequent extraction fixes.
+
+## 2026-09-29 — Recognition fixes and model diagnostic outcome
+
+Verified: bounded PDF raster scaling and generic parser document evidence fixes merged4b919a3; root208unit tests pass. Parser80 synthetic run matches all provisional source identities and labelled fields, independently audited. Separate system80 run does not pass readiness:37partial classification refusals across31messages;49/80usable identities and33/64labelled financial predictions. Independent audit preserves full denominators; see evidence/intake11/corrected-email-diagnostics.md and evidence/email-diagnostics/system80-independent-audit.md. No retries or safety-setting changes. Diagnostic CLI failure accounting is fixed in1b7e517; root model-free status and unresolved-candidate regressions pass.
+
+Verified: final development-signed Release compiles, strict/deep signature and privacy checks pass; one signed-extension stripping packaging warning remains. Pre-tag protected baseline passes, formal baseline deferred. See evidence/intake11/final-development-build.md. Three private owner cases ran once with unchanged originals; two improved and one no-total pickup confirmation remains incomplete. See evidence/owner-receipt-rerun/bounded-regression.md.
+
+Assumed: neither simple synthetic diagnostics nor three targeted private examples establishes general receipt accuracy. No formal email holdout or end-to-end readiness verdict.
+
+Not done: model classification reliability, full accessibility, performance, live intake integrations and existing formal release gates. Conditional distribution authorization is recorded but readiness has not passed; no archive/upload/submission/public release.
