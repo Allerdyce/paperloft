@@ -2,7 +2,7 @@
 
 P0–P2 local readiness independently passed; accepted files are locked. Resume P3 from STATE.json. No owner action is needed for local development.
 
-Parked: EvidencePair Apple Developer membership, real signing identities, ASC credentials/app/products, full supervised shakedown and postponed acceptance-v1. Before future distribution, complete prerequisites and pass full preflight/frozen lock verification plus manual checks. Current authorization explicitly blocks release and uploads.
+Current authorization permits distribution signing, archives and App Store Connect uploads once readiness checks pass; submission and public release remain blocked. Paul team GQ4UA5C6RQ development signing is verified. Full distribution credentials/app/products, supervised shakedown, acceptance baseline and technical readiness still require verification. These are not a request for repeat local-development permission. See docs/DISTRIBUTION-AUTHORIZATION.md.
 
 Recurring wakeup tools are unavailable in this session. Work progresses while this turn is active; persisted state supports resumption after interruption. No background schedule has been created.
 
@@ -54,3 +54,17 @@ Owner restart cleared the agreement screen; standing Apple agreement exception r
 
 ## 1.1 live device checks
 Local signed Share extension builds and registers, but Finder Share displayed “Unlock Mac to continue with Siri request”; dismissed without changing settings. When the Mac is unlocked, retry a synthetic PDF through Finder > Share > Paperloft. Actual iPhone/iPad scan and Photos/Preview sharing remain unverified. No release authorization requested or assumed.
+
+## 2026-09-29 — Resume blocked by missing display
+
+Owner requested continuing 1.1. Local preflight returned 38 PASS, 1 WARN, 1 FAIL, 0 TFAIL, 15 MANUAL. The sole FAIL is no detected display. Independent `system_profiler SPDisplaysDataType` lists the M1 Pro GPU but no display or resolution. Evidence: build/intake11-resume-preflight.log. Protected baseline and existing lock hashes passed: build/intake11-resume-baseline.log.
+
+AGENTS.md section 2 requires stopping on preflight exit 1. No product changes or new test-pass claims. Owner action: connect/wake the display (or connect an HDMI display emulator); if using the laptop display, open the lid. Then rerun local preflight and resume Mail candidate/rendering and remaining 1.1 verification. Release/uploads remain blocked.
+
+2026-09-29 retry: display blocker CLEARED. Built-in Color LCD online at 3456x2234; local preflight 39 PASS, 1 WARN, 0 FAIL, 0 TFAIL (15 manual checks remain). Evidence: build/intake11-retry-preflight.log. Local development allowed; distribution/upload/release remain blocked.
+
+2026-09-29 authorization update: distribution signing, archives and App Store Connect uploads are now owner-authorized once readiness checks pass. Submission and public release remain blocked. Earlier blanket distribution restrictions are superseded; see docs/DISTRIBUTION-AUTHORIZATION.md.
+
+## 2026-09-29 current 1.1 handoff
+
+Native attachment and HTML-body import/relaunch/removal pass (build/Intake11MailNativeFallback.xcresult); signed development Release/signature/privacy/baseline pass. Sandbox WebKit termination is repaired through a tested native text-PDF fallback, with implementation deviation documented. Root MailFieldHints keeps header suggestions in review. Message-ID ledger is implemented and independently reviewed; wire it only with durable Inbox proofs, startup replay, returned-delivery conflict handling and explicit partial-failure retry policy. No archive/upload yet because full readiness is incomplete, not because authorization is missing.

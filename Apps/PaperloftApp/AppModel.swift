@@ -76,6 +76,8 @@ struct InboxItem: Codable, Identifiable, Sendable {
     var source: URL
     var bookmark: Data?
     var watchedDelivery: WatchedDeliveryProof?
+    var mailDelivery: MailDeliveryLedger.Proof?
+    var duplicateMailDeliveryID: UUID?
     var review: StoredReview?
     var draft = ReceiptDraft()
     var status = "waiting"
@@ -131,16 +133,17 @@ final class FileGrant: @unchecked Sendable {
     private var manualBusy = false
     private var activeOperations: [UUID: OperationKind] = [:]
     var busy: Bool {
-        get { manualBusy || !activeOperations.isEmpty }
+        get { mailRecoveryNeeded || manualBusy || !activeOperations.isEmpty }
         set { manualBusy = newValue }
     }
     private var filingBlocked: Bool {
-        manualBusy || activeOperations.values.contains { $0 == .libraryMutation }
+        mailRecoveryNeeded || manualBusy || activeOperations.values.contains { $0 == .libraryMutation }
     }
     @discardableResult func beginOperation(_ kind: OperationKind) -> UUID {
         let token = UUID(); activeOperations[token] = kind; return token
     }
     func endOperation(_ token: UUID) { activeOperations[token] = nil }
+    private(set) var mailRecoveryNeeded = false
     var processing = false
     var activity = ""
     var message: String?
@@ -188,6 +191,9 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var generation = UUID()
     @ObservationIgnored private var refreshGeneration = UUID()
     @ObservationIgnored private var inboxMayBeMutated = false
+    @ObservationIgnored private var mailLedger: MailDeliveryLedger?
+    @ObservationIgnored private let mailCommitOverride: ((MailDeliveryLedger.Proof) throws -> UUID)?
+    @ObservationIgnored private let mailSnapshotOverride: ((Data, URL) throws -> Void)?
     @ObservationIgnored private var startupTask: Task<Void, any Error>?
     @ObservationIgnored private let proEntitlement: @MainActor () -> Bool
 
@@ -197,10 +203,13 @@ final class FileGrant: @unchecked Sendable {
         return args[position + 1]
     }
     init(support suppliedSupport: URL? = nil, preferences suppliedPreferences: UserDefaults? = nil,
-         proEntitlement: @escaping @MainActor () -> Bool = AppModel.defaultProEntitlement) {
+         proEntitlement: @escaping @MainActor () -> Bool = AppModel.defaultProEntitlement,
+         mailCommit: ((MailDeliveryLedger.Proof) throws -> UUID)? = nil,
+         mailSnapshotWriter: ((Data, URL) throws -> Void)? = nil) {
         testMode = Self.argument("-PaperloftUITestMode") == "YES"
         preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard)
         self.proEntitlement = proEntitlement
+        mailCommitOverride = mailCommit; mailSnapshotOverride = mailSnapshotWriter
         categories = preferences.stringArray(forKey: "categories") ?? ["Advertising", "Contract labor", "Insurance", "Legal and professional services", "Meals", "Office supplies", "Rent", "Repairs", "Software", "Taxes and licenses", "Travel", "Utilities", "Vehicle", "Other expenses"]
         filenameTemplate = preferences.string(forKey: "filenameTemplate") ?? ReceiptNameTemplate.defaultPattern
         scannedPages = ScannedPages(rawValue: preferences.string(forKey: "scannedPages") ?? "") ?? .separate
@@ -211,6 +220,7 @@ final class FileGrant: @unchecked Sendable {
     var selectedItem: InboxItem? { items.first { $0.id == selectedItemID } ?? items.first { $0.status != "aside" } }
     var inboxCount: Int { items.filter { $0.status != "aside" }.count }
     var filingUnavailableReason: String? {
+        if mailRecoveryNeeded { return "Email delivery recovery must finish before changing your inbox." }
         if filingBlocked { return "Finishing a library change. Filing will be available when it completes." }
         guard inboxMayBeMutated, engine != nil else { return "Choose a library before filing a receipt." }
         guard let item = selectedItem else { return "Select a receipt to file." }
@@ -235,7 +245,7 @@ final class FileGrant: @unchecked Sendable {
     }
     private func awaitStartup() async throws {
         if let startupTask { return try await startupTask.value }
-        guard !busy else { throw AppIssue("Wait for the current operation to finish before opening the inbox.") }
+        guard !busy || (mailRecoveryNeeded && activeOperations.isEmpty && !manualBusy) else { throw AppIssue("Wait for the current operation to finish before opening the inbox.") }
         let task = Task { @MainActor in
             do { try await self.loadStartupState() }
             catch {
@@ -282,6 +292,15 @@ final class FileGrant: @unchecked Sendable {
             }
         }.value
         items = restored
+        mailLedger = try MailDeliveryLedger(directory: support)
+        do {
+            try mailLedger?.validateSynchronously()
+            for proof in items.compactMap(\.mailDelivery) { try commitMailProof(proof) }
+            mailRecoveryNeeded = false
+        } catch {
+            blockMailRecovery(error)
+            throw error
+        }
         let sharedLedger = support.appendingPathComponent("shared-accepted.json")
         var sharedInfo = stat()
         let sharedExists = lstat(sharedLedger.path, &sharedInfo) == 0
@@ -376,7 +395,7 @@ final class FileGrant: @unchecked Sendable {
         panel.canChooseDirectories = true; panel.canChooseFiles = false; panel.canCreateDirectories = true
         panel.directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         panel.nameFieldStringValue = "Paperloft"
-        guard await panel.begin() == .OK, let url = panel.url else { return }
+        guard await panel.begin() == .OK, let url = panel.url, inboxMayBeMutated else { return }
         do {
             let bookmark = try LibraryAccess.bookmark(for: url)
             let access = try LibraryAccess(bookmark: bookmark)
@@ -422,7 +441,7 @@ final class FileGrant: @unchecked Sendable {
     func importFiles() async {
         let panel = NSOpenPanel(); panel.title = "Import receipts"
         panel.canChooseFiles = true; panel.canChooseDirectories = false; panel.allowsMultipleSelection = true
-        panel.allowedContentTypes = [.pdf, .png, .jpeg, .heic, UTType(filenameExtension: "eml") ?? .emailMessage]
+        panel.allowedContentTypes = [.pdf, .png, .jpeg, .heic, .tiff, UTType(filenameExtension: "eml") ?? .emailMessage]
         if await panel.begin() == .OK { await intake(panel.urls) }
     }
     func intake(_ urls: [URL], sample: Bool = false, sourceLabel: String? = nil) async {
@@ -431,13 +450,14 @@ final class FileGrant: @unchecked Sendable {
         var grants: [FileGrant] = []
         for url in urls {
             do {
-                guard ["pdf", "png", "jpg", "jpeg", "heic", "eml"].contains(url.pathExtension.lowercased()) else { throw AppIssue("Import PDF, PNG, JPEG, HEIC or EML email files.") }
+                guard ["pdf", "png", "jpg", "jpeg", "heic", "tif", "tiff", "eml"].contains(url.pathExtension.lowercased()) else { throw AppIssue("Import PDF, PNG, JPEG, HEIC, TIFF or EML email files.") }
                 grants.append(try FileGrant(url: url))
             } catch { message = error.localizedDescription }
         }
         guard !grants.isEmpty else { return }
         do { try await awaitStartup() }
         catch { message = error.localizedDescription; return }
+        guard canMutateRestoredInbox() else { return }
         for grant in grants {
             guard !items.contains(where: { $0.source == grant.url && $0.status != "aside" }) else { continue }
             let item = InboxItem(id: UUID(), source: grant.url, bookmark: grant.bookmark, sample: sample, intakeSource: sourceLabel, receivedAt: sourceLabel == nil ? nil : Date())
@@ -479,6 +499,7 @@ final class FileGrant: @unchecked Sendable {
                 if let claim = try await store.claim(available.id) { claims.append(claim) }
             }
             for claim in claims {
+                guard inboxMayBeMutated else { return }
                 let id = claim.item.id
                 if !sharedAcceptedIDs.contains(id) {
                     if !items.contains(where: { $0.id == id }) {
@@ -501,6 +522,7 @@ final class FileGrant: @unchecked Sendable {
                                 return try ScanImport.materialize(data: data, typeIdentifier: UTType.tiff.identifier, pages: .combined, destination: directory)[0]
                             }.value
                         }
+                        guard inboxMayBeMutated else { return }
                         let grant = try FileGrant(url: source)
                         let label = claim.item.sourceApp.map { "Shared from " + $0 } ?? "Shared to Paperloft"
                         let item = InboxItem(id: id, source: source, bookmark: grant.bookmark, status: "receiving", intakeSource: label, receivedAt: claim.item.createdAt, displayName: claim.item.originalName)
@@ -556,7 +578,7 @@ final class FileGrant: @unchecked Sendable {
         processingTask = Task {
             defer { if generation == token { processing = false; activity = "" } }
             while let position = items.firstIndex(where: { $0.status == "waiting" }) {
-                if Task.isCancelled || generation != token { return }
+                if !inboxMayBeMutated || Task.isCancelled || generation != token { return }
                 let id = items[position].id, source = items[position].source
                 items[position].status = "processing"; activity = "Reading \(items[position].name)…"; persist()
                 do {
@@ -567,29 +589,55 @@ final class FileGrant: @unchecked Sendable {
                             defer { withExtendedLifetime(grant) {} }
                             return try MailImport.materialize(source: source, destination: destination)
                         }.value
-                        guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
+                        guard inboxMayBeMutated, !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
                         guard items[index].status == "processing" else { continue }
-                        let sample = items[index].sample
+                        while filingBlocked && inboxMayBeMutated { try await Task.sleep(for: .milliseconds(20)) }
+                        guard inboxMayBeMutated, !Task.isCancelled, generation == token else { return }
+                        if try markMailDuplicate(parentID: id, messageID: imported.envelope?.messageID) { continue }
+                        guard let current = items.firstIndex(where: { $0.id == id && $0.status == "processing" }) else { continue }
+                        let sample = items[current].sample
+                        var renderedBodyText: String?
+                        let prepared = try await MailReviewPreparation.prepare(attachments: imported.attachments, body: imported.bodyDocument, understand: { url in
+                            try await engine.understand(url, emailBodyText: url == imported.bodyDocument ? renderedBodyText : nil, emailHints: imported.envelope)
+                        }, prepareBody: { url in
+                            let envelope = imported.envelope
+                            let request = EmailBodyRenderRequest(body: imported.htmlBody.map { .html($0) } ?? .plainText(imported.bodyText),
+                                envelope: .init(from: envelope?.from ?? "", to: envelope?.to ?? "", date: envelope?.date ?? "", subject: envelope?.subject ?? ""))
+                            let pdf = try await OfflineEmailBodyRenderer().render(request)
+                            try Task.checkCancellation()
+                            try pdf.data.write(to: url, options: .atomic)
+                            renderedBodyText = pdf.bodyText
+                        })
+                        guard inboxMayBeMutated, !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }), items[index].status == "processing" else { continue }
                         var replacements: [InboxItem] = []
-                        for url in imported.documents {
+                        var replacementGrants: [UUID: FileGrant] = [:]
+                        for candidate in prepared.candidates {
+                            let url = candidate.source
                             let access = try FileGrant(url: url)
                             let subject = imported.envelope?.subject ?? source.lastPathComponent
-                            let item = InboxItem(id: UUID(), source: url, bookmark: access.bookmark, sample: sample, importNotices: imported.notices, intakeSource: "From Mail: " + subject, receivedAt: Date())
-                            sourceGrants[item.id] = access; replacements.append(item)
+                            var item = InboxItem(id: UUID(), source: url, bookmark: access.bookmark, sample: sample, importNotices: imported.notices + prepared.notices, intakeSource: "From Mail: " + subject, receivedAt: Date())
+                            if let review = candidate.review {
+                                item.review = StoredReview(review); item.draft = ReceiptDraft(review.fields); item.status = "ready"
+                            } else { item.status = "failed"; item.issue = candidate.issue ?? "This email attachment could not be read." }
+                            replacementGrants[item.id] = access; replacements.append(item)
                         }
-                        items.replaceSubrange(index...index, with: replacements)
-                        sourceGrants[id] = nil
-                        if selectedItemID == id { selectedItemID = replacements.first?.id }
-                        persist()
+                        // Let any already-started filing/library mutation publish its outcome
+                        // before this transaction can freeze the inbox on a persistence error.
+                        while filingBlocked && inboxMayBeMutated {
+                            try await Task.sleep(for: .milliseconds(20))
+                        }
+                        guard inboxMayBeMutated, !Task.isCancelled, generation == token else { return }
+                        try commitMailDelivery(parentID: id, replacements: replacements, messageID: imported.envelope?.messageID)
+                        sourceGrants.merge(replacementGrants) { _, new in new }
                         continue
                     }
                     let review = try await engine.understand(source)
-                    guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
+                    guard inboxMayBeMutated, !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
                     guard items[index].status == "processing" else { continue }
                     items[index].review = StoredReview(review)
                     items[index].draft = ReceiptDraft(review.fields); items[index].status = "ready"
                 } catch {
-                    guard !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
+                    guard inboxMayBeMutated, !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
                     guard items[index].status == "processing" else { continue }
                     items[index].status = "failed"; items[index].issue = error.localizedDescription + (source.pathExtension.lowercased() == "eml" ? " The original email is unchanged. Save the receipt as a PDF from Mail or import the email again." : "")
                 }
@@ -597,6 +645,67 @@ final class FileGrant: @unchecked Sendable {
             }
         }
     }
+    private func commitMailProof(_ proof: MailDeliveryLedger.Proof) throws {
+        guard let mailLedger else { throw AppIssue("Email delivery history is unavailable.") }
+        let accepted = try mailCommitOverride?(proof) ?? mailLedger.commitSynchronously(proof)
+        guard accepted == proof.deliveryID else {
+            throw AppIssue("Email delivery history conflicts with the saved inbox. Both copies were preserved; resolve the history before continuing.")
+        }
+    }
+    private func blockMailRecovery(_ error: Error) {
+        inboxMayBeMutated = false; mailRecoveryNeeded = true; startupTask = nil
+        message = "Email delivery needs recovery. Your saved inbox and originals were preserved. " + error.localizedDescription
+    }
+    func retryMailRecovery() async { await start() }
+
+    /// The only successful email replacement boundary. No actor suspension is allowed
+    /// between durable inbox save and ledger acknowledgment.
+    func commitMailDelivery(parentID: UUID, replacements: [InboxItem], messageID: String?) throws {
+        guard inboxMayBeMutated, let index = items.firstIndex(where: { $0.id == parentID }), ["processing", "waiting", "failed"].contains(items[index].status) else { throw AppIssue("The email is no longer available for delivery.") }
+        guard !filingBlocked else { throw AppIssue("Wait for the current filing or library change before delivering this email.") }
+        guard !replacements.isEmpty, replacements.allSatisfy({ $0.status == "ready" && $0.review != nil }) else {
+            throw AppIssue("One or more email documents could not be read. Nothing from this email was added. Retry the email, or save its receipts individually from Mail.")
+        }
+        let proof = MailDeliveryLedger.proof(messageID: messageID)
+        let prepared = replacements.map { original in var item = original; item.mailDelivery = proof; return item }
+        var updated = items; updated.replaceSubrange(index...index, with: prepared)
+        do {
+            let data = try JSONEncoder().encode(updated), url = support.appendingPathComponent("inbox.json")
+            if let mailSnapshotOverride { try mailSnapshotOverride(data, url) }
+            else { try Self.writeWatchedData(data, to: url) }
+            // A later failure must never restore the parent over this durable proof.
+            items = updated
+            if let proof { try commitMailProof(proof) }
+            sourceGrants[parentID] = nil
+            if selectedItemID == parentID { selectedItemID = prepared.first?.id }
+        } catch {
+            // A writer may fail after atomic rename/fsync. Reload disk before any
+            // mutation instead of assuming the old snapshot is still authoritative.
+            blockMailRecovery(error)
+            throw error
+        }
+    }
+    @discardableResult func markMailDuplicate(parentID: UUID, messageID: String?) throws -> Bool {
+        guard inboxMayBeMutated, let mailLedger, let index = items.firstIndex(where: { $0.id == parentID }), ["processing", "waiting", "failed"].contains(items[index].status) else { return false }
+        guard !filingBlocked else { throw AppIssue("Wait for the current filing or library change before checking this email.") }
+        let committed: UUID?
+        do { committed = try mailLedger.committedDeliverySynchronously(messageID: messageID) }
+        catch { blockMailRecovery(error); throw error }
+        guard let committed else { return false }
+        var updated = items
+        updated[index].status = "duplicate"
+        updated[index].duplicateMailDeliveryID = committed
+        updated[index].issue = "This email was already imported. Its Message-ID matches an earlier successful delivery. No second copy was added."
+        do { try Self.writeWatchedData(JSONEncoder().encode(updated), to: support.appendingPathComponent("inbox.json")); items = updated }
+        catch { blockMailRecovery(error); throw error }
+        return true
+    }
+    func retryMailItem(_ id: UUID) {
+        guard canMutateRestoredInbox(), let index = items.firstIndex(where: { $0.id == id }), items[index].status == "failed", items[index].source.pathExtension.lowercased() == "eml" else { return }
+        items[index].status = "waiting"; items[index].issue = nil
+        persist(); processWaiting()
+    }
+
     func edit(_ draft: ReceiptDraft, id: UUID) {
         guard canMutateRestoredInbox() else { return }
         guard let index = items.firstIndex(where: { $0.id == id }) else { return }
@@ -622,6 +731,7 @@ final class FileGrant: @unchecked Sendable {
             }
             let reviewed = ReviewedDocument(id: item.id, source: item.source, contentHash: stored.hash, text: stored.text, fields: stored.fields, duplicateOf: stored.duplicate)
             let outcome = try await engine.file(reviewed, confirmed: receipt, mode: mode, filenameTemplate: filenameTemplate)
+            guard inboxMayBeMutated else { return }
             items.removeAll { $0.id == item.id }; sourceGrants[item.id] = nil
             if selectedItemID == item.id { selectedItemID = items.first { $0.status != "aside" }?.id }
             persist(); await refresh()
@@ -685,7 +795,7 @@ final class FileGrant: @unchecked Sendable {
             let deleted = try await engine.library.deletedDocuments()
             let records = try await engine.library.documents()
             let results = try await engine.index.search(query)
-            guard token == generation, request == refreshGeneration, !Task.isCancelled else { return }
+            guard inboxMayBeMutated, token == generation, request == refreshGeneration, !Task.isCancelled else { return }
             deletedDocuments = deleted
             batches = history
             allDocuments = records
@@ -898,11 +1008,21 @@ final class FileGrant: @unchecked Sendable {
             throw AppIssue("Watched folders support PDF, PNG, JPEG and HEIC documents.")
         }
         let operation = beginOperation(.background); defer { endOperation(operation) }
-        let key = SHA256.hash(data: Data((root.path + "\0" + candidate.filename).utf8)).map { String(format: "%02x", $0) }.joined()
-        if watchedDeliveries[key]?.contentHash == candidate.contentHash { return }
-        if let pending = items.compactMap(\.watchedDelivery).filter({ $0.sourceKey == key }).max(by: { $0.sequence < $1.sequence }),
-           pending.sequence > (watchedDeliveries[key]?.sequence ?? 0), pending.contentHash == candidate.contentHash {
-            try await recordWatchedDelivery(pending); return
+        let legacyKey = SHA256.hash(data: Data((root.path + "\0" + candidate.filename).utf8)).map { String(format: "%02x", $0) }.joined()
+        let key = SHA256.hash(data: Data((root.path + "\0identity\0" + candidate.fileIdentity).utf8)).map { String(format: "%02x", $0) }.joined()
+        let pending = items.compactMap(\.watchedDelivery).filter { $0.sourceKey == key }.max { $0.sequence < $1.sequence }
+        let latest = [watchedDeliveries[key], pending].compactMap { $0 }.max { $0.sequence < $1.sequence }
+        if let latest {
+            watchedDeliverySequence = max(watchedDeliverySequence, latest.sequence)
+            if latest.contentHash == candidate.contentHash {
+                try await recordWatchedDelivery(latest)
+                return
+            }
+        } else if let legacy = watchedDeliveries[legacyKey], legacy.contentHash == candidate.contentHash {
+            // Only migrate a filename-only proof when no identity proof exists.
+            guard watchedDeliverySequence < Int64.max else { throw AppIssue("Watched-folder delivery history is full.") }
+            try await recordWatchedDelivery(WatchedDeliveryProof(sourceKey: key, contentHash: candidate.contentHash, sequence: watchedDeliverySequence + 1))
+            return
         }
         guard watchedDeliverySequence < Int64.max else { throw AppIssue("Watched-folder delivery history is full.") }
         let proof = WatchedDeliveryProof(sourceKey: key, contentHash: candidate.contentHash, sequence: watchedDeliverySequence + 1)
@@ -916,7 +1036,7 @@ final class FileGrant: @unchecked Sendable {
             try Self.synchronizeWatchedDirectory(folder.deletingLastPathComponent())
             try Self.synchronizeWatchedDirectory(storage)
         }.value
-        guard watchedEnabled, token == nil || token == watchedGeneration, isPro else { throw CancellationError() }
+        guard inboxMayBeMutated, watchedEnabled, token == nil || token == watchedGeneration, isPro else { throw CancellationError() }
         let item = InboxItem(id: UUID(), source: source, watchedDelivery: proof)
         let updated = items + [item]
         try Self.writeWatchedData(JSONEncoder().encode(updated), to: support.appendingPathComponent("inbox.json"))
@@ -1026,5 +1146,58 @@ final class FileGrant: @unchecked Sendable {
         guard canMutateRestoredInbox() else { return }
         do { try writeInboxSnapshot() }
         catch { message = "The inbox could not be saved. Your originals are unchanged. " + error.localizedDescription }
+    }
+}
+
+@MainActor enum MailReviewPreparation {
+    struct Candidate {
+        let source: URL
+        let review: ReviewedDocument?
+        let issue: String?
+    }
+    struct Result {
+        let candidates: [Candidate]
+        let notices: [String]
+    }
+    static func prepare(attachments: [URL], body: URL?,
+                        understand: (URL) async throws -> ReviewedDocument,
+                        prepareBody: (URL) async throws -> Void) async throws -> Result {
+        var candidates: [Candidate] = []
+        var dispositions: [MailCandidateSelection.Disposition] = []
+        for source in attachments {
+            try Task.checkCancellation()
+            do {
+                let review = try await understand(source)
+                candidates.append(Candidate(source: source, review: review, issue: nil))
+                if review.fields.classificationError != nil {
+                    dispositions.append(.unresolved)
+                } else if DocumentKind(rawValue: review.fields.kind) != nil {
+                    dispositions.append(.receipt)
+                } else if review.fields.kind == "not_receipt" {
+                    dispositions.append(.other)
+                } else { dispositions.append(.unresolved) }
+            } catch is CancellationError { throw CancellationError() }
+            catch {
+                candidates.append(Candidate(source: source, review: nil, issue: error.localizedDescription))
+                dispositions.append(.unresolved)
+            }
+        }
+        let selected = MailCandidateSelection.select(dispositions, hasBody: body != nil)
+        var output = selected.attachmentIndices.map { candidates[$0] }
+        if selected.includeBody, let body {
+            try Task.checkCancellation()
+            do {
+                try await prepareBody(body)
+                let review = try await understand(body)
+                output.insert(Candidate(source: body, review: review, issue: nil), at: 0)
+            } catch is CancellationError { throw CancellationError() }
+            catch { output.insert(Candidate(source: body, review: nil, issue: error.localizedDescription), at: 0) }
+        }
+        try Task.checkCancellation()
+        var notices: [String] = []
+        let omitted = attachments.count - selected.attachmentIndices.count
+        if omitted > 0 { notices.append("Skipped \(omitted) attachment(s) classified as non-receipts. The original email is unchanged.") }
+        if body != nil && !selected.includeBody { notices.append("Used the receipt attachment(s); the accompanying email body was not added.") }
+        return Result(candidates: output, notices: notices)
     }
 }

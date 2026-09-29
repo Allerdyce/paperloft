@@ -1,9 +1,15 @@
 import XCTest
 
 final class MailFlowTests: XCTestCase {
-    @MainActor func testEmailOpenPanelImportReviewsBodyAndAttachmentAndKeepsNotices() throws {
+    @MainActor func testReceiptAttachmentSuppressesBodyAndKeepsNoticesAfterRestart() throws {
+        try verifyEmailImport(resource: "mail-receipt")
+    }
+    @MainActor func testHTMLBodyRendersAndRemainsReviewableAfterRestart() throws {
+        try verifyEmailImport(resource: "mail-body-only")
+    }
+    @MainActor private func verifyEmailImport(resource: String) throws {
         continueAfterFailure = false
-        let email = try XCTUnwrap(Bundle(for: MailFlowTests.self).url(forResource: "mail-receipt", withExtension: "eml"))
+        let email = try XCTUnwrap(Bundle(for: MailFlowTests.self).url(forResource: resource, withExtension: "eml"))
         let bytes = try Data(contentsOf: email)
         let app = XCUIApplication()
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
@@ -32,8 +38,8 @@ final class MailFlowTests: XCTestCase {
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 30))
         XCTAssertTrue(app.descendants(matching: .any)["review.importNotices"].firstMatch.exists)
         app.buttons["review.setAside"].click()
-        XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 30))
-        XCTAssertTrue(app.descendants(matching: .any)["review.importNotices"].firstMatch.exists)
+        XCTAssertTrue(app.buttons["inbox.import"].waitForExistence(timeout: 30), "One email should produce one selected receipt")
+        XCTAssertFalse(app.textFields["review.vendor"].exists)
         app.buttons["sidebar.library"].click()
         XCTAssertTrue(app.staticTexts["0 documents"].waitForExistence(timeout: 10), "Email-derived documents must remain in review")
         XCTAssertEqual(try Data(contentsOf: email), bytes)

@@ -8,8 +8,12 @@ import Darwin
 public enum MailImport {
     public struct Result: Sendable {
         public let documents: [URL]
+        public let bodyDocument: URL?
+        public let attachments: [URL]
+        public let bodyText: String
         public let notices: [String]
         public let envelope: MailEnvelope?
+        public let htmlBody: String?
     }
     public static func materialize(source: URL, destination: URL) throws -> Result {
         let mail = try MailDocument.parse(readBounded(source))
@@ -22,20 +26,25 @@ public enum MailImport {
         }
         let body = mail.body.trimmingCharacters(in: .whitespacesAndNewlines)
         let rendered = body.isEmpty ? nil : try bodyPDF(body)
-        guard rendered != nil || !mail.pdfs.isEmpty else { throw MailDocument.Failure.unsupported("no readable email body or PDF attachments") }
+        guard rendered != nil || !mail.pdfs.isEmpty || !mail.images.isEmpty else { throw MailDocument.Failure.unsupported("no readable email body or supported attachments") }
         let folder = destination.appendingPathComponent("Email-" + UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: false)
-        var urls: [URL] = []
+        var urls: [URL] = [], attachments: [URL] = []
+        var bodyDocument: URL?
         if let rendered {
             let url = folder.appendingPathComponent("Email body-" + UUID().uuidString + ".pdf")
-            try rendered.write(to: url, options: .withoutOverwriting); urls.append(url)
+            try rendered.write(to: url, options: .withoutOverwriting); urls.append(url); bodyDocument = url
         }
         for pdf in mail.pdfs {
             // The sender's filename is a display hint only and never becomes a path.
             let url = folder.appendingPathComponent("Attachment-" + UUID().uuidString + ".pdf")
-            try pdf.data.write(to: url, options: .withoutOverwriting); urls.append(url)
+            try pdf.data.write(to: url, options: .withoutOverwriting); urls.append(url); attachments.append(url)
         }
-        return Result(documents: urls, notices: ["Imported from \(source.lastPathComponent). The original email is unchanged. Review each document before filing."] + mail.notices, envelope: mail.envelope)
+        for image in mail.images {
+            let url = folder.appendingPathComponent("Attachment-" + UUID().uuidString + "." + image.fileExtension)
+            try image.data.write(to: url, options: .withoutOverwriting); urls.append(url); attachments.append(url)
+        }
+        return Result(documents: urls, bodyDocument: bodyDocument, attachments: attachments, bodyText: mail.body, notices: ["Imported from \(source.lastPathComponent). The original email is unchanged. Review each document before filing."] + mail.notices, envelope: mail.envelope, htmlBody: mail.htmlBody)
     }
 
     public static func readBounded(_ source: URL) throws -> Data {

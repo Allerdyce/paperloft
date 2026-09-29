@@ -7,7 +7,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 private func inboxDisplayStatus(_ item: InboxItem) -> String {
-    if item.review?.duplicate != nil { return "Duplicate" }
+    if item.review?.duplicate != nil || item.duplicateMailDeliveryID != nil { return "Duplicate" }
     if item.status == "failed" { return "Issue" }
     if item.status == "ready" {
         if item.review?.assessment.canAutoFile != true || (try? item.draft.receipt()) == nil { return "Issue" }
@@ -118,7 +118,7 @@ struct InboxView: View {
         switch choice {
         case "Ready": return inboxDisplayStatus(item) == "Ready"
         case "Processing": return inboxDisplayStatus(item) == "Processing"
-        case "Duplicates": return item.review?.duplicate != nil
+        case "Duplicates": return item.review?.duplicate != nil || item.duplicateMailDeliveryID != nil
         case "Issues": return inboxDisplayStatus(item) == "Issue"
         default: return true
         }
@@ -166,7 +166,14 @@ struct InboxView: View {
         switch value { case "Ready": return .green; case "Processing": return .blue; case "Duplicates", "Issues": return .orange; default: return .accentColor }
     }
     var body: some View {
-        if model.libraryURL == nil {
+        if model.mailRecoveryNeeded {
+            VStack(spacing: 16) {
+                Label("Email delivery needs recovery", systemImage: "exclamationmark.triangle").font(.title2)
+                Text(model.message ?? "Your saved inbox and originals are preserved. Finish recovery before making further changes.").multilineTextAlignment(.center)
+                Button("Retry recovery") { Task { await model.retryMailRecovery() } }
+                    .buttonStyle(.borderedProminent).accessibilityIdentifier("mail.retryRecovery")
+            }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else if model.libraryURL == nil {
             VStack(spacing: 18) {
                 Image(systemName: "tray.and.arrow.down.fill").font(.system(size: 48)).foregroundStyle(Color.accentColor).accessibilityHidden(true)
                 Text("From loose receipts to an organized folder").font(.title2.weight(.medium))
@@ -252,7 +259,7 @@ struct InboxView: View {
                             })).toggleStyle(.checkbox).labelsHidden()
                                 .accessibilityLabel("Select " + item.name)
                                 .accessibilityIdentifier("inbox.select." + item.id.uuidString)
-                            InboxRow(id: item.id, name: item.name, sourceLabel: item.intakeSource, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil).equatable()
+                            InboxRow(id: item.id, name: item.name, sourceLabel: item.intakeSource, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil || item.duplicateMailDeliveryID != nil).equatable()
                         }.tag(item.id).id(item.id)
                     }
                         }.accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
@@ -281,10 +288,13 @@ struct InboxView: View {
                     if item.status == "ready" { ReviewView(model: model, item: item).id(item.id) }
                     else {
                         VStack(spacing: 14) {
-                            if item.status == "failed" {
+                            if item.status == "failed" || item.status == "duplicate" {
                                 Image(systemName: "exclamationmark.triangle").font(.largeTitle).foregroundStyle(.orange).accessibilityHidden(true)
-                                Text("This document needs attention").font(.headline)
+                                Text(item.status == "duplicate" ? "Email already imported" : "This document needs attention").font(.headline)
                                 Text(item.issue ?? "Import the document again.").foregroundStyle(.primary).multilineTextAlignment(.center)
+                                if item.status == "failed" && item.source.pathExtension.lowercased() == "eml" {
+                                    Button("Retry email") { model.retryMailItem(item.id) }.accessibilityIdentifier("mail.retryEmail")
+                                }
                                 Button { model.setAside(item.id) } label: { Text("Remove").foregroundStyle(.red) }.help("Remove from Inbox. The original file stays in place.").accessibilityIdentifier("inbox.setAsideError")
                             } else { ProgressView("Reading your document…").accessibilityIdentifier("inbox.reading") }
                         }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -355,7 +365,10 @@ struct ReviewView: View {
         let reasons = review.assessment.reasons
         let crossCheck = reasons.contains(.parserUnavailable) || reasons.contains(.parserDisagreement)
         switch field {
+        case "vendor" where draft.vendor == review.fields.vendor:
+            if review.fields.emailVendorHint == true { return "From email sender. Verify merchant." }
         case "date" where draft.date == review.fields.date:
+            if review.fields.emailDateHint == true { return "From email date. Verify receipt date." }
             if crossCheck && sourceCheck.date == nil { return "Verify date and year against receipt." }
             if crossCheck && sourceCheck.date != review.fields.date { return "Verify date against receipt." }
         case "total" where draft.total == review.fields.total:
@@ -378,7 +391,7 @@ struct ReviewView: View {
         let total = try? Money(decimal: draft.total, currency: validCurrency ? currency : "USD")
         switch field {
         case "vendor":
-            return draft.vendor.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Enter the merchant name." : nil
+            return draft.vendor.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Enter the merchant name." : verificationMessage("vendor")
         case "date":
             return (try? ReceiptDate(iso8601: draft.date)) == nil ? "Choose a valid receipt date." : verificationMessage("date")
         case "total":

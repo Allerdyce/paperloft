@@ -1,9 +1,8 @@
 {
   "phase": "P3",
-  "step": "Local 1.1 scan, Share extension/handoff and Mail/watch safety tranche integrated; 41 XCTest +79 Swift tests pass; signed local Release/privacy pass; independent scoped code review pass. Full 1.1 intake/accuracy/native tests remain open; release/uploads blocked.",
+  "step": "1.1 Mail candidate selection, sandbox-safe body PDF rendering and reviewable envelope hints integrated; native Mail flows and signed development Release pass. Next wire Message-ID ledger with transactional Inbox proofs, then unified intake/live Share/Mail/scan and full regression/accuracy gates. Conditional distribution authorization recorded; submission/public release blocked.",
   "last_green_commit": "d9454df",
   "parked": [
-    "Distribution signing and ASC upload remain blocked; paid local development signing works",
     "Formal acceptance tag and release gates deferred",
     "System accessibility audit findings reproduced independently; AC-13 remains open",
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
@@ -13,7 +12,9 @@
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
     "Real receipts: OCR loses visible totals; unsupported total, merchant and transaction-date errors require follow-up. Tax safeguard is partial mitigation only.",
     "1.1 live Share probe stopped at macOS Unlock Mac prompt; real iPhone scan unverified",
-    "1.1 Mail candidate/rendering/holdout scoring, watch app-level rename identity, accessibility/memory checks incomplete"
+    "1.1 Message-ID ledger implemented/tested but not yet wired into Inbox; partial-candidate retry and durable proof lifecycle need integration tests",
+    "1.1 email fixture/holdout scoring and unified intake/live Mail/Share checks incomplete",
+    "Sandboxed WebKit content process terminates without network entitlement; native CoreText fallback verified and documented as implementation deviation"
   ],
-  "updated": "2026-09-27T23:18:21.319899+00:00"
+  "updated": "2026-09-29T21:47:54.313580+00:00"
 }

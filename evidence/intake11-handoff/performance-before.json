@@ -1,0 +1,9 @@
+{
+  "bytes" : 100000000,
+  "files" : 20,
+  "memoryPass" : false,
+  "originalsAndCopiesMatch" : true,
+  "processPeakBytes" : 108756992,
+  "timingPass" : true,
+  "writerSeconds" : 0.113035583
+}

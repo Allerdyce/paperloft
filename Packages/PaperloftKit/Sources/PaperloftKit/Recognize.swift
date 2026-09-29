@@ -5,7 +5,7 @@ import Vision
 import CoreImage
 
 public enum RecognitionError: Error, LocalizedError, Sendable {
-    case unreadableDocument, tooManyPages, oversizedImage, lockedDocument, emptyDocument
+    case unreadableDocument, tooManyPages, oversizedImage, lockedDocument, emptyDocument, multiPageImage
     public var errorDescription: String? {
         switch self {
         case .unreadableDocument: "This document could not be read. Try a new PDF or image copy."
@@ -13,6 +13,7 @@ public enum RecognitionError: Error, LocalizedError, Sendable {
         case .oversizedImage: "This image is 50 megapixels or larger. Export a smaller copy before importing."
         case .lockedDocument: "This PDF is password protected. Unlock a copy before importing it."
         case .emptyDocument: "This file is empty. Choose a document with content."
+        case .multiPageImage: "This TIFF contains several pages. Export it as a PDF so every page can be read."
         }
     }
 }
@@ -49,6 +50,9 @@ public struct DocumentRecognizer: DocumentTextRecognizing {
               let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
               let width = properties[kCGImagePropertyPixelWidth] as? Int,
               let height = properties[kCGImagePropertyPixelHeight] as? Int else { throw RecognitionError.unreadableDocument }
+        if CGImageSourceGetType(source) as String? == "public.tiff", CGImageSourceGetCount(source) != 1 {
+            throw RecognitionError.multiPageImage
+        }
         guard width > 0, height > 0, width <= 49_999_999 / height else { throw RecognitionError.oversizedImage }
         let options: [CFString: Any] = [kCGImageSourceCreateThumbnailFromImageAlways: true, kCGImageSourceCreateThumbnailWithTransform: true, kCGImageSourceThumbnailMaxPixelSize: 3000]
         guard let image = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else { throw RecognitionError.unreadableDocument }

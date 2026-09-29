@@ -16,7 +16,7 @@ public struct ReceiptNameTemplate: Sendable {
     }
     public func name(for receipt: Receipt, fileExtension: String) throws -> String {
         let ext = fileExtension.lowercased()
-        guard ["pdf", "png", "jpg", "jpeg", "heic"].contains(ext) else { throw ReceiptError.unsupportedFileType }
+        guard LibraryFiles.extensions.contains(ext) else { throw ReceiptError.unsupportedFileType }
         let values = ["date": receipt.date.formatted, "vendor": ReceiptFilename.safeComponent(receipt.vendor),
                       "total": try Money(minorUnits: receipt.totalMinorUnits, currency: receipt.currency).decimal,
                       "currency": receipt.currency, "category": ReceiptFilename.safeComponent(receipt.category),
