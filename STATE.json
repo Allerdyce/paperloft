@@ -1,9 +1,8 @@
 {
   "phase": "P3",
-  "step": "Local 1.1 scan, Share extension/handoff and Mail/watch safety tranche integrated; 41 XCTest +79 Swift tests pass; signed local Release/privacy pass; independent scoped code review pass. Full 1.1 intake/accuracy/native tests remain open; release/uploads blocked.",
+  "step": "Resume 1.1 MIME candidates and watched intake identity. Local preflight passes. Distribution signing/archives/ASC uploads authorized by owner when readiness checks pass; submission and public release remain blocked.",
   "last_green_commit": "d9454df",
   "parked": [
-    "Distribution signing and ASC upload remain blocked; paid local development signing works",
     "Formal acceptance tag and release gates deferred",
     "System accessibility audit findings reproduced independently; AC-13 remains open",
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
@@ -15,5 +14,5 @@
     "1.1 live Share probe stopped at macOS Unlock Mac prompt; real iPhone scan unverified",
     "1.1 Mail candidate/rendering/holdout scoring, watch app-level rename identity, accessibility/memory checks incomplete"
   ],
-  "updated": "2026-09-27T23:18:21.319899+00:00"
+  "updated": "2026-09-29T21:17:40.846721+00:00"
 }

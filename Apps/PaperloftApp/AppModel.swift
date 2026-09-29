@@ -898,11 +898,21 @@ final class FileGrant: @unchecked Sendable {
             throw AppIssue("Watched folders support PDF, PNG, JPEG and HEIC documents.")
         }
         let operation = beginOperation(.background); defer { endOperation(operation) }
-        let key = SHA256.hash(data: Data((root.path + "\0" + candidate.filename).utf8)).map { String(format: "%02x", $0) }.joined()
-        if watchedDeliveries[key]?.contentHash == candidate.contentHash { return }
-        if let pending = items.compactMap(\.watchedDelivery).filter({ $0.sourceKey == key }).max(by: { $0.sequence < $1.sequence }),
-           pending.sequence > (watchedDeliveries[key]?.sequence ?? 0), pending.contentHash == candidate.contentHash {
-            try await recordWatchedDelivery(pending); return
+        let legacyKey = SHA256.hash(data: Data((root.path + "\0" + candidate.filename).utf8)).map { String(format: "%02x", $0) }.joined()
+        let key = SHA256.hash(data: Data((root.path + "\0identity\0" + candidate.fileIdentity).utf8)).map { String(format: "%02x", $0) }.joined()
+        let pending = items.compactMap(\.watchedDelivery).filter { $0.sourceKey == key }.max { $0.sequence < $1.sequence }
+        let latest = [watchedDeliveries[key], pending].compactMap { $0 }.max { $0.sequence < $1.sequence }
+        if let latest {
+            watchedDeliverySequence = max(watchedDeliverySequence, latest.sequence)
+            if latest.contentHash == candidate.contentHash {
+                try await recordWatchedDelivery(latest)
+                return
+            }
+        } else if let legacy = watchedDeliveries[legacyKey], legacy.contentHash == candidate.contentHash {
+            // Only migrate a filename-only proof when no identity proof exists.
+            guard watchedDeliverySequence < Int64.max else { throw AppIssue("Watched-folder delivery history is full.") }
+            try await recordWatchedDelivery(WatchedDeliveryProof(sourceKey: key, contentHash: candidate.contentHash, sequence: watchedDeliverySequence + 1))
+            return
         }
         guard watchedDeliverySequence < Int64.max else { throw AppIssue("Watched-folder delivery history is full.") }
         let proof = WatchedDeliveryProof(sourceKey: key, contentHash: candidate.contentHash, sequence: watchedDeliverySequence + 1)

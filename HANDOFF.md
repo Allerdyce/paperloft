@@ -54,3 +54,13 @@ Owner restart cleared the agreement screen; standing Apple agreement exception r
 
 ## 1.1 live device checks
 Local signed Share extension builds and registers, but Finder Share displayed “Unlock Mac to continue with Siri request”; dismissed without changing settings. When the Mac is unlocked, retry a synthetic PDF through Finder > Share > Paperloft. Actual iPhone/iPad scan and Photos/Preview sharing remain unverified. No release authorization requested or assumed.
+
+## 2026-09-29 — Resume blocked by missing display
+
+Owner requested continuing 1.1. Local preflight returned 38 PASS, 1 WARN, 1 FAIL, 0 TFAIL, 15 MANUAL. The sole FAIL is no detected display. Independent `system_profiler SPDisplaysDataType` lists the M1 Pro GPU but no display or resolution. Evidence: build/intake11-resume-preflight.log. Protected baseline and existing lock hashes passed: build/intake11-resume-baseline.log.
+
+AGENTS.md section 2 requires stopping on preflight exit 1. No product changes or new test-pass claims. Owner action: connect/wake the display (or connect an HDMI display emulator); if using the laptop display, open the lid. Then rerun local preflight and resume Mail candidate/rendering and remaining 1.1 verification. Release/uploads remain blocked.
+
+2026-09-29 retry: display blocker CLEARED. Built-in Color LCD online at 3456x2234; local preflight 39 PASS, 1 WARN, 0 FAIL, 0 TFAIL (15 manual checks remain). Evidence: build/intake11-retry-preflight.log. Local development allowed; distribution/upload/release remain blocked.
+
+2026-09-29 authorization update: distribution signing, archives and App Store Connect uploads are now owner-authorized once readiness checks pass. Submission and public release remain blocked. Earlier blanket distribution restrictions are superseded; see docs/DISTRIBUTION-AUTHORIZATION.md.
