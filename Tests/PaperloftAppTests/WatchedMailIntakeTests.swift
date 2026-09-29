@@ -2,6 +2,7 @@ import Foundation
 import XCTest
 import PaperloftKit
 import CoreGraphics
+import CoreText
 import ImageIO
 import UniformTypeIdentifiers
 
@@ -18,6 +19,10 @@ import UniformTypeIdentifiers
     private func image(type: UTType = .png) throws -> Data {
         let context = try XCTUnwrap(CGContext(data: nil, width: 240, height: 240, bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue))
         context.setFillColor(CGColor(red: 0.3, green: 0.6, blue: 0.2, alpha: 1)); context.fill(CGRect(x: 0, y: 0, width: 240, height: 240))
+        context.setFillColor(CGColor(gray: 1, alpha: 1)); context.fill(CGRect(x: 0, y: 0, width: 240, height: 240))
+        let text = NSAttributedString(string: "Synthetic shop\nRECEIPT\n2026-09-29\nTotal USD 12.00", attributes: [NSAttributedString.Key(kCTFontAttributeName as String): CTFontCreateWithName("Helvetica" as CFString, 16, nil)])
+        let frame = CTFramesetterCreateFrame(CTFramesetterCreateWithAttributedString(text), CFRange(location: 0, length: 0), CGPath(rect: CGRect(x: 15, y: 15, width: 210, height: 210), transform: nil), nil)
+        CTFrameDraw(frame, context)
         let data = NSMutableData(), destination = try XCTUnwrap(CGImageDestinationCreateWithData(data, type.identifier as CFString, 1, nil))
         CGImageDestinationAddImage(destination, try XCTUnwrap(context.makeImage()), nil)
         XCTAssertTrue(CGImageDestinationFinalize(destination)); return data as Data

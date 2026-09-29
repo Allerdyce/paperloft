@@ -47,20 +47,21 @@ public struct ParserBackend: ExtractionBackend {
         let lines = text.components(separatedBy: .newlines).map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
         let lower = text.lowercased()
         var result = ExtractedFields(backend: "parser")
-        result.kind = firstCapture(#"(?i)\binv[o0][i1l]ce\b"#, lower) != nil ? "invoice" : (lower.contains("utility bill") ? "bill" : "receipt")
+        var transactionLines: Set<String> = []
         let totalLines = lines.filter { firstCapture(#"(?i)\b(?:grand\s+total|amount\s+(?:paid|due)|card\s+payment|balance\s+due|total\s+due|total)\b"#, $0) != nil }
         let candidates = totalLines.filter {
             !$0.lowercased().contains("subtotal") && firstCapture(#"(?i)\b(?:total\s+(?:savings|discount|tax|tip|cash|change)|(?:tax|tip)\s+total)\b"#, $0) == nil
         }
         for line in candidates.reversed() {
             if let amount = firstCapture(#"(?<![0-9.,-])(?:\$\s*|USD\s*)?([0-9][0-9,]*[.,][0-9]{2})(?:\s*(?:USD|paid))?\s*$"#, line, group: 1) {
-                result.total = normalizeMoney(amount); break
+                if let normalized = normalizeMoney(amount) {
+                    transactionLines.insert(line)
+                    if result.total == nil { result.total = normalized }
+                }
             }
         }
-        if result.total == nil && !lower.contains("receipt") && !lower.contains("invoice") && !lower.contains("bill") {
-            result.kind = "not_receipt"
-            return result
-        }
+        result.kind = documentHeadingKind(lines, transactionLines: transactionLines) ?? (result.total == nil ? "not_receipt" : "receipt")
+        if result.kind == "not_receipt" { return result }
         let dateLines = lines.sorted { priority($0) > priority($1) }
         for line in dateLines {
             if let date = parseDate(line) { result.date = date; break }
@@ -83,6 +84,35 @@ public struct ParserBackend: ExtractionBackend {
         return result
     }
 
+    private static func documentHeadingKind(_ lines: [String], transactionLines: Set<String>) -> String? {
+        // A document title is evidence; an incidental mention (including a
+        // cover note or "not a receipt or invoice") is not. The first explicit
+        // heading wins, so an invoice's later terms section cannot override it.
+        for (index, originalLine) in lines.enumerated() {
+            var line = originalLine
+            // A first-row merchant/title column layout is common on invoices.
+            // Require visible header structure and transaction evidence; prose
+            // containing a financial word is not a document heading.
+            if index == 0, !transactionLines.isEmpty,
+               let merchant = firstCapture(#"^(.+?)\s{2,}[A-Z0-9 #/.-]+$"#, line, group: 1),
+               let title = firstCapture(#"^.+?\s{2,}([A-Z0-9 #/.-]+)$"#, line, group: 1),
+               merchant.split(separator: " ").count <= 6,
+               merchant.split(separator: " ").allSatisfy({ word in word == "&" || word == "and" || word.first?.isUppercase == true || word.first?.isNumber == true }),
+               firstCapture(#"(?i)\b(?:not|no|never|receipt|invoice|bill|attached|read|about|please)\b"#, merchant) == nil {
+                line = title
+            }
+            // Footer terms cannot negate an earlier completed payment total.
+            if transactionLines.contains(line) { return nil }
+            if firstCapture(#"(?i)^(?:terms(?:\s+and\s+conditions)?|privacy\s+policy|service\s+agreement|quotation|quote|estimate|menu|price\s+list|advertisement)(?:\s*[:#].*)?$"#, line) != nil {
+                return "not_receipt"
+            }
+            guard let title = firstCapture(#"(?i)^(tax\s+inv[o0][i1l]ce|inv[o0][i1l]ce|utility\s+bill|bill|account\s+statement|sales\s+receipt|receipt|payment\s+confirmation)(?:\s*(?:[:#]|no\.?\s|number\s).+|\s+[a-z0-9/-]*[0-9][a-z0-9/-]*)?\s*$"#, line, group: 1)?.lowercased() else { continue }
+            if title.contains("bill") || title == "account statement" { return "bill" }
+            if firstCapture(#"inv[o0][i1l]ce"#, title) != nil { return "invoice" }
+            return "receipt"
+        }
+        return nil
+    }
     private static func priority(_ line: String) -> Int {
         let line = line.lowercased()
         if line.contains("due date") { return -1 }
