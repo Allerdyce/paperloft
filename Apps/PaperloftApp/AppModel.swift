@@ -582,8 +582,11 @@ final class FileGrant: @unchecked Sendable {
                     if !items.contains(where: { $0.id == id }) {
                         guard let intakeQueue else { throw AppIssue("Owned receipt storage is unavailable.") }
                         var source = claim.fileURL
+                        var transformDirectory: URL?
+                        defer { if let transformDirectory { try? FileManager.default.removeItem(at: transformDirectory) } }
                         if claim.item.type == .tiff {
-                            let directory = support.appendingPathComponent("ShareTransforms", isDirectory: true).appendingPathComponent(id.uuidString, isDirectory: true)
+                            let directory = support.appendingPathComponent("ShareTransforms", isDirectory: true).appendingPathComponent(UUID().uuidString, isDirectory: true)
+                            transformDirectory = directory
                             source = try await Task.detached(priority: .utility) {
                                 let data = try Data(contentsOf: claim.fileURL)
                                 return try ScanImport.materialize(data: data, typeIdentifier: UTType.tiff.identifier, pages: .combined, destination: directory)[0]
@@ -620,12 +623,13 @@ final class FileGrant: @unchecked Sendable {
     var scanProviderDirectory: URL { support.appendingPathComponent("ScanProviders", isDirectory: true) }
     func importScan(_ data: Data, typeIdentifier: String) async {
         do {
-            let destination = support.appendingPathComponent("Scans", isDirectory: true)
+            let destination = support.appendingPathComponent("Scans", isDirectory: true).appendingPathComponent(UUID().uuidString, isDirectory: true)
             let mode = scannedPages
             let urls = try await Task.detached(priority: .userInitiated) {
                 try ScanImport.materialize(data: data, typeIdentifier: typeIdentifier, pages: mode, destination: destination)
             }.value
-            await intake(urls, sourceLabel: "Scanned from iPhone or iPad", origin: .scan)
+            let accepted = await stageIntake(urls, sourceLabel: "Scanned from iPhone or iPad", origin: .scan)
+            if accepted.count == urls.count { try? FileManager.default.removeItem(at: destination) }
         } catch { message = error.localizedDescription }
     }
     func pasteImage() async {
@@ -636,6 +640,7 @@ final class FileGrant: @unchecked Sendable {
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             let url = folder.appendingPathComponent(UUID().uuidString + ".png"); try png.write(to: url, options: .atomic)
             let accepted = await stageIntake([url], sourceLabel: "Pasted image", origin: .paste)
+            if !accepted.isEmpty { try? FileManager.default.removeItem(at: url) }
             if let id = accepted.first, let item = items.first(where: { $0.id == id && $0.status != "aside" }) {
                 selectedItemID = item.id
                 pastedItemID = item.id
@@ -671,7 +676,12 @@ final class FileGrant: @unchecked Sendable {
                 do {
                     if source.pathExtension.lowercased() == "eml" {
                         let grant = sourceGrants[id]
-                        let destination = support
+                        let parentRecord = items[position].intakeRecord
+                        // Only this attempt's app-created scratch root is removed. The
+                        // owned parent remains retryable until the full delivery commits.
+                        let destination = support.appendingPathComponent("MailScratch", isDirectory: true).appendingPathComponent(UUID().uuidString, isDirectory: true)
+                        try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true)
+                        defer { try? FileManager.default.removeItem(at: destination) }
                         let imported = try await Task.detached(priority: .userInitiated) {
                             defer { withExtendedLifetime(grant) {} }
                             return try MailImport.materialize(source: source, destination: destination)
@@ -735,6 +745,14 @@ final class FileGrant: @unchecked Sendable {
                         guard inboxMayBeMutated, !Task.isCancelled, generation == token else { return }
                         try commitMailDelivery(parentID: id, replacements: replacements, messageID: imported.envelope?.messageID)
                         sourceGrants.merge(replacementGrants) { _, new in new }
+                        // The parent is never previewed, and all readers above have
+                        // finished. Only a successful durable snapshot AND ledger commit
+                        // authorize cleanup; uncertainty keeps the owned parent intact.
+                        if let parentRecord, inboxMayBeMutated, generation == token,
+                           !items.contains(where: { $0.intakeRecord?.id == parentRecord.id }), quickLookURL != source {
+                            do { try await intakeQueue.discard(parentRecord) }
+                            catch { message = "The email was imported. Its temporary intake copy could not be removed and remains safely stored." }
+                        }
                         continue
                     }
                     let review = try await engine.understand(source)
