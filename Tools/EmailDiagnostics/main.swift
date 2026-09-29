@@ -6,14 +6,7 @@ import PaperloftKit
 
 /// Predictions never open labels. Only the separate truth adapter does so.
 @main struct EmailDiagnostics {
-    struct Candidate: Encodable {
-        let source: String
-        let attachmentIndex: Int?
-        let selected: Bool
-        let contentHash: String?
-        let fields: ExtractedFields?
-        let error: String?
-    }
+    typealias Candidate = EmailDiagnosticCandidate
     struct Row: Encodable {
         let id: String
         let sourceHash: String
@@ -87,7 +80,7 @@ import PaperloftKit
         let handle = try FileHandle(forWritingTo: predictions); defer { try? handle.close() }
         let materializedRoot = output.appendingPathComponent("materialized")
         try FileManager.default.createDirectory(at: materializedRoot, withIntermediateDirectories: false)
-        var failedMessages = 0
+        var status = EmailDiagnosticStatus()
         for source in files {
             let id = source.deletingPathExtension().lastPathComponent
             let before = try hash(source)
@@ -120,13 +113,15 @@ import PaperloftKit
             } catch { failure = error.localizedDescription }
             let row = Row(id: id, sourceHash: before, sourcePreserved: try hash(source) == before, candidates: candidates,
                 renderingEngine: rendered?.engine.rawValue, renderingFallbackCode: rendered?.fallbackDiagnosticCode, notices: notices, error: failure)
-            if row.error != nil || !row.sourcePreserved || row.candidates.contains(where: { $0.error != nil }) { failedMessages += 1 }
+            status.record(candidates: row.candidates, error: row.error, sourcePreserved: row.sourcePreserved)
             var data = try encoder.encode(row); data.append(10); try handle.write(contentsOf: data); try handle.synchronize()
             FileHandle.standardError.write(Data("Completed \(id)\n".utf8))
         }
-        if failedMessages > 0 {
-            FileHandle.standardError.write(Data("\(failedMessages) messages had processing errors; raw records are retained.\n".utf8))
-            exit(1)
+        try encoder.encode(status).write(to: output.appendingPathComponent("run-summary.json"), options: .atomic)
+        FileHandle.standardError.write(Data("Completed \(status.completedMessages) messages; \(status.processingErrorMessages) processing-error messages, \(status.classificationFailureMessages) messages with \(status.classificationFailureCandidates) classification failures, \(status.sourceChangedMessages) changed originals. This is not an accuracy verdict.\n".utf8))
+        if status.exitCode != 0 {
+            FileHandle.standardError.write(Data("Partial or failed results are retained in raw records.\n".utf8))
+            exit(status.exitCode)
         }
     }
 }
