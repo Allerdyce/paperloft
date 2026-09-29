@@ -133,7 +133,7 @@ struct InboxView: View {
             Image(systemName: symbol).font(.system(size: 26, weight: .medium)).frame(height: 32)
                 .foregroundStyle(Color.accentColor).accessibilityHidden(true)
             Text(title).font(.title2.weight(.semibold))
-            Text(detail).font(.body).foregroundStyle(.secondary)
+            Text(detail).font(.body).foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity, alignment: .leading)
             Spacer(minLength: 4)
             Button(action) { Task { await perform() } }
@@ -188,16 +188,16 @@ struct InboxView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Bring your receipts together").font(.system(size: 25, weight: .semibold, design: .serif))
-                        Text("Choose how to add your first receipt.").foregroundStyle(.secondary)
+                        Text("Choose how to add your first receipt.").foregroundStyle(.primary)
                     }
                     HStack(alignment: .top, spacing: 20) {
                         intakeCard(title: "Import", symbol: "square.and.arrow.down", detail: "Add receipt files from your Mac. Choose PDFs, images or saved emails.", action: "Choose files…", identifier: "inbox.import") { await model.importFiles() }
                         intakeCard(title: "Paste", symbol: "doc.on.clipboard", detail: "Copied a receipt or screenshot? Paste the image straight into your Inbox.", action: "Paste image", identifier: "inbox.paste") { await model.pasteImage() }
                     }
                     Label("You can also drag receipt files anywhere into this Inbox.", systemImage: "arrow.down.doc")
-                        .font(.callout).foregroundStyle(.secondary)
+                        .font(.callout).foregroundStyle(.primary)
                     Text("PDF, PNG, JPEG, HEIC and EML · Originals stay in place when you confirm a copy.")
-                        .font(.caption).foregroundStyle(.secondary)
+                        .font(.caption).foregroundStyle(.primary)
                 }.frame(maxWidth: 720, alignment: .leading).padding(36)
                     .frame(maxWidth: .infinity, alignment: .center)
             }
@@ -615,7 +615,7 @@ struct BrowseView: View {
                     Text("Category").frame(width: 110, alignment: .leading)
                     Text("Total").frame(width: 108, alignment: .trailing)
                     Text("Action").frame(width: 70)
-                }.font(.caption.weight(.medium)).foregroundStyle(.secondary).padding(.horizontal, 16).padding(.bottom, 6)
+                }.font(.caption.weight(.medium)).foregroundStyle(.primary).padding(.horizontal, 16).padding(.bottom, 6)
                 List(selection: $selected) {
                     ForEach(model.documents) { document in
                         HStack(spacing: 12) {
@@ -656,7 +656,7 @@ struct BrowseView: View {
             }
             Text("\(model.documents.count) documents").font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading).accessibilityIdentifier("library.count")
             Text("Double-click a receipt to open it. Deleted receipts can be restored from Recently Deleted.")
-                .font(.caption).foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .leading)
+                .font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading)
         }.padding(24).background(canvas)
         .confirmationDialog("Delete this receipt?", isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }), titleVisibility: .visible) {
             Button("Delete Receipt", role: .destructive) {
@@ -683,14 +683,8 @@ struct LibraryFilterChip: View {
     let choices: [String]
     @Binding var selection: String
     var body: some View {
-        Menu {
-            Picker(title, selection: $selection) { ForEach(choices, id: \.self) { Text($0).tag($0) } }.pickerStyle(.inline)
-        } label: {
-            Text(selection.hasPrefix("All ") ? title + ": All" : selection).font(.callout.weight(.medium)).lineLimit(1).truncationMode(.tail)
-        }
-        .menuStyle(.borderlessButton).frame(maxWidth: title == "Category" ? 150 : 105).padding(.horizontal, 12).padding(.vertical, 8)
-        .background(Color.secondary.opacity(0.12), in: Capsule())
-        .accessibilityLabel(title).accessibilityValue(selection).accessibilityIdentifier(identifier)
+        AccessibleFilterPicker(label: title, identifier: identifier, choices: choices, selection: $selection)
+            .frame(maxWidth: title == "Category" ? 174 : 129)
     }
 }
 
@@ -802,12 +796,15 @@ struct PaperloftSettings: View {
                 }
                 GroupBox("Scanned pages") {
                     VStack(alignment: .leading, spacing: 8) {
-                        Picker("When scanning multiple pages", selection: Binding(get: { model.scannedPages }, set: { model.scannedPages = $0 })) {
-                            Text("Each page is a separate receipt").tag(ScannedPages.separate)
-                            Text("All pages are one document").tag(ScannedPages.combined)
-                        }.accessibilityIdentifier("settings.scannedPages")
+                        AccessiblePicker(label: "When scanning multiple pages", identifier: "settings.scannedPages",
+                            choices: ["Each page is a separate receipt", "All pages are one document"],
+                            selection: Binding(get: {
+                                model.scannedPages == .separate ? "Each page is a separate receipt" : "All pages are one document"
+                            }, set: {
+                                model.scannedPages = $0 == "Each page is a separate receipt" ? .separate : .combined
+                            }))
                         Text("Scan from File → Import from iPhone or iPad. Your devices need the same Apple Account.")
-                            .font(.caption).foregroundStyle(.secondary)
+                            .font(.caption).foregroundStyle(.primary)
                     }.padding(8)
                 }
                 GroupBox("Watched folder · Pro") {
