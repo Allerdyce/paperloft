@@ -1,0 +1,19 @@
+From: Forwarding Service <forwarder@example.invalid>
+To: Sample Customer <customer@example.invalid>
+Date: Tue, 29 Sep 2026 12:00:00 +0000
+Subject: Account message 43
+Message-ID: <email-043@paperloft.example.invalid>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="PaperloftSynthetic-email-043"
+
+--PaperloftSynthetic-email-043
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGJvZHk+PHRhYmxlPjx0cj48dGQ+S2VzdHJlbCBTdGF0aW9u
+ZXJ5PC90ZD48L3RyPjx0cj48dGQ+UmVjZWlwdCBmb3IgeW91ciBwdXJjaGFzZTwvdGQ+PC90cj48
+dHI+PHRkPlRyYW5zYWN0aW9uIGRhdGU6IDIwMjYtMDctMjU8L3RkPjwvdHI+PHRyPjx0ZD5DYXJk
+IHBheW1lbnQgVVNEIDIwNi40NjwvdGQ+PC90cj48dHI+PHRkPlRoYW5rIHlvdTwvdGQ+PC90cj48
+L3RhYmxlPjxpbWcgc3JjPSJodHRwczovL2Fzc2V0cy5leGFtcGxlLmludmFsaWQvdHJhY2tlci5w
+bmciPjwvYm9keT48L2h0bWw+
+--PaperloftSynthetic-email-043--

@@ -1,0 +1,15 @@
+From: Forwarding Service <forwarder@example.invalid>
+To: Sample Customer <customer@example.invalid>
+Date: Tue, 29 Sep 2026 12:00:00 +0000
+Subject: Account message 75
+Message-ID: <email-075@paperloft.example.invalid>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="PaperloftSynthetic-email-075"
+
+--PaperloftSynthetic-email-075
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+U2hpcHBpbmcgdXBkYXRlCllvdXIgcGFyY2VsIGlzIG9uIGl0cyB3YXkuClRyYWNrIHlvdXIgZGVs
+aXZlcnkgZnJvbSB5b3VyIGFjY291bnQu
+--PaperloftSynthetic-email-075--
