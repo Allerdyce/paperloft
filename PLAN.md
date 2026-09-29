@@ -77,3 +77,12 @@ Provide Paste image in empty and populated Inbox; remove owner-facing sample act
 
 ## Local intake 1.1 and regression testing
 See docs/INTAKE-1.1-PLAN.md. Prioritize scan staging tests, atomic share handoff and Mail/watch regressions in isolated worktrees; no frozen contract changes or distribution.
+
+## 2026-09-29 — Continue 1.1 after Mail renderer checkpoint
+
+1. Integrate Message-ID ledger with atomic Inbox proof publication, startup reconciliation, visible duplicate status and failure/retry tests (isolated owner_receipt_pack worktree; AppModel/LibraryView ownership).
+2. Recheck live signed Share registration and synthetic JPEG/PDF handoff. Current extension is registered but macOS Sharing switch is off; owner authorization requested before overriding AGENTS.md System Settings restriction. Continue independent work while pending.
+3. Inspect prior accessibility findings for targeted repairs; do not weaken frozen audit or claim inaccessible tests passed.
+4. Independently review integration, run relevant strict/native tests, preserve private originals and update precise remaining gates.
+
+Local startup preflight: 39 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 15 manual (build/intake11-continue-preflight.log). Protected baseline passes (build/intake11-continue-baseline.log). Conditional distribution authorization persists; submission/public release remain blocked.

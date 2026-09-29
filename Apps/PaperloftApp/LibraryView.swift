@@ -168,7 +168,7 @@ struct InboxView: View {
     var body: some View {
         if model.mailRecoveryNeeded {
             VStack(spacing: 16) {
-                Label("Email delivery needs recovery", systemImage: "exclamationmark.triangle").font(.title2)
+                Label("Receipt intake needs recovery", systemImage: "exclamationmark.triangle").font(.title2)
                 Text(model.message ?? "Your saved inbox and originals are preserved. Finish recovery before making further changes.").multilineTextAlignment(.center)
                 Button("Retry recovery") { Task { await model.retryMailRecovery() } }
                     .buttonStyle(.borderedProminent).accessibilityIdentifier("mail.retryRecovery")
@@ -417,12 +417,15 @@ struct ReviewView: View {
                 HStack {
                     Text("Receipt preview").font(.caption).foregroundStyle(.primary)
                     Spacer()
-                    Button("Expand preview", systemImage: "arrow.up.left.and.arrow.down.right") { model.quickLookURL = item.source }
+                    Button("Expand preview", systemImage: "arrow.up.left.and.arrow.down.right") { model.quickLookURL = item.documentURL }
                         .accessibilityIdentifier("review.expandPreview")
                 }.padding(10)
-                DocumentPreview(url: item.source)
+                Group {
+                    if let documentURL = item.documentURL { DocumentPreview(url: documentURL) }
+                    else { Text("Saved receipt preview is unavailable. Reimport the original.") }
+                }
                     .overlay {
-                        Button { model.quickLookURL = item.source } label: { Color.clear.contentShape(Rectangle()) }
+                        Button { model.quickLookURL = item.documentURL } label: { Color.clear.contentShape(Rectangle()) }
                             .buttonStyle(.plain).accessibilityLabel("Open full-size receipt preview")
                             .accessibilityIdentifier("review.openPreview")
                     }

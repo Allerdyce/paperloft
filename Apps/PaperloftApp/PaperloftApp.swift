@@ -67,7 +67,7 @@ struct PaperloftApp: App {
     for provider in providers where provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
         accepted = true
         _ = provider.loadObject(ofClass: NSURL.self) { item, _ in
-            if let url = item as? URL { Task { @MainActor in await model.intake([url]) } }
+            if let url = item as? URL { Task { @MainActor in await model.intake([url], origin: .drop) } }
         }
     }
     return accepted
