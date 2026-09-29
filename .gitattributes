@@ -1,0 +1,2 @@
+# Preserve MIME CRLF bytes; carriage returns are part of the email wire format.
+Tests/MailFixtures/*.eml -text whitespace=cr-at-eol

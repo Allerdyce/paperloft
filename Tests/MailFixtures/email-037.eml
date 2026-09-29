@@ -1,0 +1,19 @@
+From: Forwarding Service <forwarder@example.invalid>
+To: Sample Customer <customer@example.invalid>
+Date: Tue, 29 Sep 2026 12:00:00 +0000
+Subject: Account message 37
+Message-ID: <email-037@paperloft.example.invalid>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="PaperloftSynthetic-email-037"
+
+--PaperloftSynthetic-email-037
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGJvZHk+PHRhYmxlPjx0cj48dGQ+RWxtIFByaW50IFN0dWRp
+bzwvdGQ+PC90cj48dHI+PHRkPlJlY2VpcHQ8L3RkPjwvdHI+PHRyPjx0ZD5EYXRlOiAyMDI2LTAx
+LTEwPC90ZD48L3RyPjx0cj48dGQ+UGF5bWVudCBzdW1tYXJ5PC90ZD48L3RyPjx0cj48dGQ+QW1v
+dW50IHBhaWQgVVNEIDY2NC42ODwvdGQ+PC90cj48dHI+PHRkPlJldHVybnMgd2l0aGluIDMwIGRh
+eXM8L3RkPjwvdHI+PC90YWJsZT48aW1nIHNyYz0iaHR0cHM6Ly9hc3NldHMuZXhhbXBsZS5pbnZh
+bGlkL3RyYWNrZXIucG5nIj48L2JvZHk+PC9odG1sPg==
+--PaperloftSynthetic-email-037--
