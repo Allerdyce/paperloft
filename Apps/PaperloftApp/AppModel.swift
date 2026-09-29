@@ -127,7 +127,7 @@ final class FileGrant: @unchecked Sendable {
     deinit { if scoped { url.stopAccessingSecurityScopedResource() } }
 }
 
-@Observable @MainActor final class AppModel {
+@Observable @MainActor final class AppModel: PaperloftIntentService {
     var selection = "Inbox"
     var items: [InboxItem] = []
     var selectedItemID: UUID?
@@ -208,6 +208,7 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private let snapshotWriterOverride: ((Data, URL) throws -> Void)?
     @ObservationIgnored private let retirementSnapshotWriterOverride: ((Data, URL) throws -> Void)?
     @ObservationIgnored private let retirementBeforeDiscard: (@MainActor () async -> Void)?
+    @ObservationIgnored var openInboxWindow: (@MainActor () -> Void)?
     @ObservationIgnored private var startupTask: Task<Void, any Error>?
     @ObservationIgnored private var hasAttemptedStartup = false
     @ObservationIgnored private let proEntitlement: @MainActor () -> Bool
@@ -1087,6 +1088,68 @@ final class FileGrant: @unchecked Sendable {
         return false
     }
     var isPro: Bool { proEntitlement() }
+
+    // System actions use the same startup, ownership and durable publication boundary
+    // as other intake sources. A transport acknowledgment follows the inbox fsync.
+    func queueDocumentForReview(data: Data, filename: String) async throws {
+        try IntentDocumentInput.validate(data)
+        let name = URL(fileURLWithPath: filename).lastPathComponent
+        guard ["pdf", "png", "jpg", "jpeg", "heic"].contains(URL(fileURLWithPath: name).pathExtension.lowercased()) else { throw PaperloftIntentError.unsupportedDocument }
+        try await awaitStartup()
+        guard inboxMayBeMutated, let intakeQueue else { throw PaperloftIntentError.unavailable }
+        let token = generation, id = UUID()
+        let folder = support.appendingPathComponent("Intent-Scratch", isDirectory: true).appendingPathComponent(id.uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let source = folder.appendingPathComponent(name)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try await Task.detached(priority: .userInitiated) { try data.write(to: source, options: .atomic) }.value
+        try Task.checkCancellation()
+        let record = try await intakeQueue.enqueue(source: source, id: id, origin: .shortcut,
+            displayName: name, metadata: IntakeSourceMetadata(detail: "Shortcuts"), maximumBytes: Int64(IntentDocumentInput.maximumBytes))
+        let owned = try await intakeQueue.payloadURL(for: record)
+        try await awaitIntakePublication(generation: token)
+        var item = InboxItem(id: id, source: owned, intakeRecord: record, usesOriginalForMove: false,
+            intakeSource: "Shortcuts", receivedAt: record.receivedAt, displayName: record.displayName)
+        item.stagedSource = owned
+        try publishIntakeSnapshot(items + [item])
+        selectedItemID = id; selection = "Inbox"
+        processWaiting()
+    }
+
+    func intentReceipts() async throws -> [Receipt] {
+        try await awaitStartup()
+        guard !busy, let engine else { throw PaperloftIntentError.unavailable }
+        let operation = beginOperation(.background); defer { endOperation(operation) }
+        return try await engine.library.documents().map(\.receipt)
+    }
+
+    func exportAccountantPack(range: ExportDateRange) async throws -> URL {
+        try await awaitStartup()
+        guard isPro else { throw PaperloftIntentError.proRequired }
+        guard !busy, let engine else { throw PaperloftIntentError.unavailable }
+        let operation = beginOperation(.background); defer { endOperation(operation) }
+        let sourceAccess = libraryAccess
+        defer { withExtendedLifetime(sourceAccess) {} }
+        let destination = support.appendingPathComponent("Intent-Exports", isDirectory: true)
+        try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true)
+        let records = try await engine.library.documents()
+        let root = await engine.library.root.resolvingSymlinksInPath()
+        let target = destination.resolvingSymlinksInPath()
+        guard isPro else { throw PaperloftIntentError.proRequired }
+        let result = try await Task.detached(priority: .userInitiated) {
+            try AccountantPackExporter.export(documents: records, libraryRoot: root, destination: target, range: range, zip: true)
+        }.value
+        guard let zip = result.zipURL else { throw AppIssue("The accountant pack ZIP could not be created.") }
+        return zip
+    }
+
+    func openIntentInbox() async throws {
+        try await awaitStartup()
+        selection = "Inbox"
+        openInboxWindow?()
+        NSApplication.shared.activate()
+        NSApplication.shared.windows.first(where: { $0.title == "Paperloft Receipts" })?.makeKeyAndOrderFront(nil)
+    }
 
     func chooseWatchedFolder() async {
         guard isPro else { watchedStatus = "Watched folders require Pro."; return }

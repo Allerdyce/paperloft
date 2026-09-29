@@ -5,11 +5,13 @@ import UniformTypeIdentifiers
 @main @MainActor
 struct PaperloftApp: App {
     @State private var model: AppModel
+    @Environment(\.openWindow) private var openWindow
     @AppStorage("appearance") private var appearance = "System"
     private var colorScheme: ColorScheme? { appearance == "Light" ? .light : appearance == "Dark" ? .dark : nil }
     init() {
         let sharedModel = AppModel()
         _model = State(initialValue: sharedModel)
+        PaperloftIntentRuntime.service = sharedModel
         // Menu-only launches must restore the watched folder even when no main
         // window is visible. Window tasks share this same coalesced startup.
         Task { await sharedModel.start() }
@@ -19,7 +21,10 @@ struct PaperloftApp: App {
             LibraryView(model: model)
                 .preferredColorScheme(colorScheme)
                 .background(WindowAccessibility(label: "Paperloft workspace"))
-                .task { await model.start() }
+                .task {
+                    model.openInboxWindow = { openWindow(id: "main") }
+                    await model.start()
+                }
                 .onOpenURL { url in Task { await model.intake([url]) } }
         }
         .defaultSize(width: 1180, height: 760)
