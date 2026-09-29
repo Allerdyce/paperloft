@@ -541,6 +541,7 @@
 				);
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development.share;
+				LM_SKIP_METADATA_EXTRACTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -565,6 +566,7 @@
 				);
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development.share;
+				LM_SKIP_METADATA_EXTRACTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -589,6 +591,7 @@
 				);
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development.share;
+				LM_SKIP_METADATA_EXTRACTION = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
