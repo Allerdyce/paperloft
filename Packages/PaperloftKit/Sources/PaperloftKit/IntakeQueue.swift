@@ -2,7 +2,7 @@ import Foundation
 import CryptoKit
 import Darwin
 
-public enum IntakeSource: String, Codable, Sendable { case fileImport, drop, paste, watchedFolder, mail, share, scan, sample }
+public enum IntakeSource: String, Codable, Sendable { case fileImport, drop, paste, watchedFolder, mail, share, scan, sample, shortcut }
 public struct IntakeSourceMetadata: Codable, Equatable, Sendable {
     public let detail: String?
     public let mailSubject: String?

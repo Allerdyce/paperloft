@@ -16,6 +16,7 @@
 		B30000000000000000000001 /* Apps/PaperloftApp/AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000002 /* Apps/PaperloftApp/AppModel.swift */; };
 		B51000000000000000000001 /* Apps/PaperloftApp/EmailBodyRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51000000000000000000002 /* Apps/PaperloftApp/EmailBodyRenderer.swift */; };
 		B52000000000000000000001 /* MailReviewPreparation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52000000000000000000002 /* MailReviewPreparation.swift */; };
+		B53000000000000000000001 /* PaperloftIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53000000000000000000002 /* PaperloftIntents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		B30000000000000000000002 /* Apps/PaperloftApp/AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/AppModel.swift; sourceTree = SOURCE_ROOT; };
 		B51000000000000000000002 /* Apps/PaperloftApp/EmailBodyRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/EmailBodyRenderer.swift; sourceTree = SOURCE_ROOT; };
 		B52000000000000000000002 /* MailReviewPreparation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/MailReviewPreparation.swift; sourceTree = SOURCE_ROOT; };
+		B53000000000000000000002 /* PaperloftIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/PaperloftIntents.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -110,6 +112,7 @@
 				B30000000000000000000002 /* Apps/PaperloftApp/AppModel.swift */,
 				B51000000000000000000002 /* Apps/PaperloftApp/EmailBodyRenderer.swift */,
 				B52000000000000000000002 /* MailReviewPreparation.swift */,
+				B53000000000000000000002 /* PaperloftIntents.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				B30000000000000000000001 /* Apps/PaperloftApp/AppModel.swift in Sources */,
 				B51000000000000000000001 /* Apps/PaperloftApp/EmailBodyRenderer.swift in Sources */,
 				B52000000000000000000001 /* MailReviewPreparation.swift in Sources */,
+				B53000000000000000000001 /* PaperloftIntents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +451,8 @@
 				CODE_SIGN_STYLE = Manual;
 				GENERATE_INFOPLIST_FILE = YES;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftUITests.development;
+				PAPERLOFT_INTENT_APP_BUNDLE_IDENTIFIER = app.paperloft.receipts;
+				INFOPLIST_FILE = Tests/Support/IntentTestInfo.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = PaperloftApp;
@@ -460,6 +466,8 @@
 				CODE_SIGN_STYLE = Manual;
 				GENERATE_INFOPLIST_FILE = YES;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftUITests.development;
+				PAPERLOFT_INTENT_APP_BUNDLE_IDENTIFIER = app.paperloft.receipts;
+				INFOPLIST_FILE = Tests/Support/IntentTestInfo.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = PaperloftApp;
@@ -524,6 +532,8 @@
 				CODE_SIGN_STYLE = Manual;
 				GENERATE_INFOPLIST_FILE = YES;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftUITests.development;
+				PAPERLOFT_INTENT_APP_BUNDLE_IDENTIFIER = app.paperloft.receipts;
+				INFOPLIST_FILE = Tests/Support/IntentTestInfo.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = PaperloftApp;
