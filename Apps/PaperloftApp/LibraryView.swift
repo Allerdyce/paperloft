@@ -824,7 +824,7 @@ struct PaperloftSettings: View {
                                     .disabled(!model.isPro).accessibilityIdentifier("settings.enableWatchedFolder")
                             }
                         }
-                        Text("PDFs and images are copied to the inbox for review. Originals are never moved. Mail files remain pending until watched Mail import is available.").font(.caption)
+                        Text("PDFs, images (including TIFF), and saved email (.eml) are copied to the Inbox for review. Originals stay in place.").font(.caption)
                         ForEach(Array(model.watchedIssues.enumerated()), id: \.offset) { _, issue in Text(issue).font(.caption).foregroundStyle(.orange) }
                     }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
                 }
