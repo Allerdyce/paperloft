@@ -21,5 +21,18 @@ linked=subprocess.check_output(['otool','-L',str(exe)],text=True)
 for line in linked.splitlines()[1:]:
     library=line.strip().split(' (')[0]
     assert library.startswith(('/System/Library/','/usr/lib/')), f'Unexpected library: {library}'
-print('PASS: sandbox, no outgoing network entitlement, privacy manifest, no Package.resolved and Apple system libraries.')
+for extension in (app/'Contents/PlugIns').glob('*.appex'):
+    ent = plistlib.loads(subprocess.check_output(['codesign','-d','--entitlements',':-',str(extension)],stderr=subprocess.DEVNULL))
+    assert ent.get('com.apple.security.app-sandbox') is True
+    assert not ent.get('com.apple.security.network.client', False)
+    info = plistlib.loads((extension/'Contents/Info.plist').read_bytes())
+    rule = info['NSExtension']['NSExtensionAttributes']['NSExtensionActivationRule']
+    assert 'TRUEPREDICATE' not in str(rule)
+    privacy = plistlib.loads((extension/'Contents/Resources/PrivacyInfo.xcprivacy').read_bytes())
+    assert privacy.get('NSPrivacyTracking') is False and privacy.get('NSPrivacyCollectedDataTypes') == []
+    linked = subprocess.check_output(['otool','-L',str(extension/'Contents/MacOS'/info['CFBundleExecutable'])],text=True)
+    assert not any(name in linked for name in ['SwiftData.framework', 'Vision.framework', 'FoundationModels.framework', 'PaperloftKit'])
+    for line in linked.splitlines()[1:]:
+        assert line.strip().split(' (')[0].startswith(('/System/Library/','/usr/lib/'))
+print('PASS: app and embedded extensions sandboxed, no outgoing network, privacy manifests, activation rules, Apple system libraries only.')
 PY

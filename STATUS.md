@@ -49,3 +49,11 @@ Entry/calendar design pass: Import and Paste are distinct outlined icon boxes at
 Empty Inbox redesigned as two side-by-side Import/Paste cards, each icon/title/explanation/CTA, plus drag guidance. Native EmptyInboxCards.xcresult PASS and screenshot inspected; final icon height aligned. Protected baseline PASS. Actions and IDs preserved. No release/uploads.
 
 Empty Inbox cards: final strict Release build and independent source review PASS.
+
+## 2026-09-27 — 1.1 local intake testing
+
+Implemented scan page modes, bounded provider copying, an embedded Share extension and durable shared Inbox delivery. Added bounded forwarded-mail parsing and watched-file identity regressions. Independent scoped code review passed after fixing provider races, traversal permissions and process-lifetime Inbox ownership.
+
+Verified: Intake11OwnershipUnit.xcresult passes 41 XCTest + 79 Swift tests; signed development Release and deep signature/privacy checks pass. Handoff package independently passes 14 strict tests; headless provider smoke passes. These are local checks, not full CI or acceptance.
+
+Still open: real Finder/Preview/Photos sharing (system Share menu displayed “Unlock Mac to continue with Siri request”), actual iPhone scan, complete Mail candidate/rendering/scoring work, watched app-level rename identity and existing accessibility/performance gates. No release or upload.

@@ -51,3 +51,6 @@ Owner restarted ChatGPT and opened Icon Composer. Root verified New Document cli
 ## Native icon integrated; first-use blocker cleared
 
 Owner restart cleared the agreement screen; standing Apple agreement exception recorded at9ad4c75. Native four-layer icon fromdaf145d now integrated into root with three buildsettings only. Root strictRelease/compiledicon/CFBundleIconName/protectedbaselinePASS. Independentcritic accepted faithful localreconstruction;16pxtraycontrast still3/5 and background checks incomplete. Translucency-only experiment was independently rejected and reverted exactly; evidence retained. PROPOSALS.md records minimalcontrastoption without alteringownerartwork. MainPaperloft QA selection stillfailsnativepipe even thoughIconComposer controlswork; fullpersona/designchecks remainblocked. No additionalpermissions inferred missing fromthisfailure.
+
+## 1.1 live device checks
+Local signed Share extension builds and registers, but Finder Share displayed “Unlock Mac to continue with Siri request”; dismissed without changing settings. When the Mac is unlocked, retry a synthetic PDF through Finder > Share > Paperloft. Actual iPhone/iPad scan and Photos/Preview sharing remain unverified. No release authorization requested or assumed.

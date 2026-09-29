@@ -61,6 +61,7 @@ struct LibraryView: View {
             .navigationSplitViewColumnWidth(min: 170, ideal: 190, max: 240)
             .accessibilityElement(children: .contain).accessibilityLabel("Navigation and library location")
             .background(WindowAccessibility(label: "Navigation and library location", target: .splitPane))
+            .receiptDeviceImport(model: model)
         } detail: {
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
@@ -89,6 +90,7 @@ struct LibraryView: View {
             .accessibilityElement(children: .contain).accessibilityLabel(model.selection + " workspace")
             .background(WindowAccessibility(label: model.selection, target: .splitPane))
             .navigationTitle(model.selection)
+            .receiptDeviceImport(model: model)
 
         }
         .accessibilityElement(children: .contain)
@@ -250,7 +252,7 @@ struct InboxView: View {
                             })).toggleStyle(.checkbox).labelsHidden()
                                 .accessibilityLabel("Select " + item.name)
                                 .accessibilityIdentifier("inbox.select." + item.id.uuidString)
-                            InboxRow(id: item.id, name: item.name, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil).equatable()
+                            InboxRow(id: item.id, name: item.name, sourceLabel: item.intakeSource, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil).equatable()
                         }.tag(item.id).id(item.id)
                     }
                         }.accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
@@ -307,11 +309,13 @@ struct InboxView: View {
 struct InboxRow: View, Equatable {
     let id: UUID
     let name: String
+    var sourceLabel: String? = nil
     let status: String
     let duplicate: Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(name).lineLimit(2).font(.callout.weight(.medium))
+            if let sourceLabel { Text(sourceLabel).font(.caption).foregroundStyle(.secondary).lineLimit(2) }
             ReceiptStatusPill(title: statusLabel, symbol: status == "Issue" ? "exclamationmark.triangle.fill" : status == "Ready" ? "checkmark.circle.fill" : duplicate ? "doc.on.doc.fill" : "clock.fill", color: duplicate || status == "Issue" ? .orange : status == "Ready" ? .green : .blue)
         }.padding(.vertical, 8).accessibilityIdentifier("inbox.item." + id.uuidString)
     }
@@ -782,6 +786,16 @@ struct PaperloftSettings: View {
                         }.disabled(model.busy).accessibilityIdentifier("settings.newSampleLibrary")
                         #endif
                     }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+                }
+                GroupBox("Scanned pages") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Picker("When scanning multiple pages", selection: Binding(get: { model.scannedPages }, set: { model.scannedPages = $0 })) {
+                            Text("Each page is a separate receipt").tag(ScannedPages.separate)
+                            Text("All pages are one document").tag(ScannedPages.combined)
+                        }.accessibilityIdentifier("settings.scannedPages")
+                        Text("Scan from File → Import from iPhone or iPad. Your devices need the same Apple Account.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }.padding(8)
                 }
                 GroupBox("Watched folder · Pro") {
                     VStack(alignment: .leading, spacing: 10) {
