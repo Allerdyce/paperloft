@@ -14,12 +14,12 @@ else
 fi
 xcrun swiftc -swift-version 6 -strict-concurrency=complete -warnings-as-errors -parse-as-library -O \
   -I "$modules" "$repo/Apps/PaperloftApp/MailReviewPreparation.swift" \
-  "$repo/Apps/PaperloftApp/EmailBodyRenderer.swift" "$repo/Tools/EmailDiagnostics/main.swift" \
+  "$repo/Apps/PaperloftApp/EmailBodyRenderer.swift" "$repo/Tools/EmailDiagnostics/Status.swift" "$repo/Tools/EmailDiagnostics/main.swift" \
   "${objects[@]}" -lsqlite3 -o build/email-diagnostics/EmailDiagnostics
 python3 - <<'PYMETA'
 import hashlib, json, pathlib, subprocess
 root = pathlib.Path.cwd()
-paths = [pathlib.Path("Apps/PaperloftApp/MailReviewPreparation.swift"), pathlib.Path("Apps/PaperloftApp/EmailBodyRenderer.swift"), pathlib.Path("Tools/EmailDiagnostics/main.swift"), pathlib.Path("scripts/build_email_diagnostics.sh"), pathlib.Path("scripts/project_email_diagnostics.py")]
+paths = [pathlib.Path("Apps/PaperloftApp/MailReviewPreparation.swift"), pathlib.Path("Apps/PaperloftApp/EmailBodyRenderer.swift"), pathlib.Path("Tools/EmailDiagnostics/main.swift"), pathlib.Path("Tools/EmailDiagnostics/Status.swift"), pathlib.Path("scripts/build_email_diagnostics.sh"), pathlib.Path("scripts/project_email_diagnostics.py")]
 paths += sorted(pathlib.Path("Packages/PaperloftKit/Sources/PaperloftKit").glob("*.swift"))
 metadata = {"binarySHA256": hashlib.sha256(pathlib.Path("build/email-diagnostics/EmailDiagnostics").read_bytes()).hexdigest(), "revision": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(), "dirty": bool(subprocess.check_output(["git", "status", "--porcelain", "--", "Apps", "Packages", "Tools/EmailDiagnostics", "scripts/build_email_diagnostics.sh"], text=True)), "sources": {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}}
 pathlib.Path("build/email-diagnostics/build-manifest.json").write_text(json.dumps(metadata, sort_keys=True) + "\n")

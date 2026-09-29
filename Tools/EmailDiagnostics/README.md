@@ -9,6 +9,7 @@ Predictions enumerate only this checkout's `Tests/MailFixtures/*.eml`. They neve
 ```
 scripts/build_email_diagnostics.sh
 python3 Tools/EmailDiagnostics/test_projection.py
+scripts/test_email_diagnostic_status.sh
 ```
 
 The build supports Xcode 27's swiftbuild product object and older SwiftPM object layouts. Release optimization, Swift 6 complete concurrency and warnings-as-errors apply. Build manifest records revision, dirty state and relevant source hashes. The script builds only; it never runs a model.
@@ -23,7 +24,7 @@ python3 scripts/score_eval.py --mode private --labels build/email-diagnostics/pa
 
 Output must be a new immediate child of `build/email-diagnostics`; an existing directory is refused. Input IDs are optional, but **omitting them evaluates all 80 messages**. `parser` and `system` are explicit backend choices; use system after the parser smoke is sound, with a separately recorded evaluation. `automatic` uses the app's WebKit/native-fallback policy. `native` explicitly exercises only its native renderer and must be reported as such. The standalone process is not App Sandbox; sandbox renderer behavior has separate native evidence.
 
-Raw predictions and run/build manifests are retained. An exclusive directory claim prevents run overwrite. Fixture hashes are fixed in the run manifest, the binary is checked against its build manifest, and projection outputs refuse overwrites. `projection-manifest.json` links raw/run/label/fixture/output hashes; changed fixture bytes fail closed. Scoring adapter writes `labels.jsonl`, `predictions.jsonl`, their `body-` subsets, `candidate-truth.jsonl`, `selection-observations.jsonl`, and `projection-summary.json`. No production extraction reads those outputs. The adapter rejects repeated/unknown IDs. Declared run IDs, not successfully produced rows, define the denominator. Wrong/ambiguous document identity or a changed original cannot earn field accuracy. Missing rows remain missing predictions for the frozen scorer.
+Raw predictions and run/build manifests are retained. `run-summary.json` separately counts completed messages, processing-error messages, classification-failure messages/candidates and changed originals. Any of these failures produces exit 1, even if field extraction returned partial fields and no error was thrown. Partial fields and classification diagnostics remain unchanged in the raw output. Exit 0 means no recorded processing/classification/source-preservation failure; it does not mean predictions are accurate. An exclusive directory claim prevents run overwrite. Fixture hashes are fixed in the run manifest, the binary is checked against its build manifest, and projection outputs refuse overwrites. `projection-manifest.json` links raw/run/label/fixture/output hashes; changed fixture bytes fail closed. Scoring adapter writes `labels.jsonl`, `predictions.jsonl`, their `body-` subsets, `candidate-truth.jsonl`, `selection-observations.jsonl`, and `projection-summary.json`. No production extraction reads those outputs. The adapter rejects repeated/unknown IDs. Declared run IDs, not successfully produced rows, define the denominator. Wrong/ambiguous document identity or a changed original cannot earn field accuracy. Missing rows remain missing predictions for the frozen scorer.
 
 ## Interpretation
 
