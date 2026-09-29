@@ -120,3 +120,9 @@ Still open: real Finder/Preview/Photos sharing (system Share menu displayed “U
 
 - Message-ID ledger-to-Inbox transaction integration, partial-failure retry policy, unified intake queue, full email fixture and holdout scoring, live Mail promises, Finder/Preview/Photos Share and real iPhone scanning.
 - Existing full accessibility, system throughput, StoreKit/App Intents, icon and formal/final gates. No full CI/1.1 completion claim, archive, upload, submission or public release.
+
+## 2026-09-29 — Transactional Mail duplicate recovery
+
+Verified: durable Inbox proofs precede Message-ID ledger acknowledgment; startup replays committed proofs and blocks mutation on ambiguous recovery. Nine failure/recovery tests passed in the independently reviewed branch; strict Release and 155 combined unit tests passed there. Root native MailFlow tests both PASS in build/Intake11MailDuplicateNative2.xcresult: attachment selection and HTML body import, review preservation, removal, same-ID changed-byte duplicate and persistence across restart. Original fixtures unchanged. Root combined unit regression is still running.
+
+Not done: watched EML integration and updated accessibility repairs are in progress. Live Share requires enabling the currently disabled system sharing extension; owner permission requested because AGENTS.md prohibits System Settings changes. Full launch readiness remains unverified.

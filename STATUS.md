@@ -71,3 +71,5 @@ AGENTS.md section 2 requires stopping on preflight exit 1. No product changes or
 ## 2026-09-29 — 1.1 Mail development checkpoint
 
 Email attachments now select receipt candidates and suppress an accompanying body. Supported image attachments materialize with validated formats. HTML/plain body receipts render to searchable PDFs with source headers; a native fallback fixes WebKit startup failure in the sandbox without enabling network access. Missing merchant/date may use email hints, with persistent field-level verification flags. Native attachment and body import/relaunch/removal tests both PASS (Intake11MailNativeFallback.xcresult); signed development Release, signatures and privacy checks PASS. Message-ID ledger is tested but still needs transactional Inbox integration. Full acceptance remains open; no upload occurred.
+
+2026-09-29: Message-ID transaction/recovery integrated; native changed-byte duplicate and restart tests2/2 PASS. Watched EML and accessibility repairs continue. Full readiness is not yet passed; conditional distribution authorization is in place. Live Share alone awaits permission to enable the disabled sharing extension.
