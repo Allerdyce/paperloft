@@ -387,6 +387,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 EvidencePair LLC";
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development;
+				COPY_PHASE_STRIP = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts;
 				PRODUCT_NAME = "Paperloft Receipts";
 			};
@@ -409,6 +410,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 EvidencePair LLC";
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development;
+				COPY_PHASE_STRIP = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts;
 				PRODUCT_NAME = "Paperloft Receipts";
 			};
@@ -497,6 +499,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 EvidencePair LLC";
 				MARKETING_VERSION = 1.1;
 				PAPERLOFT_DEVELOPMENT_BUNDLE_IDENTIFIER = app.paperloft.receipts.development;
+				COPY_PHASE_STRIP = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.receipts;
 				PRODUCT_NAME = "Paperloft Receipts";
 			};
