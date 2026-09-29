@@ -1,75 +1,19 @@
-# Paperloft status
+# Paperloft development status — 2026-09-29
 
-Development is active on run/1. Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass; submission and public release remain blocked. The display startup blocker is cleared. No owner action is currently required for local development. 1.1 and launch readiness are not yet complete. Historical entries below retain their original dates; the current authorization supersedes earlier blanket upload restrictions.
+**Actively developing 1.1; not launch-ready.** Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass. Submission and public release remain blocked.
 
-Integrated: saved EML import, watched-folder intake, startup/corrupt-state protection, cached assessment and efficient row rendering. Combined checks passed83 core tests,8 functional interface tests and strict Release/QA builds. The current-root menu-bar reopen check independently passed and is now a regression test. Protected baseline passes. The full interface suite still fails accessibility with14 findings; last fully green CI remains d9454df.
+## Latest verified work
+- Email attachment selection and searchable body-PDF fallback work in the sandbox. Native import/restart/removal tests pass.
+- Transactional Message-ID duplicate recovery is integrated. Reimporting changed bytes with the same ID remains a duplicate after restart; two native tests pass. Root combined unit run: 156 pass (`build/Intake11DuplicateCombined.xcresult`).
+- Watched EML/TIFF routing merged after independent review: 160 unit tests and strict Release pass in the author worktree, including partial writes, rename, retry and proof recovery.
+- Accessible native Library/scan pickers merged. Four product picker-action findings cleared; accessibility audit still fails21findings. Native Library filter/search/View flow passes; light/dark captures inspected.
+- Display/startup blocker cleared; local preflight and protected baseline pass.
 
-Performance: fresh parser batches met direct time/memory/responsiveness limits. Fresh system batch completed100/100 in358.972s, exceeding240s; required signpost capture also remains unavailable. An isolated prewarm experiment preserved all150 accuracy predictions exactly but completed only80/100 before360s. It was rejected; source is restored exactly on isolated checkpoint1a7309c. No experiment entered root.
+## Current work
+Common container-owned intake staging, remaining accessibility findings, and combined regression. Development continues independently of the Share setting permission.
 
-Independent design review observed the dark review screen only (visible design scores4/5), then native Computer Use failed on a click. After restart, Icon Composer click and keyboard control work. Its native icon is integrated and the root optimized build passes; original artwork/colors retained. Independent review leaves16pxtraycontrast at3/5; a material-only trial was rejected. Paperloft-specific Computer Use selection still fails. Other screens, appearances and persona sessions remain unverified. Native Mail promises, App Intents framework discovery, StoreKit SDK testing, accessibility and full performance are parked with evidence in HANDOFF.md and REPORT.md.
+## Remaining launch gates
+Full regression/accessibility, extraction accuracy and fresh email holdout, performance, live Mail/Share/scan, StoreKit/App Intents integration, icon review, formal acceptance baseline and final readiness checks remain open. The last full green CI commit remains `d9454df`; scoped passes above are not full acceptance.
 
-Source and reports are pushed; raw result bundles/screenshots remain locally preserved. This is an unfinished, resumable checkpoint, not accepted full CI or a release. No recurring background schedule exists.
-
-2026-09-27 owner UX update: double-click opens receipts; direct Delete and Recently Deleted restore work across restart; clearer status pills and tax/accountant export integrated. Independent scoped review PASS, strict optimized build PASS, two native UI tests PASS. Updated local app: build/RootWatchRelease/Build/Products/Release/Paperloft Receipts.app. Paul development-team membership type/Team ID pending. Not launch ready; existing full gates and release/upload block remain.
-
-Followup: Settings > Appearance now offers System/Light/Dark, verified across restart. Paul team GQ4UA5C6RQ local development signing works with separate bundle ID; no further certificate setup currently needed. Existing launch gates and release/upload block remain.
-
-Visual-reference correction: redesigned library now has warm rounded rows, colored receipt icons, compact filters and per-row View. Exact new Release process launched after quitting old QA/Release instances; Computer Use verified owner's actual library screen. Scoped independent review and relevant native tests PASS. Full launch gates remain open.
-
-Real-receipt update: 22 original document outputs audited locally. Unsupported tax now flagged for review; date/merchant/OCR-total problems remain open. Forest sidebar, Settings navigation and Inbox status filters independently reviewed; strict builds and targeted tests pass. Fresh updated Release launched. Final screenshot unavailable after Computer Use pipe failure. See evidence/owner-receipt-audit-summary.md. Not launch ready.
-
-Settings navigation follow-up: sidebar Settings now renders inside the main window with flexible layout and no duplicate heading. Footer uses Saved on this Mac + folder name. Native menu/toolbar preferences retain their conventional window. Strict Release build PASS (build/settings-page-release.log), independent source review PASS, native navigation test PASS (build/SettingsPage2.xcresult): no extra window, Settings content inside main, navigation back to Library. First test incorrectly read static-text label instead of value; corrected assertion. Computer Use native pipe prevented restarting the owner-facing Release process after rebuilding; reopen exact build to see changes.
-
-Inbox follow-up: added accessible Add more receipts row using existing import flow. Added filingUnavailableReason mirroring all existing canFile conditions and displayed beneath disabled filing button. Independent source reviews and strict Release build PASS (build/add-more-filing-reason-release.log). Owner screenshot shows valid ready fields, no duplicate warning, and spinner; busy is suspected but runtime cause is NOT confirmed or repaired. No gate bypass. Current native interaction remains unverified; preserve owner ongoing receipt session.
-
-Review workflow refinements (2026-09-27): Confirm replaces File Copy, with copy/move behavior explained; Remove is red and only removes Inbox entry, preserving source. Add-more row remains. Shared display status separates Ready, Processing, Duplicate and Issue; Issues includes extraction assessment warnings and invalid drafts, not only failed imports. Overall uncertainty stays a receipt-level notice, no longer outlines every field. Invalid field messages appear directly below that field; empty tax is valid. Calendar picker uses explicit Use date, preserving typed input until confirmation.
-
-Ready receipt confirmation now proceeds during background operations. Owned operation tokens preserve exclusive library changes and prevent one task clearing another's lock; watched delivery ledger commits serialize and stale refreshes cannot replace newer results. 36 XCTest + 68 Swift tests PASS, including 4 concurrency regressions (build/concurrent-confirmation-tests.log). Native review flow PASS (build/ReviewRefinements.xcresult): issue filtering, calendar, Confirm/Remove labels, missing-total message and re-enabled confirmation after correction. Strict Release and protected baseline pass. Full launch gates remain open; existing owner-facing process may need reopening to load the rebuilt binary.
-
-Final independent scoped source/concurrency review PASS. Reviewer caught stale Waiting status text and filter-driven selection changes; both corrected. Active editable receipt remains visible until selection/filter changes or confirmation; Processing rows are not pinned. Native tests ReviewRefinements2/3 PASS, including actual Issue text; final ready-only pin narrowing strictly rebuilt and source reviewed, not separately exercised with a real-model ready-to-issue transition. No full acceptance/release claim.
-
-Issue explanation follow-up: replaced generic review notice with an exhaustive list of recorded assessment reasons under Why this needs checking. Differentiates uncertainty/cross-check failures from invalid fields, and original extraction problems from user corrections. Strict Release build PASS (build/issue-explanations-release.log), independent source review PASS, native IssueExplanations.xcresult PASS including visible parserUnavailable reason. No new extraction accuracy claim or private data committed. Remove text explicitly red inside button label.
-
-Review simplification and inspection: removed header extraction explainers and duplicate tax warnings. Short verification actions now sit under relevant orange fields; missing category prompts its field. Original import notices remain available in collapsed Import details below actions. Cross-check parsing is cached in StoredReview without changing Codable format. Calendar hides its redundant label, uses intrinsic compact sizing, opens toward window center and keeps explicit Cancel/Use date. Preview now has Expand preview and a clickable document overlay using native resizable Quick Look, preserving current draft.
-
-Final verification: MailFlow PASS in ExpandedReceiptPreview3.xcresult, preserving notices and original email bytes. ExpandedReceiptPreview5.xcresult PASS: both explicit Expand preview and direct receipt click open Quick Look; returning preserves fields; inline validation and calendar interaction pass. Calendar screenshot inspected at build/expanded-preview5-attachments/F3A56A89-000D-42FF-B594-52FFED171F09.png: compact and wholly inside main window. Strict Release and baseline PASS. Independent source review PASS; inherited accessibility identifiers found by native tests corrected with explicit child containers. Owner running session not restarted.
-
-Inbox bulk controls and Library cleanup: checkboxes select individual Inbox items, Select all selects current visible view, Clear selection resets, and red Remove selected removes only entries (original files untouched). Filter changes clear selection and disappearing entries are pruned. Conflicting busy operations disable bulk removal. Removed duplicate top toolbar import/sample/settings icons; Inbox controls, sidebar Settings, native preferences shortcut and File menu remain. Library selected rows retain normal surface and show border only; native keyboard/context selection preserved. Independent source review PASS; strict Release and protected baseline PASS. Native bulk/selection checks underway.
-
-BulkAndSelection.xcresult: both native tests PASS (select-two/remove, select-all/remove, Library filters/View/appearance). Selected Library row screenshot inspected: border only, normal background and readable text; toolbar icons absent. Scoped independent source review PASS. Full launch gates unchanged.
-
-Inbox cleanup: header shows only Processing while pending; all result counts remain in filters. Paste image is available as a button in empty and populated Inbox. Owner-facing sample actions removed; fixture loading/reset are DEBUG-only. Strict Release build and protected baseline PASS. InboxCleanup2.xcresult scoped native Inbox flow PASS, including Paste button availability in both states and absent Ready header; first run caught link-style accessibility mismatch, corrected. Actual clipboard import was not exercised. Full P3 and release gates remain open; running owner session preserved.
-
-Inbox creation controls: Add receipts and Paste image now fixed above left receipt list, replacing bottom add row and global paste action. Successful paste selects new item, reveals All filter, scrolls to it and shows Image added. Returning to Inbox preserves selection/filter. Strict Release, local preflight and protected baseline PASS; independent source review PASS. InboxCreation.xcresult native Inbox flow PASS; screenshot inspected confirms fixed top-left controls. Actual long-list clipboard paste/scroll was source-reviewed, not exercised end-to-end; owner clipboard untouched. Full launch gates unchanged.
-
-Inbox action row: Paste then Import aligned side by side at far right of filter row, outside horizontal filter scroll. Removed left creation header; paste feedback retained beneath actions. Strict Release, protected baseline, independent source review and InboxActionRow.xcresult PASS. Native assertions verify labels, ordering and vertical alignment; screenshot inspected. Owner running process preserved. Release/uploads blocked.
-
-Entry/calendar design pass: Import and Paste are distinct outlined icon boxes at right of filter row. Replaced compact graphical picker with spacious seven-column calendar, direct month/year menus, month arrows, Today and selected-date footer, retaining Cancel/Use date. Gregorian month heading matches grid; selected-day text adapts to dark mode. Strict Release and baseline PASS. EntryCalendar.xcresult native UI PASS including month navigation, Today/Cancel preserves draft and Use date; screenshot inspected. Leap-day selection and final dark-mode contrast tweak source reviewed, not separately UI exercised. No release/upload.
-
-Empty Inbox redesigned as two side-by-side Import/Paste cards, each icon/title/explanation/CTA, plus drag guidance. Native EmptyInboxCards.xcresult PASS and screenshot inspected; final icon height aligned. Protected baseline PASS. Actions and IDs preserved. No release/uploads.
-
-Empty Inbox cards: final strict Release build and independent source review PASS.
-
-## 2026-09-27 — 1.1 local intake testing
-
-Implemented scan page modes, bounded provider copying, an embedded Share extension and durable shared Inbox delivery. Added bounded forwarded-mail parsing and watched-file identity regressions. Independent scoped code review passed after fixing provider races, traversal permissions and process-lifetime Inbox ownership.
-
-Verified: Intake11OwnershipUnit.xcresult passes 41 XCTest + 79 Swift tests; signed development Release and deep signature/privacy checks pass. Handoff package independently passes 14 strict tests; headless provider smoke passes. These are local checks, not full CI or acceptance.
-
-Still open: real Finder/Preview/Photos sharing (system Share menu displayed “Unlock Mac to continue with Siri request”), actual iPhone scan, complete Mail candidate/rendering/scoring work, watched app-level rename identity and existing accessibility/performance gates. No release or upload.
-
-## 2026-09-29 — Resume blocked by missing display
-
-Owner requested continuing 1.1. Local preflight returned 38 PASS, 1 WARN, 1 FAIL, 0 TFAIL, 15 MANUAL. The sole FAIL is no detected display. Independent `system_profiler SPDisplaysDataType` lists the M1 Pro GPU but no display or resolution. Evidence: build/intake11-resume-preflight.log. Protected baseline and existing lock hashes passed: build/intake11-resume-baseline.log.
-
-AGENTS.md section 2 requires stopping on preflight exit 1. No product changes or new test-pass claims. Owner action: connect/wake the display (or connect an HDMI display emulator); if using the laptop display, open the lid. Then rerun local preflight and resume Mail candidate/rendering and remaining 1.1 verification. Release/uploads remain blocked.
-
-2026-09-29 retry: display blocker CLEARED. Built-in Color LCD online at 3456x2234; local preflight 39 PASS, 1 WARN, 0 FAIL, 0 TFAIL (15 manual checks remain). Evidence: build/intake11-retry-preflight.log. Local development allowed; distribution/upload/release remain blocked.
-
-2026-09-29 authorization update: distribution signing, archives and App Store Connect uploads are now owner-authorized once readiness checks pass. Submission and public release remain blocked. Earlier blanket distribution restrictions are superseded; see docs/DISTRIBUTION-AUTHORIZATION.md.
-
-## 2026-09-29 — 1.1 Mail development checkpoint
-
-Email attachments now select receipt candidates and suppress an accompanying body. Supported image attachments materialize with validated formats. HTML/plain body receipts render to searchable PDFs with source headers; a native fallback fixes WebKit startup failure in the sandbox without enabling network access. Missing merchant/date may use email hints, with persistent field-level verification flags. Native attachment and body import/relaunch/removal tests both PASS (Intake11MailNativeFallback.xcresult); signed development Release, signatures and privacy checks PASS. Message-ID ledger is tested but still needs transactional Inbox integration. Full acceptance remains open; no upload occurred.
-
-2026-09-29: Message-ID transaction/recovery integrated; native changed-byte duplicate and restart tests2/2 PASS. Watched EML and accessibility repairs continue. Full readiness is not yet passed; conditional distribution authorization is in place. Live Share alone awaits permission to enable the disabled sharing extension.
+## Owner action
+Only live Share testing is waiting for permission to turn on Paperloft under macOS Sharing extensions (currently off). Real iPhone scanning will also need the owner’s device. No distribution upload has occurred. Detailed evidence and history: REPORT.md; blockers: HANDOFF.md.
