@@ -13,3 +13,9 @@ Nine new `StartupIntakeRetirementTests` cover explicit removal vs live/orphan pr
 Strict native hostless suite passed: 97 XCTest + 101 Swift Testing tests, zero failures. Existing tests remained unchanged. Strict Release build passed. Ignored logs: `build/intake11/startup-retirement-tests2.log`, `build/intake11/startup-retirement-release.log`.
 
 Remaining retention requires explicit durable consumption/retirement proofs for filed or unselected documents. Full temporary-storage compliance and complete 1.1 readiness remain unclaimed.
+
+## Independent review repairs
+
+The first scoped review found two blockers: the initial live-model check did not prevent a later model starting during an actor suspension, and conflicting aside metadata for the same queue UUID could leave a reference to discarded bytes. A per-support same-process startup lease now spans the entire restore/retirement operation; later model startup fails before reading the snapshot until that lease is released. Any conflicting IntakeRecord reference preserves the entire UUID. The existing OS consumer lease still handles another process.
+
+Two added regressions deterministically start a second model at the pre-discard suspension and preserve conflicting same-ID records. The same-process/consumer-lease, corrupted-proof and legacy-owned-source tests now include genuinely eligible removed records, so their preservation assertions exercise the guards. All 11 retirement tests pass. Final strict native run: 99 XCTest + 101 Swift Testing tests, zero failures (`build/intake11/startup-retirement-review-tests2.log`). Incremental Release with Swift warnings as errors passed (`build/intake11/startup-retirement-review-release.log`). This is not a fresh warning-free build claim: root's fresh Release separately reported a Share extension AppIntents metadata warning and records it explicitly.
