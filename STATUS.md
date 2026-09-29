@@ -10,7 +10,7 @@
 - Display/startup blocker cleared; local preflight and protected baseline pass.
 
 ## Current work
-Common container-owned intake staging, remaining accessibility findings, and combined regression. Development continues independently of the Share setting permission.
+Common container-owned intake is merged after independent review:185unit tests and strictRelease pass in the author worktree. Root complete nativeUI regression is running. Safe temporary-copy cleanup and synthetic email accuracy diagnostics continue. Development continues independently of the Share setting permission.
 
 ## Remaining launch gates
 Full regression/accessibility, extraction accuracy and fresh email holdout, performance, live Mail/Share/scan, StoreKit/App Intents integration, icon review, formal acceptance baseline and final readiness checks remain open. The last full green CI commit remains `d9454df`; scoped passes above are not full acceptance.

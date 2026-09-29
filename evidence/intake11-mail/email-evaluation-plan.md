@@ -10,7 +10,7 @@ Planning only, 2026-09-29. Do not implement or run the 80-message model evaluati
 4. Run a small parser smoke first to check plumbing, failures and output schema, then all 80 parser diagnostics. Schedule a separately recorded system-model run only after the shared pipeline and smoke are sound. Preserve missing/error predictions as failures; never choose the model candidate that best matches a label. Coordinate GUI ownership for app-layer/AppKit/WebKit execution and separately verify the sandbox-native path.
 5. A separate truth adapter, outside extraction, projects the existing label data into the frozen scorer's schema. Keep raw predictions and projected labels immutable per run, with source revision/dirty status, fixture hashes, backend and command manifest. A missing or ambiguous selected candidate gets no fabricated field prediction. Do not pad, repeat, relabel or filter unsuccessful messages to meet a legacy mode's sample minimum.
 
-Proposed additive files after approval to implement: `Tools/EmailDiagnostics/` harness, `scripts/eval_email_diagnostics.sh`, a small truth projection utility, and diagnostic schema/projection tests. A shared `Apps/PaperloftApp/MailReviewPreparation.swift` may be needed solely to reuse production orchestration. The existing frozen tests and scorer remain unchanged. Keep the potentially slow model run out of the ordinary unit-test suite.
+Proposed additive implementation files: `Tools/EmailDiagnostics/` harness, `scripts/eval_email_diagnostics.sh`, a small truth projection utility, and diagnostic schema/projection tests. A shared `Apps/PaperloftApp/MailReviewPreparation.swift` may be needed solely to reuse production orchestration. The existing frozen tests and scorer remain unchanged. Keep the potentially slow model run out of the ordinary unit-test suite.
 
 ## Reuse the unchanged scorer only for reported field metrics
 
@@ -20,7 +20,7 @@ The frozen scorer supports `fixtures`, `parser`, `holdout`, and `private`, not `
 - `holdout` requires 60 documents, not the add-on's fresh 40-email holdout.
 - `private` is a **report-only mode**, with minimum one document and no gating thresholds. Its date equality, cent-level total matching, vendor normalization/fuzzy comparison and missing-prediction failures remain the frozen implementation.
 
-The lawful diagnostic invocation uses `score_eval.py` directly with explicit synthetic paths, for example:
+The diagnostic invocation uses `score_eval.py` directly with explicit synthetic paths, for example:
 
 ```
 python3 scripts/score_eval.py --mode private \
