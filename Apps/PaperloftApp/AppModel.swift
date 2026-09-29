@@ -75,6 +75,15 @@ struct InboxItem: Codable, Identifiable, Sendable {
     let id: UUID
     var source: URL
     var bookmark: Data?
+    var intakeRecord: IntakeRecord?
+    var stagedSource: URL? = nil
+    var usesOriginalForMove: Bool?
+    // A staged record never falls back to the mutable original if validation fails.
+    var documentURL: URL? { intakeRecord == nil ? source : stagedSource }
+    private enum CodingKeys: String, CodingKey {
+        case id, source, bookmark, intakeRecord, usesOriginalForMove, watchedDelivery, mailDelivery, duplicateMailDeliveryID
+        case review, draft, status, issue, sample, importNotices, intakeSource, receivedAt, displayName
+    }
     var watchedDelivery: WatchedDeliveryProof?
     var mailDelivery: MailDeliveryLedger.Proof?
     var duplicateMailDeliveryID: UUID?
@@ -192,9 +201,11 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var generation = UUID()
     @ObservationIgnored private var refreshGeneration = UUID()
     @ObservationIgnored private var inboxMayBeMutated = false
+    @ObservationIgnored private var intakeQueue: IntakeQueue?
+    @ObservationIgnored private var pendingIntakeSources: Set<URL> = []
     @ObservationIgnored private var mailLedger: MailDeliveryLedger?
     @ObservationIgnored private let mailCommitOverride: ((MailDeliveryLedger.Proof) throws -> UUID)?
-    @ObservationIgnored private let mailSnapshotOverride: ((Data, URL) throws -> Void)?
+    @ObservationIgnored private let snapshotWriterOverride: ((Data, URL) throws -> Void)?
     @ObservationIgnored private var startupTask: Task<Void, any Error>?
     @ObservationIgnored private let proEntitlement: @MainActor () -> Bool
 
@@ -207,12 +218,13 @@ final class FileGrant: @unchecked Sendable {
          proEntitlement: @escaping @MainActor () -> Bool = AppModel.defaultProEntitlement,
          mailCommit: ((MailDeliveryLedger.Proof) throws -> UUID)? = nil,
          mailSnapshotWriter: ((Data, URL) throws -> Void)? = nil,
-         extractionBackend: (any ExtractionBackend)? = nil) {
+         extractionBackend: (any ExtractionBackend)? = nil,
+         intakeSnapshotWriter: ((Data, URL) throws -> Void)? = nil) {
         testMode = Self.argument("-PaperloftUITestMode") == "YES"
         preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard)
         self.proEntitlement = proEntitlement
         self.extractionBackend = extractionBackend
-        mailCommitOverride = mailCommit; mailSnapshotOverride = mailSnapshotWriter
+        mailCommitOverride = mailCommit; snapshotWriterOverride = intakeSnapshotWriter ?? mailSnapshotWriter
         categories = preferences.stringArray(forKey: "categories") ?? ["Advertising", "Contract labor", "Insurance", "Legal and professional services", "Meals", "Office supplies", "Rent", "Repairs", "Software", "Taxes and licenses", "Travel", "Utilities", "Vehicle", "Other expenses"]
         filenameTemplate = preferences.string(forKey: "filenameTemplate") ?? ReceiptNameTemplate.defaultPattern
         scannedPages = ScannedPages(rawValue: preferences.string(forKey: "scannedPages") ?? "") ?? .separate
@@ -223,10 +235,11 @@ final class FileGrant: @unchecked Sendable {
     var selectedItem: InboxItem? { items.first { $0.id == selectedItemID } ?? items.first { $0.status != "aside" } }
     var inboxCount: Int { items.filter { $0.status != "aside" }.count }
     var filingUnavailableReason: String? {
-        if mailRecoveryNeeded { return "Email delivery recovery must finish before changing your inbox." }
+        if mailRecoveryNeeded { return "Receipt intake recovery must finish before changing your inbox." }
         if filingBlocked { return "Finishing a library change. Filing will be available when it completes." }
         guard inboxMayBeMutated, engine != nil else { return "Choose a library before filing a receipt." }
         guard let item = selectedItem else { return "Select a receipt to file." }
+        guard item.documentURL != nil else { return "The saved intake copy is unavailable. Reimport the original receipt." }
         guard item.status == "ready" else { return "Wait for this receipt to finish processing." }
         if item.review?.duplicate != nil { return "This receipt is already in your library. Remove the duplicate from the Inbox." }
         do { _ = try item.draft.receipt() }
@@ -238,7 +251,7 @@ final class FileGrant: @unchecked Sendable {
     var templateError: String? {
         do {
             let template = try ReceiptNameTemplate(filenameTemplate)
-            if let item = selectedItem, let receipt = try? item.draft.receipt() { _ = try template.name(for: receipt, fileExtension: item.source.pathExtension) }
+            if let item = selectedItem, let receipt = try? item.draft.receipt() { _ = try template.name(for: receipt, fileExtension: item.intakeRecord?.fileExtension ?? item.source.pathExtension) }
             return nil
         } catch { return error.localizedDescription }
     }
@@ -295,6 +308,7 @@ final class FileGrant: @unchecked Sendable {
             }
         }.value
         items = restored
+        intakeQueue = try IntakeQueue(directory: support.appendingPathComponent("IntakeQueue", isDirectory: true))
         mailLedger = try MailDeliveryLedger(directory: support)
         do {
             try mailLedger?.validateSynchronously()
@@ -332,8 +346,24 @@ final class FileGrant: @unchecked Sendable {
         }
         // A crash after inbox commit but before scanner acknowledgment must not enqueue it twice.
         try await recordWatchedDeliveries(items.compactMap(\.watchedDelivery))
-        inboxMayBeMutated = true
         for i in items.indices where items[i].status != "aside" {
+            if let record = items[i].intakeRecord {
+                do {
+                    guard let intakeQueue else { throw AppIssue("Owned receipt storage is unavailable.") }
+                    items[i].stagedSource = try await intakeQueue.payloadURL(for: record)
+                    if items[i].usesOriginalForMove == true {
+                        // Missing/moved originals must not prevent reading or copying the owned payload.
+                        // Preserve the originally imported URL even when a bookmark follows a rename.
+                        if let bookmark = items[i].bookmark { sourceGrants[items[i].id] = try? FileGrant(bookmark: bookmark) }
+                        else if FileGrant.isInternal(items[i].source) { sourceGrants[items[i].id] = try? FileGrant(url: items[i].source) }
+                    }
+                    if items[i].status == "processing" { items[i].status = "waiting" }
+                } catch {
+                    items[i].stagedSource = nil; items[i].status = "failed"
+                    items[i].issue = "The saved intake copy is unavailable or changed. Reimport the original receipt. " + error.localizedDescription
+                }
+                continue
+            }
             do {
                 let grant: FileGrant
                 if let bookmark = items[i].bookmark { grant = try FileGrant(bookmark: bookmark) }
@@ -345,6 +375,7 @@ final class FileGrant: @unchecked Sendable {
                 if items[i].status == "processing" { items[i].status = "waiting" }
             } catch { items[i].status = "failed"; items[i].issue = error.localizedDescription }
         }
+        inboxMayBeMutated = true
         let saved = preferences.dictionary(forKey: "moveFolderBookmarks") as? [String: Data] ?? [:]
         for (path, bookmark) in saved { if let access = try? LibraryAccess(bookmark: bookmark) { moveGrants[path] = access } }
         if let bookmark = preferences.data(forKey: "paperloft.libraryBookmark") {
@@ -354,7 +385,7 @@ final class FileGrant: @unchecked Sendable {
             try await configure(URL(fileURLWithPath: path), sample: true)
         } else if testMode { try await createSampleLibrary(discardInbox: false) }
         selectedItemID = items.first { $0.status != "aside" }?.id
-        if preferences.bool(forKey: "watchedFolderEnabled"), !watchedConfigurationPending {
+        if preferences.bool(forKey: "watchedFolderEnabled"), !watchedConfigurationPending, watchedScanner == nil {
             let configuration = watchedConfiguration
             Task { [weak self] in
                 guard let self, self.watchedConfiguration == configuration else { return }
@@ -447,27 +478,65 @@ final class FileGrant: @unchecked Sendable {
         panel.allowedContentTypes = [.pdf, .png, .jpeg, .heic, .tiff, UTType(filenameExtension: "eml") ?? .emailMessage]
         if await panel.begin() == .OK { await intake(panel.urls) }
     }
-    func intake(_ urls: [URL], sample: Bool = false, sourceLabel: String? = nil) async {
-        // Acquire permissions before the first suspension. A drag/open URL's
-        // temporary sandbox access must survive the startup wait.
-        var grants: [FileGrant] = []
+    func intake(_ urls: [URL], sample: Bool = false, sourceLabel: String? = nil, origin: IntakeSource = .fileImport) async {
+        _ = await stageIntake(urls, sample: sample, sourceLabel: sourceLabel, origin: origin)
+    }
+    private func stageIntake(_ urls: [URL], sample: Bool = false, sourceLabel: String? = nil,
+                             origin: IntakeSource = .fileImport) async -> [UUID] {
+        // Acquire temporary drop/open permissions before suspension, then stage immutable bytes.
+        var grants: [FileGrant] = [], accepted: [UUID] = []
         for url in urls {
             do {
                 guard ["pdf", "png", "jpg", "jpeg", "heic", "tif", "tiff", "eml"].contains(url.pathExtension.lowercased()) else { throw AppIssue("Import PDF, PNG, JPEG, HEIC, TIFF or EML email files.") }
                 grants.append(try FileGrant(url: url))
             } catch { message = error.localizedDescription }
         }
-        guard !grants.isEmpty else { return }
-        do { try await awaitStartup() }
-        catch { message = error.localizedDescription; return }
-        guard canMutateRestoredInbox() else { return }
+        guard !grants.isEmpty else { return [] }
+        do { try await awaitStartup() } catch { message = error.localizedDescription; return [] }
+        guard canMutateRestoredInbox(), let intakeQueue else { return [] }
+        let token = generation
         for grant in grants {
-            guard !items.contains(where: { $0.source == grant.url && $0.status != "aside" }) else { continue }
-            let item = InboxItem(id: UUID(), source: grant.url, bookmark: grant.bookmark, sample: sample, intakeSource: sourceLabel, receivedAt: sourceLabel == nil ? nil : Date())
-            sourceGrants[item.id] = grant; items.append(item)
-            if selectedItemID == nil { selectedItemID = item.id }
+            guard inboxMayBeMutated, !Task.isCancelled, token == generation else { break }
+            guard !pendingIntakeSources.contains(grant.url), !items.contains(where: { $0.source == grant.url && $0.status != "aside" }) else { continue }
+            pendingIntakeSources.insert(grant.url)
+            defer { pendingIntakeSources.remove(grant.url) }
+            do {
+                let id = UUID(), actualOrigin: IntakeSource = sample ? .sample : origin
+                let record = try await intakeQueue.enqueue(source: grant.url, id: id, origin: actualOrigin,
+                    displayName: grant.url.lastPathComponent, metadata: IntakeSourceMetadata(detail: Self.metadataText(sourceLabel)), maximumBytes: grant.url.pathExtension.lowercased() == "eml" ? Int64(MailDocument.maximumBytes) : IntakeQueue.maximumFileBytes)
+                let owned = try await intakeQueue.payloadURL(for: record)
+                try await awaitIntakePublication(generation: token)
+                guard inboxMayBeMutated, !Task.isCancelled, token == generation else { break }
+                let retainOriginal = actualOrigin == .fileImport || actualOrigin == .drop
+                var item = InboxItem(id: id, source: retainOriginal ? grant.url : owned, bookmark: retainOriginal ? grant.bookmark : nil,
+                    intakeRecord: record, usesOriginalForMove: retainOriginal, sample: sample, intakeSource: sourceLabel,
+                    receivedAt: record.receivedAt, displayName: record.displayName)
+                item.stagedSource = owned
+                try publishIntakeSnapshot(items + [item])
+                if retainOriginal { sourceGrants[id] = grant }
+                accepted.append(id)
+                if selectedItemID == nil { selectedItemID = id }
+            } catch {
+                if !mailRecoveryNeeded { message = "The receipt could not be added. Its original is unchanged. " + error.localizedDescription }
+                if !inboxMayBeMutated { break }
+            }
         }
-        selection = "Inbox"; persist(); processWaiting()
+        selection = "Inbox"; processWaiting()
+        return accepted
+    }
+    private func awaitIntakePublication(generation token: UUID? = nil) async throws {
+        while filingBlocked && inboxMayBeMutated { try await Task.sleep(for: .milliseconds(20)) }
+        guard inboxMayBeMutated, !Task.isCancelled, token == nil || token == generation else { throw CancellationError() }
+    }
+    /// Owned payloads are durable before this sole inbox membership publication.
+    private func publishIntakeSnapshot(_ updated: [InboxItem]) throws {
+        guard inboxMayBeMutated, !filingBlocked else { throw AppIssue("The saved inbox is not ready for changes.") }
+        do {
+            let data = try JSONEncoder().encode(updated), url = support.appendingPathComponent("inbox.json")
+            if let snapshotWriterOverride { try snapshotWriterOverride(data, url) }
+            else { try Self.writeWatchedData(data, to: url) }
+            items = updated
+        } catch { blockMailRecovery(error); throw error }
     }
     private func startSharedIntake() {
         guard sharedIntakeTask == nil, !testMode,
@@ -504,44 +573,42 @@ final class FileGrant: @unchecked Sendable {
             for claim in claims {
                 guard inboxMayBeMutated else { return }
                 let id = claim.item.id
+                if let existing = items.first(where: { $0.id == id }), let record = existing.intakeRecord {
+                    guard let intakeQueue else { throw AppIssue("Owned receipt storage is unavailable; the shared copy remains waiting.") }
+                    let validated = try await intakeQueue.payloadURL(for: record)
+                    guard existing.documentURL == validated else { throw AppIssue("The saved intake copy needs recovery. The shared copy remains waiting.") }
+                }
                 if !sharedAcceptedIDs.contains(id) {
                     if !items.contains(where: { $0.id == id }) {
-                        let directory = support.appendingPathComponent("Shared", isDirectory: true).appendingPathComponent(id.uuidString, isDirectory: true)
-                        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-                        let owned = directory.appendingPathComponent(claim.item.payloadName)
-                        // An orphaned copy after a crash is safe to replace only inside this UUID directory.
-                        if !FileManager.default.fileExists(atPath: owned.path) {
-                            try await Task.detached(priority: .utility) {
-                                let temporary = directory.appendingPathComponent(".incoming-payload")
-                                if FileManager.default.fileExists(atPath: temporary.path) { try FileManager.default.removeItem(at: temporary) }
-                                _ = try ScanImport.capture(claim.fileURL, destination: temporary)
-                                try FileManager.default.moveItem(at: temporary, to: owned)
-                            }.value
-                        }
-                        var source = owned
+                        guard let intakeQueue else { throw AppIssue("Owned receipt storage is unavailable.") }
+                        var source = claim.fileURL
                         if claim.item.type == .tiff {
+                            let directory = support.appendingPathComponent("ShareTransforms", isDirectory: true).appendingPathComponent(id.uuidString, isDirectory: true)
                             source = try await Task.detached(priority: .utility) {
-                                let data = try Data(contentsOf: owned)
+                                let data = try Data(contentsOf: claim.fileURL)
                                 return try ScanImport.materialize(data: data, typeIdentifier: UTType.tiff.identifier, pages: .combined, destination: directory)[0]
                             }.value
                         }
-                        guard inboxMayBeMutated else { return }
-                        let grant = try FileGrant(url: source)
                         let label = claim.item.sourceApp.map { "Shared from " + $0 } ?? "Shared to Paperloft"
-                        let item = InboxItem(id: id, source: source, bookmark: grant.bookmark, status: "receiving", intakeSource: label, receivedAt: claim.item.createdAt, displayName: claim.item.originalName)
-                        items.append(item); sourceGrants[id] = grant
-                        do { try writeInboxSnapshot() }
-                        catch { items.removeAll { $0.id == id }; sourceGrants[id] = nil; throw error }
+                        let record = try await intakeQueue.enqueue(source: source, id: id, origin: .share,
+                            displayName: claim.item.originalName, metadata: IntakeSourceMetadata(detail: claim.item.sourceApp),
+                            receivedAt: claim.item.createdAt, maximumBytes: HandoffStore.maximumFileBytes)
+                        let owned = try await intakeQueue.payloadURL(for: record)
+                        try await awaitIntakePublication()
+                        var item = InboxItem(id: id, source: owned, intakeRecord: record, usesOriginalForMove: false,
+                            status: "receiving", intakeSource: label, receivedAt: record.receivedAt, displayName: record.displayName)
+                        item.stagedSource = owned
+                        try publishIntakeSnapshot(items + [item])
                     }
                     var accepted = sharedAcceptedIDs; accepted.insert(id)
                     let ledger = try JSONEncoder().encode(Array(accepted))
                     guard ledger.count <= 8 * 1024 * 1024 else { throw AppIssue("Shared receipt history is full. No document was acknowledged.") }
-                    try ledger.write(to: support.appendingPathComponent("shared-accepted.json"), options: .atomic)
+                    try Self.writeWatchedData(ledger, to: support.appendingPathComponent("shared-accepted.json"))
                     sharedAcceptedIDs = accepted
                 }
                 if let index = items.firstIndex(where: { $0.id == id && $0.status == "receiving" }) {
-                    items[index].status = "waiting"
-                    try writeInboxSnapshot()
+                    var updated = items; updated[index].status = "waiting"
+                    try publishIntakeSnapshot(updated)
                 }
                 try await store.acknowledge(claim)
             }
@@ -558,7 +625,7 @@ final class FileGrant: @unchecked Sendable {
             let urls = try await Task.detached(priority: .userInitiated) {
                 try ScanImport.materialize(data: data, typeIdentifier: typeIdentifier, pages: mode, destination: destination)
             }.value
-            await intake(urls, sourceLabel: "Scanned from iPhone or iPad")
+            await intake(urls, sourceLabel: "Scanned from iPhone or iPad", origin: .scan)
         } catch { message = error.localizedDescription }
     }
     func pasteImage() async {
@@ -568,12 +635,26 @@ final class FileGrant: @unchecked Sendable {
             let folder = support.appendingPathComponent("Pasted", isDirectory: true)
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             let url = folder.appendingPathComponent(UUID().uuidString + ".png"); try png.write(to: url, options: .atomic)
-            await intake([url], sourceLabel: "Pasted image")
-            if let item = items.first(where: { $0.source == url && $0.status != "aside" }) {
+            let accepted = await stageIntake([url], sourceLabel: "Pasted image", origin: .paste)
+            if let id = accepted.first, let item = items.first(where: { $0.id == id && $0.status != "aside" }) {
                 selectedItemID = item.id
                 pastedItemID = item.id
             }
         } catch { message = error.localizedDescription }
+    }
+    private static func metadataText(_ value: String?) -> String? {
+        guard let value, value.utf8.count <= 4096, !value.contains("\0") else { return nil }
+        return value
+    }
+    private static func mailSourceDate(_ header: String?) -> Date? {
+        guard let header = metadataText(header) else { return nil }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX"); formatter.isLenient = false
+        for format in ["EEE, d MMM yyyy HH:mm:ss Z", "d MMM yyyy HH:mm:ss Z", "EEE, d MMM yyyy HH:mm Z"] {
+            formatter.dateFormat = format
+            if let date = formatter.date(from: header) { return date }
+        }
+        return nil
     }
     private func processWaiting() {
         guard inboxMayBeMutated, !processing, let engine else { return }
@@ -582,7 +663,10 @@ final class FileGrant: @unchecked Sendable {
             defer { if generation == token { processing = false; activity = "" } }
             while let position = items.firstIndex(where: { $0.status == "waiting" }) {
                 if !inboxMayBeMutated || Task.isCancelled || generation != token { return }
-                let id = items[position].id, source = items[position].source
+                let id = items[position].id
+                guard let source = items[position].documentURL else {
+                    items[position].status = "failed"; items[position].issue = "The saved intake copy is unavailable. Reimport the original receipt."; persist(); continue
+                }
                 items[position].status = "processing"; activity = "Reading \(items[position].name)…"; persist()
                 do {
                     if source.pathExtension.lowercased() == "eml" {
@@ -600,9 +684,20 @@ final class FileGrant: @unchecked Sendable {
                         guard let current = items.firstIndex(where: { $0.id == id && $0.status == "processing" }) else { continue }
                         let sample = items[current].sample
                         let watchedContext = items[current].watchedDelivery == nil ? nil : items[current].intakeSource
+                        guard let intakeQueue else { throw AppIssue("Owned receipt storage is unavailable.") }
+                        let parentName = items[current].name
+                        let mailMetadata = IntakeSourceMetadata(detail: Self.metadataText(watchedContext), mailSubject: Self.metadataText(imported.envelope?.subject),
+                            mailSender: Self.metadataText(imported.envelope?.from), mailDate: Self.mailSourceDate(imported.envelope?.date))
+                        var stagedMail: [URL: (IntakeRecord, URL)] = [:]
+                        for attachment in imported.attachments {
+                            let record = try await intakeQueue.enqueue(source: attachment, origin: .mail, metadata: mailMetadata,
+                                maximumBytes: Int64(MailDocument.maximumPDFBytes))
+                            stagedMail[attachment] = (record, try await intakeQueue.payloadURL(for: record))
+                        }
                         var renderedBodyText: String?
                         let prepared = try await MailReviewPreparation.prepare(attachments: imported.attachments, body: imported.bodyDocument, understand: { url in
-                            try await engine.understand(url, emailBodyText: url == imported.bodyDocument ? renderedBodyText : nil, emailHints: imported.envelope)
+                            guard let owned = stagedMail[url]?.1 else { throw AppIssue("Email document was not staged safely.") }
+                            return try await engine.understand(owned, emailBodyText: url == imported.bodyDocument ? renderedBodyText : nil, emailHints: imported.envelope)
                         }, prepareBody: { url in
                             let envelope = imported.envelope
                             let request = EmailBodyRenderRequest(body: imported.htmlBody.map { .html($0) } ?? .plainText(imported.bodyText),
@@ -611,15 +706,22 @@ final class FileGrant: @unchecked Sendable {
                             try Task.checkCancellation()
                             try pdf.data.write(to: url, options: .atomic)
                             renderedBodyText = pdf.bodyText
+                            let record = try await intakeQueue.enqueue(source: url, origin: .mail, displayName: "Email receipt.pdf", metadata: mailMetadata,
+                                maximumBytes: Int64(MailDocument.maximumBytes))
+                            stagedMail[url] = (record, try await intakeQueue.payloadURL(for: record))
                         })
                         guard inboxMayBeMutated, !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }), items[index].status == "processing" else { continue }
                         var replacements: [InboxItem] = []
                         var replacementGrants: [UUID: FileGrant] = [:]
                         for candidate in prepared.candidates {
                             let url = candidate.source
-                            let access = try FileGrant(url: url)
-                            let subject = imported.envelope?.subject ?? source.lastPathComponent
-                            var item = InboxItem(id: UUID(), source: url, bookmark: access.bookmark, sample: sample, importNotices: imported.notices + prepared.notices, intakeSource: "From Mail: " + subject + (watchedContext.map { " · " + $0 } ?? ""), receivedAt: Date())
+                            guard let (record, owned) = stagedMail[url] else { throw AppIssue("Email document was not staged safely.") }
+                            let access = try FileGrant(url: owned)
+                            let subject = imported.envelope?.subject ?? parentName
+                            var item = InboxItem(id: record.id, source: owned, intakeRecord: record, usesOriginalForMove: false,
+                                sample: sample, importNotices: imported.notices + prepared.notices,
+                                intakeSource: "From Mail: " + subject + (watchedContext.map { " · " + $0 } ?? ""), receivedAt: record.receivedAt, displayName: record.displayName)
+                            item.stagedSource = owned
                             if let review = candidate.review {
                                 item.review = StoredReview(review); item.draft = ReceiptDraft(review.fields); item.status = "ready"
                             } else { item.status = "failed"; item.issue = candidate.issue ?? "This email attachment could not be read." }
@@ -658,7 +760,7 @@ final class FileGrant: @unchecked Sendable {
     }
     private func blockMailRecovery(_ error: Error) {
         inboxMayBeMutated = false; mailRecoveryNeeded = true; startupTask = nil
-        message = "Email delivery needs recovery. Your saved inbox and originals were preserved. " + error.localizedDescription
+        message = "Receipt intake needs recovery. Your saved inbox and originals were preserved. " + error.localizedDescription
     }
     func retryMailRecovery() async { await start() }
 
@@ -678,7 +780,7 @@ final class FileGrant: @unchecked Sendable {
         var updated = items; updated.replaceSubrange(index...index, with: prepared)
         do {
             let data = try JSONEncoder().encode(updated), url = support.appendingPathComponent("inbox.json")
-            if let mailSnapshotOverride { try mailSnapshotOverride(data, url) }
+            if let snapshotWriterOverride { try snapshotWriterOverride(data, url) }
             else { try Self.writeWatchedData(data, to: url) }
             // A later failure must never restore the parent over this durable proof.
             items = updated
@@ -733,17 +835,28 @@ final class FileGrant: @unchecked Sendable {
         do {
             if let proof = item.watchedDelivery { try await recordWatchedDelivery(proof) }
             let receipt = try item.draft.receipt()
-            if mode == .move, !FileGrant.isInternal(item.source), moveGrants[item.source.deletingLastPathComponent().path] == nil {
+            guard let documentURL = item.documentURL else { throw AppIssue("The saved intake copy is unavailable. Reimport the original receipt.") }
+            let moveOriginal = mode == .move && (item.intakeRecord == nil || item.usesOriginalForMove == true)
+            let filingSource = moveOriginal ? item.source : documentURL
+            if moveOriginal && item.intakeRecord != nil && !FileManager.default.fileExists(atPath: item.source.path) {
+                throw AppIssue("The original file has moved or is missing. Choose Copy to file the saved intake copy, or reimport the original. Your saved copy is unchanged.")
+            }
+            if moveOriginal, !FileGrant.isInternal(item.source), moveGrants[item.source.deletingLastPathComponent().path] == nil {
                 guard await grantMoveFolder(required: item.source.deletingLastPathComponent()) else { return }
             }
-            let reviewed = ReviewedDocument(id: item.id, source: item.source, contentHash: stored.hash, text: stored.text, fields: stored.fields, duplicateOf: stored.duplicate)
-            let outcome = try await engine.file(reviewed, confirmed: receipt, mode: mode, filenameTemplate: filenameTemplate)
+            let reviewed = ReviewedDocument(id: item.id, source: filingSource, contentHash: stored.hash, text: stored.text, fields: stored.fields, duplicateOf: stored.duplicate)
+            let outcome = try await engine.file(reviewed, confirmed: receipt, mode: moveOriginal ? .move : .copy, filenameTemplate: filenameTemplate)
             guard inboxMayBeMutated else { return }
             items.removeAll { $0.id == item.id }; sourceGrants[item.id] = nil
             if selectedItemID == item.id { selectedItemID = items.first { $0.status != "aside" }?.id }
             persist(); await refresh()
             if outcome.indexNeedsRebuild { message = "The document was filed. Rebuild the search index in Settings to update search." }
-        } catch { message = error.localizedDescription }
+        } catch {
+            message = error.localizedDescription
+            if mode == .move, item.intakeRecord != nil, item.usesOriginalForMove == true {
+                message = error.localizedDescription + " The saved intake copy remains available. Choose Copy, or restore the original and retry Move."
+            }
+        }
     }
     func grantMoveFolder(required: URL? = nil) async -> Bool {
         let panel = NSOpenPanel(); panel.title = "Allow moving and undo"
@@ -970,6 +1083,10 @@ final class FileGrant: @unchecked Sendable {
     }
 
     func scanWatchedFolder() async {
+        if mailRecoveryNeeded {
+            do { try await awaitStartup() }
+            catch { watchedStatus = "Watched folder paused until saved inbox recovery succeeds: " + error.localizedDescription; return }
+        }
         guard watchedEnabled, !watchedScanning, let scanner = watchedScanner else { return }
         guard isPro else { watchedStatus = "Paused: watched folders require Pro."; return }
         guard !busy else { watchedStatus = "Waiting for the current operation to finish."; return }
@@ -1030,24 +1147,27 @@ final class FileGrant: @unchecked Sendable {
         }
         guard watchedDeliverySequence < Int64.max else { throw AppIssue("Watched-folder delivery history is full.") }
         let proof = WatchedDeliveryProof(sourceKey: key, contentHash: candidate.contentHash, sequence: watchedDeliverySequence + 1)
-        let folder = support.appendingPathComponent("Watched-Imports", isDirectory: true).appendingPathComponent(UUID().uuidString, isDirectory: true)
-        // Copying large immutable inputs never blocks the main actor. Inbox metadata is
-        // committed only after returning, using the current items so concurrent edits survive.
-        let source = folder.appendingPathComponent(candidate.filename), storage = support
+        guard let intakeQueue else { throw AppIssue("Owned receipt storage is unavailable.") }
+        let folder = support.appendingPathComponent("IntakeScratch", isDirectory: true).appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let snapshot = folder.appendingPathComponent(candidate.filename)
+        defer { try? FileManager.default.removeItem(at: folder) }
         try await Task.detached(priority: .utility) {
-            // Validate the supplied stable mail bytes before taking responsibility for
-            // them. Rendering and extraction use the ordinary Mail pipeline afterward.
             if fileExtension == "eml" { _ = try MailDocument.parse(candidate.data) }
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-            try Self.writeWatchedData(candidate.data, to: source)
-            try Self.synchronizeWatchedDirectory(folder.deletingLastPathComponent())
-            try Self.synchronizeWatchedDirectory(storage)
+            try candidate.data.write(to: snapshot, options: .withoutOverwriting)
         }.value
+        let label = "Watched folder: " + root.lastPathComponent
+        let record = try await intakeQueue.enqueue(source: snapshot, origin: .watchedFolder, displayName: candidate.filename,
+            metadata: IntakeSourceMetadata(detail: root.lastPathComponent), maximumBytes: 32 * 1024 * 1024)
+        guard record.contentHash == candidate.contentHash else { throw AppIssue("The watched snapshot changed before staging. Nothing was acknowledged.") }
+        let owned = try await intakeQueue.payloadURL(for: record)
+        try await awaitIntakePublication()
         guard inboxMayBeMutated, watchedEnabled, token == nil || token == watchedGeneration, isPro else { throw CancellationError() }
-        let item = InboxItem(id: UUID(), source: source, watchedDelivery: proof, intakeSource: "Watched folder: " + root.lastPathComponent, receivedAt: Date(), displayName: candidate.filename)
-        let updated = items + [item]
-        try Self.writeWatchedData(JSONEncoder().encode(updated), to: support.appendingPathComponent("inbox.json"))
-        items = updated; selectedItemID = item.id; selection = "Inbox"
+        var item = InboxItem(id: record.id, source: owned, intakeRecord: record, usesOriginalForMove: false,
+            watchedDelivery: proof, intakeSource: label, receivedAt: record.receivedAt, displayName: record.displayName)
+        item.stagedSource = owned
+        try publishIntakeSnapshot(items + [item])
+        selectedItemID = item.id; selection = "Inbox"
         try await recordWatchedDelivery(proof)
         processWaiting()
     }
