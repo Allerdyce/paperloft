@@ -10,7 +10,7 @@
 - Display/startup blocker cleared; local preflight and protected baseline pass.
 
 ## Current work
-Common owned intake and conservative cleanup are merged. Root200unit tests and3focused native restart flows pass; the complete earlier UI target passed15functional tests and failed only accessibility. Email diagnostics found two real selection failures, now under investigation. Share metadata warning has a reviewed target-specific fix; final integrated build remains pending.
+Owned intake, conservative cleanup, PDF scaling and parser classification fixes are merged. Root208unit tests pass. Full80 synthetic parser diagnostics match all selected documents and labelled receipt fields; the set is simple and no formal accuracy pass is claimed. Separate80-email on-device model run is underway. Fresh development-signed build before the last extraction fixes was warning-free; final signed rebuild follows the model run.
 
 ## Remaining launch gates
 Full regression/accessibility, extraction accuracy and fresh email holdout, performance, live Mail/Share/scan, StoreKit/App Intents integration, icon review, formal acceptance baseline and final readiness checks remain open. The last full green CI commit remains `d9454df`; scoped passes above are not full acceptance.

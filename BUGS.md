@@ -8,3 +8,5 @@
 - 1.1 Mail selection: synthetic diagnostic smoke `email-001` has a visibly valid receipt PDF but production Vision yields no text, causing parser `not_receipt` and selection of the cover body. Open recognition investigation and fail-closed guard; evidence/intake11/email-diagnostic-smoke.md.
 - 1.1 Mail classification: `email-053` terms attachment says it is not a receipt or invoice, but parser marks it invoice from the incidental word; both PDFs are selected. Generic heading/transaction classification repair under review; frozen tests/scorer unchanged.
 - Latest full accessibility regression at403f362:18 unsuppressed findings,15functional UI tests pass,1audit test fails. See evidence/intake-queue/native-regression.md. Earlier counts above are historical.
+
+2026-09-29 update: both synthetic Mail selection findings above are repaired in4b919a3 (bounded PDF scaling, document-heading evidence, blank-OCR refusal). Same5 examples and full80 parser diagnostic now match all expected identities. System-model and varied real-world accuracy remain separate; cold OCR latency remains open.
