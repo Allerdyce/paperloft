@@ -59,19 +59,19 @@ import PaperloftHandoff
         // A separate support tests proof failure without the same-process-model safeguard.
         let other = root.appendingPathComponent("Other"); try FileManager.default.createDirectory(at: other, withIntermediateDirectories: true)
         let secondQueue = try IntakeQueue(directory: other.appendingPathComponent("IntakeQueue")), second = try await secondQueue.enqueue(source: original, origin: .mail)
-        try save([], other); try Data("corrupt".utf8).write(to: other.appendingPathComponent("watched-deliveries.json"))
+        try save([item(second, original, status: "aside")], other); try Data("corrupt".utf8).write(to: other.appendingPathComponent("watched-deliveries.json"))
         let corrupt = AppModel(support: other, preferences: defaults); await corrupt.start()
         let secondURL = try await secondQueue.payloadURL(for: second); XCTAssertTrue(FileManager.default.fileExists(atPath: secondURL.path))
     }
     func testAnotherLiveModelAndConsumerLeasePreventRetirement() async throws {
         let (root, defaults, queue, original) = try workspace(), record = try await queue.enqueue(source: original, origin: .fileImport)
-        try save([], root)
+        try save([item(record, original, status: "aside")], root)
         let first = AppModel(support: root, preferences: defaults)
         let second = AppModel(support: root, preferences: defaults); await second.start()
         let url = try await queue.payloadURL(for: record); XCTAssertTrue(FileManager.default.fileExists(atPath: url.path)); withExtendedLifetime(first) {}
         let lockedRoot = root.appendingPathComponent("Locked"); try FileManager.default.createDirectory(at: lockedRoot, withIntermediateDirectories: true)
         let lockedQueue = try IntakeQueue(directory: lockedRoot.appendingPathComponent("IntakeQueue")), lockedRecord = try await lockedQueue.enqueue(source: original, origin: .fileImport)
-        try save([], lockedRoot)
+        try save([item(lockedRecord, original, status: "aside")], lockedRoot)
         let ownership = try HandoffStore(containerURL: lockedRoot.appendingPathComponent(".ownership"))
         let lease = try await ownership.acquireConsumerLease(); XCTAssertNotNil(lease)
         let blocked = AppModel(support: lockedRoot, preferences: defaults); await blocked.start()
@@ -109,9 +109,13 @@ import PaperloftHandoff
     func testUnrecordedActiveOwnedReferencePreventsRetirement() async throws {
         let (root, defaults, queue, original) = try workspace(), record = try await queue.enqueue(source: original, origin: .fileImport)
         let url = try await queue.payloadURL(for: record)
-        try save([InboxItem(id: UUID(), source: url, status: "failed")], root)
+        let removed = try await queue.enqueue(source: original, origin: .fileImport)
+        let removedURL = try await queue.payloadURL(for: removed)
+        try save([InboxItem(id: UUID(), source: url, status: "failed"), item(removed, original, status: "aside")], root)
         let app = AppModel(support: root, preferences: defaults); await app.start()
         XCTAssertTrue(FileManager.default.fileExists(atPath: url.path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: removedURL.path))
+        XCTAssertEqual(app.items.last?.intakeRecord, removed)
     }
 
     func testCorruptRemovedRecordAndUnknownQueuePathsArePreserved() async throws {
@@ -125,6 +129,36 @@ import PaperloftHandoff
         XCTAssertEqual(app.items.first?.intakeRecord, record)
         XCTAssertEqual(try Data(contentsOf: url), Data("changed payload".utf8))
         XCTAssertTrue(FileManager.default.fileExists(atPath: unknown.path))
+    }
+
+    func testSecondModelCannotRestoreWhileRetirementIsSuspended() async throws {
+        let (root, defaults, queue, original) = try workspace(), record = try await queue.enqueue(source: original, origin: .fileImport)
+        let url = try await queue.payloadURL(for: record)
+        try save([item(record, original, status: "aside")], root)
+        var second: AppModel?
+        let first = AppModel(support: root, preferences: defaults, retirementBeforeDiscard: {
+            let entrant = AppModel(support: root, preferences: defaults)
+            second = entrant; await entrant.start()
+            XCTAssertTrue(entrant.items.isEmpty)
+            XCTAssertTrue(entrant.message?.contains("opening this inbox") == true)
+            XCTAssertTrue(FileManager.default.fileExists(atPath: url.path))
+        })
+        await first.start()
+        XCTAssertFalse(FileManager.default.fileExists(atPath: url.path))
+        await second?.start()
+        XCTAssertNil(second?.items.first?.intakeRecord)
+    }
+    func testConflictingAsideReferencesPreserveEntireRecordID() async throws {
+        let (root, defaults, queue, original) = try workspace(), record = try await queue.enqueue(source: original, origin: .fileImport)
+        let url = try await queue.payloadURL(for: record)
+        var object = try XCTUnwrap(JSONSerialization.jsonObject(with: JSONEncoder().encode(record)) as? [String: Any])
+        object["displayName"] = "Conflicting metadata"
+        let conflicting = try JSONDecoder().decode(IntakeRecord.self, from: JSONSerialization.data(withJSONObject: object))
+        let other = InboxItem(id: UUID(), source: original, intakeRecord: conflicting, status: "aside")
+        try save([item(record, original, status: "aside"), other], root)
+        let app = AppModel(support: root, preferences: defaults); await app.start()
+        XCTAssertEqual(app.items.compactMap(\.intakeRecord), [record, conflicting])
+        XCTAssertTrue(FileManager.default.fileExists(atPath: url.path))
     }
 
 }

@@ -207,6 +207,7 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private let mailCommitOverride: ((MailDeliveryLedger.Proof) throws -> UUID)?
     @ObservationIgnored private let snapshotWriterOverride: ((Data, URL) throws -> Void)?
     @ObservationIgnored private let retirementSnapshotWriterOverride: ((Data, URL) throws -> Void)?
+    @ObservationIgnored private let retirementBeforeDiscard: (@MainActor () async -> Void)?
     @ObservationIgnored private var startupTask: Task<Void, any Error>?
     @ObservationIgnored private var hasAttemptedStartup = false
     @ObservationIgnored private let proEntitlement: @MainActor () -> Bool
@@ -222,13 +223,15 @@ final class FileGrant: @unchecked Sendable {
          mailSnapshotWriter: ((Data, URL) throws -> Void)? = nil,
          extractionBackend: (any ExtractionBackend)? = nil,
          intakeSnapshotWriter: ((Data, URL) throws -> Void)? = nil,
-         retirementSnapshotWriter: ((Data, URL) throws -> Void)? = nil) {
+         retirementSnapshotWriter: ((Data, URL) throws -> Void)? = nil,
+         retirementBeforeDiscard: (@MainActor () async -> Void)? = nil) {
         testMode = Self.argument("-PaperloftUITestMode") == "YES"
         preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard)
         self.proEntitlement = proEntitlement
         self.extractionBackend = extractionBackend
         mailCommitOverride = mailCommit; snapshotWriterOverride = intakeSnapshotWriter ?? mailSnapshotWriter
         retirementSnapshotWriterOverride = retirementSnapshotWriter
+        self.retirementBeforeDiscard = retirementBeforeDiscard
         categories = preferences.stringArray(forKey: "categories") ?? ["Advertising", "Contract labor", "Insurance", "Legal and professional services", "Meals", "Office supplies", "Rent", "Repairs", "Software", "Taxes and licenses", "Travel", "Utilities", "Vehicle", "Other expenses"]
         filenameTemplate = preferences.string(forKey: "filenameTemplate") ?? ReceiptNameTemplate.defaultPattern
         scannedPages = ScannedPages(rawValue: preferences.string(forKey: "scannedPages") ?? "") ?? .separate
@@ -291,6 +294,7 @@ final class FileGrant: @unchecked Sendable {
         init(_ model: AppModel) { self.model = model }
     }
     private static var liveInboxModels: [String: [WeakInboxModel]] = [:]
+    private static var inboxStartupOwners: [String: UUID] = [:]
     private func acquireInboxProcessOwnership() async throws {
         let key = support.standardizedFileURL.path
         if Self.inboxProcessLeases[key] != nil { return }
@@ -301,6 +305,15 @@ final class FileGrant: @unchecked Sendable {
         Self.inboxProcessLeases[key] = lease
     }
     private func loadStartupState() async throws {
+        // Hold a same-process startup lease across every actor suspension. A
+        // second model cannot restore references while cold-start retirement
+        // validates or discards their bytes. The OS lease covers other processes.
+        let ownershipKey = support.standardizedFileURL.path, startupOwner = UUID()
+        guard Self.inboxStartupOwners[ownershipKey] == nil else {
+            throw AppIssue("Another Paperloft window is opening this inbox. Wait for it to finish, then retry.")
+        }
+        Self.inboxStartupOwners[ownershipKey] = startupOwner
+        defer { if Self.inboxStartupOwners[ownershipKey] == startupOwner { Self.inboxStartupOwners[ownershipKey] = nil } }
         let coldStartup = !hasAttemptedStartup
         hasAttemptedStartup = true
         let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
@@ -423,7 +436,8 @@ final class FileGrant: @unchecked Sendable {
         let liveIDs = Set(items.compactMap { $0.status == "aside" ? nil : $0.intakeRecord?.id })
         var candidates: [UUID: IntakeRecord] = [:]
         for item in items where item.status == "aside" {
-            guard let record = item.intakeRecord, !liveIDs.contains(record.id) else { continue }
+            guard let record = item.intakeRecord, !liveIDs.contains(record.id),
+                  items.compactMap(\.intakeRecord).filter({ $0.id == record.id }).allSatisfy({ $0 == record }) else { continue }
             // A durable Remove disposition authorizes only this exact verified
             // record. Absence from Inbox is never sufficient deletion authority.
             if (try? await intakeQueue.payloadURL(for: record)) != nil { candidates[record.id] = record }
@@ -443,6 +457,7 @@ final class FileGrant: @unchecked Sendable {
         } catch { blockMailRecovery(error); throw error }
         // No adapter, engine or preview is active. A crash here merely retains
         // an orphan; it never makes an uncommitted import eligible for deletion.
+        if let retirementBeforeDiscard { await retirementBeforeDiscard() }
         for record in candidates.values {
             do { try await intakeQueue.discard(record) }
             catch { message = "Removed receipts remain safely stored because temporary cleanup could not finish." }
