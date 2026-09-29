@@ -13,7 +13,11 @@ public struct ExtractionAssessment: Sendable {
 
     public init(fields: ExtractedFields, parser: ExtractedFields) {
         var reasons: [ReviewReason] = []
-        if fields.kind == "not_receipt" { self.receipt = nil; self.reasons = [.notReceipt]; return }
+        if fields.kind == "not_receipt" {
+            self.receipt = nil
+            self.reasons = fields.classificationError == nil ? [.notReceipt] : [.notReceipt, .classificationUnavailable]
+            return
+        }
         let kind = DocumentKind(rawValue: fields.kind)
         if kind == nil { reasons.append(.invalidKind) }
         let vendor = fields.vendor?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
