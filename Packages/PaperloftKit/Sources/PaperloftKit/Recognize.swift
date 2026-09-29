@@ -76,8 +76,12 @@ public struct DocumentRecognizer: DocumentTextRecognizing {
         let scaleX = CGFloat(pixelsWide) / width, scaleY = CGFloat(pixelsHigh) / height
         guard scaleX.isFinite, scaleY.isFinite else { throw RecognitionError.unreadableDocument }
         context.scaleBy(x: scaleX, y: scaleY)
-        context.concatenate(page.getDrawingTransform(.mediaBox,
-            rect: CGRect(x: 0, y: 0, width: width, height: height), rotate: 0, preserveAspectRatio: true))
+        let transform = page.getDrawingTransform(.mediaBox,
+            rect: CGRect(x: 0, y: 0, width: width, height: height), rotate: 0, preserveAspectRatio: true)
+        guard [transform.a, transform.b, transform.c, transform.d, transform.tx, transform.ty].allSatisfy(\.isFinite) else {
+            throw RecognitionError.unreadableDocument
+        }
+        context.concatenate(transform)
         context.drawPDFPage(page)
         guard let image = context.makeImage() else { throw RecognitionError.unreadableDocument }
         return image
