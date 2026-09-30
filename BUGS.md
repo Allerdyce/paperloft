@@ -32,5 +32,6 @@
 - **Fixed later on 2026-09-30:**
   - QA-05: attachments show the sender's sanitized filename; staged paths stay UUIDs.
   - QA-08: Return on an unverified total moves focus to the total instead of filing. Clicking Confirm or pressing ⌘Return files it, and a corrected total can be confirmed with Return.
-- **Open (P2):** QA-07, following a renamed library via the bookmark.
+  - QA-07: a renamed or moved library folder is followed through its bookmark, both at launch (the stale bookmark is renewed) and while open (on activation and before filing). The search index rebuilds for the new path. Unit tests cover it outside the sandbox; a live Finder rename in the sandboxed app is still to be checked.
+- **Open (P2):** none.
 - **Withdrawn:** QA-09.
