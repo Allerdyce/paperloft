@@ -266,6 +266,8 @@ final class FileGrant: @unchecked Sendable {
         return templateError
     }
     var canFile: Bool { filingUnavailableReason == nil }
+    /// True once the user has chosen a library, even if it's temporarily unavailable (e.g. an unplugged drive).
+    var hasSavedLibrary: Bool { preferences.data(forKey: "paperloft.libraryBookmark") != nil }
 
     var templateError: String? {
         do {
@@ -916,6 +918,17 @@ final class FileGrant: @unchecked Sendable {
         guard canMutateRestoredInbox() else { return }
         guard let index = items.firstIndex(where: { $0.id == id }) else { return }
         items[index].draft = draft; persist()
+    }
+    /// The Inbox list's current filtered order, so menu navigation stays within what's on screen.
+    @ObservationIgnored var inboxListOrder: [UUID] = []
+    /// Receipt › Next/Previous Document: move the review selection through the listed Inbox items.
+    func selectAdjacentItem(_ step: Int) {
+        let known = Set(items.map(\.id))
+        let listed = inboxListOrder.filter(known.contains)
+        let visible = listed.isEmpty ? items.filter { $0.status != "aside" }.map(\.id) : listed
+        guard !visible.isEmpty else { return }
+        let current = visible.firstIndex { $0 == selectedItem?.id } ?? 0
+        selectedItemID = visible[min(max(current + step, 0), visible.count - 1)]
     }
     func setAside(_ id: UUID) {
         guard canMutateRestoredInbox() else { return }

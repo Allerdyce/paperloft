@@ -55,7 +55,7 @@ struct LibraryView: View {
                         .font(.caption.weight(.medium))
                     Text(model.isSampleLibrary ? "Practice receipts" : (model.libraryURL?.lastPathComponent ?? "Choose a folder to begin"))
                         .font(.callout).foregroundStyle(.white.opacity(0.8)).lineLimit(2)
-                    if model.isSampleLibrary { Text("Samples do not count toward your monthly limit.").font(.caption).foregroundStyle(.white.opacity(0.8)) }
+                    if model.isSampleLibrary { Text("Choose your own folder in Settings before adding real receipts.").font(.caption).foregroundStyle(.white.opacity(0.8)) }
                 }.foregroundStyle(.white).padding(14).frame(maxWidth: .infinity, alignment: .leading).background(Color(red: 0.025, green: 0.15, blue: 0.12))
             }
             .navigationSplitViewColumnWidth(min: 170, ideal: 190, max: 240)
@@ -183,10 +183,13 @@ struct InboxView: View {
                     .buttonStyle(.borderedProminent).controlSize(.large).keyboardShortcut(.defaultAction)
                     .accessibilityIdentifier("onboarding.chooseFolder")
                 // SPEC 6.3: five bundled synthetic receipts, filed from a separate sample library.
-                Button("Try with Samples") { Task { await model.trySamples() } }
-                    .controlSize(.large).disabled(model.busy).accessibilityIdentifier("onboarding.trySamples")
-                Text("Samples are made-up receipts in a practice library. Choose your own folder any time.")
-                    .font(.callout).foregroundStyle(.primary)
+                // Only before a first library: samples must never replace a saved but unavailable library.
+                if !model.hasSavedLibrary {
+                    Button("Try with Samples") { Task { await model.trySamples() } }
+                        .controlSize(.large).disabled(model.busy).accessibilityIdentifier("onboarding.trySamples")
+                    Text("Samples are made-up receipts in a practice library. Choose your own folder before adding real receipts.")
+                        .font(.callout).foregroundStyle(.primary)
+                }
                 Text("No account needed. Your documents stay on your Mac.").font(.callout).foregroundStyle(.primary)
             }.padding(36).frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if model.inboxCount == 0 {
@@ -312,7 +315,8 @@ struct InboxView: View {
             }.onAppear { syncSelection() }
                 .onChange(of: filter) { syncSelection() }
                 .onChange(of: model.selectedItemID) { syncSelection() }
-                .onChange(of: visibleItems.map(\.id)) {
+                .onChange(of: visibleItems.map(\.id), initial: true) {
+                    model.inboxListOrder = visibleItems.map(\.id)
                     removalSelection.formIntersection(Set(visibleItems.map(\.id)))
                     syncSelection()
                 }
