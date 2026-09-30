@@ -142,7 +142,7 @@ final class ReceiptLibraryUXTests: XCTestCase {
         let light = XCTAttachment(screenshot: app.windows["main"].screenshot()); light.name = "Redesigned library Light five receipts"; light.lifetime = .keepAlways; add(light)
         let search = app.textFields["library.search"]
         search.click(); search.typeText("Juniper")
-        XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["1 document"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["Juniper Cafe"].firstMatch.exists)
         search.typeKey("a", modifierFlags: .command); search.typeKey(.delete, modifierFlags: [])
         XCTAssertTrue(app.staticTexts["5 documents"].waitForExistence(timeout: 10))
@@ -219,7 +219,7 @@ final class ReceiptLibraryUXTests: XCTestCase {
         vendor.click(); vendor.typeKey("a", modifierFlags: .command); vendor.typeText("LibraryUXReceipt")
         app.buttons["review.file"].click()
         app.buttons["sidebar.library"].click()
-        XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.staticTexts["1 document"].waitForExistence(timeout: 15))
         let receipt = app.staticTexts["LibraryUXReceipt"].firstMatch
         XCTAssertTrue(receipt.waitForExistence(timeout: 10)); receipt.doubleClick()
         // Quick Look creates a separate native preview window.
@@ -240,7 +240,7 @@ final class ReceiptLibraryUXTests: XCTestCase {
         XCTAssertTrue(restore.waitForExistence(timeout: 5)); restore.click()
         XCTAssertTrue(app.staticTexts["No deleted receipts"].waitForExistence(timeout: 15))
         app.buttons["deleted.done"].click()
-        XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.staticTexts["1 document"].waitForExistence(timeout: 15))
         XCTAssertTrue(app.staticTexts["LibraryUXReceipt"].firstMatch.exists)
         let library = XCTAttachment(screenshot: app.screenshot()); library.name = "Receipt library actions"; library.lifetime = .keepAlways; add(library)
         app.buttons["library.export"].click()

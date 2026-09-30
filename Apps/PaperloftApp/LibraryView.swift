@@ -181,7 +181,7 @@ struct InboxView: View {
                     .foregroundStyle(.primary).multilineTextAlignment(.center).frame(maxWidth: 450)
                 Button("Choose Library Folder…") { Task { await model.chooseLibrary() } }
                     .buttonStyle(.borderedProminent).controlSize(.large).accessibilityIdentifier("onboarding.chooseFolder")
-                Text("No account or API key. Your documents stay on your Mac.").font(.caption).foregroundStyle(.primary)
+                Text("No account needed. Your documents stay on your Mac.").font(.caption).foregroundStyle(.primary)
             }.padding(36).frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if model.inboxCount == 0 {
             ScrollView {
@@ -657,7 +657,7 @@ struct BrowseView: View {
             .accessibilityIdentifier("library.table").accessibilityLabel("Filed documents")
                 .overlay { if model.documents.isEmpty { PaperloftEmptyState(title: "No matching documents", symbol: "doc.text.magnifyingglass", detail: "File a receipt from the Inbox, or adjust your search and filters.") } }
             }
-            Text("\(model.documents.count) documents").font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading).accessibilityIdentifier("library.count")
+            Text(model.documents.count == 1 ? "1 document" : "\(model.documents.count) documents").font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading).accessibilityIdentifier("library.count")
             Text("Double-click a receipt to open it. Deleted receipts can be restored from Recently Deleted.")
                 .font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading)
         }.padding(24).background(canvas)
@@ -809,7 +809,7 @@ struct PaperloftSettings: View {
                 HStack {
                     Button("Choose Folder…") { Task { await model.chooseLibrary() } }.disabled(model.busy).accessibilityIdentifier("settings.chooseFolder")
                     Button("Reveal Folder") { model.reveal() }.disabled(model.libraryURL == nil).accessibilityIdentifier("settings.reveal")
-                    Button("Rebuild Index") { Task { await model.rebuildIndex() } }.disabled(model.busy || model.libraryURL == nil).accessibilityIdentifier("settings.rebuild")
+                    Button("Rebuild Search Index") { Task { await model.rebuildIndex() } }.disabled(model.busy || model.libraryURL == nil).accessibilityIdentifier("settings.rebuild")
                 }
                 #if DEBUG
                 Button("Start Fresh Sample Library") {
@@ -829,7 +829,7 @@ struct PaperloftSettings: View {
                         Button("Turn Off") { Task { await model.disableWatchedFolder() } }.accessibilityIdentifier("settings.disableWatchedFolder")
                     } else {
                         Button("Turn On") { Task { await model.restoreWatchedFolder() } }
-                            .disabled(!model.isPro).accessibilityIdentifier("settings.enableWatchedFolder")
+                            .disabled(!model.isPro || model.watchedFolderURL == nil).accessibilityIdentifier("settings.enableWatchedFolder")
                     }
                 }
                 Text("PDFs, images (including TIFF), and saved email (.eml) are copied to the Inbox for review. Originals stay in place.").font(.caption)

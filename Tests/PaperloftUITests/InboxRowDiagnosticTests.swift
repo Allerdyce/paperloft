@@ -36,7 +36,7 @@ final class InboxRowDiagnosticTests: XCTestCase {
         XCTAssertEqual(vendor.value as? String, "First row edited")
         app.buttons["review.file"].click()
         app.buttons["sidebar.library"].click()
-        XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.staticTexts["1 document"].waitForExistence(timeout: 15))
         app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let repeated = app.staticTexts["01-office.pdf"]
         XCTAssertTrue(repeated.waitForExistence(timeout: 10)); repeated.click()

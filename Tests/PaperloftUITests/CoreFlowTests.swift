@@ -47,7 +47,7 @@ final class CoreFlowTests: XCTestCase {
         exportYear.typeKey("a", modifierFlags: .command); exportYear.typeText("2026")
         app.buttons["export.create"].click()
         XCTAssertTrue(app.staticTexts["Export complete"].waitForExistence(timeout: 15))
-        XCTAssertEqual(app.staticTexts["export.result"].value as? String, "1 documents copied, with transactions.csv and summary.pdf.")
+        XCTAssertEqual(app.staticTexts["export.result"].value as? String, "1 document copied, with transactions.csv and summary.pdf.")
         app.buttons["export.close"].click()
         app.buttons["sidebar.history"].click()
         let undo = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "history.undo.")).firstMatch
@@ -78,7 +78,7 @@ final class CoreFlowTests: XCTestCase {
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
         app.buttons["review.file"].click()
         app.buttons["sidebar.library"].click()
-        XCTAssertTrue(app.staticTexts["1 documents"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.staticTexts["1 document"].waitForExistence(timeout: 15))
         app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let repeatDocument = app.staticTexts["01-office.pdf"]
         XCTAssertTrue(repeatDocument.waitForExistence(timeout: 10)); repeatDocument.click()
