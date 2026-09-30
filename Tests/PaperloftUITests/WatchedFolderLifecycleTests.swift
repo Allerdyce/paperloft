@@ -81,7 +81,8 @@ final class WatchedFolderLifecycleTests: XCTestCase {
         XCTAssertTrue(app.staticTexts[secondName].firstMatch.exists)
         app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.disableWatchedFolder"].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "value == %@ OR label == %@", folder.path, folder.path)).firstMatch.exists, "Bookmark must resolve after restart")
+        // Settings shows the folder by name; its full path is the element's accessibility value.
+        XCTAssertEqual(app.descendants(matching: .any)["settings.watchedFolder"].value as? String, folder.path, "Bookmark must resolve after restart")
         let restored = XCTAttachment(screenshot: app.screenshot())
         restored.name = "Watched bookmark restored after restart"; restored.lifetime = .keepAlways; add(restored)
         app.typeKey("w", modifierFlags: .command)

@@ -884,7 +884,8 @@ struct HistoryView: View {
 struct PaperloftSettings: View {
     @Bindable var model: AppModel
     var embedded = false
-    @State private var newCategory = ""
+    @State private var selectedCategory: Int?
+    @FocusState private var editingCategory: Int?
     @AppStorage("appearance") private var appearance = "System"
     private enum Tab: Hashable { case general, filing, categories }
     @State private var tab = Tab.general
@@ -901,13 +902,14 @@ struct PaperloftSettings: View {
                 pane { generalSections; aboutSection }.tabItem { Label("General", systemImage: "gearshape") }.tag(Tab.general)
                 pane { filingSections }.tabItem { Label("Filing", systemImage: "folder") }.tag(Tab.filing)
                 pane { categorySections }.tabItem { Label("Categories", systemImage: "tag") }.tag(Tab.categories)
-            }.frame(width: 610, height: 660).accessibilityIdentifier("settings.root")
+            }.frame(width: 610).accessibilityIdentifier("settings.root")
                 .onDisappear { tab = .general }
         }
     }
 
+    /// Each pane is only as tall as its content, so the window fits the chosen tab.
     private func pane<Content: View>(@ViewBuilder _ content: () -> Content) -> some View {
-        ScrollView { VStack(alignment: .leading, spacing: 24) { content() }.padding(24) }
+        VStack(alignment: .leading, spacing: 24) { content() }.padding(24).fixedSize(horizontal: false, vertical: true)
     }
 
     @ViewBuilder private var generalSections: some View {
@@ -923,10 +925,13 @@ struct PaperloftSettings: View {
         }
         GroupBox("Library") {
             VStack(alignment: .leading, spacing: 12) {
-                Text(model.libraryURL?.path ?? "No library folder chosen").font(.callout).textSelection(.enabled)
+                FolderSummary(url: model.libraryURL, placeholder: "No library folder chosen",
+                              identifier: "settings.libraryFolder",
+                              name: model.isSampleLibrary ? "Practice library" : nil,
+                              detail: model.isSampleLibrary ? "Kept inside Paperloft. Choose your own folder before adding real receipts." : nil)
                 HStack {
                     Button("Choose Folder…") { Task { await model.chooseLibrary() } }.disabled(model.busy).accessibilityIdentifier("settings.chooseFolder")
-                    Button("Reveal Folder") { model.reveal() }.disabled(model.libraryURL == nil).accessibilityIdentifier("settings.reveal")
+                    Button("Show in Finder") { model.reveal() }.disabled(model.libraryURL == nil).accessibilityIdentifier("settings.reveal")
                     Button("Rebuild Search Index") { Task { await model.rebuildIndex() } }.disabled(model.busy || model.libraryURL == nil).accessibilityIdentifier("settings.rebuild")
                 }
                 #if DEBUG
@@ -938,7 +943,7 @@ struct PaperloftSettings: View {
         }
         GroupBox("Watched folder · Pro") {
             VStack(alignment: .leading, spacing: 10) {
-                Text(model.watchedFolderURL?.path ?? "No watched folder chosen").font(.callout).textSelection(.enabled)
+                FolderSummary(url: model.watchedFolderURL, placeholder: "No watched folder chosen", identifier: "settings.watchedFolder")
                 Text(model.watchedStatus).accessibilityIdentifier("settings.watchedStatus")
                 HStack {
                     Button("Choose Watched Folder…") { Task { await model.chooseWatchedFolder() } }
@@ -996,23 +1001,69 @@ struct PaperloftSettings: View {
     @ViewBuilder private var categorySections: some View {
         GroupBox("Categories") {
             VStack(alignment: .leading, spacing: 9) {
-                Text("Organizational categories, not tax advice. Changes affect future filing; existing documents stay in their folders.").font(.caption).foregroundStyle(.primary)
-                ForEach(Array(model.categories.enumerated()), id: \.offset) { index, category in
-                    HStack {
-                        TextField("Category", text: Binding(get: { model.categories.indices.contains(index) ? model.categories[index] : category }, set: { if model.categories.indices.contains(index) { model.categories[index] = $0; model.saveCategories() } }))
-                            .accessibilityIdentifier("settings.category.\(index)")
-                        Button { model.categories.remove(at: index); model.saveCategories() } label: { Image(systemName: "minus.circle") }
-                            .accessibilityLabel("Remove \(category)").accessibilityIdentifier("settings.removeCategory.\(index)")
+                Text("Organizational categories, not tax advice. Changes affect future filing; existing documents stay in their folders.").font(.callout).foregroundStyle(.primary)
+                List(selection: $selectedCategory) {
+                    ForEach(model.categories.indices, id: \.self) { index in
+                        TextField("Category", text: Binding(get: { model.categories.indices.contains(index) ? model.categories[index] : "" },
+                                                            set: { if model.categories.indices.contains(index) { model.categories[index] = $0; model.saveCategories() } }))
+                            .textFieldStyle(.plain).labelsHidden().focused($editingCategory, equals: index)
+                            .accessibilityIdentifier("settings.category.\(index)").tag(index)
                     }
-                }
-                HStack {
-                    TextField("New category", text: $newCategory).accessibilityIdentifier("settings.newCategory")
-                    Button("Add") {
-                        let value = newCategory.trimmingCharacters(in: .whitespacesAndNewlines)
-                        if !value.isEmpty && !model.categories.contains(where: { $0.caseInsensitiveCompare(value) == .orderedSame }) { model.categories.append(value); model.saveCategories(); newCategory = "" }
-                    }.disabled(newCategory.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty).accessibilityIdentifier("settings.addCategory")
-                }
+                }.listStyle(.bordered(alternatesRowBackgrounds: true)).frame(height: 300)
+                    .onDeleteCommand { removeSelectedCategory() }
+                    .accessibilityIdentifier("settings.categories")
+                HStack(spacing: 0) {
+                    Button { addCategory() } label: { Image(systemName: "plus").frame(width: 22, height: 18) }
+                        .help("Add a category").accessibilityLabel("Add category").accessibilityIdentifier("settings.addCategory")
+                    Button { removeSelectedCategory() } label: { Image(systemName: "minus").frame(width: 22, height: 18) }
+                        .disabled(selectedCategory == nil).help("Remove the selected category")
+                        .accessibilityLabel("Remove category").accessibilityIdentifier("settings.removeCategory")
+                }.buttonStyle(.bordered).controlSize(.small)
             }.padding(8)
+        }
+    }
+
+    /// Adds "New Category" (numbered if taken) and starts editing it.
+    private func addCategory() {
+        var name = "New Category", number = 2
+        while model.categories.contains(where: { $0.caseInsensitiveCompare(name) == .orderedSame }) { name = "New Category \(number)"; number += 1 }
+        model.categories.append(name); model.saveCategories()
+        let index = model.categories.count - 1
+        selectedCategory = index
+        Task { @MainActor in editingCategory = index }
+    }
+
+    private func removeSelectedCategory() {
+        guard let index = selectedCategory, model.categories.indices.contains(index) else { return }
+        model.categories.remove(at: index); model.saveCategories()
+        selectedCategory = model.categories.isEmpty ? nil : min(index, model.categories.count - 1)
+    }
+}
+
+/// A folder as Finder shows it: its icon and display name, with the full path in the help tag
+/// and as the accessibility value.
+struct FolderSummary: View {
+    let url: URL?
+    let placeholder: String
+    let identifier: String
+    var name: String? = nil
+    var detail: String? = nil
+    var body: some View {
+        if let url {
+            let title = name ?? FileManager.default.displayName(atPath: url.path)
+            let subtitle = detail ?? url.deletingLastPathComponent().path
+            HStack(spacing: 10) {
+                Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().frame(width: 24, height: 24)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title).font(.body.weight(.medium))
+                    Text(subtitle).font(.callout).foregroundStyle(.primary).lineLimit(1).truncationMode(.middle)
+                }
+            }.help(url.path)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(detail == nil ? title : title + ", " + subtitle)
+                .accessibilityValue(url.path).accessibilityIdentifier(identifier)
+        } else {
+            Text(placeholder).font(.callout).accessibilityIdentifier(identifier)
         }
     }
 }

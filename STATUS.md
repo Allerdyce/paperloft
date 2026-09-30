@@ -1,4 +1,4 @@
-# Paperloft development status — 2026-09-29
+# Paperloft development status — 2026-09-30
 
 **Checkpointed for the next model at the owner’s request; not launch-ready.** Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass. Submission and public release remain blocked.
 
@@ -10,19 +10,17 @@
 - Display/startup blocker cleared; local preflight and protected baseline pass.
 
 ## Current work
-Latest (2026-09-29, lead mode):
-- **Full local CI:** only the accessibility audit fails.
-- **Merged this session:**
-  - the email routing repair
-  - signed App Intents (7/7 framework tests)
-  - the Finder Share fix, verified live
-  - Finder file names, Shortcuts export cleanup and the 100 MB note
-- **Accessibility:** every app-owned audit finding is cleared. The audit still fails on 10 system Touch Bar findings, reproduced without Paperloft code, and a proposal awaits a decision.
-- **Next:** on-device classifier reliability, then throughput.
-- **Parked:** StoreKit waits on DUNS enrollment.
+Latest (2026-09-30, lead mode):
+- **AC-16 design follow-up merged:** Receipt menu, export sheet, Library sorting and formatting, review form, Inbox toolbar and Settings, all on native macOS patterns with the owner's branding kept. Summary: `evidence/design/2026-09-30-native/README.md`.
+- **Full local CI:** 155 tests pass. Only the accessibility audit fails, on the same 10 system findings.
+- **Earlier today:** classifier guardrail fix, AC-20 docs and Help, QA persona sessions (AC-17 informal), design critique (AC-16).
+- **Parked:** StoreKit waits on the membership conversion, AC-10 speed (about 2.56 s per document against a 2.4 s budget), and TAX INVOICE refusals.
 
 ## Remaining launch gates
 Full regression/accessibility, extraction accuracy and fresh email holdout, performance, live Mail/Share/scan, StoreKit/App Intents integration, icon review, formal acceptance baseline and final readiness checks remain open. The last full green CI commit remains `d9454df`; scoped passes above are not full acceptance.
 
 ## Owner action
-Only live Share testing is waiting for permission to turn on Paperloft under macOS Sharing extensions (currently off). Real iPhone scanning will also need the owner’s device. No distribution upload has occurred. Detailed evidence and history: REPORT.md; blockers: HANDOFF.md.
+- Apple's confirmation of the individual-to-LLC membership conversion (submitted 2026-09-30); then the steps in `docs/OWNER-RELEASE-SETUP.md`.
+- Decisions in PROPOSALS.md: the small-size icon contrast candidate (#357C51 tray-front) and the AC-13 system audit findings.
+
+No distribution upload has occurred. Evidence and history: REPORT.md; blockers: HANDOFF.md.

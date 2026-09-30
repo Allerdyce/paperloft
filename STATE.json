@@ -1,13 +1,13 @@
 {
   "phase": "P3",
-  "step": "AC-16 critique done and P1 theme bug fixed; HIG redesign and icon contrast await owner decisions. AC-17 personas need an owner-present screen-control approval. Owner: membership conversion pending with Apple.",
+  "step": "AC-16 native-pattern follow-up merged (Receipt menu, export sheet, Library, review form, Inbox toolbar, Settings); icon contrast and AC-13 await owner decisions; AC-17 formal personas need owner-present approval; membership conversion pending with Apple.",
   "last_green_commit": "d9454df",
   "parked": [
     "Formal acceptance tag and release gates deferred",
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
     "System throughput exceeds240s; required signpost collection unavailable after three approaches",
-    "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
+    "Icon 16px tray contrast 1.23:1; concrete candidate #357C51 in PROPOSALS.md awaiting owner (SPEC 6.5)",
     "Real receipt targeted recheck: two cases improved after PDF fix; pickup confirmation still selected without a total. Broader unsupported amount, merchant and date findings need follow-up.",
     "Sandboxed WebKit content process terminates without network entitlement; native CoreText fallback verified and documented as implementation deviation",
     "App Intents: 7/7 framework tests pass locally; large-ZIP/real Shortcuts transport unmeasured; exports over 100MB rejected via Shortcuts (disclosure pending)",
@@ -16,5 +16,5 @@
     "StoreKit/App Store Connect products wait on EvidencePair LLC membership conversion (owner submitted Apple's individual-to-organization migration request 2026-09-30; awaiting confirmation)",
     "Classifier: residual refusals on PAID/zero-balance invoices and ~15% of bills (safe review fallback); formal email fixture/holdout scoring and live Mail checks incomplete"
   ],
-  "updated": "2026-09-30T20:03:38.178816+00:00"
+  "updated": "2026-09-30T22:35:39.484136+00:00"
 }

@@ -1,10 +1,10 @@
-Paperloft factory pre-flight  2026-09-30 15:16:47  user=builder  repo=/Users/builder/Factory/paperloft-library
+Paperloft factory pre-flight  2026-09-30 15:55:33  user=builder  repo=/Users/builder/Factory/paperloft-settings
 
 == Machine ==
 PASS   macOS 27.0
 PASS   Apple silicon
 PASS   user 'builder' is a Standard user
-PASS   131 GB free
+PASS   128 GB free
 PASS   Retina-class display connected
 
 == Power, sleep, lock, updates ==
