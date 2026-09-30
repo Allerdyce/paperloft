@@ -36,6 +36,9 @@ struct PaperloftApp: App {
                 Button("Import Receipts…") { Task { await model.importFiles() } }
                     .keyboardShortcut("i", modifiers: [.command])
                     .accessibilityIdentifier("command.import")
+                Button("Choose Library Folder…") { Task { await model.chooseLibrary() } }
+                    .disabled(model.busy)
+                    .accessibilityIdentifier("command.chooseLibrary")
                 #if DEBUG
                 Button("Load Development Receipts") { Task { await model.trySamples() } }
                     .accessibilityIdentifier("command.samples")

@@ -534,10 +534,10 @@ final class FileGrant: @unchecked Sendable {
         libraryAccess = nil; preferences.removeObject(forKey: "paperloft.libraryBookmark")
         preferences.set(url.path, forKey: "paperloft.demoLibraryPath")
     }
-    func trySamples() async {
+    func trySamples(resources suppliedResources: URL? = nil) async {
         do {
             if engine == nil { try await newSampleLibrary() }
-            guard let resources = Bundle.main.resourceURL else { throw AppIssue("Sample receipts are unavailable.") }
+            guard let resources = suppliedResources ?? Bundle.main.resourceURL else { throw AppIssue("Sample receipts are unavailable.") }
             let names = ["01-office", "02-meal", "03-travel", "04-software", "05-utilities"]
             let folder = support.appendingPathComponent("Sample-Imports-" + UUID().uuidString, isDirectory: true)
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)

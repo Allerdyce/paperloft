@@ -91,24 +91,37 @@ public enum AccountantPackExporter {
         let taxes = try taxTotals(documents: selected, range: range)
         let source = try ExportDirectory(url: libraryRoot)
         let parent = try ExportDirectory(url: destination)
-        let name = "Accountant Pack \(range.start.formatted) to \(range.end.formatted) \(UUID().uuidString)"
+        // Readable names for the accountant: the pack, its category folders and its files mirror the
+        // library. Numbered suffixes resolve collisions; nothing existing is ever overwritten.
+        let baseName = "Accountant Pack \(range.start.formatted) to \(range.end.formatted)"
         let stagingName = ".Paperloft-export-incomplete-" + UUID().uuidString
         let output = try parent.create(stagingName)
-        let folder = destination.appendingPathComponent(name, isDirectory: true)
         var folders: [String: ExportDirectory] = [:]
         var folderNames: [String: String] = [:]
+        var usedFolderNames = Set<String>(), usedFileNames: [String: Set<String>] = [:]
+        func unique(_ candidate: String, in used: inout Set<String>) -> String {
+            let url = URL(fileURLWithPath: candidate), ext = url.pathExtension, stem = url.deletingPathExtension().lastPathComponent
+            var result = candidate, number = 1
+            while used.contains(result.lowercased()) {
+                number += 1
+                result = ext.isEmpty ? "\(candidate) (\(number))" : "\(stem) (\(number)).\(ext)"
+            }
+            used.insert(result.lowercased())
+            return result
+        }
         var rows = [["date", "vendor", "category", "kind", "currency", "total", "total_minor_units", "tax", "file", "sha256"]]
         for document in selected {
             let r = document.receipt
             if folders[r.category] == nil {
-                // Unique suffix also handles case-insensitive and sanitized-name collisions.
-                let categoryName = ReceiptFilename.safeComponent(r.category) + "-" + UUID().uuidString
+                // Numbered suffixes handle case-insensitive and sanitized-name collisions.
+                let categoryName = unique(LibraryFiles.safeFolder(r.category), in: &usedFolderNames)
                 folders[r.category] = try output.create(categoryName)
                 folderNames[r.category] = categoryName
             }
             let ext = URL(fileURLWithPath: document.relativePath).pathExtension.lowercased()
             guard LibraryFiles.extensions.contains(ext) else { throw LibraryError.unsupportedFile }
-            let filename = r.id.uuidString + "." + ext
+            let libraryName = URL(fileURLWithPath: document.relativePath).deletingPathExtension().lastPathComponent
+            let filename = unique((libraryName.isEmpty ? r.id.uuidString : libraryName) + "." + ext, in: &usedFileNames[r.category, default: []])
             try source.copy(document.relativePath, to: folders[r.category]!, name: filename, expectedHash: document.contentHash)
             rows.append([r.date.formatted, r.vendor, r.category, r.kind.rawValue, r.currency,
                          try Money(minorUnits: r.totalMinorUnits, currency: r.currency).decimal,
@@ -118,9 +131,17 @@ public enum AccountantPackExporter {
         let csv = rows.map { $0.map { "\"" + $0.replacingOccurrences(of: "\"", with: "\"\"") + "\"" }.joined(separator: ",") }.joined(separator: "\r\n") + "\r\n"
         try output.write(Data(csv.utf8), name: "transactions.csv")
         try output.write(summary(range: range, count: selected.count, categories: categories, months: months, taxes: taxes), name: "summary.pdf")
-        guard renameatx_np(parent.fd, stagingName, parent.fd, name, UInt32(RENAME_EXCL)) == 0 else {
-            throw LibraryError.conflict(name)
+        var name = baseName, attempt = 1
+        while true {
+            if !FileManager.default.fileExists(atPath: destination.appendingPathComponent(name + ".zip").path) {
+                if renameatx_np(parent.fd, stagingName, parent.fd, name, UInt32(RENAME_EXCL)) == 0 { break }
+                guard errno == EEXIST || errno == ENOTEMPTY else { throw LibraryError.conflict(name) }
+            }
+            guard attempt < 100 else { throw LibraryError.conflict(name) }
+            attempt += 1
+            name = "\(baseName) (\(attempt))"
         }
+        let folder = destination.appendingPathComponent(name, isDirectory: true)
         var zipURL: URL?
         if zip {
             var coordinationError: NSError?
