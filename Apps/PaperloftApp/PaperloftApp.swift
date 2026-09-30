@@ -47,6 +47,11 @@ struct PaperloftApp: App {
                     .keyboardShortcut("v", modifiers: [.command, .shift])
                     .accessibilityIdentifier("command.pasteImage")
             }
+            CommandGroup(replacing: .help) {
+                Button("Paperloft Help") { openWindow(id: "help") }
+                    .keyboardShortcut("?", modifiers: .command)
+                    .accessibilityIdentifier("command.help")
+            }
             CommandGroup(replacing: .undoRedo) {
                 Button("Undo Last Filing") {
                     if let batch = model.batches.first(where: { $0.state == .complete }) { Task { await model.undo(batch) } }
@@ -56,6 +61,8 @@ struct PaperloftApp: App {
                 .accessibilityIdentifier("command.undo")
             }
         }
+        Window("Paperloft Help", id: "help") { HelpView().preferredColorScheme(colorScheme) }
+            .defaultSize(width: 640, height: 720)
         Settings { PaperloftSettings(model: model).preferredColorScheme(colorScheme).background(WindowAccessibility(label: "Paperloft settings")) }
         MenuBarExtra {
             MenuBarInbox(model: model).preferredColorScheme(colorScheme)
