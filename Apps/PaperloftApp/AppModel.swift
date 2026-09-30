@@ -166,6 +166,8 @@ final class FileGrant: @unchecked Sendable {
     var mode: FilingMode { didSet { preferences.set(mode.rawValue, forKey: "filingMode") } }
     var quickLookURL: URL?
     var showExport = false
+    /// Edit › Find… asks the Library to focus its search field.
+    var findRequested = false
     var exportResult: AccountantPackResult?
     var exportError: String?
     var watchedFolderURL: URL?

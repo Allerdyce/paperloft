@@ -36,7 +36,7 @@ final class CoreFlowTests: XCTestCase {
         app.buttons["sidebar.library"].click()
         XCTAssertTrue(app.staticTexts["Keyboard Desk"].waitForExistence(timeout: 15))
         XCTAssertLessThan(Date().timeIntervalSince(started), 60, "Samples must reach a filed document within 60 seconds from launch")
-        XCTAssertTrue(app.staticTexts["USD 42.35"].exists)
+        XCTAssertTrue(app.staticTexts["$42.35"].exists)
         let search = app.textFields["library.search"]; search.click(); search.typeText("Keyboard")
         XCTAssertTrue(app.staticTexts["Keyboard Desk"].waitForExistence(timeout: 5))
         search.typeKey("a", modifierFlags: .command); search.typeText("no-such-vendor")
@@ -111,6 +111,12 @@ final class CoreFlowTests: XCTestCase {
         try audit(app)
         for section in ["library", "history"] {
             app.buttons["sidebar." + section].click()
+            // Switching sections animates toolbar items in or out, and the window title with them.
+            // Audit the settled screen: measured mid-animation the title reads as low contrast.
+            let heading = app.staticTexts["content.title"]
+            let shown = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", section.capitalized), object: heading)
+            XCTAssertEqual(XCTWaiter().wait(for: [shown], timeout: 5), .completed, "\(section) is showing")
+            Thread.sleep(forTimeInterval: 1.5)
             try audit(app)
         }
         // Audit Settings as the only window, every pane. While Settings is open the audit also

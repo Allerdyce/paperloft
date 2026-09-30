@@ -27,7 +27,7 @@ struct HelpView: View {
             "Paperloft files a copy and leaves your original in place. You can choose Move in Settings › Filing. It never overwrites a file, and deleting from the Library moves the file to Recently Deleted rather than erasing it."
         ]),
         Topic(id: "undo", title: "Finding and undoing", symbol: "clock.arrow.circlepath", lines: [
-            "Library lists every filed document, with search and filters.",
+            "Library lists every filed document, with search and filters. Choose Edit › Find… (⌘F) to search, and click a column heading to sort by it.",
             "History lists each filing. Undo any of them there, or choose Edit › Undo Last Filing (⌘Z) for the most recent one."
         ]),
         Topic(id: "export", title: "Accountant pack and Shortcuts", symbol: "square.and.arrow.up", lines: [

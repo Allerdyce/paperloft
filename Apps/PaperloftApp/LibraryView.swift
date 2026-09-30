@@ -144,17 +144,6 @@ struct InboxView: View {
             .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(Color.accentColor.opacity(0.2)))
             .accessibilityElement(children: .contain)
     }
-    private func inboxEntry(_ title: String, symbol: String, identifier: String, action: @escaping () async -> Void) -> some View {
-        Button { Task { await action() } } label: {
-            Label(title, systemImage: symbol)
-                .font(.callout.weight(.semibold))
-                .frame(minWidth: 76).padding(.horizontal, 12).padding(.vertical, 12)
-                .foregroundStyle(Color.accentColor)
-                .background(Color.accentColor.opacity(0.05), in: RoundedRectangle(cornerRadius: 10))
-                .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.accentColor.opacity(0.35)))
-                .contentShape(RoundedRectangle(cornerRadius: 10))
-        }.buttonStyle(.plain).accessibilityIdentifier(identifier)
-    }
     private func revealPastedImage() {
         guard let id = model.pastedItemID, model.items.contains(where: { $0.id == id && $0.status != "aside" }) else { return }
         filter = "All"
@@ -212,13 +201,12 @@ struct InboxView: View {
             }
         } else {
             VStack(spacing: 0) {
-                HStack(spacing: 16) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
                         ForEach(filters, id: \.self) { value in
                             Button { removalSelection.removeAll(); pinnedReviewID = nil; model.selectedItemID = nil; filter = value; syncSelection() } label: {
                                 HStack(spacing: 5) {
-                                    if filter == value { Image(systemName: "checkmark") }
+                                    Image(systemName: "checkmark").opacity(filter == value ? 1 : 0).accessibilityHidden(true)
                                     Text(value)
                                     Text(model.items.filter { matches($0, value) }.count.formatted()).monospacedDigit()
                                 }.font(.callout.weight(.medium)).padding(.horizontal, 12).padding(.vertical, 8)
@@ -228,11 +216,6 @@ struct InboxView: View {
                                 .accessibilityAddTraits(filter == value ? [.isSelected] : [])
                         }
                     }.padding(.vertical, 12)
-                }
-                    HStack(spacing: 10) {
-                        inboxEntry("Import", symbol: "square.and.arrow.down", identifier: "inbox.addMore") { await model.importFiles() }
-                        inboxEntry("Paste", symbol: "doc.on.clipboard", identifier: "inbox.paste") { await model.pasteImage() }
-                    }.fixedSize()
                 }.padding(.horizontal, 20)
                 HStack(spacing: 12) {
                     Button("Select all") { removalSelection = Set(visibleItems.map(\.id)) }.disabled(visibleItems.isEmpty)
@@ -319,6 +302,14 @@ struct InboxView: View {
                     model.inboxListOrder = visibleItems.map(\.id)
                     removalSelection.formIntersection(Set(visibleItems.map(\.id)))
                     syncSelection()
+                }
+                .toolbar {
+                    ToolbarItemGroup(placement: .primaryAction) {
+                        Button("Import", systemImage: "square.and.arrow.down") { Task { await model.importFiles() } }
+                            .help("Import receipt files (⌘I)").accessibilityIdentifier("inbox.addMore")
+                        Button("Paste", systemImage: "doc.on.clipboard") { Task { await model.pasteImage() } }
+                            .help("Paste a copied receipt image (⇧⌘V)").accessibilityIdentifier("inbox.paste")
+                    }
                 }
         }
     }
@@ -462,10 +453,15 @@ struct ReviewView: View {
                         Label("Already filed: \(duplicate)", systemImage: "doc.on.doc").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.duplicate")
                     }
                 }
+                // Every row is label + control, so labels share one trailing-aligned column and a
+                // warning outlines only the control it's about.
                 Form {
-                    TextField("Vendor", text: $draft.vendor).focused($focusedField, equals: .vendor).accessibilityIdentifier("review.vendor").modifier(ReviewHighlight(message: fieldMessage("vendor")))
+                    LabeledContent("Vendor") {
+                        TextField("Vendor", text: $draft.vendor).labelsHidden().focused($focusedField, equals: .vendor).accessibilityIdentifier("review.vendor").modifier(ReviewHighlight(message: fieldMessage("vendor")))
+                    }
+                    LabeledContent("Date") {
                     HStack {
-                        TextField("Date", text: $draft.date, prompt: Text("YYYY-MM-DD")).focused($focusedField, equals: .date).accessibilityIdentifier("review.date")
+                        TextField("Date", text: $draft.date, prompt: Text("YYYY-MM-DD")).labelsHidden().focused($focusedField, equals: .date).accessibilityIdentifier("review.date")
                         Button {
                             let formatter = DateFormatter()
                             formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -492,13 +488,25 @@ struct ReviewView: View {
                             }.padding(18).frame(width: 320)
                         }
                     }.modifier(ReviewHighlight(message: fieldMessage("date")))
-                    TextField("Total", text: $draft.total).monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(message: fieldMessage("total")))
-                    TextField("Tax (optional)", text: $draft.tax).monospacedDigit().focused($focusedField, equals: .tax).accessibilityIdentifier("review.tax").modifier(ReviewHighlight(message: fieldMessage("tax")))
-                    TextField("Currency", text: $draft.currency).focused($focusedField, equals: .currency).accessibilityIdentifier("review.currency").modifier(ReviewHighlight(message: fieldMessage("currency")))
-                    AccessiblePicker(label: "Category", identifier: "review.category", choices: Array(Set(model.categories + [draft.category])).sorted(), selection: $draft.category)
-                        .modifier(ReviewHighlight(message: fieldMessage("category")))
-                    AccessiblePicker(label: "Document type", identifier: "review.kind", choices: ["Receipt", "Invoice", "Bill"], selection: Binding(get: { draft.kind.rawValue.capitalized }, set: { draft.kind = DocumentKind(rawValue: $0.lowercased()) ?? .receipt }))
-                        .modifier(ReviewHighlight(message: fieldMessage("kind")))
+                    }
+                    LabeledContent("Total") {
+                        TextField("Total", text: $draft.total).labelsHidden().monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(message: fieldMessage("total")))
+                    }
+                    LabeledContent("Tax") {
+                        TextField("Tax (optional)", text: $draft.tax, prompt: Text("Optional")).labelsHidden().monospacedDigit().focused($focusedField, equals: .tax).accessibilityIdentifier("review.tax").modifier(ReviewHighlight(message: fieldMessage("tax")))
+                    }
+                    LabeledContent("Currency") {
+                        AccessiblePopup(label: "Currency", identifier: "review.currency", choices: CurrencyChoices.list(including: draft.currency), selection: $draft.currency, title: CurrencyChoices.title)
+                            .modifier(ReviewHighlight(message: fieldMessage("currency")))
+                    }
+                    LabeledContent("Category") {
+                        AccessiblePopup(label: "Category", identifier: "review.category", choices: Array(Set(model.categories + [draft.category])).sorted(), selection: $draft.category)
+                            .modifier(ReviewHighlight(message: fieldMessage("category")))
+                    }
+                    LabeledContent("Document type") {
+                        AccessiblePopup(label: "Document type", identifier: "review.kind", choices: ["Receipt", "Invoice", "Bill"], selection: Binding(get: { draft.kind.rawValue.capitalized }, set: { draft.kind = DocumentKind(rawValue: $0.lowercased()) ?? .receipt }))
+                            .modifier(ReviewHighlight(message: fieldMessage("kind")))
+                    }
                 }
                 .textFieldStyle(.roundedBorder)
                 .onSubmit { Task { await model.fileSelected() } }
@@ -604,6 +612,14 @@ struct BrowseView: View {
     @State private var selected: UUID?
     @State private var pendingDelete: FiledDocument?
     @State private var showDeleted = false
+    // Scene storage keeps the sort order while switching sections, like a Finder window.
+    @SceneStorage("library.sortColumn") private var sortColumn = LibrarySort.Column.date.rawValue
+    @SceneStorage("library.sortAscending") private var sortAscending = false
+    private var sort: LibrarySort {
+        get { LibrarySort(column: LibrarySort.Column(rawValue: sortColumn) ?? .date, ascending: sortAscending) }
+        nonmutating set { sortColumn = newValue.column.rawValue; sortAscending = newValue.ascending }
+    }
+    @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var scheme
     private var canvas: Color { scheme == .dark ? Color(red: 0.12, green: 0.135, blue: 0.13) : Color(red: 0.985, green: 0.98, blue: 0.965) }
     var body: some View {
@@ -611,7 +627,7 @@ struct BrowseView: View {
             HStack(spacing: 12) {
                 Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
                 TextField("Search your receipts", text: $model.search)
-                    .textFieldStyle(.plain).font(.body)
+                    .textFieldStyle(.plain).font(.body).focused($searchFocused)
                     .accessibilityIdentifier("library.search").accessibilityLabel("Search library")
                 if !model.search.isEmpty {
                     Button { model.search = "" } label: { Image(systemName: "xmark.circle.fill") }
@@ -628,42 +644,41 @@ struct BrowseView: View {
                     .buttonStyle(.borderedProminent).buttonBorderShape(.capsule)
                     .disabled(model.libraryURL == nil || model.busy).accessibilityIdentifier("library.export")
             }
-            HStack(spacing: 16) {
-                Text("Filed receipts").font(.headline)
-                Spacer()
-                Button("Open Receipt") { open(selectedDocument) }.disabled(selectedDocument == nil).accessibilityIdentifier("library.quickLook")
-                Button("Reveal in Finder") { model.reveal(selectedDocument) }.disabled(selectedDocument == nil).accessibilityIdentifier("library.reveal")
-                Button("Delete", systemImage: "trash", role: .destructive) { pendingDelete = selectedDocument }
-                    .disabled(selectedDocument == nil || model.busy).accessibilityIdentifier("library.delete")
-                Button("Recently Deleted") { showDeleted = true }.accessibilityIdentifier("library.deleted")
-            }.buttonStyle(.borderless).font(.callout).padding(.top, 8)
+            Text("Filed receipts").font(.headline).padding(.top, 8)
             VStack(spacing: 4) {
+                // Click a column to sort by it; click again to reverse. The header shares the rows' insets so labels sit over their values.
                 HStack(spacing: 12) {
-                    Text("Receipt").frame(width: 42, alignment: .leading)
-                    Text("Date").frame(width: 86, alignment: .leading)
-                    Text("Merchant").frame(maxWidth: .infinity, alignment: .leading)
-                    Text("Category").frame(width: 110, alignment: .leading)
-                    Text("Total").frame(width: 108, alignment: .trailing)
-                    Text("Action").frame(width: 70)
-                }.font(.caption.weight(.medium)).foregroundStyle(.primary).padding(.horizontal, 16).padding(.bottom, 6)
+                    Color.clear.frame(width: 42, height: 1).accessibilityHidden(true)
+                    sortHeader(.date, width: 100, alignment: .leading)
+                    sortHeader(.merchant, width: nil, alignment: .leading)
+                    sortHeader(.category, width: 110, alignment: .leading)
+                    sortHeader(.total, width: 108, alignment: .trailing)
+                    Color.clear.frame(width: 70, height: 1).accessibilityHidden(true)
+                }.font(.caption.weight(.medium)).foregroundStyle(.primary).padding(.horizontal, 16 + Self.listRowInset).padding(.bottom, 6)
                 List(selection: $selected) {
-                    ForEach(model.documents) { document in
+                    ForEach(sort.apply(to: model.documents)) { document in
                         HStack(spacing: 12) {
                             LibraryReceiptIcon(category: document.receipt.category).frame(width: 42)
-                            Text(document.receipt.date.formatted).font(.callout).monospacedDigit().frame(width: 86, alignment: .leading)
+                            Text(Self.displayDate(document.receipt.date)).font(.callout).monospacedDigit().frame(width: 100, alignment: .leading)
+                                .accessibilityIdentifier("library.date")
                             VStack(alignment: .leading, spacing: 5) {
-                                Text(document.receipt.vendor).font(.body.weight(.medium)).lineLimit(2)
+                                Text(document.receipt.vendor).font(.body.weight(.medium)).lineLimit(2).accessibilityIdentifier("library.merchant")
                                 Text(document.receipt.kind.rawValue.capitalized).font(.caption).foregroundStyle(.secondary)
                             }.frame(maxWidth: .infinity, alignment: .leading)
                             Text(document.receipt.category).font(.callout).lineLimit(2).frame(width: 110, alignment: .leading)
-                            Text(amount(document.receipt)).font(.body.weight(.medium)).monospacedDigit().frame(width: 108, alignment: .trailing)
+                            Text(Self.amount(document.receipt)).font(.body.weight(.medium)).monospacedDigit().frame(width: 108, alignment: .trailing)
+                                .accessibilityIdentifier("library.total")
                             Button("View") { open(document) }.buttonStyle(.bordered).buttonBorderShape(.capsule)
                                 .frame(width: 70).accessibilityLabel("View receipt from " + document.receipt.vendor)
                                 .accessibilityIdentifier("library.view." + document.id.uuidString)
                         }.padding(.horizontal, 16).padding(.vertical, 16)
                             .frame(minHeight: 76)
-                            .background(scheme == .dark ? Color.white.opacity(0.055) : Color(red: 0.952, green: 0.938, blue: 0.916), in: RoundedRectangle(cornerRadius: 12))
-                            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(selected == document.id ? Color.accentColor.opacity(0.65) : .clear))
+                            // The selected row gets an accent tint and a 2 pt accent border, so it reads at a glance.
+                            .background {
+                                RoundedRectangle(cornerRadius: 12).fill(scheme == .dark ? Color.white.opacity(0.055) : Color(red: 0.952, green: 0.938, blue: 0.916))
+                                    .overlay(RoundedRectangle(cornerRadius: 12).fill(Color.accentColor.opacity(selected == document.id ? 0.16 : 0)))
+                            }
+                            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(selected == document.id ? Color.accentColor : .clear, lineWidth: 2))
                             .background(LibrarySelectionStyle())
                             .contentShape(Rectangle()).tag(document.id)
                             .listRowSeparator(.hidden).listRowBackground(Color.clear)
@@ -696,6 +711,23 @@ struct BrowseView: View {
             Button("Cancel", role: .cancel) { pendingDelete = nil }
         } message: { Text("It will leave your library and future exports. You can restore it from Recently Deleted; external originals are preserved.") }
         .sheet(isPresented: $showDeleted) { RecentlyDeletedView(model: model) }
+        .toolbar {
+            ToolbarItemGroup(placement: .primaryAction) {
+                Button("Open Receipt", systemImage: "eye") { open(selectedDocument) }
+                    .disabled(selectedDocument == nil).help("Open the selected receipt").accessibilityIdentifier("library.quickLook")
+                Button("Reveal in Finder", systemImage: "folder") { model.reveal(selectedDocument) }
+                    .disabled(selectedDocument == nil).help("Show the selected receipt in Finder").accessibilityIdentifier("library.reveal")
+                Button("Delete", systemImage: "trash") { pendingDelete = selectedDocument }
+                    .disabled(selectedDocument == nil || model.busy).help("Move the selected receipt to Recently Deleted").accessibilityIdentifier("library.delete")
+                Button("Recently Deleted", systemImage: "clock.arrow.circlepath") { showDeleted = true }
+                    .help("Restore receipts you deleted").accessibilityIdentifier("library.deleted")
+            }
+        }
+        .onChange(of: model.findRequested, initial: true) {
+            guard model.findRequested else { return }
+            model.findRequested = false
+            Task { @MainActor in searchFocused = true }
+        }
         .onChange(of: model.search) { model.scheduleSearch() }.onChange(of: model.yearFilter) { model.scheduleSearch() }
         .onChange(of: model.categoryFilter) { model.scheduleSearch() }.onChange(of: model.kindFilter) { model.scheduleSearch() }
     }
@@ -704,7 +736,66 @@ struct BrowseView: View {
         model.quickLookURL = root.appendingPathComponent(document.relativePath)
     }
     private var selectedDocument: FiledDocument? { model.documents.first { $0.id == selected } }
-    private func amount(_ receipt: Receipt) -> String { receipt.currency + " " + ((try? Money(minorUnits: receipt.totalMinorUnits, currency: receipt.currency).decimal) ?? "—") }
+    /// The plain List's own horizontal row inset on macOS, measured by LibraryAlignmentTests.
+    static let listRowInset: CGFloat = 8
+    private func sortHeader(_ column: LibrarySort.Column, width: CGFloat?, alignment: Alignment) -> some View {
+        Button { sort.toggle(column) } label: {
+            // The indicator sits on the inner side, so the label's outer edge lines up with the values.
+            HStack(spacing: 3) {
+                if alignment == .trailing { indicator(for: column) }
+                Text(column.rawValue)
+                if alignment != .trailing { indicator(for: column) }
+            }
+        }.buttonStyle(.plain)
+            .frame(maxWidth: width ?? .infinity, alignment: alignment).frame(width: width)
+            .accessibilityLabel("Sort by " + column.rawValue)
+            .accessibilityValue(sort.column == column ? (sort.ascending ? "Ascending" : "Descending") : "")
+            .accessibilityIdentifier("library.sort." + column.rawValue)
+    }
+    private func indicator(for column: LibrarySort.Column) -> some View {
+        Image(systemName: sort.ascending ? "chevron.up" : "chevron.down").font(.caption2.weight(.bold))
+            .opacity(sort.column == column ? 1 : 0).accessibilityHidden(true)
+    }
+    /// Localized amount, e.g. "$42.35", from the stored minor units.
+    static func amount(_ receipt: Receipt) -> String {
+        guard let money = try? Money(minorUnits: receipt.totalMinorUnits, currency: receipt.currency),
+              let value = Decimal(string: money.decimal) else { return "—" }
+        return value.formatted(.currency(code: receipt.currency))
+    }
+    /// Localized medium date, e.g. "Sep 18, 2026". Filenames keep the ISO form.
+    static func displayDate(_ date: ReceiptDate) -> String {
+        var calendar = Calendar(identifier: .gregorian); calendar.timeZone = .current
+        guard let value = calendar.date(from: DateComponents(year: date.year, month: date.month, day: date.day)) else { return date.formatted }
+        return value.formatted(date: .abbreviated, time: .omitted)
+    }
+}
+
+/// Library sort order: Date and Total start newest/largest first, text columns A to Z.
+struct LibrarySort: Equatable {
+    enum Column: String { case date = "Date", merchant = "Merchant", category = "Category", total = "Total" }
+    var column = Column.date
+    var ascending = false
+    mutating func toggle(_ tapped: Column) {
+        if column == tapped { ascending.toggle() } else { column = tapped; ascending = tapped == .merchant || tapped == .category }
+    }
+    func apply(to documents: [FiledDocument]) -> [FiledDocument] {
+        documents.sorted { first, second in
+            let a = first.receipt, b = second.receipt
+            let order: ComparisonResult
+            switch column {
+            case .date: order = a.date.formatted.compare(b.date.formatted)
+            case .merchant: order = a.vendor.localizedStandardCompare(b.vendor)
+            case .category: order = a.category.localizedStandardCompare(b.category)
+            case .total:
+                let x = Decimal(string: (try? Money(minorUnits: a.totalMinorUnits, currency: a.currency).decimal) ?? "") ?? 0
+                let y = Decimal(string: (try? Money(minorUnits: b.totalMinorUnits, currency: b.currency).decimal) ?? "") ?? 0
+                order = x == y ? a.currency.compare(b.currency) : (x < y ? .orderedAscending : .orderedDescending)
+            }
+            // Ties keep a stable, newest-first order.
+            if order == .orderedSame { return first.filedAt > second.filedAt }
+            return ascending ? order == .orderedAscending : order == .orderedDescending
+        }
+    }
 }
 
 struct LibraryFilterChip: View {
@@ -926,6 +1017,25 @@ struct PaperloftSettings: View {
     }
 }
 
+/// Currency choices for review: the document's own value first (even if unrecognised, so it can be
+/// seen and fixed), then this Mac's currency and other common ones, then every ISO currency.
+enum CurrencyChoices {
+    static let common = ["USD", "EUR", "GBP", "CAD", "AUD", "NZD", "JPY", "CHF", "MXN", "INR"]
+    static func list(including current: String) -> [String] {
+        let local = Locale.current.currency?.identifier
+        var result: [String] = []
+        for code in [current] + [local].compactMap({ $0 }) + common + Locale.commonISOCurrencyCodes.sorted() where !result.contains(code) {
+            result.append(code)
+        }
+        return result
+    }
+    static func title(_ code: String) -> String {
+        guard !code.isEmpty else { return "Choose a currency" }
+        guard let name = Locale.current.localizedString(forCurrencyCode: code) else { return code }
+        return code + " – " + name
+    }
+}
+
 private struct ReviewHighlight: ViewModifier {
     let message: String?
     func body(content: Content) -> some View {
@@ -938,8 +1048,9 @@ private struct ReviewHighlight: ViewModifier {
                     if message != nil { RoundedRectangle(cornerRadius: 5).stroke(Color.orange, lineWidth: 1) }
                 }
             if let message {
+                // Callout, not caption: the accessibility audit flags this warning's contrast at 10 pt.
                 Label(message, systemImage: "exclamationmark.circle")
-                    .font(.caption).foregroundStyle(.primary)
+                    .font(.callout).foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }

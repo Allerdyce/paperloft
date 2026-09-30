@@ -50,6 +50,11 @@ struct PaperloftApp: App {
                     .accessibilityIdentifier("command.samples")
                 #endif
             }
+            CommandGroup(after: .textEditing) {
+                Button("Find…") { openWindow(id: "main"); model.selection = "Library"; model.findRequested = true }
+                    .keyboardShortcut("f", modifiers: .command)
+                    .accessibilityIdentifier("command.find")
+            }
             CommandGroup(after: .pasteboard) {
                 Button("Paste Image") { Task { await model.pasteImage() } }
                     .keyboardShortcut("v", modifiers: [.command, .shift])
