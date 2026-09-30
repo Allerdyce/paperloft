@@ -30,7 +30,7 @@
 | 06 private samples | Not gated | Owner receipt reruns reported separately |
 | 07/08 file safety, crash recovery | PASS at P2; tests pass in CI | Full CI 2026-09-29 |
 | 09 resilience | Tests pass; P6 gate not run | ResilienceTests in unit suite |
-| 10 throughput | **FAIL** | 100 documents in 358.972 s against ≤ 240 s; signpost capture unavailable |
+| 10 throughput | **FAIL** | 100 documents in 358.972 s against ≤ 240 s. 2026-09-30: concurrent classification merged, about 5–10% less model time, identical results; field extraction alone averages about 2.56 s/document, above the 2.4 s budget (evidence/performance/concurrent-classification-20260930.md) |
 | 11 UI and purchase flows | **Blocked** | StoreKitTest strict import blocked (SDK header); real products need DUNS/membership |
 | 12 accountant pack | Tests pass; P4 gate not run | ExportTests |
 | 13 accessibility | **FAIL** | App-owned findings cleared; 10 system Touch Bar/emoji/unattributed findings pending the PROPOSALS decision |
@@ -40,7 +40,7 @@
 | 17 QA personas, zero P0/P1 | **Not done** | No evidence/qa yet |
 | 18 release checker, screenshots, site | **Not done** | Needs final UI and site pass (P8) |
 | 19 build uploaded and processed | **Blocked** | Credentials and identities missing (above) |
-| 20 README, PRIVACY, SUPPORT, Help | **Incomplete** | README.md exists; PRIVACY.md, SUPPORT.md and the in-app Help page are missing (Help must include the 100 MB Shortcuts limit, NOTES.md) |
+| 20 README, PRIVACY, SUPPORT, Help | Local PASS, pending verifier | 2026-09-30: README.md, PRIVACY.md, SUPPORT.md (10 FAQs) and in-app Help (Help › Paperloft Help, HelpTests) merged at 3419a01, fact-checked against code. Pro and Share claims depend on commerce and distribution signing (NOTES.md) |
 | 21 final verification | **Not done** | Requires AC-01…20 PASS |
 
 ## Agent-actionable next work (no owner input needed)
