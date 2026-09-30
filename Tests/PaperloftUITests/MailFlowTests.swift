@@ -30,6 +30,10 @@ final class MailFlowTests: XCTestCase {
         app.buttons["sidebar.inbox"].click()
         importEmail(email, in: app)
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
+        // QA-05: rows use the sender's filename (here none, so "Attachment.pdf"), never the staged UUID name.
+        let uuidNamed = NSPredicate(format: "value BEGINSWITH 'Attachment-' OR label BEGINSWITH 'Attachment-'")
+        XCTAssertFalse(app.staticTexts.matching(uuidNamed).firstMatch.exists, "no Inbox row shows a staged UUID filename")
+        if resource == "mail-receipt" { XCTAssertTrue(app.staticTexts["Attachment.pdf"].exists, "the attachment row is readable") }
         let notices = app.descendants(matching: .any)["review.importNotices"].firstMatch
         XCTAssertTrue(notices.waitForExistence(timeout: 10))
         app.buttons["review.importDetailsButton"].click()

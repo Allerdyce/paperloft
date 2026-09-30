@@ -783,8 +783,9 @@ final class FileGrant: @unchecked Sendable {
                             mailSender: Self.metadataText(imported.envelope?.from), mailDate: Self.mailSourceDate(imported.envelope?.date))
                         var stagedMail: [URL: (IntakeRecord, URL)] = [:]
                         for attachment in imported.attachments {
-                            let record = try await intakeQueue.enqueue(source: attachment, origin: .mail, metadata: mailMetadata,
-                                maximumBytes: Int64(MailDocument.maximumPDFBytes))
+                            // Show the sender's sanitized filename; the staged path stays a UUID.
+                            let record = try await intakeQueue.enqueue(source: attachment, origin: .mail, displayName: imported.attachmentNames[attachment],
+                                metadata: mailMetadata, maximumBytes: Int64(MailDocument.maximumPDFBytes))
                             stagedMail[attachment] = (record, try await intakeQueue.payloadURL(for: record))
                         }
                         var renderedBodyText: String?
