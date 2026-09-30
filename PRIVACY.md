@@ -2,7 +2,7 @@
 
 Last updated: September 30, 2026
 
-Paperloft Receipts is made by EvidencePair LLC, California. In this policy, "we" means EvidencePair LLC. The same policy is published at <https://paperloft.app/privacy/>.
+Paperloft Receipts is made by EvidencePair LLC, California. In this policy, "we" means EvidencePair LLC. Our general privacy policy, covering Paperloft apps and the paperloft.app website, is at <https://paperloft.app/privacy/>. This document adds detail specific to the Paperloft Receipts app.
 
 ## Your documents stay on your Mac
 
@@ -10,16 +10,17 @@ Paperloft Receipts reads your receipts, invoices and bills on your Mac, using Ap
 
 ## No analytics and no account
 
-We don't collect analytics, usage data, crash-reporting data of our own, or advertising identifiers. There's no account to create. Apple may give us aggregate crash reports and App Store statistics under the settings you choose in macOS and the App Store; these don't include your documents.
+We don't collect analytics, usage data or advertising identifiers, and the app contains no crash-reporting service of its own. There's no account to create.
 
 ## What the app keeps on your Mac
 
-- **Your library:** filed documents are ordinary files in the folder you choose, organised by year and category and named with their date, vendor and total. Extracted fields are also saved with each file.
-- **App data:** the search index, the review inbox, filing history (so filings can be undone), settings and your categories are stored in the app's private container on your Mac.
-- **Folder access:** when you choose a library, watched folder or original-documents folder, macOS gives the app a bookmark to that folder only.
-- **Sharing and Shortcuts:** files you share to Paperloft from Finder, or send with the File Document shortcut, are copied into the app's own storage for review. Your originals stay where they are.
+- **Your library:** filed documents are ordinary files in the folder you choose, organized by year and category and named with their date, vendor and total. Extracted fields are also saved with each file. A hidden `.paperloft` folder inside the library holds filing history, the recovery copies that let filings be undone, and Recently Deleted.
+- **Moved originals:** if you choose Move in Settings › Filing, the library gets a copy and the original is renamed to a hidden file (`.paperloft-….source`) in the same folder, so Undo can restore it exactly. That hidden original stays until you undo the filing or delete it yourself.
+- **App data:** the search index, the Inbox, settings, your categories and a copy of each document you add are stored in the app's private container on your Mac. Copies of documents you remove from the Inbox are cleaned up.
+- **File access:** when you choose a library, watched folder, original-documents folder, files to import or an export destination, macOS gives the app access to that item only.
+- **Sharing and Shortcuts:** files you share to Paperloft from Finder are copied into storage shared only between Paperloft and its Share extension, then into the Inbox for review. Files sent with the File Document shortcut are copied straight into the app's container. Either way, your originals stay where they are.
 
-Deleting the app and its container removes the app data. Your library folder and its files are yours; they stay until you delete them.
+On macOS, moving the app to the Trash doesn't delete its data. Deleting the app's container, and the group container it shares with its Share extension, removes the app data. Your library folder, including its hidden `.paperloft` folder, is yours and stays until you delete it.
 
 ## Where your files are kept
 

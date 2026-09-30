@@ -12,19 +12,19 @@ struct HelpView: View {
 
     private let topics: [Topic] = [
         Topic(id: "start", title: "Getting started", symbol: "sparkles", lines: [
-            "Choose a library folder when Paperloft asks, or later in Settings › Library. Filed documents are ordinary files there, sorted into year and category folders."
+            "Choose a library folder when Paperloft asks, or later in Settings › General › Library. Filed documents are ordinary files there, sorted into year and category folders."
         ]),
         Topic(id: "add", title: "Adding documents", symbol: "tray.and.arrow.down", lines: [
-            "Drag PDFs, images (PNG, JPEG, HEIC, TIFF) or saved emails (.eml) onto the window or the menu bar item.",
+            "Drag PDFs, images (PNG, JPEG, HEIC, TIFF) or saved emails (.eml) onto the window, or onto the window that opens from the menu bar item.",
             "Choose File › Import Receipts…, or copy an image and choose Edit › Paste Image (⇧⌘V).",
-            "In Finder, choose Share › Paperloft Receipts. To scan paper, choose File › Import from iPhone or iPad.",
-            "With Paperloft Pro, a watched folder in Settings sends new files to your Inbox automatically."
+            "In Finder, choose Share › Paperloft Receipts. To scan paper, choose File › Import From Device › Scan Documents, listed under your iPhone or iPad.",
+            "With Paperloft Pro, a watched folder (Settings › General) sends new files to your Inbox automatically."
         ]),
         Topic(id: "review", title: "Reviewing and filing", symbol: "checkmark.circle", lines: [
             "Every document waits in the Inbox for your confirmation. Nothing is filed without it.",
-            "Check the highlighted fields, correct anything that's wrong, and press Return to file. Tab moves between fields.",
+            "Check the highlighted fields, correct anything that's wrong, then press Return or click Confirm to file. Tab moves between fields.",
             "Issue means a field needs your attention or the document type couldn't be confirmed. Remove sets a document aside without filing it.",
-            "Paperloft files a copy and leaves your original in place. You can choose Move in Settings › Filing. It never overwrites or deletes a file."
+            "Paperloft files a copy and leaves your original in place. You can choose Move in Settings › Filing. It never overwrites a file, and deleting from the Library moves the file to Recently Deleted rather than erasing it."
         ]),
         Topic(id: "undo", title: "Finding and undoing", symbol: "clock.arrow.circlepath", lines: [
             "Library lists every filed document, with search and filters.",
@@ -33,7 +33,7 @@ struct HelpView: View {
         Topic(id: "export", title: "Accountant pack and Shortcuts", symbol: "square.and.arrow.up", lines: [
             "In Library, choose Tax & Accountant Export… for a summary PDF, a CSV and the documents by category, optionally as a ZIP.",
             "Shortcuts offers File Document, Open Inbox, Total Spent and Export Accountant Pack. Export Accountant Pack needs Paperloft Pro and returns packs up to 100 MB; export larger packs from the app.",
-            "Categories are for organising records. Paperloft doesn't give tax advice."
+            "Categories are for organizing records. Paperloft doesn't give tax advice."
         ]),
         Topic(id: "privacy", title: "Privacy", symbol: "lock", lines: [
             "Paperloft reads documents on your Mac with on-device Apple Intelligence and text recognition. It has no network access, no analytics and no account."

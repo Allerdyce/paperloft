@@ -2,7 +2,7 @@
 
 A Mac App Store app by EvidencePair LLC that reads receipts, invoices and bills on your Mac, files them into a folder you choose, and exports an accountant pack. Everything runs on-device with Apple frameworks only; the app has no network access.
 
-- User documentation: in-app Help (Help › Paperloft Help, ⌘?), [SUPPORT.md](SUPPORT.md) and [PRIVACY.md](PRIVACY.md).
+- User documentation: in-app Help (Help › Paperloft Help), [SUPPORT.md](SUPPORT.md) and [PRIVACY.md](PRIVACY.md).
 - Product spec: [SPEC.md](SPEC.md). Acceptance criteria: [ACCEPTANCE.md](ACCEPTANCE.md). Run contract: [AGENTS.md](AGENTS.md).
 
 ## Requirements

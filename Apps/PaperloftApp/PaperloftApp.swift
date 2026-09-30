@@ -49,7 +49,6 @@ struct PaperloftApp: App {
             }
             CommandGroup(replacing: .help) {
                 Button("Paperloft Help") { openWindow(id: "help") }
-                    .keyboardShortcut("?", modifiers: .command)
                     .accessibilityIdentifier("command.help")
             }
             CommandGroup(replacing: .undoRedo) {
