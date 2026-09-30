@@ -11,7 +11,7 @@ import UniformTypeIdentifiers
     /// Never auto-file: the user must confirm the extracted fields in the review inbox.
     func queueDocumentForReview(data: Data, filename: String) async throws
     /// Export the complete library, not the current table's filtered rows. Recheck Pro here.
-    /// Return a persistent ZIP URL whose grant remains valid until the caller reads it.
+    /// Return an app-owned ZIP that is never rewritten; the intent returns its bytes, not the URL.
     func exportAccountantPack(range: ExportDateRange) async throws -> URL
     /// Return all committed receipts; exclude unconfirmed inbox drafts.
     func intentReceipts() async throws -> [Receipt]
@@ -27,7 +27,7 @@ import UniformTypeIdentifiers
 }
 
 public enum PaperloftIntentError: LocalizedError {
-    case unavailable, proRequired, unsupportedDocument, emptyDocument, invalidDateRange, oversizedDocument
+    case unavailable, proRequired, unsupportedDocument, emptyDocument, invalidDateRange, oversizedDocument, oversizedExport
     public var errorDescription: String? {
         switch self {
         case .unavailable: "Open Paperloft and choose a library before using this action."
@@ -35,6 +35,7 @@ public enum PaperloftIntentError: LocalizedError {
         case .unsupportedDocument: "Choose a PDF, PNG, JPEG or HEIC document."
         case .emptyDocument: "This document is empty or could not be read."
         case .oversizedDocument: "This document exceeds 100 MB. Import a smaller copy."
+        case .oversizedExport: "This accountant pack exceeds 100 MB. Choose a shorter period, or export it from Paperloft."
         case .invalidDateRange: "Enter valid dates as YYYY-MM-DD, with the start date on or before the end date."
         }
     }
@@ -70,6 +71,25 @@ public enum IntentDocumentInput {
             try validate(result)
             return result
         }.value
+    }
+}
+
+/// Accountant packs are returned as bounded, memory-mapped data. A URL-backed result
+/// depends on a sandbox extension the consuming process was observed unable to use.
+public enum IntentExportOutput {
+    public static let maximumBytes = 100 * 1024 * 1024
+    public static func file(for url: URL) async throws -> IntentFile {
+        let data = try await Task.detached(priority: .userInitiated) {
+            // Check an uncached size first so a mapping fallback cannot read an oversized file,
+            // then bound the mapped length, which reserves address space without copying.
+            let size = try FileManager.default.attributesOfItem(atPath: url.path)[.size] as? Int ?? 0
+            guard size <= maximumBytes else { throw PaperloftIntentError.oversizedExport }
+            let data = try Data(contentsOf: url, options: .alwaysMapped)
+            guard !data.isEmpty else { throw AppIssue("The accountant pack ZIP could not be read.") }
+            guard data.count <= maximumBytes else { throw PaperloftIntentError.oversizedExport }
+            return data
+        }.value
+        return IntentFile(data: data, filename: url.lastPathComponent, type: .zip)
     }
 }
 
@@ -144,7 +164,7 @@ public struct ExportAccountantPackIntent: AppIntent {
         let service = try PaperloftIntentRuntime.requireService()
         guard service.isPro else { throw PaperloftIntentError.proRequired }
         let url = try await service.exportAccountantPack(range: range)
-        return .result(value: IntentFile(fileURL: url, type: .zip))
+        return .result(value: try await IntentExportOutput.file(for: url))
     }
 }
 

@@ -9,8 +9,9 @@ import PaperloftKit
         var exports = 0
         var inboxOpens = 0
         var receipts: [Receipt] = []
+        var exportURL = URL(fileURLWithPath: "/nonexistent/pack.zip")
         func queueDocumentForReview(data: Data, filename: String) async throws { queued.append((data, filename)) }
-        func exportAccountantPack(range: ExportDateRange) async throws -> URL { exports += 1; return URL(fileURLWithPath: "/tmp/pack.zip") }
+        func exportAccountantPack(range: ExportDateRange) async throws -> URL { exports += 1; return exportURL }
         func intentReceipts() async throws -> [Receipt] { receipts }
         func openIntentInbox() async throws { inboxOpens += 1 }
     }
@@ -54,14 +55,25 @@ import PaperloftKit
         }
         XCTAssertTrue(service.queued.isEmpty)
     }
+    func transferFolder() throws -> URL {
+        let folder = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("build/IntentTransferTests/" + UUID().uuidString)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        return folder
+    }
     func testExportEnforcesProAndValidDates() async throws {
         let service = Service(); PaperloftIntentRuntime.service = service
         defer { PaperloftIntentRuntime.service = nil }
+        let folder = try transferFolder(); defer { try? FileManager.default.removeItem(at: folder) }
+        service.exportURL = folder.appendingPathComponent("pack.zip")
+        try Data([0x50, 0x4b, 3, 4]).write(to: service.exportURL)
         let intent = ExportAccountantPackIntent(); intent.startDate = "2026-01-01"; intent.endDate = "2026-12-31"
         do { _ = try await intent.perform(); XCTFail("Free export accepted") } catch { XCTAssertTrue(error is PaperloftIntentError) }
         XCTAssertEqual(service.exports, 0)
         service.isPro = true
-        _ = try await intent.perform()
+        let result = try await intent.perform()
+        let value: IntentFile? = result.value
+        XCTAssertNil(value?.fileURL)
+        XCTAssertEqual(value?.data, Data([0x50, 0x4b, 3, 4]))
         XCTAssertEqual(service.exports, 1)
         intent.startDate = "2027-01-01"
         do { _ = try await intent.perform(); XCTFail("Reversed range accepted") } catch { }
@@ -93,6 +105,42 @@ import PaperloftKit
             XCTFail("Oversized URL accepted")
         } catch { XCTAssertTrue(error is PaperloftIntentError) }
         XCTAssertEqual(try FileManager.default.attributesOfItem(atPath: url.path)[.size] as? Int, IntentDocumentInput.maximumBytes + 1)
+    }
+    func testExportReturnsBoundedDataBackedZip() async throws {
+        let folder = try transferFolder(); defer { try? FileManager.default.removeItem(at: folder) }
+        let url = folder.appendingPathComponent("Paperloft Pack.zip")
+        let bytes = Data([0x50, 0x4b, 3, 4, 9, 8, 7])
+        try bytes.write(to: url)
+        let file = try await IntentExportOutput.file(for: url)
+        XCTAssertNil(file.fileURL, "result must not depend on a cross-process file grant")
+        XCTAssertEqual(file.data, bytes)
+        XCTAssertEqual(file.filename, "Paperloft Pack.zip")
+        XCTAssertEqual(file.type, .zip)
+        XCTAssertEqual(try Data(contentsOf: url), bytes, "retained export is unchanged")
+        let handle = try FileHandle(forWritingTo: url)
+        try handle.truncate(atOffset: UInt64(IntentExportOutput.maximumBytes + 1))
+        try handle.close()
+        do {
+            _ = try await IntentExportOutput.file(for: url)
+            XCTFail("Oversized export returned")
+        } catch let error as PaperloftIntentError {
+            guard case .oversizedExport = error else { return XCTFail("Unexpected \(error)") }
+        }
+        XCTAssertEqual(try FileManager.default.attributesOfItem(atPath: url.path)[.size] as? Int, IntentExportOutput.maximumBytes + 1,
+                       "rejected export is left unmodified")
+        let handle2 = try FileHandle(forWritingTo: url)
+        try handle2.truncate(atOffset: UInt64(IntentExportOutput.maximumBytes))
+        try handle2.close()
+        let atLimit = try await IntentExportOutput.file(for: url)
+        XCTAssertEqual(atLimit.data.count, IntentExportOutput.maximumBytes, "exactly the bound is accepted")
+        let empty = folder.appendingPathComponent("empty.zip")
+        try Data().write(to: empty)
+        do { _ = try await IntentExportOutput.file(for: empty); XCTFail("Empty export returned") }
+        catch { XCTAssertFalse(error is PaperloftIntentError, "empty is a read failure, not a size error: \(error)") }
+        for unreadable in [folder.appendingPathComponent("missing.zip"), folder] {
+            do { _ = try await IntentExportOutput.file(for: unreadable); XCTFail("Unreadable export returned") }
+            catch { XCTAssertTrue(error is CocoaError, "\(unreadable.lastPathComponent): \(error)") }
+        }
     }
     func testMissingServiceFailsClearly() async {
         PaperloftIntentRuntime.service = nil

@@ -1,5 +1,7 @@
 # Signed App Intents integration — partial runtime verification
 
+> **Superseded result (2026-09-29 later):** the ZIP failure below is resolved by a bounded Data-backed result; a fresh framework run passes 7/7. See [data-backed-export.md](data-backed-export.md). The 6/7 run below is retained as historical evidence.
+
 2026-09-29, isolated `local/intents-signed`, based on root `c3d5dbd`. During the first build root inadvertently applied independently reviewed copy-only commit `1f0a69e` to this worktree; it is preserved. Later unit/framework/Release checks include that copy change. No frozen files changed. Root supplied current preflight 39 PASS / 1 WARN / 0 FAIL / 0 TFAIL; final local protected-baseline check passes (`build/intents-signed/baseline.log`).
 
 ## Why this was a new supported attempt
@@ -19,7 +21,7 @@ UI-test lookup comes from `Tests/Support/IntentTestInfo.plist`, expanded using `
 - Built Debug app, UI runner and UI test bundle all validate with TeamIdentifier `GQ4UA5C6RQ`. Runner and app use distinct expected development IDs; actual test plist lookup equals app ID `app.paperloft.receipts.development`.
 - Debug and Release generated metadata contain exactly four actions: FileDocumentIntent, ExportAccountantPackIntent, OpenInboxIntent, TotalSpentIntent. Main-app metadata extraction remains enabled.
 
-## One bounded framework attempt: 6/7 PASS, not a gate pass
+## First bounded framework attempt (historical): 6/7 PASS, not a gate pass
 
 GUI lock acquired/released around exactly one seven-test AppIntentsTesting run with parallel testing disabled and 60/90-second test limits. `build/IntentSignedFramework.xcresult`, `build/intents-signed/framework.log`; 27.249 seconds, exit 65.
 
