@@ -152,7 +152,7 @@ public struct FileDocumentIntent: AppIntent {
 
 public struct ExportAccountantPackIntent: AppIntent {
     public static let title: LocalizedStringResource = "Export Accountant Pack"
-    public static let description = IntentDescription("Export a ZIP with documents, a CSV and a summary PDF. Requires Paperloft Pro. Dates are inclusive, in YYYY-MM-DD format.")
+    public static let description = IntentDescription("Export a ZIP with documents, a CSV and a summary PDF. Requires Paperloft Pro. Dates are inclusive, in YYYY-MM-DD format. Packs over 100 MB can be exported from Paperloft instead.")
     public static let openAppWhenRun = true
     @Parameter(title: "Start date", description: "First date, YYYY-MM-DD") public var startDate: String
     @Parameter(title: "End date", description: "Last date, YYYY-MM-DD") public var endDate: String

@@ -19,3 +19,6 @@ Owner also requested an app-specific theme switch: Settings > Appearance > Syste
 
 ## Library reference correction
 Owner requested stronger resemblance to supplied expense-list reference. Implemented rounded warm rows, document icons colored by category, compact bounded filter menus, serif title, large search and row View actions. Root direct Computer Use now succeeds after retiring old app processes; exact updated app was opened and its actual library screen verified. Do not infer all prior automation blockers persist without checking the exact current app instance.
+
+- 2026-09-29: Shortcuts "Export Accountant Pack" returns the ZIP as data, capped at 100 MB (larger packs throw `oversizedExport` and must be exported in the app). The action description states this. **P8 AC-20 content requirement:** the in-app Help page and SUPPORT.md FAQ must mention the 100 MB Shortcuts limit. Intent exports keep only the latest ZIP in Application Support/Intent-Exports; earlier ones are pruned at the next export.
+- 2026-09-29: Finder share providers carry no `suggestedName`; the Share extension stages under the provider file's own name and shows it once resolved ("Document N" is only a fallback).

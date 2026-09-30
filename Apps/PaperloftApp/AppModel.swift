@@ -1137,10 +1137,29 @@ final class FileGrant: @unchecked Sendable {
         let target = destination.resolvingSymlinksInPath()
         guard isPro else { throw PaperloftIntentError.proRequired }
         let result = try await Task.detached(priority: .userInitiated) {
-            try AccountantPackExporter.export(documents: records, libraryRoot: root, destination: target, range: range, zip: true)
+            // Earlier results were already returned to Shortcuts as data; drop stale ones.
+            Self.pruneIntentExports(in: target)
+            let result = try AccountantPackExporter.export(documents: records, libraryRoot: root, destination: target, range: range, zip: true)
+            // Shortcuts receives only the ZIP; the unzipped copy would double the retained size.
+            if result.zipURL != nil { try? FileManager.default.removeItem(at: result.folderURL) }
+            return result
         }.value
         guard let zip = result.zipURL else { throw AppIssue("The accountant pack ZIP could not be created.") }
         return zip
+    }
+
+    /// Remove earlier intent exports and abandoned staging folders. Only names the exporter
+    /// creates are touched, and only once older than `minimumAge`, so a result another intent
+    /// is about to map is never removed. Unlinking (never truncating) keeps mapped data valid.
+    nonisolated static func pruneIntentExports(in folder: URL, minimumAge: TimeInterval = 600, now: Date = Date()) {
+        let keys: [URLResourceKey] = [.contentModificationDateKey]
+        let entries = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: keys)) ?? []
+        for entry in entries where entry.lastPathComponent.hasPrefix("Accountant Pack ")
+            || entry.lastPathComponent.hasPrefix(".Paperloft-export-incomplete-") {
+            guard let modified = try? entry.resourceValues(forKeys: Set(keys)).contentModificationDate,
+                  now.timeIntervalSince(modified) >= minimumAge else { continue }
+            try? FileManager.default.removeItem(at: entry)
+        }
     }
 
     func openIntentInbox() async throws {
