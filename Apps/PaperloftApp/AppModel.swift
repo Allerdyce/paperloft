@@ -425,6 +425,7 @@ final class FileGrant: @unchecked Sendable {
             let access = try LibraryAccess(bookmark: bookmark); libraryAccess = access
             if let renewed = access.refreshedBookmark { preferences.set(renewed, forKey: "paperloft.libraryBookmark") }
             try await configure(access.url, sample: false)
+            if access.refreshedBookmark != nil { message = "Your library folder is now “\(access.url.lastPathComponent)”. Paperloft files there." }
         } else if let path = preferences.string(forKey: "paperloft.demoLibraryPath"), URL(fileURLWithPath: path).path.hasPrefix(support.path + "/") {
             try await configure(URL(fileURLWithPath: path), sample: true)
         } else if testMode { try await createSampleLibrary(discardInbox: false) }

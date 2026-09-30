@@ -32,7 +32,7 @@ import PaperloftKit
         try FileManager.default.moveItem(at: renamed, to: again)
         let relaunched = AppModel(support: support, preferences: defaults, extractionBackend: StubBackend())
         await relaunched.start()
-        XCTAssertNil(relaunched.message, relaunched.message ?? "")
         XCTAssertEqual(relaunched.libraryURL?.lastPathComponent, "Receipts archive")
+        XCTAssertTrue(relaunched.message?.contains("Receipts archive") == true, "startup says where the library is now: \(relaunched.message ?? "nil")")
     }
 }
