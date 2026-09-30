@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Classifier fix merged (bill label guardrail false positive). Next: residual paid-invoice refusals (bounded, single-use probes only) or throughput; then formal gates. StoreKit parked on DUNS; AC-13 system findings pending proposal.",
+  "step": "Release checks run 2026-09-29: NO-GO (evidence/release/readiness-20260929.md). 10 owner-only preflight FAILs (distribution identities, ASC key, TEAM_ID, acceptance-v1 tag). Next agent work: AC-20 docs/Help, AC-10 throughput, AC-17 QA personas, AC-16 design.",
   "last_green_commit": "d9454df",
   "parked": [
     "Formal acceptance tag and release gates deferred",
@@ -16,5 +16,5 @@
     "StoreKit/App Store Connect products wait on owner DUNS / organization enrollment",
     "Classifier: residual refusals on PAID/zero-balance invoices and ~15% of bills (safe review fallback); formal email fixture/holdout scoring and live Mail checks incomplete"
   ],
-  "updated": "2026-09-30T04:03:18.662775+00:00"
+  "updated": "2026-09-30T04:24:38.516849+00:00"
 }
