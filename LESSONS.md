@@ -37,3 +37,9 @@
 - Mail transport headers belong in the exported source context, not in confident receipt extraction; persist provenance when using them as missing-field hints.
 - Email candidate policy changes require matching unlocked UI assertions; retain frozen acceptance tests and record the policy source.
 - Treat Message-ID persistence as a committed-delivery transaction, not an eager seen-ID set; failed imports must remain retryable.
+
+- Scripts that link prebuilt objects via `swift build --show-bin-path` must build first; a stale kit object silently tested old engine code.
+- URL.resourceValues caches per URL instance; bound file reads by uncached stat plus the actual mapped/read length.
+- The Xcode macOS UI-test runner is sandboxed by its standard entitlements; URL-backed IntentFile results failed there on sandbox-extension consumption, while bounded Data-backed results pass.
+- A mutation check (temporarily restoring old code) is a cheap way to prove new regression tests discriminate.
+- Integrate isolated components in a fresh worktree from the current root; preserve cosmetic root dirt via a saved patch and verify semantic equality.

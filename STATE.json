@@ -1,19 +1,19 @@
 {
   "phase": "P3",
-  "step": "Owner requested credit-saving handoff to nextmodel; stopped at safe checkpoint. Read NEXT-MODEL-HANDOFF.md before resuming. Root214unitPASS; current intentcomponent isolated01ccfd9 with229unitPASS and6/7frameworkPASS, ZIP return blocked. Narrow email routingrepair design approved but NOT implemented. Agents stopped, no jobs/GUIlock. Conditional distribution authorization persists; no upload/submission/release.",
+  "step": "Next-model session: Task A routing repair merged (3b96dcd). Task B signed App Intents integrated into root (0e00dc7): bounded Data-backed ZIP result, 7/7 AppIntentsTesting PASS, 236 unit PASS, signed Release 0 warnings, privacy/codesign/baseline PASS. Not full CI or formal AC-15 gate. Next: Intent-Exports pruning + Help disclosure of 100MB Shortcuts limit, then remaining parked items.",
   "last_green_commit": "d9454df",
   "parked": [
     "Formal acceptance tag and release gates deferred",
     "System accessibility audit findings reproduced independently; AC-13 remains open",
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
-    "AppIntentsTesting metadata discovery fails; adapter independently passes16tests, AC15 unverified",
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
     "System throughput exceeds240s; required signpost collection unavailable after three approaches",
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
     "Real receipt targeted recheck: two cases improved after PDF fix; pickup confirmation still selected without a total. Broader unsupported amount, merchant and date findings need follow-up.",
     "1.1 system-model classification reliability, formal email fixture/holdout scoring and live Mail/Share checks incomplete; owned intake is implemented and locally tested",
     "Sandboxed WebKit content process terminates without network entitlement; native CoreText fallback verified and documented as implementation deviation",
-    "Live Finder Share test awaits permission to enable Paperloft sharing extension in System Settings; extension currently OFF. Real iPhone scan remains unverified."
+    "Live Finder Share test awaits permission to enable Paperloft sharing extension in System Settings; extension currently OFF. Real iPhone scan remains unverified.",
+    "App Intents: 7/7 framework tests pass locally; large-ZIP/real Shortcuts transport unmeasured; exports over 100MB rejected via Shortcuts (disclosure pending)"
   ],
-  "updated": "2026-09-29T23:59:23.261565+00:00"
+  "updated": "2026-09-30T00:35:52.097654+00:00"
 }

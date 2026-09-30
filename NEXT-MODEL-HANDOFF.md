@@ -1,6 +1,6 @@
 # Paperloft 1.1 — handoff to the next model
 
-Updated 2026-09-29. The owner requested this checkpoint because weekly model credits are nearly exhausted. **Stop here; resume when the owner continues with the next model.** No background automation is running. All subagents stopped safely, no builds/tests remain running, and `/Users/builder/Factory/.gui.lock` is absent.
+Updated 2026-09-29 (next-model session: tasks A and B completed and merged; root `run/1` at `0e00dc7` plus this bookkeeping). Resume from the follow-ups below. No background automation is running. All subagents stopped safely, no builds/tests remain running, and `/Users/builder/Factory/.gui.lock` is absent.
 
 ## Goal and authorization
 
@@ -30,24 +30,9 @@ App is NOT finished or launch-ready. General development is not blocked by the o
 - Temporary cleanup removes only proven committed Mail parents/current-attempt scratch or safely retired removed records. Unknown/ambiguous orphans remain. Do not simplify cleanup casually.
 - PDF raster scaling corrected previously missed OCR text; parser uses document evidence and blank OCR fails closed. Classification failure provenance now survives negative assessment/restoration. Copy-phase stripping of an already signed extension fixed via host COPY_PHASE_STRIP=NO; no warning suppression.
 
-## Immediate task A: email routing after optional classifier failure
+## Completed 2026-09-29 (next-model session): task A
 
-**NOT IMPLEMENTED.** Read-only design review approved a narrow routing repair; this is the best next root task.
-
-Current `SystemBackend` successfully extracts ModelFields, then independently refines document type. On refinement failure it retains fields.kind, lowers confidence, stores classificationError and requires review. `MailReviewPreparation.prepare` currently checks classificationError *before* valid financial kind and marks the attachment unresolved, thereby adding the cover email unnecessarily.
-
-Approved boundary:
-1. A successful read with valid receipt/invoice/bill kind remains routing-positive even if the optional refinement failed: retain attachment, suppress cover body, preserve classificationError and mandatory review/no auto-file.
-2. Read/extraction failure, blank OCR or invalid kind remains unresolved.
-3. `not_receipt` plus refinement failure remains visible/unresolved; do not silently discard it to improve scores.
-
-Implementation workspace prepared and clean: `/Users/builder/Factory/paperloft-intake11-handoff`, branch `local/intake11-handoff`, HEAD `0a8c88bf766ec399b3b72b145f4439ba444b6521` (merged root2db08bd). No edits/tests started on this repair.
-
-Next edits/checks:
-- Reorder the two disposition checks in `Apps/PaperloftApp/MailReviewPreparation.swift`.
-- Add `Tests/PaperloftAppTests/MailRoutingRefinementTests.swift`: all3 positive kinds with/without classification failure, body renderer not called/read once, errors persist and cannot auto-file, negative/error/invalid/thrown cases preserved.
-- Existing unlocked `Tools/EmailDiagnostics/StatusTests.swift` expects body+attachment for a failed invoice. Update that policy assertion: financial=>attachment only/0 body renders; negative+error=>body+attachment/1 render. Check lock before any edit.
-- Run strict unit/direct tests and independent review before merging. **Do not change projector/scorer or erase errors.** This repairs candidate presentation, not model accuracy. No repeated refused model calls are needed for these injected/replay tests.
+Refinement-routing repair is merged into root (`bbec7c6` via `3b96dcd`). A read receipt, invoice or bill stays routing-positive after the optional classifier fails: the cover body is suppressed, and `classificationError` plus `classificationUnavailable` review are kept. `not_receipt`+failure, invalid kinds and read failures stay unresolved. The status-test script now rebuilds the kit (it had been linking stale objects). Evidence: `evidence/intake11/refinement-routing-repair.md`. It passed an independent review and a mutation check. Classifier accuracy is unchanged.
 
 ## Classifier evidence and limits
 
@@ -60,23 +45,17 @@ Next edits/checks:
 - Do not disable safety settings, hide failed results, substitute parser output to manufacture a model pass, or repeatedly resubmit refused inputs. Previous broad/combined classification prompts, unsupported reasoning and prewarm experiments are documented/rejected.
 - Three owner cases ran once:two improved against independent source evidence; pickup confirmation remains selected with missing total (no invented amount). Four source hashes unchanged. `evidence/owner-receipt-rerun/bounded-regression.md`; details ignored under root `build/owner-receipt-rerun/run-20260929-once`.
 
-## Immediate task B: signed App Intents integration — major new progress, isolated
+## Completed 2026-09-29 (next-model session): task B
 
-Workspace `/Users/builder/Factory/paperloft-intake-queue`, branch `local/intents-signed`, **HEAD01ccfd9**, committed/pushed/clean. **Do not merge yet:6/7 framework tests pass, one export transport failure remains.** Future cherry-pick only01ccfd9; ancestor1f0a69e duplicates root watched-help wording.
-
-Read `evidence/intents-signed/README.md` there first. Prior local/intents atdb1a3f3 had3 failed ad-hoc discovery attempts. Paid same-team app+runner signing and actual matching development bundle lookup now clear metadata discovery. This was a genuinely new supported setup, not a blind retry.
-
-Current isolated component:
-- Four App Intents/Shortcuts:File Document, Export Accountant Pack, Total Spent, Open Inbox.
-- New .shortcut intake origin; file action stages owned bytes, awaits common publication guard and persists Inbox snapshot before acknowledgement; original Move disabled.
-- Actual development test lookup uses explicit unlocked `Tests/Support/IntentTestInfo.plist`; generated customInfo keys alone were ignored for UI bundle.
-- App, runner and test bundle verified Apple Development/teamGQ4UA5C6RQ; all4 intents present in metadata.
-- **229 unit tests PASS** (116 XCTest+113 Swift); strict fresh signed Release0warnings/errors, privacy/signatures/baseline PASS.
-- One genuine framework run **6/7 PASS**:metadata, invalid dates, empty-input rejection, file delivery/relaunch, free Pro gate, Open Inbox, Total Spent pass.
-- **Pro ZIP return FAIL:**cross-process IntentFile decoding emits sandbox_extension_consume EPERM/security-scope-signature failure, LNValue unarchive then castingFailed NSNull→IntentFile at `let file: IntentFile = try result.value`, before reading bytes. Failing test remains enabled.
-- Result: `build/IntentSignedFramework.xcresult`; logs `build/intents-signed/{framework,unit2,release}.log`.
-
-Next supported investigation: inspect SDK/Apple IntentFile transport APIs and scope issuance. Current output uses documented URL-backed persistent app-owned ZIP. Adding startAccessingSecurityScopedResource in the test cannot fix decoding that fails before IntentFile exists. Data-backed IntentFile is supported but could inflate memory for large exports: design bounded allocation/large-export behavior before changing it. No fix or retry has been attempted. Keep real framework test enabled; all7 must pass before scoped acceptance/merge. Root reviewed initial adapter but full final independent review remains necessary.
+Signed App Intents are integrated into root as `7f15133` (cherry-pick of `01ccfd9`) and `0e00dc7` (cherry-pick of `6021dc0`); duplicate `1f0a69e` was not taken. The export now returns a bounded, memory-mapped Data-backed `IntentFile` (≤100 MB, `PaperloftIntentError.oversizedExport` above that, no URL fallback). The URL-backed result had failed because the sandboxed Xcode runner could not consume its sandbox extension. The framework test is unchanged. Evidence: `evidence/intents-signed/data-backed-export.md`.
+- Combined root verification (worktree `/Users/builder/Factory/paperloft-intents-integrate`, logs `build/integrate/`): 123 XCTest + 113 Swift = **236 unit PASS**; AppIntentsTesting **7/7 PASS**; signed Release with 0 warnings; privacy, strict codesign and baseline PASS; direct status test PASS.
+- Independent full-component review: PASS, no merge blockers.
+- Open follow-ups:
+  - Prune retained `Intent-Exports` ZIPs; they grow without bound. Delete only after mapping, and never truncate a mapped file.
+  - Disclose the 100 MB Shortcuts export limit in Help/support (AC-20).
+  - Large-ZIP memory, real Shortcuts/Siri/Spotlight, real StoreKit entitlement and closed-window Open Inbox remain unverified.
+  - No formal AC-15 gate or full CI claim.
+- Root pbxproj cosmetic dirt was preserved across the fast-forward (backup `build/root-pbxproj-normalization-20260929.patch`; semantically identical to HEAD).
 
 ## Other gates and owner dependencies
 

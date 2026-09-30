@@ -10,9 +10,11 @@
 - Display/startup blocker cleared; local preflight and protected baseline pass.
 
 ## Current work
-Read NEXT-MODEL-HANDOFF.md for exact resumption steps. Signed App Intents discovery is now working in isolation:229unit tests and6/7framework tests pass; ZIP return transport remains blocked. Email routing repair is designed but not implemented. No jobs remain running.
+Read NEXT-MODEL-HANDOFF.md for resumption steps. Two items landed in this session:
+- **Email routing repair merged.** When the optional type check fails on an attachment read as a receipt, invoice or bill, the attachment is kept, the cover email is no longer added, and the document still needs review. 220 unit tests passed before integration; an independent review passed.
+- **Signed App Intents integrated.** The Export Accountant Pack result is now returned as bounded data (up to 100 MB) instead of a file link, and all 7 App Intents framework tests pass. Combined root: 236 unit tests pass, signed Release has 0 warnings, and privacy, signature and baseline checks pass. These are local results, not full CI or a formal gate.
 
-Owned intake, conservative cleanup, PDF scaling and parser classification fixes are merged. Root214unit tests pass. Full80 synthetic parser diagnostics match all selected documents and labelled receipt fields; the set is simple and no formal accuracy pass is claimed. The separate80-email model run failed readiness expectations:31messages had classification refusals,49/80 selected identities matched, and33/64 labelled field predictions received credit. Diagnostic error reporting is fixed and its regressions pass. Three private checks are complete: two improved, one pickup confirmation remains incorrectly selected with no total. Current development-signed Release is warning-free; signature, privacy and protected baseline pass. Classification failure markers survive negative assessment/restoration. Added10000diverse MIME safety cases pass with independent review.
+The classifier's reliability, accessibility (18 findings), throughput, StoreKit, live Mail drag, live Share and iPhone scanning remain open as before.
 
 ## Remaining launch gates
 Full regression/accessibility, extraction accuracy and fresh email holdout, performance, live Mail/Share/scan, StoreKit/App Intents integration, icon review, formal acceptance baseline and final readiness checks remain open. The last full green CI commit remains `d9454df`; scoped passes above are not full acceptance.
