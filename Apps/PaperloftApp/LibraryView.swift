@@ -926,6 +926,7 @@ struct PaperloftSettings: View {
         GroupBox("Library") {
             VStack(alignment: .leading, spacing: 12) {
                 FolderSummary(url: model.libraryURL, placeholder: "No library folder chosen",
+                              identifier: "settings.libraryFolder",
                               name: model.isSampleLibrary ? "Practice library" : nil,
                               detail: model.isSampleLibrary ? "Kept inside Paperloft. Choose your own folder before adding real receipts." : nil)
                 HStack {
@@ -942,7 +943,7 @@ struct PaperloftSettings: View {
         }
         GroupBox("Watched folder · Pro") {
             VStack(alignment: .leading, spacing: 10) {
-                FolderSummary(url: model.watchedFolderURL, placeholder: "No watched folder chosen")
+                FolderSummary(url: model.watchedFolderURL, placeholder: "No watched folder chosen", identifier: "settings.watchedFolder")
                 Text(model.watchedStatus).accessibilityIdentifier("settings.watchedStatus")
                 HStack {
                     Button("Choose Watched Folder…") { Task { await model.chooseWatchedFolder() } }
@@ -1039,24 +1040,30 @@ struct PaperloftSettings: View {
     }
 }
 
-/// A folder as Finder shows it: its icon and display name, with the full path in the help tag.
+/// A folder as Finder shows it: its icon and display name, with the full path in the help tag
+/// and as the accessibility value.
 struct FolderSummary: View {
     let url: URL?
     let placeholder: String
+    let identifier: String
     var name: String? = nil
     var detail: String? = nil
     var body: some View {
         if let url {
+            let title = name ?? FileManager.default.displayName(atPath: url.path)
+            let subtitle = detail ?? url.deletingLastPathComponent().path
             HStack(spacing: 10) {
-                Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().frame(width: 24, height: 24).accessibilityHidden(true)
+                Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().frame(width: 24, height: 24)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(name ?? FileManager.default.displayName(atPath: url.path)).font(.body.weight(.medium))
-                    Text(detail ?? url.deletingLastPathComponent().path).font(.callout).foregroundStyle(.primary)
-                        .lineLimit(1).truncationMode(.middle)
+                    Text(title).font(.body.weight(.medium))
+                    Text(subtitle).font(.callout).foregroundStyle(.primary).lineLimit(1).truncationMode(.middle)
                 }
-            }.help(url.path).accessibilityElement(children: .combine)
+            }.help(url.path)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(detail == nil ? title : title + ", " + subtitle)
+                .accessibilityValue(url.path).accessibilityIdentifier(identifier)
         } else {
-            Text(placeholder).font(.callout)
+            Text(placeholder).font(.callout).accessibilityIdentifier(identifier)
         }
     }
 }
