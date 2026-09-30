@@ -361,6 +361,12 @@ struct ReviewView: View {
     private enum Field: Hashable { case vendor, date, total, tax, currency }
     @FocusState private var focusedField: Field?
     init(model: AppModel, item: InboxItem) { self.model = model; self.item = item; _draft = State(initialValue: item.draft) }
+    /// QA-08: a total Paperloft couldn't verify, still as extracted. Return alone doesn't file it;
+    /// clicking Confirm or ⌘Return (Receipt › Confirm and File) does.
+    private var totalNeedsDeliberateConfirm: Bool { verificationMessage("total") != nil }
+    private func submitFromKeyboard() {
+        if totalNeedsDeliberateConfirm { focusedField = .total } else { Task { await model.fileSelected() } }
+    }
     private func verificationMessage(_ field: String) -> String? {
         guard let review = item.review else { return nil }
         let reasons = review.assessment.reasons
@@ -509,7 +515,7 @@ struct ReviewView: View {
                     }
                 }
                 .textFieldStyle(.roundedBorder)
-                .onSubmit { Task { await model.fileSelected() } }
+                .onSubmit { submitFromKeyboard() }
                 if let error = model.templateError {
                     Text(error).font(.caption).foregroundStyle(.orange).accessibilityIdentifier("review.validation")
                 }
@@ -526,14 +532,16 @@ struct ReviewView: View {
                     Button { model.setAside(item.id) } label: { Text("Remove").foregroundStyle(.red) }.help("Remove from Inbox. The original file stays in place.").accessibilityIdentifier("review.setAside")
                     Spacer()
                     Button("Confirm") { Task { await model.fileSelected() } }
-                        .buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
+                        .buttonStyle(.borderedProminent).keyboardShortcut(totalNeedsDeliberateConfirm ? nil : .defaultAction)
                         .disabled(!model.canFile).accessibilityIdentifier("review.file")
                 }
                 if let reason = model.filingUnavailableReason, ["vendor", "date", "total", "tax", "currency", "category"].allSatisfy({ fieldMessage($0) == nil }) {
                     Text(reason).font(.caption).foregroundStyle(.primary)
                         .accessibilityIdentifier("review.filingUnavailableReason")
                 }
-                Text("Return to confirm · Tab to move between fields").font(.caption).foregroundStyle(.primary)
+                Text(totalNeedsDeliberateConfirm ? "Check the total, then click Confirm or press ⌘Return · Tab to move between fields"
+                                                 : "Return to confirm · Tab to move between fields")
+                    .font(.caption).foregroundStyle(.primary).accessibilityIdentifier("review.keyboardHint")
                 if let notices = item.importNotices, !notices.isEmpty {
                     VStack(alignment: .leading, spacing: 4) {
                         Button("Import details", systemImage: showImportDetails ? "chevron.down" : "chevron.right") { showImportDetails.toggle() }
