@@ -34,6 +34,7 @@ The accessibility audit stays at the 10 known system findings. One new contrast 
 
 ## Not yet done
 
-- Native checkboxes for multi-select in Inbox rows.
-- Return/⌘O and ⌘⌫ on Library rows. The context menu, double-click and ⌫ via onDeleteCommand already exist.
-- Checking Full Keyboard Access focus order, which needs a system setting.
+- **Keyboard on Library rows.** Return and ⌫ go through the list's primary action and delete command, but no test covers them yet. ⌘O isn't wired.
+- **Full Keyboard Access focus order.** Checking it needs a system setting.
+
+The Inbox multi-select checkboxes are already native `Toggle(.checkbox)` controls. They look faint only when the list is inactive.
