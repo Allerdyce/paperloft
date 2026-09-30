@@ -12,8 +12,8 @@
     "Real receipt targeted recheck: two cases improved after PDF fix; pickup confirmation still selected without a total. Broader unsupported amount, merchant and date findings need follow-up.",
     "1.1 system-model classification reliability, formal email fixture/holdout scoring and live Mail/Share checks incomplete; owned intake is implemented and locally tested",
     "Sandboxed WebKit content process terminates without network entitlement; native CoreText fallback verified and documented as implementation deviation",
-    "Live Finder Share test awaits permission to enable Paperloft sharing extension in System Settings; extension currently OFF. Real iPhone scan remains unverified.",
-    "App Intents: 7/7 framework tests pass locally; large-ZIP/real Shortcuts transport unmeasured; exports over 100MB rejected via Shortcuts (disclosure pending)"
+    "App Intents: 7/7 framework tests pass locally; large-ZIP/real Shortcuts transport unmeasured; exports over 100MB rejected via Shortcuts (disclosure pending)",
+    "Live Finder Share: owner enabled extension; extension launches but its sheet window is never shown (off-screen, idle). Root cause unknown; see evidence/live-share/finder-share-20260929.md. Real iPhone scan remains unverified."
   ],
-  "updated": "2026-09-30T00:35:52.097654+00:00"
+  "updated": "2026-09-30T00:56:10.819582+00:00"
 }
