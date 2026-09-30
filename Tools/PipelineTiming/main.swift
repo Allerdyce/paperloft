@@ -33,7 +33,7 @@ struct Row: Encodable { let id: String; let mode: String; let ocr: Double; let m
                 let t1 = clock.now
                 do { fields = try await backend.extract(text: text, concurrentClassification: concurrent) } catch { failure = "model: \(error)" }
                 model = seconds(clock.now - t1)
-                if !concurrent && fields?.classificationError == nil {
+                if !concurrent && failure == nil && fields?.classificationError == nil {
                     // Timing only: the classifier alone on the same text (skipped if it refused above).
                     let t2 = clock.now
                     _ = try? await SystemBackend.classifyDocumentType("Document text:\n" + String(text.prefix(12000)))

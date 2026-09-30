@@ -203,8 +203,8 @@ public struct SystemBackend: ExtractionBackend {
         return value.isEmpty ? nil : value
     }
     public func extract(text: String) async throws -> ExtractedFields {
-        // Concurrent classification cut mean model time per document from 3.86 s to 3.11 s in a
-        // balanced timing run (evidence/performance/concurrent-classification-20260930.md).
+        // Concurrent classification saved about 5–10% of model time per document on matched
+        // documents, with identical results (evidence/performance/concurrent-classification-20260930.md).
         try await extract(text: text, concurrentClassification: true)
     }
     /// `concurrentClassification` starts the independent document-type call alongside field
@@ -224,7 +224,9 @@ public struct SystemBackend: ExtractionBackend {
         var kind = fields.kind
         var classificationError: String?
         do {
-            if let classifierTask { kind = try await classifierTask.value } else { kind = try await Self.classifyDocumentType(documentText) }
+            if let classifierTask {
+                kind = try await withTaskCancellationHandler { try await classifierTask.value } onCancel: { classifierTask.cancel() }
+            } else { kind = try await Self.classifyDocumentType(documentText) }
         } catch {
             try Task.checkCancellation()
             // Keep the completed field extraction, but expose partial failure and
