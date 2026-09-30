@@ -115,9 +115,11 @@ import PaperloftKit
         try Data("recent".utf8).write(to: recent)
         for url in [zip, abandoned, unrelated] { try FileManager.default.setAttributes([.modificationDate: stale], ofItemAtPath: url.path) }
         let mapped = try Data(contentsOf: zip, options: .alwaysMapped)
+        let firstFile = try FileManager.default.attributesOfItem(atPath: zip.path)[.systemFileNumber] as? Int
         let second = try await model.exportAccountantPack(range: .year(2026))
-        XCTAssertNotEqual(second.lastPathComponent, zip.lastPathComponent)
-        XCTAssertFalse(FileManager.default.fileExists(atPath: zip.path), "stale intent export is pruned")
+        // Readable pack names can repeat once the stale export is pruned, so compare file identity.
+        let secondFile = try FileManager.default.attributesOfItem(atPath: second.path)[.systemFileNumber] as? Int
+        XCTAssertNotEqual(firstFile, secondFile, "stale intent export is pruned and replaced")
         XCTAssertEqual(mapped, bytes, "data mapped from a pruned export stays readable")
         XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: exports.path).sorted(),
                        ["keep.txt", recent.lastPathComponent, second.lastPathComponent].sorted(),

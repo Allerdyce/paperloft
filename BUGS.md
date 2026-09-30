@@ -19,10 +19,10 @@
 |---|---|---|---|---|---|
 | QA-01 | P1 | First-timer | Fresh QA/Release launch | "Try with samples" (SPEC 6.3 P0: five samples, first filing within 60 s) | Not offered; samples exist only in Debug builds |
 | QA-02 | P1 | First-timer | Export Q3 accountant pack | Documents named as in the library (`2026-08-18_Fern-Cafe_132.38.png`) under plain category folders | Files and category folders are named with UUIDs, and the pack folder name ends in a UUID |
-| QA-03 | P1 | Keyboard-only | Default macOS keyboard settings, fresh launch | Choose Library Folder and Import reachable by keyboard | The onboarding button has no default action or menu command; Import has no shortcut |
+| QA-03 | P1 | Keyboard-only | Default macOS keyboard settings, fresh launch | Choose Library Folder reachable by keyboard | The onboarding button has no default action or menu command. (Correction: Import Receipts… has ⌘I; only ⌘O was tried during the session.) |
 | QA-04 | P2 | First-timer | Review documents 001 and 025 | "Issue" explains what needs checking | Issue badge but no field highlighted and no reason shown |
 | QA-05 | P2 | First-timer | Import an .eml with a receipt attachment | Inbox row named after the attachment or email | "Attachment-<UUID>.pdf" |
 | QA-06 | P2 | Messy data | Import a non-receipt | Says it doesn't look like a receipt and offers Remove | Empty required fields, type "Receipt", Confirm disabled, no explanation |
 | QA-07 | P2 | Messy data | Rename the library folder in Finder, then file | The security-scoped bookmark follows the rename, or the stale path updates | Filing is refused until the folder is chosen again; the sidebar and Settings show the old name |
 | QA-08 | P2 | Keyboard-only | Return on a flagged total (document-044) | A flagged total needs a deliberate confirmation | Return files it (41.65 against an actual 39.31) |
-| QA-09 | P2 | Keyboard-only | ⌘O in the Inbox | Opens Import Receipts… | Nothing |
+| QA-09 | — | Keyboard-only | ⌘O in the Inbox | Opens Import Receipts… | **Not a bug:** Import Receipts… is ⌘I; ⌘O was the wrong key to try. Withdrawn. |

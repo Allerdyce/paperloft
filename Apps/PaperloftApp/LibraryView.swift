@@ -180,8 +180,14 @@ struct InboxView: View {
                 Text("Choose where your receipts belong. Paperloft reads them on your Mac, then helps you check, name and file them.")
                     .foregroundStyle(.primary).multilineTextAlignment(.center).frame(maxWidth: 450)
                 Button("Choose Library Folder…") { Task { await model.chooseLibrary() } }
-                    .buttonStyle(.borderedProminent).controlSize(.large).accessibilityIdentifier("onboarding.chooseFolder")
-                Text("No account needed. Your documents stay on your Mac.").font(.caption).foregroundStyle(.primary)
+                    .buttonStyle(.borderedProminent).controlSize(.large).keyboardShortcut(.defaultAction)
+                    .accessibilityIdentifier("onboarding.chooseFolder")
+                // SPEC 6.3: five bundled synthetic receipts, filed from a separate sample library.
+                Button("Try with Samples") { Task { await model.trySamples() } }
+                    .controlSize(.large).disabled(model.busy).accessibilityIdentifier("onboarding.trySamples")
+                Text("Samples are made-up receipts in a practice library. Choose your own folder any time.")
+                    .font(.callout).foregroundStyle(.primary)
+                Text("No account needed. Your documents stay on your Mac.").font(.callout).foregroundStyle(.primary)
             }.padding(36).frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if model.inboxCount == 0 {
             ScrollView {
