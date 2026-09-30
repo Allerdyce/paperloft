@@ -47,13 +47,20 @@ final class ReceiptLibraryUXTests: XCTestCase {
         XCTAssertFalse(app.staticTexts["Waiting"].exists)
         XCTAssertEqual(app.buttons["review.file"].label, "Confirm")
         XCTAssertEqual(app.buttons["review.setAside"].label, "Remove")
-        XCTAssertTrue(app.buttons["inbox.addMore"].isHittable)
+        // Import and Paste are window toolbar items (AC-16 critique), side by side.
+        XCTAssertTrue(app.toolbars.buttons["inbox.addMore"].isHittable)
         XCTAssertEqual(app.buttons["inbox.paste"].label, "Paste")
         XCTAssertEqual(app.buttons["inbox.addMore"].label, "Import")
-        XCTAssertEqual(app.buttons["inbox.paste"].frame.midY, app.buttons["inbox.filter.All"].frame.midY, accuracy: 2)
+        XCTAssertTrue(app.toolbars.buttons["inbox.paste"].exists)
         XCTAssertEqual(app.buttons["inbox.addMore"].frame.midY, app.buttons["inbox.paste"].frame.midY, accuracy: 2)
-        XCTAssertGreaterThan(app.buttons["inbox.paste"].frame.minX, app.buttons["inbox.addMore"].frame.maxX)
+        XCTAssertGreaterThanOrEqual(app.buttons["inbox.paste"].frame.minX, app.buttons["inbox.addMore"].frame.maxX)
+        XCTAssertLessThan(app.buttons["inbox.paste"].frame.maxY, app.buttons["inbox.filter.All"].frame.minY, "toolbar sits above the filters")
         XCTAssertTrue(app.buttons["inbox.paste"].isHittable)
+        // A selected filter chip keeps its width.
+        let issuesWidth = app.buttons["inbox.filter.Issues"].frame.width
+        app.buttons["inbox.filter.All"].click()
+        XCTAssertEqual(app.buttons["inbox.filter.Issues"].frame.width, issuesWidth, accuracy: 1)
+        app.buttons["inbox.filter.Issues"].click()
         XCTAssertFalse(app.buttons["inbox.samples"].exists)
         XCTAssertFalse(app.descendants(matching: .any)["inbox.readyCount"].exists)
         XCTAssertFalse(app.descendants(matching: .any)["inbox.processingCount"].exists)

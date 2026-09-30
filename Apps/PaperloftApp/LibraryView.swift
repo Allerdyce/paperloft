@@ -144,17 +144,6 @@ struct InboxView: View {
             .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(Color.accentColor.opacity(0.2)))
             .accessibilityElement(children: .contain)
     }
-    private func inboxEntry(_ title: String, symbol: String, identifier: String, action: @escaping () async -> Void) -> some View {
-        Button { Task { await action() } } label: {
-            Label(title, systemImage: symbol)
-                .font(.callout.weight(.semibold))
-                .frame(minWidth: 76).padding(.horizontal, 12).padding(.vertical, 12)
-                .foregroundStyle(Color.accentColor)
-                .background(Color.accentColor.opacity(0.05), in: RoundedRectangle(cornerRadius: 10))
-                .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.accentColor.opacity(0.35)))
-                .contentShape(RoundedRectangle(cornerRadius: 10))
-        }.buttonStyle(.plain).accessibilityIdentifier(identifier)
-    }
     private func revealPastedImage() {
         guard let id = model.pastedItemID, model.items.contains(where: { $0.id == id && $0.status != "aside" }) else { return }
         filter = "All"
@@ -212,13 +201,12 @@ struct InboxView: View {
             }
         } else {
             VStack(spacing: 0) {
-                HStack(spacing: 16) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
                         ForEach(filters, id: \.self) { value in
                             Button { removalSelection.removeAll(); pinnedReviewID = nil; model.selectedItemID = nil; filter = value; syncSelection() } label: {
                                 HStack(spacing: 5) {
-                                    if filter == value { Image(systemName: "checkmark") }
+                                    Image(systemName: "checkmark").opacity(filter == value ? 1 : 0).accessibilityHidden(true)
                                     Text(value)
                                     Text(model.items.filter { matches($0, value) }.count.formatted()).monospacedDigit()
                                 }.font(.callout.weight(.medium)).padding(.horizontal, 12).padding(.vertical, 8)
@@ -228,11 +216,6 @@ struct InboxView: View {
                                 .accessibilityAddTraits(filter == value ? [.isSelected] : [])
                         }
                     }.padding(.vertical, 12)
-                }
-                    HStack(spacing: 10) {
-                        inboxEntry("Import", symbol: "square.and.arrow.down", identifier: "inbox.addMore") { await model.importFiles() }
-                        inboxEntry("Paste", symbol: "doc.on.clipboard", identifier: "inbox.paste") { await model.pasteImage() }
-                    }.fixedSize()
                 }.padding(.horizontal, 20)
                 HStack(spacing: 12) {
                     Button("Select all") { removalSelection = Set(visibleItems.map(\.id)) }.disabled(visibleItems.isEmpty)
@@ -319,6 +302,14 @@ struct InboxView: View {
                     model.inboxListOrder = visibleItems.map(\.id)
                     removalSelection.formIntersection(Set(visibleItems.map(\.id)))
                     syncSelection()
+                }
+                .toolbar {
+                    ToolbarItemGroup(placement: .primaryAction) {
+                        Button("Import", systemImage: "square.and.arrow.down") { Task { await model.importFiles() } }
+                            .help("Import receipt files (⌘I)").accessibilityIdentifier("inbox.addMore")
+                        Button("Paste", systemImage: "doc.on.clipboard") { Task { await model.pasteImage() } }
+                            .help("Paste a copied receipt image (⇧⌘V)").accessibilityIdentifier("inbox.paste")
+                    }
                 }
         }
     }
@@ -1057,8 +1048,9 @@ private struct ReviewHighlight: ViewModifier {
                     if message != nil { RoundedRectangle(cornerRadius: 5).stroke(Color.orange, lineWidth: 1) }
                 }
             if let message {
+                // Callout, not caption: the accessibility audit flags this warning's contrast at 10 pt.
                 Label(message, systemImage: "exclamationmark.circle")
-                    .font(.caption).foregroundStyle(.primary)
+                    .font(.callout).foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }

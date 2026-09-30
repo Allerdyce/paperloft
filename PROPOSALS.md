@@ -8,6 +8,12 @@ Independent native/built-icon review at daf145d scores16px default tray legibili
 
 If native material adjustments cannot resolve this while retaining existing asset colors, propose a small increase in tray-front luminance or a slightly stronger top-rim highlight, retaining green hue, exact geometry and composition. No particular replacement color is accepted, no redesign proposed, and no original artwork modified. Compare native16px results before deciding. This is a recorded proposal for later review, not a request interrupting authorized local work.
 
+**Update 2026-09-30: concrete candidate, awaiting the owner's yes.** The 09-30 design review (`evidence/design/2026-09-30-critique.md` §4) measured the built icon's tray at **1.23:1** against the tile at 16 px and 1.18:1 at 32 px. Material-only changes were already tried and reverted (09-27). The candidate:
+1. Change only the `04-tray-front` layer fill from `#10462A` to **`#357C51`**, keeping the hue, geometry, other layers and native glass. The mock measures 3.1:1 at 16 px and 2.6:1 at 32 px (`evidence/design/2026-09-30/icon/sheet_small_current_vs_proposed.png`, `proposed_16.png`, `proposed_32.png`).
+2. Optional: lift the tile a step in the dark variant (about `#0C4428`) so it separates from dark backgrounds.
+
+SPEC §6.5 keeps the tray "around #10462A" and routes this to the owner, so the icon is unchanged until you say yes. It's a one-line SVG edit plus a rebuild and a 16/32/128 px recheck.
+
 ## 2026-09-29 — Sandbox-safe email body PDF rendering
 
 The supplied 1.1 spec requests WebKit for body PDF rendering. A minimal app-sandbox-only probe on this Mac reproduces WebContent termination (renderer diagnostic 1002); standalone WebKit works. The app retains the no-outgoing-network entitlement policy and falls back to native CoreText/CoreGraphics on this explicit startup failure. Both paths use bounded sanitized text and produce selectable header/body PDF pages. This is an implementation deviation, not a claim that sandboxed WebKit passed. Synthetic sandbox and hostile-resource checks are documented in Tests/EmailBodyRendererTests/README.md; final acceptance remains open.
