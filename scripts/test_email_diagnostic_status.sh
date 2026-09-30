@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+# Rebuild first: linking whatever object is already present can test stale engine code.
+mkdir -p build/email-diagnostics
+swift build --package-path Packages/PaperloftKit --scratch-path build/EmailDiagnosticsKit -c release --product PaperloftEval -Xswiftc -warnings-as-errors > build/email-diagnostics/status-build-kit.log 2>&1
 bin="$(swift build --package-path Packages/PaperloftKit --scratch-path build/EmailDiagnosticsKit -c release --show-bin-path)"
 if [ -f "$bin/PaperloftKit.o" ]; then
   modules="$bin"

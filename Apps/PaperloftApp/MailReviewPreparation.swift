@@ -21,10 +21,12 @@ import PaperloftKit
             do {
                 let review = try await understand(source)
                 candidates.append(Candidate(source: source, review: review, issue: nil))
-                if review.fields.classificationError != nil {
-                    dispositions.append(.unresolved)
-                } else if DocumentKind(rawValue: review.fields.kind) != nil {
+                // A successful read with a financial kind still routes as a receipt when the
+                // optional type refinement failed; its assessment keeps the error and requires review.
+                if DocumentKind(rawValue: review.fields.kind) != nil {
                     dispositions.append(.receipt)
+                } else if review.fields.classificationError != nil {
+                    dispositions.append(.unresolved)
                 } else if review.fields.kind == "not_receipt" {
                     dispositions.append(.other)
                 } else { dispositions.append(.unresolved) }
