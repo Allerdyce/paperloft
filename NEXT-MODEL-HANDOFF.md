@@ -57,7 +57,16 @@ Signed App Intents are integrated into root as `7f15133` (cherry-pick of `01ccfd
   - No formal AC-15 gate or full CI claim.
 - Root pbxproj cosmetic dirt was preserved across the fast-forward (backup `build/root-pbxproj-normalization-20260929.patch`; semantically identical to HEAD).
 
-## Other gates and owner dependencies
+## Completed later on 2026-09-29 (same session)
+
+- **Full local CI** (`da0dfc7`, evidence/ci/full-ci-20260929.md): 145 XCTest passed, 1 failed (the audit only); 113 Swift Testing passed. `ci.sh` accepts `PAPERLOFT_CI_XCCONFIG=config/PaulDevelopment.xcconfig` so the App Intents tests run.
+- **Follow-ups** (`5205c5a`): Finder shares keep the real file name; Shortcuts exports keep only the ZIP and prune exporter-created entries older than 10 minutes; the action states the 100 MB limit. NOTES.md records that the P8 Help/SUPPORT content must mention it. 236 unit tests pass.
+- **Accessibility** (`72ce749`, evidence/a11y-probe/intake11-current/settings-isolation.md): all app-owned findings cleared, via larger captions, a shorter Paste hint, and tabbed Settings. The audit now audits each Settings pane as the only window. It **still fails**, on 10 system-owned findings (TouchBar ×7, emoji ×2, unattributed parent/child ×1), all reproduced in a minimal non-Paperloft app. That proposal is in PROPOSALS.md and awaits the verifier/owner decision; nothing is waived. The evidence-only diagnostic lives on branch `local/a11y-diagnostics` (not merged).
+- **Open follow-ups:**
+  - The embedded sidebar Settings screen isn't audited.
+  - `ci.sh` fails on any "warning:" line in tests.log, including intermittent XCTest runtime priority-inversion notices; it should match only compiler warnings.
+  - Keep the Claude desktop window and any other Paperloft copies clear of the test window during UI runs.
+
 
 - **Live Finder Share: RESOLVED for Finder (2026-09-29, `2bdeb32`).** The blank share window was caused by a zero-frame NSHostingView. A/B via the new synthetic host `scripts/build_share_host_probe.sh`. A live Finder share with the fixed signed build delivered to the development inbox (badge 1→2, persisted across relaunch). Follow-ups:
   - Finder shares land as "Document N" because providers lack `suggestedName`. Take `url.lastPathComponent` in the `loadFileRepresentation` callback.
@@ -66,7 +75,7 @@ Signed App Intents are integrated into root as `7f15133` (cherry-pick of `01ccfd
   - Ten duplicate development-extension registrations were removed with `pluginkit -r` (list in `build/live-share/unregistered-share-copies.txt`). Only `paperloft-share-present/build/SharePresentRelease` remains registered.
   - Evidence: `evidence/live-share/finder-share-20260929.md`.
 
-- Accessibility18findings unresolved:10contrast,6descriptions,1hierarchy,1action. System TouchBar/emoji and inactive-window effects reproduced independently. Already-primary dark text in saved crops does not justify blind recoloring or a waiver. Current read-only triage `evidence/a11y-probe/intake11-current/read-only-triage.md`. No new evidenced repair. Optional future viewport-clipping diagnostic would be additive, not replacement acceptance.
+- Accessibility: app-owned findings cleared (see above); 10 system-owned findings remain pending the proposal. Historical: 18 findings (10 contrast, 6 descriptions, 1 hierarchy, 1 action). System TouchBar/emoji and inactive-window effects reproduced independently. Already-primary dark text in saved crops does not justify blind recoloring or a waiver. Current read-only triage `evidence/a11y-probe/intake11-current/read-only-triage.md`. No new evidenced repair. Optional future viewport-clipping diagnostic would be additive, not replacement acceptance.
 - Live Share switch permission pending; no settings change. Real iPhone scan needs owner hardware/TestFlight later.
 - StoreKit component isolated `/Users/builder/Factory/paperloft-commerce` b799b90:SDK27 deprecated header fails strict import;3 approaches exhausted, no suppression/merge.
 - Native Mail promise wrapper isolated local/mail88dc439;3 drag attempts never generated source events. Saved .eml imports work; live drag unverified.

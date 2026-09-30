@@ -10,11 +10,16 @@
 - Display/startup blocker cleared; local preflight and protected baseline pass.
 
 ## Current work
-Read NEXT-MODEL-HANDOFF.md for resumption steps. Two items landed in this session:
-- **Email routing repair merged.** When the optional type check fails on an attachment read as a receipt, invoice or bill, the attachment is kept, the cover email is no longer added, and the document still needs review. 220 unit tests passed before integration; an independent review passed.
-- **Signed App Intents integrated.** The Export Accountant Pack result is now returned as bounded data (up to 100 MB) instead of a file link, and all 7 App Intents framework tests pass. Combined root: 236 unit tests pass, signed Release has 0 warnings, and privacy, signature and baseline checks pass. These are local results, not full CI or a formal gate.
-
-The classifier's reliability, accessibility (18 findings), throughput, StoreKit, live Mail drag, live Share and iPhone scanning remain open as before.
+Latest (2026-09-29, lead mode):
+- **Full local CI:** only the accessibility audit fails.
+- **Merged this session:**
+  - the email routing repair
+  - signed App Intents (7/7 framework tests)
+  - the Finder Share fix, verified live
+  - Finder file names, Shortcuts export cleanup and the 100 MB note
+- **Accessibility:** every app-owned audit finding is cleared. The audit still fails on 10 system Touch Bar findings, reproduced without Paperloft code, and a proposal awaits a decision.
+- **Next:** on-device classifier reliability, then throughput.
+- **Parked:** StoreKit waits on DUNS enrollment.
 
 ## Remaining launch gates
 Full regression/accessibility, extraction accuracy and fresh email holdout, performance, live Mail/Share/scan, StoreKit/App Intents integration, icon review, formal acceptance baseline and final readiness checks remain open. The last full green CI commit remains `d9454df`; scoped passes above are not full acceptance.
