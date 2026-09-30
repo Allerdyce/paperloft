@@ -1,10 +1,10 @@
-Paperloft factory pre-flight  2026-09-26 23:51:37  user=builder  repo=/Users/builder/Factory/paperloft
+Paperloft factory pre-flight  2026-09-29 18:28:22  user=builder  repo=/Users/builder/Factory/paperloft
 
 == Machine ==
 PASS   macOS 27.0
 PASS   Apple silicon
 PASS   user 'builder' is a Standard user
-PASS   235 GB free
+PASS   176 GB free
 PASS   Retina-class display connected
 
 == Power, sleep, lock, updates ==
@@ -31,7 +31,7 @@ PASS   builder is in _developer
 PASS   UI automation needs no password
 
 == Signing and keychain ==
-MANUAL DEFERRED (local development only): no valid 'Apple Development' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
+PASS   identity: Apple Development
 MANUAL DEFERRED (local development only): no valid 'Apple Distribution' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
 MANUAL DEFERRED (local development only): no Mac Installer Distribution identity; create it in Xcode > Settings > Accounts > Manage Certificates
 PASS   login keychain does not auto-lock
@@ -73,5 +73,5 @@ MANUAL Computer Use: Screen Recording and Accessibility granted; Locked use on; 
 MANUAL GitHub rulesets: no force-push to main; acceptance-* tags cannot be updated or deleted
 MANUAL App Store Connect: Paid Apps Agreement active; Small Business Program enrolled
 
-Summary: 37 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 17 MANUAL
+Summary: 38 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 16 MANUAL
 GO: LOCAL DEVELOPMENT ONLY. Distribution signing, upload and release remain blocked.

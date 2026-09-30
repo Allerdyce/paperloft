@@ -5,6 +5,8 @@ cd "$(dirname "$0")/.."
 mkdir -p build/ModuleCache evidence/ci
 export CLANG_MODULE_CACHE_PATH="$PWD/build/ModuleCache"
 args=(-project Paperloft.xcodeproj -scheme PaperloftApp -destination 'platform=macOS' SWIFT_TREAT_WARNINGS_AS_ERRORS=YES)
+# Optional development signing (e.g. config/PaulDevelopment.xcconfig) for tests that need a real team.
+if [ -n "${PAPERLOFT_CI_XCCONFIG:-}" ]; then args+=(-xcconfig "$PAPERLOFT_CI_XCCONFIG"); fi
 scripts/preflight_check.sh --local --fast > evidence/ci/preflight.log
 result="build/Tests-$(date +%Y%m%d-%H%M%S).xcresult"
 coverage_data="$(mktemp -d "$PWD/build/CoverageDerivedData-XXXXXX")"
