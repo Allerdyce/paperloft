@@ -7,12 +7,27 @@ struct AccessiblePicker: View {
     let identifier: String
     let choices: [String]
     @Binding var selection: String
+    /// Menu title for a stored value; values themselves are what the binding receives.
+    var title: (String) -> String = { $0 }
     var body: some View {
-        HStack {
-            Text(label).fixedSize()
-            NativePopup(label: label, identifier: identifier, choices: choices, selection: $selection)
-                .frame(minWidth: 90, minHeight: 24)
+        // LabeledContent puts the label in a Form's label column, like the text fields around it.
+        LabeledContent(label) {
+            AccessiblePopup(label: label, identifier: identifier, choices: choices, selection: $selection, title: title)
         }
+    }
+}
+
+/// The pop-up alone, for rows that supply their own label (e.g. to outline just the control).
+/// `label` is still its accessibility label.
+struct AccessiblePopup: View {
+    let label: String
+    let identifier: String
+    let choices: [String]
+    @Binding var selection: String
+    var title: (String) -> String = { $0 }
+    var body: some View {
+        NativePopup(label: label, identifier: identifier, choices: choices, selection: $selection, title: title)
+            .frame(minWidth: 90, minHeight: 24)
     }
 }
 
@@ -38,6 +53,7 @@ private struct NativePopup: NSViewRepresentable {
     let choices: [String]
     @Binding var selection: String
     var isBordered = true
+    var title: (String) -> String = { $0 }
     @Environment(\.isEnabled) private var isEnabled
     func makeCoordinator() -> Coordinator { Coordinator(selection: $selection) }
     func makeNSView(context: Context) -> PressablePopup {
@@ -53,8 +69,15 @@ private struct NativePopup: NSViewRepresentable {
     }
     func updateNSView(_ button: PressablePopup, context: Context) {
         context.coordinator.selection = $selection
-        if button.itemTitles != choices { button.removeAllItems(); button.addItems(withTitles: choices) }
-        button.selectItem(withTitle: selection)
+        let titles = choices.map(title)
+        if button.itemTitles != titles || button.itemArray.map({ $0.representedObject as? String }) != choices {
+            button.removeAllItems()
+            for (value, text) in zip(choices, titles) {
+                let item = NSMenuItem(title: text, action: nil, keyEquivalent: ""); item.representedObject = value
+                button.menu?.addItem(item)
+            }
+        }
+        if let index = choices.firstIndex(of: selection) { button.selectItem(at: index) } else { button.select(nil) }
         button.isBordered = isBordered
         button.isEnabled = isEnabled && !choices.isEmpty
         button.setAccessibilityLabel(label)
@@ -65,7 +88,7 @@ private struct NativePopup: NSViewRepresentable {
         var selection: Binding<String>
         init(selection: Binding<String>) { self.selection = selection }
         @objc func changed(_ sender: NSPopUpButton) {
-            if let value = sender.titleOfSelectedItem { selection.wrappedValue = value }
+            if let value = sender.selectedItem?.representedObject as? String { selection.wrappedValue = value }
         }
     }
 }

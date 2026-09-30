@@ -462,10 +462,15 @@ struct ReviewView: View {
                         Label("Already filed: \(duplicate)", systemImage: "doc.on.doc").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.duplicate")
                     }
                 }
+                // Every row is label + control, so labels share one trailing-aligned column and a
+                // warning outlines only the control it's about.
                 Form {
-                    TextField("Vendor", text: $draft.vendor).focused($focusedField, equals: .vendor).accessibilityIdentifier("review.vendor").modifier(ReviewHighlight(message: fieldMessage("vendor")))
+                    LabeledContent("Vendor") {
+                        TextField("Vendor", text: $draft.vendor).labelsHidden().focused($focusedField, equals: .vendor).accessibilityIdentifier("review.vendor").modifier(ReviewHighlight(message: fieldMessage("vendor")))
+                    }
+                    LabeledContent("Date") {
                     HStack {
-                        TextField("Date", text: $draft.date, prompt: Text("YYYY-MM-DD")).focused($focusedField, equals: .date).accessibilityIdentifier("review.date")
+                        TextField("Date", text: $draft.date, prompt: Text("YYYY-MM-DD")).labelsHidden().focused($focusedField, equals: .date).accessibilityIdentifier("review.date")
                         Button {
                             let formatter = DateFormatter()
                             formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -492,13 +497,25 @@ struct ReviewView: View {
                             }.padding(18).frame(width: 320)
                         }
                     }.modifier(ReviewHighlight(message: fieldMessage("date")))
-                    TextField("Total", text: $draft.total).monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(message: fieldMessage("total")))
-                    TextField("Tax (optional)", text: $draft.tax).monospacedDigit().focused($focusedField, equals: .tax).accessibilityIdentifier("review.tax").modifier(ReviewHighlight(message: fieldMessage("tax")))
-                    TextField("Currency", text: $draft.currency).focused($focusedField, equals: .currency).accessibilityIdentifier("review.currency").modifier(ReviewHighlight(message: fieldMessage("currency")))
-                    AccessiblePicker(label: "Category", identifier: "review.category", choices: Array(Set(model.categories + [draft.category])).sorted(), selection: $draft.category)
-                        .modifier(ReviewHighlight(message: fieldMessage("category")))
-                    AccessiblePicker(label: "Document type", identifier: "review.kind", choices: ["Receipt", "Invoice", "Bill"], selection: Binding(get: { draft.kind.rawValue.capitalized }, set: { draft.kind = DocumentKind(rawValue: $0.lowercased()) ?? .receipt }))
-                        .modifier(ReviewHighlight(message: fieldMessage("kind")))
+                    }
+                    LabeledContent("Total") {
+                        TextField("Total", text: $draft.total).labelsHidden().monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(message: fieldMessage("total")))
+                    }
+                    LabeledContent("Tax") {
+                        TextField("Tax (optional)", text: $draft.tax, prompt: Text("Optional")).labelsHidden().monospacedDigit().focused($focusedField, equals: .tax).accessibilityIdentifier("review.tax").modifier(ReviewHighlight(message: fieldMessage("tax")))
+                    }
+                    LabeledContent("Currency") {
+                        AccessiblePopup(label: "Currency", identifier: "review.currency", choices: CurrencyChoices.list(including: draft.currency), selection: $draft.currency, title: CurrencyChoices.title)
+                            .modifier(ReviewHighlight(message: fieldMessage("currency")))
+                    }
+                    LabeledContent("Category") {
+                        AccessiblePopup(label: "Category", identifier: "review.category", choices: Array(Set(model.categories + [draft.category])).sorted(), selection: $draft.category)
+                            .modifier(ReviewHighlight(message: fieldMessage("category")))
+                    }
+                    LabeledContent("Document type") {
+                        AccessiblePopup(label: "Document type", identifier: "review.kind", choices: ["Receipt", "Invoice", "Bill"], selection: Binding(get: { draft.kind.rawValue.capitalized }, set: { draft.kind = DocumentKind(rawValue: $0.lowercased()) ?? .receipt }))
+                            .modifier(ReviewHighlight(message: fieldMessage("kind")))
+                    }
                 }
                 .textFieldStyle(.roundedBorder)
                 .onSubmit { Task { await model.fileSelected() } }
@@ -1006,6 +1023,25 @@ struct PaperloftSettings: View {
                 }
             }.padding(8)
         }
+    }
+}
+
+/// Currency choices for review: the document's own value first (even if unrecognised, so it can be
+/// seen and fixed), then this Mac's currency and other common ones, then every ISO currency.
+enum CurrencyChoices {
+    static let common = ["USD", "EUR", "GBP", "CAD", "AUD", "NZD", "JPY", "CHF", "MXN", "INR"]
+    static func list(including current: String) -> [String] {
+        let local = Locale.current.currency?.identifier
+        var result: [String] = []
+        for code in [current] + [local].compactMap({ $0 }) + common + Locale.commonISOCurrencyCodes.sorted() where !result.contains(code) {
+            result.append(code)
+        }
+        return result
+    }
+    static func title(_ code: String) -> String {
+        guard !code.isEmpty else { return "Choose a currency" }
+        guard let name = Locale.current.localizedString(forCurrencyCode: code) else { return code }
+        return code + " – " + name
     }
 }
 
