@@ -11,7 +11,10 @@ scripts/preflight_check.sh --local --fast > evidence/ci/preflight.log
 result="build/Tests-$(date +%Y%m%d-%H%M%S).xcresult"
 coverage_data="$(mktemp -d "$PWD/build/CoverageDerivedData-XXXXXX")"
 xcodebuild "${args[@]}" -derivedDataPath "$coverage_data" -configuration Debug -enableCodeCoverage YES -resultBundlePath "$result" clean test 2>&1 | tee evidence/ci/tests.log
-if grep -E '(^|[[:space:]])warning:' evidence/ci/tests.log; then
+# Compiler and build warnings fail CI. XCTest runtime notices ("<unknown>:0: warning: -[Class test] : ...")
+# describe test-time behaviour, not the build, so they're excluded from this check.
+build_warnings() { grep -E '(^|[[:space:]])warning:' "$1" | grep -vE '^<unknown>:0: warning: -\[' ; }
+if build_warnings evidence/ci/tests.log; then
   echo "FAIL: test build emitted warnings" >&2
   exit 1
 fi
@@ -21,7 +24,7 @@ printf '%s\n' "$coverage_data" > build/latest-test-derived-data.txt
 for configuration in Debug Release; do
   scripts/preflight_check.sh --local --fast > evidence/ci/preflight.log
   xcodebuild "${args[@]}" -derivedDataPath build/DerivedData -configuration "$configuration" clean build 2>&1 | tee "evidence/ci/$configuration.log"
-  if grep -E '(^|[[:space:]])warning:' "evidence/ci/$configuration.log"; then
+  if build_warnings "evidence/ci/$configuration.log"; then
     echo "FAIL: $configuration build emitted warnings" >&2
     exit 1
   fi

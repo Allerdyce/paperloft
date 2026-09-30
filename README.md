@@ -1,25 +1,31 @@
 # Paperloft Receipts
 
-Native macOS receipt filing app by EvidencePair LLC. Early local-development bootstrap; receipt import and processing are not implemented yet.
+A Mac App Store app by EvidencePair LLC that reads receipts, invoices and bills on your Mac, files them into a folder you choose, and exports an accountant pack. Everything runs on-device with Apple frameworks only; the app has no network access.
+
+- User documentation: in-app Help (Help › Paperloft Help), [SUPPORT.md](SUPPORT.md) and [PRIVACY.md](PRIVACY.md).
+- Product spec: [SPEC.md](SPEC.md). Acceptance criteria: [ACCEPTANCE.md](ACCEPTANCE.md). Run contract: [AGENTS.md](AGENTS.md).
 
 ## Requirements
 
-macOS 27, Apple silicon and Xcode 27. Apple frameworks only; PaperloftKit is a local package.
+macOS 27 or later on Apple silicon, with Xcode 27. The engine is the local Swift package `Packages/PaperloftKit`; the app, Share extension and App Intents live in `Paperloft.xcodeproj`. Understanding documents uses the on-device Apple Intelligence model when it's available and falls back to the built-in parser.
 
 ## Build and test
 
-Open `Paperloft.xcodeproj`, choose PaperloftApp / My Mac, then Product > Build or Product > Test. Local builds use ad-hoc signing without a developer team. The shared test scheme includes engine tests and UI navigation tests.
+In Xcode, open `Paperloft.xcodeproj`, choose the PaperloftApp scheme and My Mac, then Product › Build or Product › Test.
 
 From Terminal:
 
 ```sh
-scripts/preflight_check.sh --local
-scripts/ci.sh
-scripts/privacy_check.sh
+scripts/preflight_check.sh --local --log   # environment check for local development
+scripts/ci.sh                               # clean Debug test build with coverage, all unit and UI tests, then clean Debug and Release builds (warnings are errors)
+scripts/privacy_check.sh                    # entitlements, linked frameworks, privacy manifests
+scripts/eval.sh --model system              # extraction accuracy on the 150 synthetic fixtures (frozen scorer)
 ```
 
-CI performs clean Debug and Release builds, then all tests; it fails immediately on any failure. Derived data and test results stay in `build/`. UI testing requires an unlocked, unobstructed desktop and automation permissions. Do not interact with the Mac during UI tests. Some restricted agent sessions cannot launch SwiftPM's nested sandbox; that is not a product test pass.
+- Local builds use ad-hoc signing. `PAPERLOFT_CI_XCCONFIG=config/PaulDevelopment.xcconfig scripts/ci.sh` uses development signing, which the App Intents framework tests need.
+- Derived data and test results stay in `build/`.
+- UI tests need an unlocked, unobstructed desktop and automation permissions: don't use the Mac while they run, and keep other windows clear of the app. Take the GUI lock (`mkdir ~/Factory/.gui.lock`) before any UI run.
 
 ## Release
 
-`--local` never authorizes distribution signing, archives, upload or submission. Membership, credentials, full preflight, supervised shakedown, acceptance baseline and verifier gates must be completed first. See AGENTS.md.
+Local checks never authorize distribution. Release requires the organization membership and credentials, the full `scripts/preflight_check.sh --log` with no FAIL, the `acceptance-v1` baseline with `scripts/verify_lock.sh` passing, and the verifier gates. See [docs/OWNER-RELEASE-SETUP.md](docs/OWNER-RELEASE-SETUP.md) and [evidence/release/readiness-20260929.md](evidence/release/readiness-20260929.md). Submission for review and public release are the owner's decision.

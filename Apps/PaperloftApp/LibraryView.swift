@@ -856,7 +856,7 @@ struct PaperloftSettings: View {
                     }, set: {
                         model.scannedPages = $0 == "Each page is a separate receipt" ? .separate : .combined
                     }))
-                Text("Scan from File → Import from iPhone or iPad. Your devices need the same Apple Account.")
+                Text("Scan with File › Import From Device › Scan Documents, listed under your iPhone or iPad. Your devices need the same Apple Account.")
                     .font(.caption).foregroundStyle(.primary)
             }.padding(8)
         }
