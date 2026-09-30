@@ -9,8 +9,12 @@ final class ShareViewController: NSViewController {
     override func loadView() {
         let model = ShareSheetModel(context: extensionContext)
         self.model = model
-        view = NSHostingView(rootView: ShareSheet(model: model))
-        preferredContentSize = NSSize(width: 430, height: 390)
+        let size = NSSize(width: 430, height: 390)
+        // Hand the host a sized view: with a zero-frame hosting view the share window rendered blank.
+        let hosting = NSHostingView(rootView: ShareSheet(model: model))
+        hosting.frame = NSRect(origin: .zero, size: size)
+        view = hosting
+        preferredContentSize = size
     }
 }
 

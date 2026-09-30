@@ -45,6 +45,10 @@ import PaperloftHandoff
         model.add()
         for _ in 0..<200 where model.isAdding { try await Task.sleep(for: .milliseconds(10)) }
         precondition(!model.isAdding && model.message?.contains("signed Paperloft build") == true)
-        print("PASS: provider symlink rejection; unsigned fallback; seven activation types; rejects text/URL/HTML; mixed share; 20-file cap and skipped reasons; provider callback copy survives and original unchanged")
+        // Guard against regressing to a zero-frame view, which rendered a blank share window live.
+        let controller = ShareViewController()
+        precondition(controller.view.frame.size == NSSize(width: 430, height: 390))
+        precondition(controller.preferredContentSize == NSSize(width: 430, height: 390))
+        print("PASS: sized share view (430x390); provider symlink rejection; unsigned fallback; seven activation types; rejects text/URL/HTML; mixed share; 20-file cap and skipped reasons; provider callback copy survives and original unchanged")
     }
 }

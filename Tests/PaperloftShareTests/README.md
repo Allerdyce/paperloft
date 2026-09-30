@@ -2,7 +2,8 @@
 
 This headless harness uses synthetic item providers. It checks all seven activation
 identifiers, exclusion of text/URLs/HTML, mixed selection, the 20-file cap/skips,
-and preservation of a provider file inside its callback. It does not test Finder,
+preservation of a provider file inside its callback, and that the handed-over view
+is sized 430×390 (a zero-frame view rendered a blank share window live). It does not test Finder,
 Preview, Photos, keyboard accessibility or screen-reader behavior.
 
 From the repository root:
@@ -20,8 +21,10 @@ its bounded streaming copy before returning that callback.
 
 The extension omits Open Paperloft because sandboxed app-launch behavior has not
 been verified in a properly signed extension. It does not attempt an unsupported
-launch workaround. Live registration, App Group sharing, accessibility, peak
-memory, and a signed end-to-end share remain unverified; no 1.1 gate is claimed.
+launch workaround. A signed end-to-end Finder share was verified on 2026-09-29
+(`evidence/live-share/finder-share-20260929.md`); `scripts/build_share_host_probe.sh`
+builds a synthetic NSSharingService host for presentation diagnostics. Preview/Photos,
+accessibility, peak memory and inbox row identity remain unverified; no 1.1 gate is claimed.
 
 The privacy manifest declares file metadata access inside owned/group containers
 and for files selected by the user (C617.1 and 3B52.1), per [Apple's required-reason API documentation](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype).
