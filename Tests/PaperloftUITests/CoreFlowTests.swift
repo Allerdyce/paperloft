@@ -42,9 +42,9 @@ final class CoreFlowTests: XCTestCase {
         search.typeKey("a", modifierFlags: .command); search.typeText("no-such-vendor")
         XCTAssertTrue(app.staticTexts["No matching documents"].waitForExistence(timeout: 5))
         app.buttons["library.export"].click()
-        XCTAssertTrue(app.textFields["export.year"].waitForExistence(timeout: 5))
-        let exportYear = app.textFields["export.year"]; exportYear.click()
-        exportYear.typeKey("a", modifierFlags: .command); exportYear.typeText("2026")
+        let exportYear = app.popUpButtons["export.year"]
+        XCTAssertTrue(exportYear.waitForExistence(timeout: 5)); exportYear.click()
+        app.menuItems["2026"].click()
         app.buttons["export.create"].click()
         XCTAssertTrue(app.staticTexts["Export complete"].waitForExistence(timeout: 15))
         XCTAssertEqual(app.staticTexts["export.result"].value as? String, "1 document copied, with transactions.csv and summary.pdf.")

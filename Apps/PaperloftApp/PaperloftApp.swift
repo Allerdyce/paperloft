@@ -39,6 +39,12 @@ struct PaperloftApp: App {
                 Button("Choose Library Folder…") { Task { await model.chooseLibrary() } }
                     .disabled(model.busy)
                     .accessibilityIdentifier("command.chooseLibrary")
+                Divider()
+                // The export sheet belongs to the main window, so bring it back first if it was closed.
+                Button("Export for Accountant…") { openWindow(id: "main"); model.beginExport() }
+                    .keyboardShortcut("e", modifiers: [.command, .shift])
+                    .disabled(model.libraryURL == nil || model.busy)
+                    .accessibilityIdentifier("command.export")
                 #if DEBUG
                 Button("Load Development Receipts") { Task { await model.trySamples() } }
                     .accessibilityIdentifier("command.samples")
