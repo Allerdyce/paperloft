@@ -82,6 +82,30 @@ Signed App Intents are integrated into root as `7f15133` (cherry-pick of `01ccfd
 - System100-doc throughput358.972s fails240s; prewarm attempt rejected, required signpost capture unavailable. No blind repeat.
 - Icon16px contrast3/5, formal acceptance tags, independent holdout/final gates and distribution prerequisites remain open. Never claim upload/readiness from the local results above.
 
+## Completed 2026-09-30 (lead mode)
+
+- **Earlier today (already in STATUS/readiness):**
+  - the classifier guardrail fix (bills labelled "statement")
+  - AC-20 docs and Help
+  - QA persona sessions and fixes (QA-01…06)
+  - the design critique `evidence/design/2026-09-30-critique.md`
+  - the owner guide `docs/OWNER-RELEASE-SETUP.md`
+- **AC-16 native-pattern follow-up** (merged; summary `evidence/design/2026-09-30-native/README.md`):
+  - Receipt menu
+  - export sheet with pickers and ⇧⌘E
+  - Library with sortable, aligned headers, localized dates and currency, toolbar actions and ⌘F
+  - review form with one label column and a currency pop-up
+  - Inbox Import/Paste moved to the toolbar
+  - Settings with folder display, fitted panes and a category list
+  - View › Sidebar
+- **What stayed on purpose, and why:** see that README. The Library look comes from the owner's reference, and frozen NavigationTests pins the sidebar and heading.
+- **CI:** 155 XCTest pass. The audit fails only on the 10 known system findings. The audit test now waits for section switches to settle, because the window title was flagged mid-animation in 1 of 2 runs.
+- **Gotchas:**
+  - SwiftUI `Text` with an accessibility identifier exposes its string as XCUI `value`, not `label`.
+  - The UI-test Inbox persists between runs (stub items all say "Sample merchant"), so tests must identify documents by row, not vendor.
+  - 10 pt captions trip the contrast audit; use callout.
+- **Icon:** unchanged. SPEC §6.5 routes the contrast tweak to the owner; the candidate is in PROPOSALS.md.
+
 ## Dirty files and safe resumption
 
 Root has intentional pre-existing dirt: Xcode project comment normalization and settings reordering only; `evidence/ci/{QA,preflight,tests}.log`, `evidence/preflight-latest.txt`, old untracked verifier artifacts. Preserve; no blanket git add/reset/cleanup. This handoff commits only its own docs/PLAN/STATE/STATUS changes. Worktrees must remain for resumption; do not archive/delete them.

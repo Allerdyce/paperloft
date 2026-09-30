@@ -49,3 +49,6 @@
 - Probe model behaviour with new, single-use synthetic inputs and disjoint arms; that respects no-retry/no-resubmission rules and still isolates causes.
 - A bare enum response ("bill") can trip the output guardrail on benign text; changing the response shape (label plus heading) avoided it without touching guardrails.
 - The Settings audit and live UI runs need a clear screen: the Claude window and stray app instances can cover test targets.
+- XCUI reads a SwiftUI `Text` that has an accessibility identifier through `value`, not `label`. An assertion over `.label` compares empty strings and passes without testing anything; read `value` (or fall back to it).
+- The UI-test Inbox and preferences persist across runs, and stub documents all share the vendor "Sample merchant". Identify documents by row or identifier, and have tests undo what they add (e.g. categories).
+- Accessibility audits run right after a section switch catch toolbar animations and flag the window title. Wait for the new screen to settle before auditing. At 10 pt, captions trip the contrast heuristic; use callout.
