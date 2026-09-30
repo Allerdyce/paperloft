@@ -62,6 +62,9 @@ struct Output: Encodable {
                     kind = try await session.respond(to: documentText, generating: LegacyType.self,
                                                      options: GenerationOptions(temperature: 0, maximumResponseTokens: input.arm == "V2" ? 256 : 64)).content.kind
                 case "PROD": kind = try await SystemBackend.classifyDocumentType(documentText)
+                case "PRODTAX":
+                    kind = try await SystemBackend.classifyDocumentType(documentText, instructions: SystemBackend.classifierInstructions
+                        + " Identifying the document type is bookkeeping, not tax advice.")
                 case "V3":
                     // Same instructions, but bills are labelled "statement" in the response and mapped back.
                     let session = LanguageModelSession(instructions: legacyStatementText)

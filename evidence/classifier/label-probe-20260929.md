@@ -108,3 +108,20 @@ Remaining refusals fail safely: fields are kept, review is required, nothing is 
 Bills that previously always carried `classificationUnavailable` can now be auto-file eligible when every other check passes: confidence ≥ 0.9 and parser agreement, as for any other document.
 
 Independent review: PASS, with no blockers. Its non-blocking suggestions are applied: seeds recorded, a mapping unit test, and the inference wording above.
+
+## Follow-up: refused invoices (runs 7–8, production classifier, new single-use inputs)
+
+| Variant (4 fresh invoices each) | Correct | Refused |
+|---|---|---|
+| TAX INVOICE + PAID stamp + zero balance + "Tax" line | 1 | 3 |
+| INVOICE + PAID stamp + zero balance + "Sales tax" | 4 | 0 |
+| TAX INVOICE + zero balance (no PAID) | 0 | 4 |
+| TAX INVOICE + PAID stamp (no balance line) | 3 | 1 |
+| INVOICE + "Status: Paid" | 4 | 0 |
+| TAX INVOICE heading only (no PAID, no balance) | 0 | 4 |
+
+"PAID" and zero balance aren't the trigger; a **TAX INVOICE** heading is strongly associated with refusal. Adding "Identifying the document type is bookkeeping, not tax advice." to the classifier instructions did **not** help: 0/12 on fresh TAX INVOICEs in the three failing styles (run 8, arm PRODTAX, seed 8181).
+
+That makes two distinct approaches (response shape; tax-advice clarification) that left TAX INVOICE refusals unresolved. Parked. Further probing would mean searching input wording for refusal triggers, which is out of bounds. Impact: field extraction still returns kind "invoice", so the stored type is correct; these documents carry `classificationUnavailable` and always require review. No product change.
+
+Seeds: run 7 `PROBE_SEED=6060 PROBE_PAIDFACTORS=1`; run 8 `PROBE_SEED=8181 PROBE_PAIDFACTORS=1 PROBE_PAIDARM=PRODTAX PROBE_PAIDSTYLES=full,nopaid,taxheadingonly`.

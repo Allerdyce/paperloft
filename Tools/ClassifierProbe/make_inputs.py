@@ -111,6 +111,26 @@ if os.environ.get("PROBE_PAID") == "1":
     rng.shuffle(pool)
     for arm in ["V0", "V3", "V4"]:
         for i in range(6): out.append(dict(id=f"PAID-{arm}-{i+1}", arm=arm, label="invoice", text=paid_invoice(pool.pop())))
+
+if os.environ.get("PROBE_PAIDFACTORS") == "1":
+    out = []
+    pool = [f"{a} {b}" for a in ["Alba", "Brook", "Crest", "Drift", "Echo", "Frost", "Gale", "Haven", "Iris", "Jade"] for b in ["Goods", "Services", "Supplies"]]
+    rng.shuffle(pool)
+    def variant(vendor, heading, paid, balance, taxlabel):
+        rows, sub = lines(SHOP_ITEMS, rng.randint(3, 5)); tax = sub * 75 // 1000
+        body = [vendor, heading, f"Invoice date: {date()}", *rows, f"Subtotal ${money(sub)}", f"{taxlabel} ${money(tax)}", f"TOTAL ${money(sub + tax)}"]
+        if paid == "stamp": body.append(f"PAID {date()}")
+        if paid == "status": body.append("Status: Paid")
+        if balance: body.append("Balance due $0.00")
+        return "\n".join(body)
+    arms = {"full": ("TAX INVOICE", "stamp", True, "Tax"), "notaxheading": ("INVOICE", "stamp", True, "Sales tax"),
+            "nopaid": ("TAX INVOICE", None, True, "Tax"), "nobalance": ("TAX INVOICE", "stamp", False, "Tax"),
+            "statuspaid": ("INVOICE", "status", False, "Sales tax"), "taxheadingonly": ("TAX INVOICE", None, False, "Tax")}
+    probe_arm = os.environ.get("PROBE_PAIDARM", "PROD")
+    selected = os.environ.get("PROBE_PAIDSTYLES")
+    for name, spec in arms.items():
+        if selected and name not in selected.split(","): continue
+        for i in range(4): out.append(dict(id=f"PF-{probe_arm}-{name}-{i+1}", arm=probe_arm, label="invoice", text=variant(pool.pop(), *spec)))
 with open(sys.argv[1], "w") as f:
     for row in out: f.write(json.dumps(row) + "\n")
 print(len(out), "inputs")
