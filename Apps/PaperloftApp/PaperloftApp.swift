@@ -29,6 +29,8 @@ struct PaperloftApp: App {
         .defaultSize(width: 1180, height: 760)
         .commands {
             ImportFromDevicesCommands()
+            // View › Show/Hide Sidebar (⌃⌘S).
+            SidebarCommands()
             // AppKit's automatic Services scanner blocks accessibility inspection on macOS 27.
             // Keep standard editing commands; receipt actions are explicit commands below.
             CommandGroup(replacing: .systemServices) {}
