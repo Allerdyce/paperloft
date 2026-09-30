@@ -103,6 +103,25 @@ import PaperloftKit
         XCTAssertTrue(zip.path.hasPrefix(root.appendingPathComponent("Intent-Exports").path))
         model.beginExport() // Clearing an unrelated interactive export cannot invalidate this result.
         XCTAssertEqual(try Data(contentsOf: zip), bytes)
+        let exports = root.appendingPathComponent("Intent-Exports")
+        XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: exports.path), [zip.lastPathComponent],
+                       "only the ZIP is retained, not an unzipped copy")
+        let unrelated = exports.appendingPathComponent("keep.txt")
+        try Data("unrelated".utf8).write(to: unrelated)
+        let stale = Date(timeIntervalSinceNow: -3600)
+        let abandoned = exports.appendingPathComponent(".Paperloft-export-incomplete-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: abandoned, withIntermediateDirectories: false)
+        let recent = exports.appendingPathComponent("Accountant Pack recent \(UUID().uuidString).zip")
+        try Data("recent".utf8).write(to: recent)
+        for url in [zip, abandoned, unrelated] { try FileManager.default.setAttributes([.modificationDate: stale], ofItemAtPath: url.path) }
+        let mapped = try Data(contentsOf: zip, options: .alwaysMapped)
+        let second = try await model.exportAccountantPack(range: .year(2026))
+        XCTAssertNotEqual(second.lastPathComponent, zip.lastPathComponent)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: zip.path), "stale intent export is pruned")
+        XCTAssertEqual(mapped, bytes, "data mapped from a pruned export stays readable")
+        XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: exports.path).sorted(),
+                       ["keep.txt", recent.lastPathComponent, second.lastPathComponent].sorted(),
+                       "only stale exporter-created entries are pruned; recent results and unrelated files stay")
         let free = AppModel(support: root, preferences: defaults, proEntitlement: { false })
         do { _ = try await free.exportAccountantPack(range: .year(2026)); XCTFail("Free export accepted") } catch { XCTAssertTrue(error is PaperloftIntentError) }
     }

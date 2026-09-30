@@ -45,10 +45,28 @@ import PaperloftHandoff
         model.add()
         for _ in 0..<200 where model.isAdding { try await Task.sleep(for: .milliseconds(10)) }
         precondition(!model.isAdding && model.message?.contains("signed Paperloft build") == true)
+        // Finder providers have no suggestedName: stage under the provider file's own name and
+        // show that name once resolved, instead of the positional "Document N" fallback.
+        let unnamedSource = workspace.appendingPathComponent("Acorn Receipt.pdf")
+        try bytes.write(to: unnamedSource)
+        let unnamed = NSItemProvider()
+        unnamed.registerFileRepresentation(forTypeIdentifier: "com.adobe.pdf", fileOptions: [], visibility: .all) { completion in
+            completion(unnamedSource, false, nil)
+            return nil
+        }
+        unnamed.registerObject(unnamedSource as NSURL, visibility: .all)
+        let unnamedModel = ShareSheetModel(context: nil, providers: [unnamed])
+        precondition(unnamedModel.candidates.first?.name == "Document 1" && unnamedModel.candidates.first?.nameIsKnown == false)
+        let unnamedCopy = try await unnamedModel.copyProviderFile(unnamedModel.candidates[0])
+        defer { try? FileManager.default.removeItem(at: unnamedCopy.deletingLastPathComponent()) }
+        precondition(unnamedCopy.lastPathComponent == "Acorn Receipt.pdf", unnamedCopy.lastPathComponent)
+        await unnamedModel.resolveNames()
+        precondition(unnamedModel.candidates.first?.name == "Acorn Receipt.pdf", unnamedModel.candidates.first?.name ?? "nil")
+        precondition(ShareSheetModel.fileName(from: URL(fileURLWithPath: "/")) == nil)
         // Guard against regressing to a zero-frame view, which rendered a blank share window live.
         let controller = ShareViewController()
         precondition(controller.view.frame.size == NSSize(width: 430, height: 390))
         precondition(controller.preferredContentSize == NSSize(width: 430, height: 390))
-        print("PASS: sized share view (430x390); provider symlink rejection; unsigned fallback; seven activation types; rejects text/URL/HTML; mixed share; 20-file cap and skipped reasons; provider callback copy survives and original unchanged")
+        print("PASS: provider file names for unnamed shares; sized share view (430x390); provider symlink rejection; unsigned fallback; seven activation types; rejects text/URL/HTML; mixed share; 20-file cap and skipped reasons; provider callback copy survives and original unchanged")
     }
 }

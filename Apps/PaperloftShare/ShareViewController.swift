@@ -15,6 +15,7 @@ final class ShareViewController: NSViewController {
         hosting.frame = NSRect(origin: .zero, size: size)
         view = hosting
         preferredContentSize = size
+        Task { await model.resolveNames() }
     }
 }
 
@@ -22,7 +23,11 @@ final class ShareViewController: NSViewController {
 final class ShareSheetModel: ObservableObject {
     struct Candidate: Identifiable {
         let id = UUID()
-        let name: String
+        /// Display and fallback file name. Finder providers carry no suggestedName, so this
+        /// starts as "Document N" and is replaced by the provider file's own name when known.
+        var name: String
+        /// True once `name` came from the provider rather than the positional fallback.
+        var nameIsKnown: Bool
         let provider: NSItemProvider
         let type: HandoffFileType
     }
@@ -48,8 +53,30 @@ final class ShareSheetModel: ObservableObject {
                 skipped.append("\(name): only 20 files can be added at once")
                 continue
             }
-            candidates.append(Candidate(name: name, provider: provider, type: type))
+            candidates.append(Candidate(name: name, nameIsKnown: provider.suggestedName != nil, provider: provider, type: type))
         }
+    }
+
+    /// Replace positional fallback names with each provider file's name, for display only.
+    func resolveNames() async {
+        for index in candidates.indices where !candidates[index].nameIsKnown {
+            let provider = candidates[index].provider
+            guard provider.canLoadObject(ofClass: URL.self) else { continue }
+            let name: String? = await withCheckedContinuation { continuation in
+                _ = provider.loadObject(ofClass: URL.self) { url, _ in
+                    continuation.resume(returning: url.flatMap { $0.isFileURL ? Self.fileName(from: $0) : nil })
+                }
+            }
+            if let name, candidates.indices.contains(index), !candidates[index].nameIsKnown {
+                candidates[index].name = name
+                candidates[index].nameIsKnown = true
+            }
+        }
+    }
+
+    nonisolated static func fileName(from url: URL) -> String? {
+        let name = url.lastPathComponent.trimmingCharacters(in: .whitespacesAndNewlines)
+        return name.isEmpty || name == "/" ? nil : name
     }
 
     func cancel() {
@@ -100,7 +127,7 @@ final class ShareSheetModel: ObservableObject {
 
     func copyProviderFile(_ candidate: Candidate) async throws -> URL {
         let type = candidate.type
-        let name = candidate.name
+        let fallback = candidate.name, nameIsKnown = candidate.nameIsKnown
         return try await withCheckedThrowingContinuation { continuation in
             candidate.provider.loadFileRepresentation(forTypeIdentifier: type.rawValue) { url, error in
                 do {
@@ -108,6 +135,7 @@ final class ShareSheetModel: ObservableObject {
                     guard let url else { throw HandoffError.invalidItem }
                     // Provider-owned file expires when this callback returns. Make a
                     // bounded streaming copy synchronously inside the callback.
+                    let name = nameIsKnown ? fallback : Self.fileName(from: url) ?? fallback
                     let copy = try Self.stageProviderFile(url, name: name, type: type)
                     continuation.resume(returning: copy)
                 } catch { continuation.resume(throwing: error) }
