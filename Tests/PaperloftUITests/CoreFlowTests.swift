@@ -36,7 +36,7 @@ final class CoreFlowTests: XCTestCase {
         app.buttons["sidebar.library"].click()
         XCTAssertTrue(app.staticTexts["Keyboard Desk"].waitForExistence(timeout: 15))
         XCTAssertLessThan(Date().timeIntervalSince(started), 60, "Samples must reach a filed document within 60 seconds from launch")
-        XCTAssertTrue(app.staticTexts["USD 42.35"].exists)
+        XCTAssertTrue(app.staticTexts["$42.35"].exists)
         let search = app.textFields["library.search"]; search.click(); search.typeText("Keyboard")
         XCTAssertTrue(app.staticTexts["Keyboard Desk"].waitForExistence(timeout: 5))
         search.typeKey("a", modifierFlags: .command); search.typeText("no-such-vendor")
