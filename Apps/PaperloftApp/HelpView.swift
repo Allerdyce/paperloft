@@ -22,7 +22,7 @@ struct HelpView: View {
         ]),
         Topic(id: "review", title: "Reviewing and filing", symbol: "checkmark.circle", lines: [
             "Every document waits in the Inbox for your confirmation. Nothing is filed without it.",
-            "Check the highlighted fields, correct anything that's wrong, then press Return or click Confirm to file. Tab moves between fields. The Receipt menu also has Confirm and File (⌘Return) and Next and Previous Document (⌘] and ⌘[).",
+            "Check the highlighted fields, correct anything that's wrong, then press Return or click Confirm to file. Tab moves between fields. If Paperloft couldn't verify the total, Return takes you to it instead; click Confirm or press ⌘Return to file it as shown. The Receipt menu also has Confirm and File (⌘Return) and Next and Previous Document (⌘] and ⌘[).",
             "Issue means a field needs your attention or the document type couldn't be confirmed. Remove sets a document aside without filing it.",
             "Paperloft files a copy and leaves your original in place. You can choose Move in Settings › Filing. It never overwrites a file, and deleting from the Library moves the file to Recently Deleted rather than erasing it."
         ]),

@@ -29,8 +29,8 @@
 
 **QA status (2026-09-30):**
 - **Fixed:** QA-01 Try with Samples, QA-02 readable pack names, QA-03 keyboard library choice (all a7bd99d); QA-04 Issue explanation and QA-06 non-receipt note (this change).
-- **Open (P2):**
-  - QA-05 email attachment display name: needs the sanitized sender filename threaded into the Inbox display name; path naming stays UUID by security design.
-  - QA-07 follow a renamed library via the bookmark.
-  - QA-08 extra confirmation for flagged totals.
+- **Fixed later on 2026-09-30:**
+  - QA-05: attachments show the sender's sanitized filename; staged paths stay UUIDs.
+  - QA-08: Return on an unverified total moves focus to the total instead of filing. Clicking Confirm or pressing ⌘Return files it, and a corrected total can be confirmed with Return.
+- **Open (P2):** QA-07, following a renamed library via the bookmark.
 - **Withdrawn:** QA-09.

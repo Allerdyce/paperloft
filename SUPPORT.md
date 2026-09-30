@@ -31,7 +31,7 @@ Any of these:
 With Paperloft Pro, a watched folder (Settings › General › Watched folder) sends new files to your Inbox automatically.
 
 ### 7. Why does a document say "Issue" or ask me to check a field?
-Every document waits in the Inbox for your confirmation; nothing is filed without it. Paperloft highlights fields it couldn't read confidently, totals it couldn't verify against the document, and documents whose type it couldn't determine. Correct anything that's wrong, then press Return or click Confirm to file it. Remove sets a document aside without filing it. The Receipt menu has the same actions, plus Next and Previous Document (⌘] and ⌘[) for moving through the Inbox.
+Every document waits in the Inbox for your confirmation; nothing is filed without it. Paperloft highlights fields it couldn't read confidently, totals it couldn't verify against the document, and documents whose type it couldn't determine. Correct anything that's wrong, then press Return or click Confirm to file it. If the total couldn't be verified, Return takes you to the total first; click Confirm or press ⌘Return to file it as shown. Remove sets a document aside without filing it. The Receipt menu has the same actions, plus Next and Previous Document (⌘] and ⌘[) for moving through the Inbox.
 
 ### 8. Can I undo a filing?
 Yes. Every filing batch is listed in History and can be undone. Edit › Undo Last Filing (⌘Z) undoes the most recent one. Undo restores files to where they were, including originals you chose to move.
