@@ -192,12 +192,12 @@ struct InboxView: View {
                     }
                     HStack(alignment: .top, spacing: 20) {
                         intakeCard(title: "Import", symbol: "square.and.arrow.down", detail: "Add receipt files from your Mac. Choose PDFs, images or saved emails.", action: "Choose files…", identifier: "inbox.import") { await model.importFiles() }
-                        intakeCard(title: "Paste", symbol: "doc.on.clipboard", detail: "Copied a receipt or screenshot? Paste the image straight into your Inbox.", action: "Paste image", identifier: "inbox.paste") { await model.pasteImage() }
+                        intakeCard(title: "Paste", symbol: "doc.on.clipboard", detail: "Paste a copied receipt image or screenshot into your Inbox.", action: "Paste image", identifier: "inbox.paste") { await model.pasteImage() }
                     }
                     Label("You can also drag receipt files anywhere into this Inbox.", systemImage: "arrow.down.doc")
                         .font(.callout).foregroundStyle(.primary)
                     Text("PDF, PNG, JPEG, HEIC and EML · Originals stay in place when you confirm a copy.")
-                        .font(.caption).foregroundStyle(.primary)
+                        .font(.callout).foregroundStyle(.primary)
                 }.frame(maxWidth: 720, alignment: .leading).padding(36)
                     .frame(maxWidth: .infinity, alignment: .center)
             }
@@ -341,7 +341,7 @@ struct ReceiptStatusPill: View {
     let color: Color
     var body: some View {
         Label(title, systemImage: symbol)
-            .font(.caption.weight(.semibold))
+            .font(.subheadline.weight(.semibold))
             .foregroundStyle(.primary)
             .padding(.horizontal, 9).padding(.vertical, 5)
             .background(color.opacity(0.18), in: Capsule())
@@ -768,108 +768,131 @@ struct PaperloftSettings: View {
     var embedded = false
     @State private var newCategory = ""
     @AppStorage("appearance") private var appearance = "System"
+    private enum Tab: Hashable { case general, filing, categories }
+    @State private var tab = Tab.general
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                if !embedded { Text("Paperloft Settings").font(.title2.weight(.semibold)) }
-                GroupBox("Appearance") {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Picker("Theme", selection: $appearance) {
-                            Text("System").tag("System")
-                            Text("Light").tag("Light")
-                            Text("Dark").tag("Dark")
-                        }.pickerStyle(.segmented).accessibilityIdentifier("settings.appearance")
-                        Text("System follows your Mac’s appearance. Light and Dark apply only to Paperloft.").font(.caption)
-                    }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+        if embedded {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) { generalSections; filingSections; categorySections }.padding(24)
+            }.frame(maxWidth: .infinity, maxHeight: .infinity).accessibilityIdentifier("settings.root")
+        } else {
+            // Standard Settings tabs keep every control inside the visible window; one long
+            // scrolling pane left filing controls below the window edge.
+            // Settings always opens on General rather than the last pane shown.
+            TabView(selection: $tab) {
+                pane { generalSections }.tabItem { Label("General", systemImage: "gearshape") }.tag(Tab.general)
+                pane { filingSections }.tabItem { Label("Filing", systemImage: "folder") }.tag(Tab.filing)
+                pane { categorySections }.tabItem { Label("Categories", systemImage: "tag") }.tag(Tab.categories)
+            }.frame(width: 610, height: 660).accessibilityIdentifier("settings.root")
+                .onDisappear { tab = .general }
+        }
+    }
+
+    private func pane<Content: View>(@ViewBuilder _ content: () -> Content) -> some View {
+        ScrollView { VStack(alignment: .leading, spacing: 24) { content() }.padding(24) }
+    }
+
+    @ViewBuilder private var generalSections: some View {
+        GroupBox("Appearance") {
+            VStack(alignment: .leading, spacing: 8) {
+                Picker("Theme", selection: $appearance) {
+                    Text("System").tag("System")
+                    Text("Light").tag("Light")
+                    Text("Dark").tag("Dark")
+                }.pickerStyle(.segmented).accessibilityIdentifier("settings.appearance")
+                Text("System follows your Mac’s appearance. Light and Dark apply only to Paperloft.").font(.callout)
+            }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+        }
+        GroupBox("Library") {
+            VStack(alignment: .leading, spacing: 12) {
+                Text(model.libraryURL?.path ?? "No library folder chosen").font(.callout).textSelection(.enabled)
+                HStack {
+                    Button("Choose Folder…") { Task { await model.chooseLibrary() } }.disabled(model.busy).accessibilityIdentifier("settings.chooseFolder")
+                    Button("Reveal Folder") { model.reveal() }.disabled(model.libraryURL == nil).accessibilityIdentifier("settings.reveal")
+                    Button("Rebuild Index") { Task { await model.rebuildIndex() } }.disabled(model.busy || model.libraryURL == nil).accessibilityIdentifier("settings.rebuild")
                 }
-                GroupBox("Library") {
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text(model.libraryURL?.path ?? "No library folder chosen").font(.callout).textSelection(.enabled)
-                        HStack {
-                            Button("Choose Folder…") { Task { await model.chooseLibrary() } }.disabled(model.busy).accessibilityIdentifier("settings.chooseFolder")
-                            Button("Reveal Folder") { model.reveal() }.disabled(model.libraryURL == nil).accessibilityIdentifier("settings.reveal")
-                            Button("Rebuild Index") { Task { await model.rebuildIndex() } }.disabled(model.busy || model.libraryURL == nil).accessibilityIdentifier("settings.rebuild")
-                        }
-                        #if DEBUG
-                        Button("Start Fresh Sample Library") {
-                            Task { do { try await model.newSampleLibrary(discardInbox: true) } catch { model.message = error.localizedDescription } }
-                        }.disabled(model.busy).accessibilityIdentifier("settings.newSampleLibrary")
-                        #endif
-                    }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+                #if DEBUG
+                Button("Start Fresh Sample Library") {
+                    Task { do { try await model.newSampleLibrary(discardInbox: true) } catch { model.message = error.localizedDescription } }
+                }.disabled(model.busy).accessibilityIdentifier("settings.newSampleLibrary")
+                #endif
+            }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+        }
+        GroupBox("Watched folder · Pro") {
+            VStack(alignment: .leading, spacing: 10) {
+                Text(model.watchedFolderURL?.path ?? "No watched folder chosen").font(.callout).textSelection(.enabled)
+                Text(model.watchedStatus).accessibilityIdentifier("settings.watchedStatus")
+                HStack {
+                    Button("Choose Watched Folder…") { Task { await model.chooseWatchedFolder() } }
+                        .disabled(model.busy || !model.isPro).accessibilityIdentifier("settings.chooseWatchedFolder")
+                    if model.watchedEnabled {
+                        Button("Turn Off") { Task { await model.disableWatchedFolder() } }.accessibilityIdentifier("settings.disableWatchedFolder")
+                    } else {
+                        Button("Turn On") { Task { await model.restoreWatchedFolder() } }
+                            .disabled(!model.isPro).accessibilityIdentifier("settings.enableWatchedFolder")
+                    }
                 }
-                GroupBox("Scanned pages") {
-                    VStack(alignment: .leading, spacing: 8) {
-                        AccessiblePicker(label: "When scanning multiple pages", identifier: "settings.scannedPages",
-                            choices: ["Each page is a separate receipt", "All pages are one document"],
-                            selection: Binding(get: {
-                                model.scannedPages == .separate ? "Each page is a separate receipt" : "All pages are one document"
-                            }, set: {
-                                model.scannedPages = $0 == "Each page is a separate receipt" ? .separate : .combined
-                            }))
-                        Text("Scan from File → Import from iPhone or iPad. Your devices need the same Apple Account.")
-                            .font(.caption).foregroundStyle(.primary)
-                    }.padding(8)
+                Text("PDFs, images (including TIFF), and saved email (.eml) are copied to the Inbox for review. Originals stay in place.").font(.caption)
+                ForEach(Array(model.watchedIssues.enumerated()), id: \.offset) { _, issue in Text(issue).font(.caption).foregroundStyle(.orange) }
+            }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+        }
+        VStack(alignment: .leading, spacing: 5) {
+            Text("Paperloft Receipts").font(.headline)
+            Text("On-device processing. No analytics or tracking.").foregroundStyle(.primary)
+            Text("© 2026 EvidencePair LLC").font(.caption).foregroundStyle(.primary)
+        }
+    }
+
+    @ViewBuilder private var filingSections: some View {
+        GroupBox("Scanned pages") {
+            VStack(alignment: .leading, spacing: 8) {
+                AccessiblePicker(label: "When scanning multiple pages", identifier: "settings.scannedPages",
+                    choices: ["Each page is a separate receipt", "All pages are one document"],
+                    selection: Binding(get: {
+                        model.scannedPages == .separate ? "Each page is a separate receipt" : "All pages are one document"
+                    }, set: {
+                        model.scannedPages = $0 == "Each page is a separate receipt" ? .separate : .combined
+                    }))
+                Text("Scan from File → Import from iPhone or iPad. Your devices need the same Apple Account.")
+                    .font(.caption).foregroundStyle(.primary)
+            }.padding(8)
+        }
+        GroupBox("Filing") {
+            VStack(alignment: .leading, spacing: 10) {
+                Picker("Original documents", selection: $model.mode) {
+                    Text("Copy — keep the original in place").tag(FilingMode.copy)
+                    Text("Move — allow restoring the original with Undo").tag(FilingMode.move)
+                }.pickerStyle(.radioGroup).accessibilityIdentifier("settings.filingMode")
+                TextField("Filename template", text: $model.filenameTemplate).accessibilityIdentifier("settings.filenameTemplate")
+                Text("Keep {date}, {vendor} and {total}; optionally add {currency}, {category} or {kind}.").font(.caption).foregroundStyle(.primary)
+                if let error = model.templateError { Text(error).font(.caption).foregroundStyle(.orange).accessibilityIdentifier("settings.templateError") }
+                Text("Moving requires access to the original folder. Recovery copies are kept so Undo can restore your files.").font(.caption).foregroundStyle(.primary)
+                Button("Renew Original Folder Access…") { Task { _ = await model.grantMoveFolder() } }.accessibilityIdentifier("settings.moveAccess")
+            }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    @ViewBuilder private var categorySections: some View {
+        GroupBox("Categories") {
+            VStack(alignment: .leading, spacing: 9) {
+                Text("Organizational categories, not tax advice. Changes affect future filing; existing documents stay in their folders.").font(.caption).foregroundStyle(.primary)
+                ForEach(Array(model.categories.enumerated()), id: \.offset) { index, category in
+                    HStack {
+                        TextField("Category", text: Binding(get: { model.categories.indices.contains(index) ? model.categories[index] : category }, set: { if model.categories.indices.contains(index) { model.categories[index] = $0; model.saveCategories() } }))
+                            .accessibilityIdentifier("settings.category.\(index)")
+                        Button { model.categories.remove(at: index); model.saveCategories() } label: { Image(systemName: "minus.circle") }
+                            .accessibilityLabel("Remove \(category)").accessibilityIdentifier("settings.removeCategory.\(index)")
+                    }
                 }
-                GroupBox("Watched folder · Pro") {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text(model.watchedFolderURL?.path ?? "No watched folder chosen").font(.callout).textSelection(.enabled)
-                        Text(model.watchedStatus).accessibilityIdentifier("settings.watchedStatus")
-                        HStack {
-                            Button("Choose Watched Folder…") { Task { await model.chooseWatchedFolder() } }
-                                .disabled(model.busy || !model.isPro).accessibilityIdentifier("settings.chooseWatchedFolder")
-                            if model.watchedEnabled {
-                                Button("Turn Off") { Task { await model.disableWatchedFolder() } }.accessibilityIdentifier("settings.disableWatchedFolder")
-                            } else {
-                                Button("Turn On") { Task { await model.restoreWatchedFolder() } }
-                                    .disabled(!model.isPro).accessibilityIdentifier("settings.enableWatchedFolder")
-                            }
-                        }
-                        Text("PDFs, images (including TIFF), and saved email (.eml) are copied to the Inbox for review. Originals stay in place.").font(.caption)
-                        ForEach(Array(model.watchedIssues.enumerated()), id: \.offset) { _, issue in Text(issue).font(.caption).foregroundStyle(.orange) }
-                    }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+                HStack {
+                    TextField("New category", text: $newCategory).accessibilityIdentifier("settings.newCategory")
+                    Button("Add") {
+                        let value = newCategory.trimmingCharacters(in: .whitespacesAndNewlines)
+                        if !value.isEmpty && !model.categories.contains(where: { $0.caseInsensitiveCompare(value) == .orderedSame }) { model.categories.append(value); model.saveCategories(); newCategory = "" }
+                    }.disabled(newCategory.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty).accessibilityIdentifier("settings.addCategory")
                 }
-                GroupBox("Filing") {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Picker("Original documents", selection: $model.mode) {
-                            Text("Copy — keep the original in place").tag(FilingMode.copy)
-                            Text("Move — allow restoring the original with Undo").tag(FilingMode.move)
-                        }.pickerStyle(.radioGroup).accessibilityIdentifier("settings.filingMode")
-                        TextField("Filename template", text: $model.filenameTemplate).accessibilityIdentifier("settings.filenameTemplate")
-                        Text("Keep {date}, {vendor} and {total}; optionally add {currency}, {category} or {kind}.").font(.caption).foregroundStyle(.primary)
-                        if let error = model.templateError { Text(error).font(.caption).foregroundStyle(.orange).accessibilityIdentifier("settings.templateError") }
-                        Text("Moving requires access to the original folder. Recovery copies are kept so Undo can restore your files.").font(.caption).foregroundStyle(.primary)
-                        Button("Renew Original Folder Access…") { Task { _ = await model.grantMoveFolder() } }.accessibilityIdentifier("settings.moveAccess")
-                    }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
-                }
-                GroupBox("Categories") {
-                    VStack(alignment: .leading, spacing: 9) {
-                        Text("Organizational categories, not tax advice. Changes affect future filing; existing documents stay in their folders.").font(.caption).foregroundStyle(.primary)
-                        ForEach(Array(model.categories.enumerated()), id: \.offset) { index, category in
-                            HStack {
-                                TextField("Category", text: Binding(get: { model.categories.indices.contains(index) ? model.categories[index] : category }, set: { if model.categories.indices.contains(index) { model.categories[index] = $0; model.saveCategories() } }))
-                                    .accessibilityIdentifier("settings.category.\(index)")
-                                Button { model.categories.remove(at: index); model.saveCategories() } label: { Image(systemName: "minus.circle") }
-                                    .accessibilityLabel("Remove \(category)").accessibilityIdentifier("settings.removeCategory.\(index)")
-                            }
-                        }
-                        HStack {
-                            TextField("New category", text: $newCategory).accessibilityIdentifier("settings.newCategory")
-                            Button("Add") {
-                                let value = newCategory.trimmingCharacters(in: .whitespacesAndNewlines)
-                                if !value.isEmpty && !model.categories.contains(where: { $0.caseInsensitiveCompare(value) == .orderedSame }) { model.categories.append(value); model.saveCategories(); newCategory = "" }
-                            }.disabled(newCategory.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty).accessibilityIdentifier("settings.addCategory")
-                        }
-                    }.padding(8)
-                }
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("Paperloft Receipts").font(.headline)
-                    Text("On-device processing. No analytics or tracking.").foregroundStyle(.primary)
-                    Text("© 2026 EvidencePair LLC").font(.caption).foregroundStyle(.primary)
-                }
-            }.padding(24)
-        }.frame(width: embedded ? nil : 610, height: embedded ? nil : 660)
-            .frame(maxWidth: embedded ? .infinity : nil, maxHeight: embedded ? .infinity : nil)
-            .accessibilityIdentifier("settings.root")
+            }.padding(8)
+        }
     }
 }
 
