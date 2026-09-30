@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Generate new, never-submitted synthetic documents for the bounded classifier probe.
-Each arm (V0/V1/V2) gets a disjoint set with identical composition: 8 bills, 4 invoices,
-4 receipts, 4 non-financial documents. Seeded, fictional names, no personal data."""
+Default: arms V0/V1/V2, each with a disjoint set of 8 bills, 4 invoices, 4 receipts and 4
+non-financial documents. Environment options (PROBE_SEED, PROBE_ARMS, PROBE_SMALL,
+PROBE_VALIDATION, PROBE_PAID) reproduce the later runs listed in
+evidence/classifier/label-probe-20260929.md. Seeded, fictional names, no personal data."""
 import json, random, sys
 
 import os

@@ -1,6 +1,21 @@
 # Document-type classifier: bounded label probe — 2026-09-29
 
-Branch `local/classifier`. Tool: `Tools/ClassifierProbe` (`scripts/build_classifier_probe.sh`; inputs from `Tools/ClassifierProbe/make_inputs.py` with the seeds below). Raw inputs and results: `build/classifier/inputs*.jsonl` and `results*.jsonl`.
+Branch `local/classifier`. Tool: `Tools/ClassifierProbe` (`scripts/build_classifier_probe.sh`; inputs from `Tools/ClassifierProbe/make_inputs.py`). Raw inputs and results: `build/classifier/inputs*.jsonl` and `results*.jsonl`.
+
+## Reproduction
+
+Arms were added one after another as results came in. All seven are reported: 166 inputs over 6 runs.
+
+| Run | Arms | Seed and environment |
+|---|---|---|
+| 1 | V0, V1, V2 | `PROBE_SEED=20260929` (default) |
+| 2 | V3, V4 | `PROBE_SEED=4242 PROBE_ARMS=V3,V4 PROBE_SMALL=1` |
+| 3 | V5 | `PROBE_SEED=7777 PROBE_ARMS=V5 PROBE_SMALL=1` |
+| 4 | V5 validation | `PROBE_SEED=9191 PROBE_VALIDATION=1` |
+| 5 | Paid invoices | `PROBE_SEED=5150 PROBE_PAID=1` |
+| 6 | PROD | `PROBE_SEED=31337 PROBE_ARMS=PROD PROBE_SMALL=1` |
+
+The generator in the final commit reproduces these sets. Later runs reuse some vendor names from the refused run-1 bills. The texts are new: no input is closer to a refused bill than run-1 bills are to each other, per independent review.
 
 ## Rules followed
 
@@ -64,9 +79,9 @@ Errors, with the native descriptions captured for the first time:
 
 ## Findings
 
-1. With the pre-change classifier, **every bill failed (0/24)**, whatever the instruction wording (V1) or token limit (V2). This is mostly `guardrailViolation` ("Response may contain sensitive or unsafe content"). Field extraction on the same kind of text succeeds, and historically it returned kind "bill" in full records. So the block is triggered by a classifier response that is just the bare value "bill".
+1. With the pre-change classifier, **every bill failed (0/24)**, whatever the instruction wording (V1) or token limit (V2). This is mostly `guardrailViolation` ("Response may contain sensitive or unsafe content"). Field extraction on the same kind of text succeeds, and historically it returned kind "bill" in full records. The evidence is consistent with the block being triggered by a classifier response that is just the bare value "bill"; this is an inference, not a demonstrated cause.
 2. Changing the response shape removes the guardrail violations. Labelling bills "statement" (mapped back to "bill") and including the printed heading gives: bills **28/32** across fresh sets (V5 8/8, validation 13/16, PROD 7/8); invoices, receipts, payment confirmations, notices, quotes, menus, price lists and estimates all correct; **0 wrong labels**.
-3. Invoices marked PAID with a zero balance are refused under **both** the old and new designs (V0 0/6; V3 1/6, V4 0/6, V5 0/4). This is a pre-existing limitation, not a regression. Remaining failures are `refusal`, handled as before: stage-1 fields are kept, review is required, and nothing is auto-filed.
+3. Invoices marked PAID with a zero balance are refused under **both** the old and new designs (V0 0/6; V3 1/6, V4 0/6, V5 0/4). This is a pre-existing limitation, not a regression. V3 and V4 each removed the guardrail violations on their own (6/8 bills each). V5 combines them and did best, but samples are small (28/32 bills is roughly a 71–96% interval). Remaining failures are `refusal`, handled as before: stage-1 fields are kept, review is required, and nothing is auto-filed.
 
 This improves candidate typing only. It isn't a formal accuracy result; the 150-fixture and email benchmarks are reported separately.
 
@@ -87,3 +102,9 @@ This improves candidate typing only. It isn't a formal accuracy result; the 150-
 - Signed unit suite: 123 XCTest + 113 Swift Testing PASS, 0 warnings (`build/classifier/unit.log`).
 
 Remaining refusals fail safely: fields are kept, review is required, nothing is auto-filed. This isn't a formal email gate or holdout result.
+
+## Behaviour change to note
+
+Bills that previously always carried `classificationUnavailable` can now be auto-file eligible when every other check passes: confidence ≥ 0.9 and parser agreement, as for any other document.
+
+Independent review: PASS, with no blockers. Its non-blocking suggestions are applied: seeds recorded, a mapping unit test, and the inference wording above.

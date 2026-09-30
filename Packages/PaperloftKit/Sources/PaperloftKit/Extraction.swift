@@ -194,9 +194,10 @@ public struct SystemBackend: ExtractionBackend {
         let classifier = LanguageModelSession(instructions: instructions)
         let classification = try await classifier.respond(to: documentText, generating: ModelDocumentType.self,
                                                           options: GenerationOptions(temperature: 0, maximumResponseTokens: maximumResponseTokens))
-        let kind = classification.content.kind
-        return kind == "statement" ? "bill" : kind
+        return documentKind(fromClassifierLabel: classification.content.kind)
     }
+    /// Map the classifier's response label back to the stored kind.
+    static func documentKind(fromClassifierLabel label: String) -> String { label == "statement" ? "bill" : label }
     private func known(_ value: String) -> String? {
         let value = value.trimmingCharacters(in: .whitespacesAndNewlines)
         return value.isEmpty ? nil : value
