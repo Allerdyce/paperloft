@@ -59,6 +59,8 @@ Signed App Intents are integrated into root as `7f15133` (cherry-pick of `01ccfd
 
 ## Other gates and owner dependencies
 
+- **Live Finder Share (2026-09-29, owner enabled the switch):** two computer-use attempts launched the elected development extension, but its sheet window stayed off-screen (`onscreen=false`, sized to the host window) with an idle main thread; the owner saw no sheet. Blocked, root cause unknown. Details and three next approaches: `evidence/live-share/finder-share-20260929.md`. Switch permission is no longer pending.
+
 - Accessibility18findings unresolved:10contrast,6descriptions,1hierarchy,1action. System TouchBar/emoji and inactive-window effects reproduced independently. Already-primary dark text in saved crops does not justify blind recoloring or a waiver. Current read-only triage `evidence/a11y-probe/intake11-current/read-only-triage.md`. No new evidenced repair. Optional future viewport-clipping diagnostic would be additive, not replacement acceptance.
 - Live Share switch permission pending; no settings change. Real iPhone scan needs owner hardware/TestFlight later.
 - StoreKit component isolated `/Users/builder/Factory/paperloft-commerce` b799b90:SDK27 deprecated header fails strict import;3 approaches exhausted, no suppression/merge.
