@@ -13,8 +13,8 @@
     "App Intents: 7/7 framework tests pass locally; large-ZIP/real Shortcuts transport unmeasured; exports over 100MB rejected via Shortcuts (disclosure pending)",
     "Share: Finder live share verified after sized-view fix (2bdeb32); filename fallback 'Document N', Preview/Photos, sheet accessibility and real iPhone scan remain open.",
     "AC-13: app-owned audit findings cleared; 10 system-owned Touch Bar/emoji/unattributed findings pending verifier/owner decision (PROPOSALS.md)",
-    "StoreKit/App Store Connect products wait on owner DUNS / organization enrollment",
+    "StoreKit/App Store Connect products wait on EvidencePair LLC Apple Developer enrollment (DUNS received 2026-09-30; owner enrolling)",
     "Classifier: residual refusals on PAID/zero-balance invoices and ~15% of bills (safe review fallback); formal email fixture/holdout scoring and live Mail checks incomplete"
   ],
-  "updated": "2026-09-30T04:24:38.516849+00:00"
+  "updated": "2026-09-30T16:29:44.021165+00:00"
 }
