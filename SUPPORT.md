@@ -11,7 +11,7 @@ A Mac with Apple silicon running macOS 27 or later. Understanding documents uses
 No. Everything happens on your Mac, and the app has no network access. See the [privacy policy](PRIVACY.md).
 
 ### 3. Do I need an account?
-No. There's nothing to sign up for and no API key to set up. Choose a library folder and start.
+No. There's nothing to sign up for and no API key to set up. Choose a library folder and start, or choose Try with Samples to practise with made-up receipts in a separate practice library first.
 
 ### 4. Where are my files kept, and what happens to the originals?
 Filed documents are ordinary files in the library folder you choose, sorted into year and category folders and named like `2026-09-18_Office-Depot_74.90.pdf`. By default Paperloft files a copy and leaves your original in place. You can choose Move in Settings › Filing. Paperloft never overwrites a file. Deleting from the Library moves a document to Recently Deleted rather than erasing it.
@@ -31,7 +31,7 @@ Any of these:
 With Paperloft Pro, a watched folder (Settings › General › Watched folder) sends new files to your Inbox automatically.
 
 ### 7. Why does a document say "Issue" or ask me to check a field?
-Every document waits in the Inbox for your confirmation; nothing is filed without it. Paperloft highlights fields it couldn't read confidently, totals it couldn't verify against the document, and documents whose type it couldn't determine. Correct anything that's wrong, then press Return or click Confirm to file it. Remove sets a document aside without filing it.
+Every document waits in the Inbox for your confirmation; nothing is filed without it. Paperloft highlights fields it couldn't read confidently, totals it couldn't verify against the document, and documents whose type it couldn't determine. Correct anything that's wrong, then press Return or click Confirm to file it. Remove sets a document aside without filing it. The Receipt menu has the same actions, plus Next and Previous Document (⌘] and ⌘[) for moving through the Inbox.
 
 ### 8. Can I undo a filing?
 Yes. Every filing batch is listed in History and can be undone. Edit › Undo Last Filing (⌘Z) undoes the most recent one. Undo restores files to where they were, including originals you chose to move.

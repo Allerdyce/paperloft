@@ -49,6 +49,26 @@ struct PaperloftApp: App {
                     .keyboardShortcut("v", modifiers: [.command, .shift])
                     .accessibilityIdentifier("command.pasteImage")
             }
+            // Receipt actions as menu commands. Remove has no shortcut and navigation avoids ⌘↑/⌘↓,
+            // because those keys edit text while a review field is focused.
+            CommandMenu("Receipt") {
+                Button("Confirm and File") { Task { await model.fileSelected() } }
+                    .keyboardShortcut(.return, modifiers: .command)
+                    .disabled(!model.canFile || model.selectedItem == nil)
+                    .accessibilityIdentifier("command.confirm")
+                Button("Remove from Inbox") { if let id = model.selectedItem?.id { model.setAside(id) } }
+                    .disabled(model.selectedItem == nil)
+                    .accessibilityIdentifier("command.remove")
+                Divider()
+                Button("Next Document") { model.selectAdjacentItem(1) }
+                    .keyboardShortcut("]", modifiers: .command)
+                    .disabled(model.inboxCount < 2)
+                    .accessibilityIdentifier("command.nextDocument")
+                Button("Previous Document") { model.selectAdjacentItem(-1) }
+                    .keyboardShortcut("[", modifiers: .command)
+                    .disabled(model.inboxCount < 2)
+                    .accessibilityIdentifier("command.previousDocument")
+            }
             CommandGroup(replacing: .help) {
                 Button("Paperloft Help") { openWindow(id: "help") }
                     .accessibilityIdentifier("command.help")
