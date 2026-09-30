@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "2026-09-30: AC-20 docs/Help merged; concurrent classification merged (5-10%); AC-10 still fails (extraction ~2.56 s/doc). Next: AC-17 QA personas and AC-16 critique (need exclusive GUI time; buyer/paywall need commerce). Owner: org enrollment (DUNS received).",
+  "step": "AC-16 critique done and P1 theme bug fixed; HIG redesign and icon contrast await owner decisions. AC-17 personas need an owner-present screen-control approval. Owner: membership conversion pending with Apple.",
   "last_green_commit": "d9454df",
   "parked": [
     "Formal acceptance tag and release gates deferred",
@@ -16,5 +16,5 @@
     "StoreKit/App Store Connect products wait on EvidencePair LLC membership conversion (owner submitted Apple's individual-to-organization migration request 2026-09-30; awaiting confirmation)",
     "Classifier: residual refusals on PAID/zero-balance invoices and ~15% of bills (safe review fallback); formal email fixture/holdout scoring and live Mail checks incomplete"
   ],
-  "updated": "2026-09-30T17:58:26.599528+00:00"
+  "updated": "2026-09-30T20:03:38.178816+00:00"
 }
