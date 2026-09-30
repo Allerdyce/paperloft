@@ -7,7 +7,6 @@ struct PaperloftApp: App {
     @State private var model: AppModel
     @Environment(\.openWindow) private var openWindow
     @AppStorage("appearance") private var appearance = "System"
-    private var colorScheme: ColorScheme? { appearance == "Light" ? .light : appearance == "Dark" ? .dark : nil }
     init() {
         let sharedModel = AppModel()
         _model = State(initialValue: sharedModel)
@@ -19,7 +18,7 @@ struct PaperloftApp: App {
     var body: some Scene {
         Window("Paperloft Receipts", id: "main") {
             LibraryView(model: model)
-                .preferredColorScheme(colorScheme)
+                .modifier(AppAppearance())
                 .background(WindowAccessibility(label: "Paperloft workspace"))
                 .task {
                     model.openInboxWindow = { openWindow(id: "main") }
@@ -60,11 +59,11 @@ struct PaperloftApp: App {
                 .accessibilityIdentifier("command.undo")
             }
         }
-        Window("Paperloft Help", id: "help") { HelpView().preferredColorScheme(colorScheme) }
+        Window("Paperloft Help", id: "help") { HelpView().modifier(AppAppearance()) }
             .defaultSize(width: 640, height: 720)
-        Settings { PaperloftSettings(model: model).preferredColorScheme(colorScheme).background(WindowAccessibility(label: "Paperloft settings")) }
+        Settings { PaperloftSettings(model: model).modifier(AppAppearance()).background(WindowAccessibility(label: "Paperloft settings")) }
         MenuBarExtra {
-            MenuBarInbox(model: model).preferredColorScheme(colorScheme)
+            MenuBarInbox(model: model).modifier(AppAppearance())
         } label: {
             Label("Paperloft · \(model.inboxCount) in inbox", systemImage: "tray")
                 .accessibilityIdentifier("menubar.status")
@@ -103,5 +102,25 @@ struct MenuBarInbox: View {
                 .accessibilityIdentifier("menubar.import")
         }
         .padding(20).frame(width: 300)
+    }
+}
+
+/// Applies Settings › Appearance app-wide through AppKit. `preferredColorScheme(nil)` doesn't reliably clear a
+/// window's forced appearance on macOS, so switching Dark back to System left windows unreadable until reopened.
+struct AppAppearance: ViewModifier {
+    @AppStorage("appearance") private var appearance = "System"
+    func body(content: Content) -> some View {
+        content
+            .onAppear { apply() }
+            .onChange(of: appearance) { apply() }
+    }
+    private func apply() {
+        let named: NSAppearance.Name? = appearance == "Dark" ? .darkAqua : appearance == "Light" ? .aqua : nil
+        NSApplication.shared.appearance = named.flatMap { NSAppearance(named: $0) }
+        for window in NSApplication.shared.windows {
+            window.appearance = nil
+            window.contentView?.needsDisplay = true
+            window.invalidateShadow()
+        }
     }
 }

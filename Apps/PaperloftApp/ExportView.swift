@@ -27,7 +27,7 @@ struct ExportView: View {
             }
             if let result = model.exportResult {
                 Label("Export complete", systemImage: "checkmark.circle.fill").font(.headline).foregroundStyle(Color.accentColor)
-                Text("\(result.documentCount) documents copied, with transactions.csv and summary.pdf.")
+                Text("\(result.documentCount) \(result.documentCount == 1 ? "document" : "documents") copied, with transactions.csv and summary.pdf.")
                     .accessibilityIdentifier("export.result")
                 Text(result.folderURL.path).font(.callout).textSelection(.enabled)
                 HStack {
@@ -65,7 +65,7 @@ struct ExportView: View {
                 Text("Only filed receipts dated within this period are included. Dates are inclusive; finish reviewing and filing inbox receipts first.").font(.callout)
                 Text("Currencies stay separate. Missing tax stays blank in the CSV and is counted as unknown in the summary. This pack does not calculate deductions or file a tax return.")
                     .font(.callout).foregroundStyle(.secondary)
-                if range == nil { Text("Enter a valid year or date range.").foregroundStyle(.orange).accessibilityIdentifier("export.validation") }
+                if range == nil && !(period == "Custom" && start.isEmpty && end.isEmpty) { Text("Enter a valid year or date range.").foregroundStyle(.orange).accessibilityIdentifier("export.validation") }
             }
             HStack {
                 Button(model.exportResult == nil ? "Cancel" : "Done") { dismiss() }
