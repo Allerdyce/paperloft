@@ -46,8 +46,15 @@ import PaperloftKit
             precondition(withReceipt.candidates[1].review?.assessment.canAutoFile == false)
             let withoutReceipt = try await MailReviewPreparation.prepare(attachments: [unresolved], body: body,
                 understand: prepare, prepareBody: { _ in renderedBodies += 1 })
-            precondition(withoutReceipt.candidates.map(\.source) == [body, unresolved])
-            precondition(withoutReceipt.candidates[1].review?.fields.total == "40.25")
+            // A read financial document stays routing-positive despite failed refinement; a negative does not.
+            let failedFinancial = failedKind == "invoice"
+            precondition(withoutReceipt.candidates.map(\.source) == (failedFinancial ? [unresolved] : [body, unresolved]))
+            precondition(renderedBodies == (failedFinancial ? 0 : 1))
+            let failedCandidate = withoutReceipt.candidates.last?.review
+            precondition(failedCandidate?.fields.total == "40.25")
+            precondition(failedCandidate?.fields.classificationError == failure.classificationError)
+            precondition(failedCandidate?.assessment.canAutoFile == false)
+            precondition(failedCandidate?.assessment.reasons.contains(.classificationUnavailable) == true)
             renderedBodies = 0
         }
         print("Diagnostic status and unresolved candidate regressions PASS; raw partial fields retained, failures counted separately, no model invoked.")
