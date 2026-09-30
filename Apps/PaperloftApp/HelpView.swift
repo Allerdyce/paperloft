@@ -31,7 +31,7 @@ struct HelpView: View {
             "History lists each filing. Undo any of them there, or choose Edit › Undo Last Filing (⌘Z) for the most recent one."
         ]),
         Topic(id: "export", title: "Accountant pack and Shortcuts", symbol: "square.and.arrow.up", lines: [
-            "In Library, choose Tax & Accountant Export… for a summary PDF, a CSV and the documents by category, optionally as a ZIP.",
+            "In Library, choose Tax & Accountant Export…, or choose File › Export for Accountant… (⇧⌘E), for a summary PDF, a CSV and the documents by category, optionally as a ZIP.",
             "Shortcuts offers File Document, Open Inbox, Total Spent and Export Accountant Pack. Export Accountant Pack needs Paperloft Pro and returns packs up to 100 MB; export larger packs from the app.",
             "Categories are for organizing records. Paperloft doesn't give tax advice."
         ]),
