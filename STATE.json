@@ -1,6 +1,6 @@
 {
   "phase": "P3",
-  "step": "Session 2026-09-29 (lead mode): full CI baseline (only the audit fails); follow-ups merged; accessibility app-owned findings cleared (72ce749), 10 system-owned remain pending PROPOSALS decision. Next: classifier reliability (bounded, no safety bypass), then throughput, then formal gates. StoreKit/App Store Connect parked on owner DUNS enrollment.",
+  "step": "Classifier fix merged (bill label guardrail false positive). Next: residual paid-invoice refusals (bounded, single-use probes only) or throughput; then formal gates. StoreKit parked on DUNS; AC-13 system findings pending proposal.",
   "last_green_commit": "d9454df",
   "parked": [
     "Formal acceptance tag and release gates deferred",
@@ -9,12 +9,12 @@
     "System throughput exceeds240s; required signpost collection unavailable after three approaches",
     "Icon16px tray contrast scored3/5; minimalcontrastproposal retained, fullAC16 incomplete",
     "Real receipt targeted recheck: two cases improved after PDF fix; pickup confirmation still selected without a total. Broader unsupported amount, merchant and date findings need follow-up.",
-    "1.1 system-model classification reliability, formal email fixture/holdout scoring and live Mail/Share checks incomplete; owned intake is implemented and locally tested",
     "Sandboxed WebKit content process terminates without network entitlement; native CoreText fallback verified and documented as implementation deviation",
     "App Intents: 7/7 framework tests pass locally; large-ZIP/real Shortcuts transport unmeasured; exports over 100MB rejected via Shortcuts (disclosure pending)",
     "Share: Finder live share verified after sized-view fix (2bdeb32); filename fallback 'Document N', Preview/Photos, sheet accessibility and real iPhone scan remain open.",
     "AC-13: app-owned audit findings cleared; 10 system-owned Touch Bar/emoji/unattributed findings pending verifier/owner decision (PROPOSALS.md)",
-    "StoreKit/App Store Connect products wait on owner DUNS / organization enrollment"
+    "StoreKit/App Store Connect products wait on owner DUNS / organization enrollment",
+    "Classifier: residual refusals on PAID/zero-balance invoices and ~15% of bills (safe review fallback); formal email fixture/holdout scoring and live Mail checks incomplete"
   ],
-  "updated": "2026-09-30T02:36:04.567169+00:00"
+  "updated": "2026-09-30T04:03:18.662775+00:00"
 }

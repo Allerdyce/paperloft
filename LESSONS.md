@@ -43,3 +43,9 @@
 - The Xcode macOS UI-test runner is sandboxed by its standard entitlements; URL-backed IntentFile results failed there on sandbox-extension consumption, while bounded Data-backed results pass.
 - A mutation check (temporarily restoring old code) is a cheap way to prove new regression tests discriminate.
 - Integrate isolated components in a fresh worktree from the current root; preserve cosmetic root dirt via a saved patch and verify semantic equality.
+
+- Check ACCEPTANCE.lock before editing any existing test file; add new test files instead. An edit to the frozen ExtractionTests.swift was caught and reverted before commit.
+- Capture native FoundationModels error descriptions: "guardrailViolation" versus "refusal" pointed at the output rather than the input.
+- Probe model behaviour with new, single-use synthetic inputs and disjoint arms; that respects no-retry/no-resubmission rules and still isolates causes.
+- A bare enum response ("bill") can trip the output guardrail on benign text; changing the response shape (label plus heading) avoided it without touching guardrails.
+- The Settings audit and live UI runs need a clear screen: the Claude window and stray app instances can cover test targets.
