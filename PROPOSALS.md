@@ -30,3 +30,24 @@ A standalone SwiftUI app with no Paperloft code reproduces all three on this mac
 **Proposal:** that the verifier and owner decide whether AC-13's "audit passes" may treat issues on system Touch Bar elements, which the app doesn't own and can't label, as platform findings. Evidence would include a reproduction in a minimal app. Alternatively, a supported way to suppress the automatic text-field Touch Bar items may be found.
 
 **Meanwhile:** the audit test keeps failing on them. The handler returns false, and no audit type or element is filtered.
+
+## 2026-09-30: AC-10 throughput target versus on-device model speed (owner decision)
+
+AC-10 asks for 100 mixed documents understood in ≤ 240 s with the system model, about 2.4 s each including OCR.
+
+**Measured:**
+- Field extraction alone averages about 2.56 s and the document-type classifier about 1.36 s. Run concurrently (adopted), a document takes about 3.1–3.6 s of model time, roughly 340–360 s per 100. OCR adds about 0.2 s.
+- Short synthetic documents still take about 2.8 s.
+
+**Tried:**
+- prewarming (rejected earlier)
+- concurrent classification (5–10% faster, adopted; `evidence/performance/concurrent-classification-20260930.md`)
+- understanding two documents at once (no gain, because the model serializes sessions; `evidence/performance/concurrency-probe-20260930.md`)
+
+The 240 s target can't be reached by scheduling. What's left changes what the model is asked, and each option needs a full AC-03 accuracy re-run:
+1. **Keep the current pipeline and relax AC-10** to about 400 s per 100 documents on this Mac. Accuracy stays as scored: total 99.26%, kind 99.33%.
+2. **Drop the separate classifier call** and take the document type from field extraction. This saves roughly 0.5–1.0 s per document. The classifier was added for invoice/bill/receipt accuracy and the bill guardrail workaround, so kind accuracy may fall.
+3. **Leaner extraction schema:** shorter guides, and no model-generated confidence. The saving is likely small, since earlier prompt changes moved totals.
+
+Recommendation: option 1. Documents are processed in the background with progress shown, and accuracy matters more than about a minute per 100 documents. The acceptance criterion is frozen, so this needs your decision; nothing has been changed.
+
