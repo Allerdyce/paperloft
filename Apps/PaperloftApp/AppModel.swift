@@ -1453,3 +1453,18 @@ final class FileGrant: @unchecked Sendable {
         catch { message = "The inbox could not be saved. Your originals are unchanged. " + error.localizedDescription }
     }
 }
+
+/// Plain-language reasons a document needs a look, for Issues that no field message explains.
+enum ReviewExplanation {
+    static func summary(for reasons: [ReviewReason]) -> String? {
+        var parts: [String] = []
+        if reasons.contains(.lowConfidence) { parts.append("The reading is uncertain.") }
+        if reasons.contains(.parserDisagreement) { parts.append("Two independent readings of this document didn't agree.") }
+        if reasons.contains(.parserUnavailable) { parts.append("Paperloft couldn't cross-check the date and total.") }
+        if reasons.contains(.taxSourceUnverified) { parts.append("The tax amount couldn't be matched to the document.") }
+        if reasons.contains(.classificationUnavailable) { parts.append("The document type couldn't be confirmed.") }
+        if reasons.contains(.emailDateHint) || reasons.contains(.emailVendorHint) { parts.append("Some details came from the email rather than the receipt.") }
+        guard !parts.isEmpty else { return nil }
+        return "Worth a check: " + parts.joined(separator: " ") + " Compare the fields with the document, then confirm."
+    }
+}

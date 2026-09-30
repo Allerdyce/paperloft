@@ -26,3 +26,11 @@
 | QA-07 | P2 | Messy data | Rename the library folder in Finder, then file | The security-scoped bookmark follows the rename, or the stale path updates | Filing is refused until the folder is chosen again; the sidebar and Settings show the old name |
 | QA-08 | P2 | Keyboard-only | Return on a flagged total (document-044) | A flagged total needs a deliberate confirmation | Return files it (41.65 against an actual 39.31) |
 | QA-09 | — | Keyboard-only | ⌘O in the Inbox | Opens Import Receipts… | **Not a bug:** Import Receipts… is ⌘I; ⌘O was the wrong key to try. Withdrawn. |
+
+**QA status (2026-09-30):**
+- **Fixed:** QA-01 Try with Samples, QA-02 readable pack names, QA-03 keyboard library choice (all a7bd99d); QA-04 Issue explanation and QA-06 non-receipt note (this change).
+- **Open (P2):**
+  - QA-05 email attachment display name: needs the sanitized sender filename threaded into the Inbox display name; path naming stays UUID by security design.
+  - QA-07 follow a renamed library via the bookmark.
+  - QA-08 extra confirmation for flagged totals.
+- **Withdrawn:** QA-09.

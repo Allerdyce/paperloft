@@ -391,6 +391,13 @@ struct ReviewView: View {
         }
         return nil
     }
+    /// QA-04: an Issue with no field message still says why it needs a look.
+    private var unexplainedIssueSummary: String? {
+        guard let reasons = item.review?.assessment.reasons, inboxDisplayStatus(item) == "Issue",
+              !reasons.contains(.notReceipt),
+              ["vendor", "date", "total", "tax", "currency", "category", "kind"].allSatisfy({ fieldMessage($0) == nil }) else { return nil }
+        return ReviewExplanation.summary(for: reasons)
+    }
     private func fieldMessage(_ field: String) -> String? {
         let currency = draft.currency.uppercased().trimmingCharacters(in: .whitespaces)
         let validCurrency = (try? Money(minorUnits: 0, currency: currency)) != nil
@@ -441,6 +448,12 @@ struct ReviewView: View {
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 7) {
                     Text("Review document").font(.title3.weight(.semibold))
+                    if item.review?.assessment.reasons.contains(.notReceipt) == true {
+                        // QA-06: say plainly that the reader judged this not to be a financial document.
+                        Label("This doesn't look like a receipt, invoice or bill. Remove it, or choose a document type and fill in the details if it is one.",
+                              systemImage: "questionmark.folder").font(.callout).foregroundStyle(.primary)
+                            .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("review.notReceipt")
+                    }
                     if let duplicate = item.review?.duplicate {
                         Label("Already filed: \(duplicate)", systemImage: "doc.on.doc").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.duplicate")
                     }
@@ -487,6 +500,10 @@ struct ReviewView: View {
                 .onSubmit { Task { await model.fileSelected() } }
                 if let error = model.templateError {
                     Text(error).font(.caption).foregroundStyle(.orange).accessibilityIdentifier("review.validation")
+                }
+                if let why = unexplainedIssueSummary {
+                    Label(why, systemImage: "info.circle").font(.callout).foregroundStyle(.primary)
+                        .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("review.why")
                 }
                 Spacer(minLength: 0)
                 Text("Files into \(String(draft.date.prefix(4)))/\(draft.category)/")
@@ -1028,3 +1045,4 @@ private struct ReceiptCalendar: View {
         }
     }
 }
+
