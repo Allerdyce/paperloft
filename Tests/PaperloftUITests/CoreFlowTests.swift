@@ -113,10 +113,27 @@ final class CoreFlowTests: XCTestCase {
             app.buttons["sidebar." + section].click()
             try audit(app)
         }
+        // Audit Settings as the only window, every pane. While Settings is open the audit also
+        // inspects the main window behind it, even minimized, and measures its elements against
+        // whatever pixels cover them (evidence/a11y-probe/intake11-current/settings-isolation.md).
+        // The main window's screens are audited above while active and unobstructed.
+        app.typeKey("w", modifierFlags: .command)
         app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
         try audit(app)
+        for pane in ["Filing", "Categories"] {
+            let tab = app.toolbars.buttons[pane]
+            XCTAssertTrue(tab.waitForExistence(timeout: 5), "Settings pane \(pane)")
+            tab.click()
+            try audit(app)
+        }
         app.typeKey("w", modifierFlags: .command)
+        app.typeKey(",", modifierFlags: .command)
+        XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10), "Settings reopens on General")
+        app.typeKey("w", modifierFlags: .command)
+        app.menuBars.menuBarItems["Window"].click()
+        app.menuBars.menuBarItems["Window"].menuItems["Paperloft Receipts"].click()
+        XCTAssertTrue(app.buttons["sidebar.inbox"].waitForExistence(timeout: 10))
         app.buttons["sidebar.inbox"].click(); app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
         try audit(app)
