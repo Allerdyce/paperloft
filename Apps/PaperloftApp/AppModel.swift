@@ -227,7 +227,15 @@ final class FileGrant: @unchecked Sendable {
          retirementSnapshotWriter: ((Data, URL) throws -> Void)? = nil,
          retirementBeforeDiscard: (@MainActor () async -> Void)? = nil) {
         testMode = Self.argument("-PaperloftUITestMode") == "YES"
-        preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")! : .standard)
+        // QA-only: `-PaperloftQAProfile <name>` gives a persona session its own settings and app data,
+        // so it starts from first launch without touching other builds' state (Debug/QA builds only).
+        #if DEBUG || QA
+        let qaProfile = Self.argument("-PaperloftQAProfile").flatMap { $0.range(of: "^[A-Za-z0-9-]{1,32}$", options: .regularExpression) != nil ? $0 : nil }
+        #else
+        let qaProfile: String? = nil
+        #endif
+        preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")!
+            : qaProfile.map { UserDefaults(suiteName: "app.paperloft.receipts.QA.\($0)")! } ?? .standard)
         self.proEntitlement = proEntitlement
         self.extractionBackend = extractionBackend
         mailCommitOverride = mailCommit; snapshotWriterOverride = intakeSnapshotWriter ?? mailSnapshotWriter
@@ -238,7 +246,7 @@ final class FileGrant: @unchecked Sendable {
         scannedPages = ScannedPages(rawValue: preferences.string(forKey: "scannedPages") ?? "") ?? .separate
         mode = FilingMode(rawValue: preferences.string(forKey: "filingMode") ?? "copy") ?? .copy
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        support = suppliedSupport ?? base.appendingPathComponent(testMode ? "Paperloft-UI" : "Paperloft", isDirectory: true)
+        support = suppliedSupport ?? base.appendingPathComponent(testMode ? "Paperloft-UI" : qaProfile.map { "Paperloft-QA-\($0)" } ?? "Paperloft", isDirectory: true)
         let ownershipKey = support.standardizedFileURL.path
         Self.liveInboxModels[ownershipKey, default: []].removeAll { $0.model == nil }
         Self.liveInboxModels[ownershipKey, default: []].append(WeakInboxModel(self))
