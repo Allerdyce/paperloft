@@ -17,6 +17,13 @@ Steps 1–4 clear them, step 5 covers the manual confirmations, and step 6 is th
 
 ## Step 1: EvidencePair LLC's Apple Developer membership (the DUNS dependency)
 
+> **Status (2026-09-30):** D-U-N-S received. You chose to **convert** the individual membership (team GQ4UA5C6RQ) and submitted Apple's migration request; Apple's confirmation is pending. When it arrives:
+> - accept any updated agreements at developer.apple.com
+> - check Account › Membership details: the entity should be EvidencePair LLC, and note whether the Team ID is still GQ4UA5C6RQ
+> - continue with step 2
+>
+> Tell the agent the result. If the Team ID changed, the agent updates the project's development signing config.
+
 Everything else (Team ID, certificates, API key, app record) belongs to this membership, so do it first.
 
 1. **D-U-N-S Number.** Look it up or request it at <https://developer.apple.com/enroll/duns-lookup/>.
