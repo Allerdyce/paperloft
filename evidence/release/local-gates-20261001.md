@@ -10,7 +10,9 @@ These are the agent's own pre-checks. They don't replace the independent verifie
 | AC-05: parser alone, date and total ≥ 90% | **PASS** | `scripts/eval.sh --model parser`: date 99.26%, total 99.26%. The frozen scorer also prints the P1 difficulty diagnostic (parser total above 98%). The P2 verifier already accepted that: the fixture set passed difficulty when it was locked at P1, and the parser improved later. |
 | AC-11: UI and purchase flows | **Local PASS, with one owner decision open** | PaywallFlowTests covers the paywall at document 26, buy yearly, buy lifetime, restore, expiry back to Free, and the export paywall, using the Debug/QA mock store. CommerceModelTests covers the model. StoreKitTest unit tests remain blocked by Apple's deprecated header (PROPOSALS.md). |
 | AC-13: accessibility audit | **PASS** under the 2026-10-01 amendment | Only the 10 system-owned findings are excused, and each is attached as evidence. |
-| AC-18: release materials | **Drafts ready** | `release/metadata.md`, plus five 2880 × 1800 screenshots and the paywall review image in `release/screenshots/`. The site changes are on the local `paperloft-site` branch `release/receipts-1.0-copy`, not published. App Store Connect entry waits on the membership. |
+| AC-18: release materials | **Drafts ready** | `release/metadata.md`, plus five 2880 × 1800 screenshots and the paywall review image in `release/screenshots/`. The site changes are on the local `paperloft-site` branch `release/receipts-1.0-copy`, not published. A local preview of `/receipts/` and `/support/` at desktop and 375 pt phone width showed every image loading, no console errors and no sideways scrolling. App Store Connect entry waits on the membership. |
 | AC-20: docs | **Kept current** | Help has a new "Free and Pro" topic, and SUPPORT FAQs 3 and 9 cover Free and Pro. |
 
-Still open: AC-04 (the verifier's fresh holdout), AC-10's formal measurement under the new 400 s target, AC-16 and AC-17 (critic and personas), AC-19 (upload, after the membership), and AC-21.
+AC-10 passes locally on time, main-thread stalls and memory (`evidence/performance/AC-10-2026-10-01.md`); its signpost metric needs a run with system-log access.
+
+Still open: AC-04 (the verifier's fresh holdout), the AC-10 signpost evidence, AC-16 and AC-17 (critic and personas), AC-19 (upload, after the membership), and AC-21.
