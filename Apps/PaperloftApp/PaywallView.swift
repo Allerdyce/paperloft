@@ -38,7 +38,8 @@ struct PaywallView: View {
                 Link("Manage Subscriptions", destination: URL(string: "https://apps.apple.com/account/subscriptions")!).accessibilityIdentifier("paywall.manage")
             }.font(.caption)
             #if DEBUG || QA
-            if store.isMock {
+            // `-PaperloftScreenshotMode YES` hides the mock panel so review screenshots show the real paywall.
+            if store.isMock && AppModel.argument("-PaperloftScreenshotMode") != "YES" {
                 // Debug/QA mock store only: always expanded so testers and UI tests can drive outcomes.
                 GroupBox("Mock store controls") {
                     Picker("Purchase outcome", selection: $store.mockOutcome) {
