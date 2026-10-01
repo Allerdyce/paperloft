@@ -56,3 +56,6 @@
 - XCUI reports the main window as "Disabled" even in passing runs. Don't gate a test on a window's `enabled` value.
 - Wrapping text in List rows inside an HSplitView can feed back into split-view layout and raise AppKit's "Update Constraints in Window pass" exception. Keep row text single-line when row height would depend on pane width.
 - Features that change persisted state (for example Undo returning documents to the Inbox) change what the next UI test launches into. Rerun the full suite in order, not just the new test.
+- Load Development Receipts adds documents one at a time. Tests that count rows, pick a filter or open a menu right after it must wait for the Inbox to settle (`waitForInboxToSettle()`: Processing at 0 and the All count steady).
+- Choosing Load Development Receipts before startup finishes is refused as busy ("Wait for the current operation…"). Create the sample library through Settings first, which waits for startup.
+- When many unrelated UI tests fail at once with "Not hittable", look at the last frame of the screen recording before changing tests. On 2026-10-01 a macOS password prompt for a Claude app update covered the window; agents must not answer it.
