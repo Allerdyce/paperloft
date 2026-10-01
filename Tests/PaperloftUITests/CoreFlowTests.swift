@@ -161,7 +161,7 @@ final class CoreFlowTests: XCTestCase {
     /// the app doesn't create — Touch Bar items, the emoji & symbols popup, and issues XCTest
     /// attributes to no element — don't fail the audit. A minimal non-Paperloft app reproduces all of
     /// them (evidence/a11y-probe/intake11-current/settings-isolation.md). Anything on an app element fails.
-    private static func isSystemOwned(_ issue: XCUIAccessibilityAuditIssue) -> Bool {
+    @MainActor private static func isSystemOwned(_ issue: XCUIAccessibilityAuditIssue) -> Bool {
         guard let element = issue.element else { return true }
         if element.elementType == .touchBar || element.label.localizedCaseInsensitiveContains("emoji & symbols") { return true }
         // Touch Bar descendants: XCTest describes their path from the TouchBar element.
