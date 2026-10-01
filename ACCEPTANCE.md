@@ -13,10 +13,10 @@ Frozen at tag `acceptance-v1`. The run is done when the verifier's `evidence/gat
 | AC-07 | 1,000 randomized file operations: nothing overwritten or deleted; originals byte-identical in copy mode; undo restores every path and hash | Property tests | P2 |
 | AC-08 | App killed mid-batch: on relaunch no file is lost or duplicated, and the journal completes or rolls back | Integration test with a forced kill | P2 |
 | AC-09 | Empty file, corrupt PDF, locked PDF, 50-megapixel image, 200-page PDF, non-receipt, missing library, stale bookmark: each gets a clear message, no crash, no hang | `ResilienceTests` | P6 |
-| AC-10 | 100 mixed documents understood in ≤ 240 s with the system model (≤ 30 s parser-only); no main-thread hang over 250 ms; peak memory under 600 MB | XCTest metrics and signposts | P6 |
+| AC-10 | 100 mixed documents understood in ≤ 400 s with the system model (≤ 30 s parser-only); no main-thread hang over 250 ms; peak memory under 600 MB | XCTest metrics and signposts | P6 |
 | AC-11 | UI flows with the stub model: samples to first filed document, keyboard-only review, edit, undo, search, export, paywall at document 26, buy yearly, buy lifetime, restore, expiry back to Free | XCUITest suite plus StoreKit tests | P3 and P5 |
 | AC-12 | Accountant pack: CSV parses cleanly; row count matches the range; category totals match to the cent; `summary.pdf` opens and agrees with the CSV; every listed file exists | `ExportTests` | P4 |
-| AC-13 | Accessibility audit passes on every main screen; every control reachable by keyboard and labelled for VoiceOver | UI tests with `performAccessibilityAudit()` | P6 |
+| AC-13 | Accessibility audit passes on every main screen, except findings on system-owned elements the app doesn't create (Touch Bar items, the emoji & symbols popup, unattributed issues) that a minimal non-Paperloft app reproduces; every control reachable by keyboard and labelled for VoiceOver | UI tests with `performAccessibilityAudit()` | P6 |
 | AC-14 | No outgoing network entitlement (or an exception documented in `REPORT.md`); Apple frameworks only per `otool -L`; no `Package.resolved`; privacy manifest present | `scripts/privacy_check.sh` | P6 |
 | AC-15 | Every App Intent passes App Intents Testing framework tests | Intent tests | P4 |
 | AC-16 | `critic` scores 4 of 5 or better on every rubric line for every main screen | `evidence/design/` critique with screenshots | P7 |
@@ -41,3 +41,10 @@ The builder writes a generator that renders receipts with ground-truth labels: a
 ## Evidence
 
 Every PASS names its evidence: the command and exit code, test IDs, `.xcresult` path, eval scores, screenshot paths, or API responses. A criterion with no evidence is a FAIL.
+
+## Owner-approved amendments (2026-10-01)
+
+Ali approved these in chat on 2026-10-01, before the `acceptance-v1` tag was created. Evidence and options are in `PROPOSALS.md`.
+- **AC-10:** the system-model target is 400 s per 100 documents (was 240 s). On-device model speed sets the floor; scheduling changes were measured and don't close the gap.
+- **AC-13:** audit findings on system-owned elements the app doesn't create (Touch Bar items, the emoji & symbols popup, issues XCTest attributes to no element) don't count against "passes", provided a minimal non-Paperloft app reproduces them. Every finding on an app element still fails the audit.
+

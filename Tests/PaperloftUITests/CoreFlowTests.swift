@@ -148,11 +148,24 @@ final class CoreFlowTests: XCTestCase {
     @MainActor
     private func audit(_ app: XCUIApplication) throws {
         try app.performAccessibilityAudit { issue in
-            let detail = XCTAttachment(string: issue.detailedDescription + "\n" + (issue.element?.debugDescription ?? "No element"))
-            detail.name = "Accessibility issue details"; detail.lifetime = .keepAlways
+            let description = issue.element?.debugDescription ?? "No element"
+            let systemOwned = Self.isSystemOwned(issue)
+            let detail = XCTAttachment(string: issue.detailedDescription + "\n" + description)
+            detail.name = systemOwned ? "System-owned accessibility finding (AC-13 exception)" : "Accessibility issue details"
+            detail.lifetime = .keepAlways
             self.add(detail)
-            return false
+            return systemOwned
         }
+    }
+    /// ACCEPTANCE.md AC-13 (owner-approved amendment, 2026-10-01): findings on system-owned elements
+    /// the app doesn't create — Touch Bar items, the emoji & symbols popup, and issues XCTest
+    /// attributes to no element — don't fail the audit. A minimal non-Paperloft app reproduces all of
+    /// them (evidence/a11y-probe/intake11-current/settings-isolation.md). Anything on an app element fails.
+    @MainActor private static func isSystemOwned(_ issue: XCUIAccessibilityAuditIssue) -> Bool {
+        guard let element = issue.element else { return true }
+        if element.elementType == .touchBar || element.label.localizedCaseInsensitiveContains("emoji & symbols") { return true }
+        // Touch Bar descendants: XCTest describes their path from the TouchBar element.
+        return element.debugDescription.contains("TouchBar")
     }
 
 }
