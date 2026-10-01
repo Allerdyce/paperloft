@@ -32,6 +32,16 @@
 - **Fixed later on 2026-09-30:**
   - QA-05: attachments show the sender's sanitized filename; staged paths stay UUIDs.
   - QA-08: Return on an unverified total moves focus to the total instead of filing. Clicking Confirm or pressing ⌘Return files it, and a corrected total can be confirmed with Return.
-  - QA-07: a renamed or moved library folder is followed through its bookmark, both at launch (the stale bookmark is renewed) and while open (on activation and before filing). The search index rebuilds for the new path. Unit tests cover it outside the sandbox; a live Finder rename in the sandboxed app is still to be checked.
+  - QA-07: a renamed or moved library folder is followed through its bookmark, both at launch (the stale bookmark is renewed) and while open (on activation and before filing). The search index rebuilds for the new path. Unit tests cover it outside the sandbox, and LibraryRenameUITests checks a rename in the sandboxed app.
 - **Open (P2):** none.
+
+**Second design review (2026-09-30-r2, `evidence/design/2026-09-30-r2-critique.md`):**
+
+| ID | Severity | Found | Problem | Status |
+|---|---|---|---|---|
+| R2-01 | P1 | critic | Undo from History made the receipt disappear (in neither Library nor Inbox) | **Fixed:** Undo returns it to the Inbox with the confirmed values; History says "Returned to the Inbox for review" and offers Show in Inbox |
+| R2-02 | P1 | critic | Remove from Inbox was silent and couldn't be undone | **Fixed:** Edit › Undo (⌘Z), plus a "Removed … · Undo" notice; bulk removal is one undo step |
+| R2-03 | P1 | lead, while fixing R2-01 | ⌘Z was hard-wired to "Undo Last Filing", so undoing a typo in a review field undid the previous filing | **Fixed:** standard Undo/Redo restored; filing and removal register with the window's undo manager, so text fields undo typing first |
+| R2-04 | P2 | critic | No feedback after Confirm; selection jumped to the top row | **Fixed:** "Filed to 2026/…/ · Undo" notice; the next row in list order is selected |
+| R2-05 | P2 | critic | One ↓ in the Inbox list moved focus into Vendor | **Fixed:** review only takes focus when the list doesn't have it |
 - **Withdrawn:** QA-09.
