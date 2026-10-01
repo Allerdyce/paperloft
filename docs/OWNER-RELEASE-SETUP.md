@@ -109,6 +109,8 @@ At <https://appstoreconnect.apple.com>, signed in as the LLC's Account Holder:
    chmod 600 ~/Factory/.secrets/asc.env && chmod 700 ~/Factory/.secrets
    ```
 
+> **Status (2026-10-01):** steps 5 and 6.1–6.2 are done. Focus and permissions are confirmed by you. The GitHub rulesets are set. `acceptance-v1` is tagged on `770d6db`, after the approved AC-10/AC-13 amendments, and pushed. `verify_lock.sh` passes 17/17. The full preflight shows 42 PASS and 9 FAIL, and every FAIL waits on the membership (steps 2–4). The optional `sudo pmset -a autorestart 1` is still yours. Details: `evidence/release/preflight-20261001.md`.
+
 ## Step 5: The manual confirmations preflight can't check
 
 1. **Focus:** Do Not Disturb on, always, with no allowed people or apps (System Settings › Focus).
@@ -132,7 +134,7 @@ At <https://appstoreconnect.apple.com>, signed in as the LLC's Account Holder:
 
 ## Step 6: The acceptance baseline tag, then go/no-go
 
-1. **Create `acceptance-v1`.** This freezes the acceptance bar. It belongs on commit **`9ad4c75`** (2026-09-27, "Record owner authorization for Apple agreements").
+1. **Create `acceptance-v1`.** *(Done 2026-10-01, on `770d6db`, after the approved ACCEPTANCE.md amendments; the commands below are kept for reference.)* This freezes the acceptance bar. It was originally planned for commit **`9ad4c75`** (2026-09-27, "Record owner authorization for Apple agreements").
    - That's the latest commit to change `AGENTS.md`. It includes your approved amendments.
    - All 14 frozen files there are byte-identical to today's `run/1`.
    - Tagging the original kit commit `640eab5` instead would make `verify_lock.sh` fail, because `AGENTS.md` has changed since.

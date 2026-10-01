@@ -14,11 +14,9 @@ Latest (2026-09-30 evening, lead mode):
 - **AC-16 design follow-up merged:** Receipt menu, export sheet, Library sorting and formatting, review form, Inbox toolbar, Settings, ⌘1–⌘3 section shortcuts, and clearer empty states. All use native macOS patterns with the owner's branding kept. Summary: `evidence/design/2026-09-30-native/README.md`.
 - **Second design review** (`evidence/design/2026-09-30-r2-critique.md`): most first-round fixes confirmed. It found two new P1s (Undo from History lost the receipt; Remove couldn't be undone), and I found a third (⌘Z undid a filing instead of typing). All three are fixed. AC-16 still has lines below 4: some are deliberate branding, some are frozen-test constraints, and some are smaller polish items.
 - **Bugs:** QA-05, QA-07 and QA-08 fixed. The second review's R2-01–R2-07 are fixed, except R2-06: a one-off layout-loop crash, mitigated and being watched. See BUGS.md.
-- **Full local CI:** 165 tests pass, with no crashes. Only the accessibility audit fails, on the same 10 system findings.
-- **Waiting on the owner (PROPOSALS.md):**
-  - AC-10 speed: the target can't be met by scheduling, since two documents at once gave no gain
-  - AC-13 system audit findings
-  - icon tray contrast
+- **Full local CI: green.** `ci.sh` exits 0 with 166 tests passing. The audit passes under the owner-amended AC-13.
+- **Acceptance baseline:** `acceptance-v1` on `770d6db`; `verify_lock.sh` 17/17; GitHub rulesets on. The full preflight shows 42 PASS and 9 FAIL, and every FAIL waits on Apple membership (`evidence/release/preflight-20261001.md`).
+- **Owner decisions (2026-10-01):** AC-10 (400 s), AC-13 (system-owned findings excused) and the icon tray contrast are approved and applied.
 - **Parked:** StoreKit waits on the membership conversion; TAX INVOICE refusals.
 
 ## Remaining launch gates
