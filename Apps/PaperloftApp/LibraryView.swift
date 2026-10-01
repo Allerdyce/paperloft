@@ -100,6 +100,7 @@ struct LibraryView: View {
         .frame(minWidth: 960, minHeight: 620)
         .onDrop(of: [.fileURL], isTargeted: $targeted) { acceptDrop($0, model: model) }
         .overlay { if targeted { RoundedRectangle(cornerRadius: 12).stroke(Color.accentColor, lineWidth: 3).padding(8).allowsHitTesting(false) } }
+        .onChange(of: model.busy) { model.openRequestedExport() }
         .onAppear { model.undoManager = undoManager }
         .onChange(of: undoManager) { model.undoManager = undoManager }
         .alert("Paperloft", isPresented: Binding(get: { model.message != nil }, set: { if !$0 { model.message = nil } })) {
@@ -376,7 +377,9 @@ struct InboxRow: View, Equatable {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             if let summary {
-                Text(summary).lineLimit(2).font(.callout.weight(.medium))
+                // One line each, so a row's height never depends on the list pane's width
+                // (wrapping text there fed back into the split view's layout).
+                Text(summary).lineLimit(1).truncationMode(.tail).font(.callout.weight(.medium))
                 Text(name).lineLimit(1).truncationMode(.middle).font(.callout).foregroundStyle(.primary)
             } else {
                 Text(name).lineLimit(2).font(.callout.weight(.medium))

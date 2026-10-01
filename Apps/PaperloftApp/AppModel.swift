@@ -1201,6 +1201,21 @@ final class FileGrant: @unchecked Sendable {
             quickLookURL = named
         } catch { quickLookURL = document }
     }
+    /// Set when an export was asked for while another task was running; the sheet opens once it ends.
+    var exportRequested = false
+    /// File › Tax & Accountant Export…: opens the sheet now, or as soon as the current task finishes.
+    func requestExport() {
+        // While startup is still opening the library (or another task runs), open the sheet when it ends.
+        if busy || startupTask == nil { exportRequested = true; return }
+        guard libraryURL != nil else { message = "Choose a library folder before exporting."; return }
+        beginExport()
+    }
+    /// Called when work finishes: opens an export that was asked for meanwhile.
+    func openRequestedExport() {
+        guard exportRequested, !busy, startupTask != nil else { return }
+        exportRequested = false
+        if libraryURL != nil { beginExport() } else { message = "Choose a library folder before exporting." }
+    }
     func beginExport() {
         guard !busy else { return }
         exportResult = nil; exportAccess = nil; exportError = nil; quickLookURL = nil; showExport = true

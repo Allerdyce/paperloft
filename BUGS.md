@@ -44,4 +44,6 @@
 | R2-03 | P1 | lead, while fixing R2-01 | ⌘Z was hard-wired to "Undo Last Filing", so undoing a typo in a review field undid the previous filing | **Fixed:** standard Undo/Redo restored; filing and removal register with the window's undo manager, so text fields undo typing first |
 | R2-04 | P2 | critic | No feedback after Confirm; selection jumped to the top row | **Fixed:** "Filed to 2026/…/ · Undo" notice; the next row in list order is selected |
 | R2-05 | P2 | critic | One ↓ in the Inbox list moved focus into Vendor | **Fixed:** review only takes focus when the list doesn't have it |
+| R2-06 | P0 | lead, full CI | The app crashed once (in ReviewFormTests) with AppKit's "needs another Update Constraints in Window pass" exception. An NSSplitView kept resizing during layout, right after Inbox rows gained a wrapping merchant line. | **Mitigated:** row lines are single-line, so row height no longer depends on pane width. No crash in the 6 repeat runs of the failing sequence since; the root cause isn't proven, so watch for it. |
+| R2-07 | P2 | lead, full CI | ⇧⌘E right after launch did nothing: the menu item's disabled state (library not yet open) could stay stale | **Fixed:** the command is always enabled; a request during startup or another task opens the sheet when it ends; with no library it explains |
 - **Withdrawn:** QA-09.

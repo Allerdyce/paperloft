@@ -54,9 +54,10 @@ struct PaperloftApp: App {
                     .accessibilityIdentifier("command.chooseLibrary")
                 Divider()
                 // The export sheet belongs to the main window, so bring it back first if it was closed.
-                Button("Tax & Accountant Export…") { openWindow(id: "main"); model.beginExport() }
+                // Always enabled: a menu item's disabled state can go stale after launch, which made
+                // ⇧⌘E do nothing. The model explains or waits instead.
+                Button("Tax & Accountant Export…") { openWindow(id: "main"); model.requestExport() }
                     .keyboardShortcut("e", modifiers: [.command, .shift])
-                    .disabled(model.libraryURL == nil || model.busy)
                     .accessibilityIdentifier("command.export")
                 #if DEBUG
                 Button("Load Development Receipts") { Task { await model.trySamples() } }
