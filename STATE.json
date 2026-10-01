@@ -1,12 +1,11 @@
 {
   "phase": "P3",
-  "step": "AC-16 native-pattern follow-up merged (Receipt menu, export sheet, Library, review form, Inbox toolbar, Settings); icon contrast and AC-13 await owner decisions; AC-17 formal personas need owner-present approval; membership conversion pending with Apple.",
+  "step": "AC-16 follow-up and second review fixes merged (undo/remove/feedback P1s fixed); QA-05/07/08 fixed; AC-10, AC-13 and icon contrast await owner decisions in PROPOSALS.md; AC-17 formal personas need owner-present approval; membership conversion pending.",
   "last_green_commit": "d9454df",
   "parked": [
     "Formal acceptance tag and release gates deferred",
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
-    "System throughput exceeds240s; required signpost collection unavailable after three approaches",
     "Icon 16px tray contrast 1.23:1; concrete candidate #357C51 in PROPOSALS.md awaiting owner (SPEC 6.5)",
     "Real receipt targeted recheck: two cases improved after PDF fix; pickup confirmation still selected without a total. Broader unsupported amount, merchant and date findings need follow-up.",
     "Sandboxed WebKit content process terminates without network entitlement; native CoreText fallback verified and documented as implementation deviation",
@@ -14,7 +13,8 @@
     "Share: Finder live share verified after sized-view fix (2bdeb32); filename fallback 'Document N', Preview/Photos, sheet accessibility and real iPhone scan remain open.",
     "AC-13: app-owned audit findings cleared; 10 system-owned Touch Bar/emoji/unattributed findings pending verifier/owner decision (PROPOSALS.md)",
     "StoreKit/App Store Connect products wait on EvidencePair LLC membership conversion (owner submitted Apple's individual-to-organization migration request 2026-09-30; awaiting confirmation)",
-    "Classifier: residual refusals on PAID/zero-balance invoices and ~15% of bills (safe review fallback); formal email fixture/holdout scoring and live Mail checks incomplete"
+    "Classifier: residual refusals on PAID/zero-balance invoices and ~15% of bills (safe review fallback); formal email fixture/holdout scoring and live Mail checks incomplete",
+    "AC-10: 100 documents take about 340-360 s against 240 s; prewarm, concurrent classification (adopted) and two-at-a-time (no gain) tried; options in PROPOSALS.md for the owner"
   ],
-  "updated": "2026-09-30T22:35:39.484136+00:00"
+  "updated": "2026-10-01T01:07:10.854449+00:00"
 }

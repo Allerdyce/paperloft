@@ -106,6 +106,37 @@ Signed App Intents are integrated into root as `7f15133` (cherry-pick of `01ccfd
   - 10 pt captions trip the contrast audit; use callout.
 - **Icon:** unchanged. SPEC §6.5 routes the contrast tweak to the owner; the candidate is in PROPOSALS.md.
 
+## Completed 2026-09-30 evening (lead mode)
+
+- **Second design review** (`evidence/design/2026-09-30-r2-critique.md`, run by a critic subagent with background app tools on a QA build):
+  - confirmed most first-round fixes
+  - new P1s R2-01 (History Undo lost the receipt) and R2-02 (Remove couldn't be undone)
+  - R2-03 found while fixing: ⌘Z was hard-wired to Undo Last Filing, even inside text fields
+  - all fixed through the window's UndoManager, an Undo-to-Inbox return path with the confirmed values, and a notice banner; see BUGS.md
+- **QA-05/07/08 fixed:**
+  - attachment display names
+  - a renamed library is followed through a renewed bookmark, verified live in the sandbox by `LibraryRenameUITests`
+  - Return doesn't file an unverified total
+- **Quick wins and polish:**
+  - ⌘1–⌘3
+  - one export name
+  - empty states (no library, empty library, empty History)
+  - Quick Look shows the row's name
+  - rows lead with merchant and total
+  - export summary line and Inbox notice
+  - file-name example
+- **AC-10:** `Tools/ConcurrencyProbe` showed two-at-a-time understanding gives no throughput gain (the model serializes sessions). The options and a recommendation are in PROPOSALS.md for the owner.
+- **Still below 4 in the second review, by type:**
+  - deliberate branding: green sidebar, serif heading, Library card rows
+  - frozen-test constraints: NavigationTests pins the sidebar buttons and the Inbox heading
+  - smaller polish:
+    - Categories rows always editable
+    - status chips vs segmented control
+    - Help Book
+    - History row selection
+    - "Needs check" badge wording
+  - Paywall and menu bar extra couldn't be reviewed.
+
 ## Dirty files and safe resumption
 
 Root has intentional pre-existing dirt: Xcode project comment normalization and settings reordering only; `evidence/ci/{QA,preflight,tests}.log`, `evidence/preflight-latest.txt`, old untracked verifier artifacts. Preserve; no blanket git add/reset/cleanup. This handoff commits only its own docs/PLAN/STATE/STATUS changes. Worktrees must remain for resumption; do not archive/delete them.
