@@ -2,7 +2,7 @@
 
 Ali approved the local phase progression proposal on 2026-09-26. The exact authorization and constraints are recorded in AGENTS.md. No further confirmation is required for this scope.
 
-## Small-size icon contrast — pending, no artwork change
+## Small-size icon contrast — APPROVED by Ali 2026-10-01 (tray-front #357C51)
 
 Independent native/built-icon review at daf145d scores16px default tray legibility3/5: the cream receipt remains recognizable, but the green tray merges into the background. Larger32/128px assets and native512px composition score4/5. Evidence: evidence/design/2026-09-27-critique.md and its native/compiled screenshots.
 
@@ -18,7 +18,7 @@ SPEC §6.5 keeps the tray "around #10462A" and routes this to the owner, so the 
 
 The supplied 1.1 spec requests WebKit for body PDF rendering. A minimal app-sandbox-only probe on this Mac reproduces WebContent termination (renderer diagnostic 1002); standalone WebKit works. The app retains the no-outgoing-network entitlement policy and falls back to native CoreText/CoreGraphics on this explicit startup failure. Both paths use bounded sanitized text and produce selectable header/body PDF pages. This is an implementation deviation, not a claim that sandboxed WebKit passed. Synthetic sandbox and hostile-resource checks are documented in Tests/EmailBodyRendererTests/README.md; final acceptance remains open.
 
-## 2026-09-29 — AC-13: audit findings on system elements (Touch Bar) and one unattributed mismatch
+## 2026-09-29 — AC-13: audit findings on system elements (Touch Bar) and one unattributed mismatch — APPROVED by Ali 2026-10-01 (ACCEPTANCE.md amended)
 
 **Evidence:** evidence/a11y-probe/intake11-current/settings-isolation.md and evidence/a11y-probe/report.md. After the app-owned repairs, `performAccessibilityAudit()` reports only elements Paperloft doesn't create:
 - a disabled TouchBar group per audited screen ("missing useful accessibility information")
@@ -31,7 +31,7 @@ A standalone SwiftUI app with no Paperloft code reproduces all three on this mac
 
 **Meanwhile:** the audit test keeps failing on them. The handler returns false, and no audit type or element is filtered.
 
-## 2026-09-30: AC-10 throughput target versus on-device model speed (owner decision)
+## 2026-09-30: AC-10 throughput target versus on-device model speed — APPROVED by Ali 2026-10-01, option 1 (ACCEPTANCE.md amended to 400 s)
 
 AC-10 asks for 100 mixed documents understood in ≤ 240 s with the system model, about 2.4 s each including OCR.
 
