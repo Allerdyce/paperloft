@@ -17,6 +17,7 @@ final class FlaggedTotalTests: XCTestCase {
         app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let vendor = app.textFields["review.vendor"], total = app.textFields["review.total"]
         XCTAssertTrue(vendor.waitForExistence(timeout: 60))
+        app.waitForInboxToSettle()
         // Stub fields disagree with each sample's text, so the total is flagged.
         XCTAssertTrue(app.staticTexts["Verify total against receipt."].waitForExistence(timeout: 10))
         let hint = app.staticTexts["review.keyboardHint"]
