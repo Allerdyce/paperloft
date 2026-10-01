@@ -284,7 +284,7 @@ struct InboxView: View {
                             })).toggleStyle(.checkbox).labelsHidden()
                                 .accessibilityLabel("Select " + item.name)
                                 .accessibilityIdentifier("inbox.select." + item.id.uuidString)
-                            InboxRow(id: item.id, name: item.name, sourceLabel: item.intakeSource, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil || item.duplicateMailDeliveryID != nil).equatable()
+                            InboxRow(id: item.id, name: item.name, summary: inboxRowSummary(item), sourceLabel: item.intakeSource, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil || item.duplicateMailDeliveryID != nil).equatable()
                         }.tag(item.id).id(item.id)
                     }
                         }.focused($listFocused).accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
@@ -351,15 +351,36 @@ struct InboxView: View {
 
 /// Each row depends only on its visible values. Unrelated documents finishing
 /// extraction need not rebuild this row's content and automatic-height layout.
+/// "Juniper Cafe · $19.98" for a document that has been read, from the review's current values.
+@MainActor func inboxRowSummary(_ item: InboxItem) -> String? {
+    guard item.status == "ready" else { return nil }
+    let vendor = item.draft.vendor.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !vendor.isEmpty else { return nil }
+    let total = formattedAmount(item.draft.total, currency: item.draft.currency)
+    return total.isEmpty ? vendor : vendor + " · " + total
+}
+/// A typed decimal amount as localized currency ("$12.50"), or the text as typed if it isn't one.
+func formattedAmount(_ decimal: String, currency: String) -> String {
+    let code = currency.uppercased().trimmingCharacters(in: .whitespaces)
+    guard let value = Decimal(string: decimal.trimmingCharacters(in: .whitespaces)), (try? Money(minorUnits: 0, currency: code)) != nil else { return decimal }
+    return value.formatted(.currency(code: code))
+}
+
 struct InboxRow: View, Equatable {
     let id: UUID
     let name: String
+    var summary: String? = nil
     var sourceLabel: String? = nil
     let status: String
     let duplicate: Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text(name).lineLimit(2).font(.callout.weight(.medium))
+            if let summary {
+                Text(summary).lineLimit(2).font(.callout.weight(.medium))
+                Text(name).lineLimit(1).truncationMode(.middle).font(.callout).foregroundStyle(.primary)
+            } else {
+                Text(name).lineLimit(2).font(.callout.weight(.medium))
+            }
             if let sourceLabel { Text(sourceLabel).font(.caption).foregroundStyle(.secondary).lineLimit(2) }
             ReceiptStatusPill(title: statusLabel, symbol: status == "Issue" ? "exclamationmark.triangle.fill" : status == "Ready" ? "checkmark.circle.fill" : duplicate ? "doc.on.doc.fill" : "clock.fill", color: duplicate || status == "Issue" ? .orange : status == "Ready" ? .green : .blue)
         }.padding(.vertical, 8).accessibilityIdentifier("inbox.item." + id.uuidString)
@@ -561,7 +582,7 @@ struct ReviewView: View {
                         .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("review.why")
                 }
                 Spacer(minLength: 0)
-                Text("Files into \(String(draft.date.prefix(4)))/\(draft.category)/")
+                Text("Files to \(String(draft.date.prefix(4))) › \(draft.category)")
                     .font(.caption).foregroundStyle(.primary).lineLimit(2).accessibilityIdentifier("review.destination")
                 Text(model.mode == .copy ? "Saves a copy to your library. Your original stays in place." : "Moves the original to your library. You can undo this in History.")
                     .font(.caption).foregroundStyle(.primary)
@@ -743,7 +764,16 @@ struct BrowseView: View {
             .onDeleteCommand { if !model.busy { pendingDelete = selectedDocument } }
             .accessibilityIdentifier("library.table").accessibilityLabel("Filed documents")
                 .overlay {
-                    if model.documents.isEmpty {
+                    if model.libraryURL == nil {
+                        VStack(spacing: 14) {
+                            Image(systemName: "folder.badge.plus").font(.system(size: 36)).foregroundStyle(Color.accentColor).accessibilityHidden(true)
+                            Text("No library yet").font(.title3.weight(.semibold))
+                            Text("Choose the folder where Paperloft files your receipts.").font(.body)
+                            Button("Choose Library Folder…") { Task { await model.chooseLibrary() } }
+                                .buttonStyle(.borderedProminent).accessibilityIdentifier("library.chooseFolder")
+                        }.multilineTextAlignment(.center).padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(Color(nsColor: .windowBackgroundColor))
+                    } else if model.documents.isEmpty {
                         if model.allDocuments.isEmpty {
                             PaperloftEmptyState(title: "No receipts filed yet", symbol: "tray", detail: "Confirm a receipt in the Inbox and it's filed here.")
                         } else {
@@ -913,7 +943,7 @@ struct HistoryView: View {
     @Bindable var model: AppModel
     var body: some View {
         if model.batches.isEmpty {
-            PaperloftEmptyState(title: "Your filing history will appear here", symbol: "clock.arrow.circlepath", detail: "Every filing can be undone. Your original documents are preserved.")
+            PaperloftEmptyState(title: "No filings yet", symbol: "clock.arrow.circlepath", detail: "Confirm a receipt in the Inbox. Each filing is listed here and can be undone; your originals are preserved.")
         } else {
             List(model.batches) { batch in
                 HStack(alignment: .top, spacing: 16) {
@@ -921,7 +951,12 @@ struct HistoryView: View {
                         .foregroundStyle(batch.state == .undone ? Color.secondary : Color.accentColor).font(.title2).accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 6) {
                         Text(batch.createdAt.formatted(date: .abbreviated, time: .shortened)).font(.headline)
-                        ForEach(batch.documents) { Text($0.relativePath).font(.callout).foregroundStyle(.primary) }
+                        ForEach(batch.documents) { document in
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("\(document.receipt.vendor) · \(BrowseView.amount(document.receipt)) · \(document.receipt.category)").font(.body.weight(.medium))
+                                Text(document.relativePath).font(.callout).foregroundStyle(.primary).lineLimit(1).truncationMode(.middle).textSelection(.enabled)
+                            }
+                        }
                         Text(batch.state == .undone ? "Undone" : batch.state == .complete ? "Filed" : "Recovery needs attention").font(.callout).accessibilityIdentifier("history.state." + batch.id.uuidString)
                         if batch.state == .undone { Text("Returned to the Inbox for review").font(.callout).foregroundStyle(.primary) }
                     }
@@ -1047,15 +1082,27 @@ struct PaperloftSettings: View {
                     Text("Copy — keep the original in place").tag(FilingMode.copy)
                     Text("Move — allow restoring the original with Undo").tag(FilingMode.move)
                 }.pickerStyle(.radioGroup).accessibilityIdentifier("settings.filingMode")
-                TextField("Filename template", text: $model.filenameTemplate).accessibilityIdentifier("settings.filenameTemplate")
-                Text("Keep {date}, {vendor} and {total}; optionally add {currency}, {category} or {kind}.").font(.caption).foregroundStyle(.primary)
+                LabeledContent("File name") {
+                    TextField("File name", text: $model.filenameTemplate).labelsHidden().accessibilityIdentifier("settings.filenameTemplate")
+                }
+                if let example = fileNameExample {
+                    Text("Example: " + example).font(.callout).foregroundStyle(.primary).textSelection(.enabled).accessibilityIdentifier("settings.fileNameExample")
+                }
+                Text("Keep {date}, {vendor} and {total}; optionally add {currency}, {category} or {kind}.").font(.callout).foregroundStyle(.primary)
                 if let error = model.templateError { Text(error).font(.caption).foregroundStyle(.orange).accessibilityIdentifier("settings.templateError") }
                 Text("Moving requires access to the original folder. Recovery copies are kept so Undo can restore your files.").font(.caption).foregroundStyle(.primary)
-                Button("Renew Original Folder Access…") { Task { _ = await model.grantMoveFolder() } }.accessibilityIdentifier("settings.moveAccess")
+                Button("Allow Access to Original Folder…") { Task { _ = await model.grantMoveFolder() } }.accessibilityIdentifier("settings.moveAccess")
             }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
+    /// What the current pattern produces for a sample receipt, so the result is seen first.
+    private var fileNameExample: String? {
+        guard let date = try? ReceiptDate(year: 2026, month: 9, day: 8),
+              let receipt = try? Receipt(vendor: "Juniper Cafe", date: date, totalMinorUnits: 1998, currency: "USD", category: "Meals"),
+              let template = try? ReceiptNameTemplate(model.filenameTemplate) else { return nil }
+        return try? template.name(for: receipt, fileExtension: "pdf")
+    }
     @ViewBuilder private var categorySections: some View {
         GroupBox("Categories") {
             VStack(alignment: .leading, spacing: 9) {

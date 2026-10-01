@@ -12,6 +12,11 @@ final class ExportSheetTests: XCTestCase {
         defer { app.terminate() }
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
         XCTAssertTrue(app.staticTexts["content.title"].waitForExistence(timeout: 10))
+        // Send the shortcut only once the main window is active; right after launch it can still be
+        // reported disabled while another app is frontmost, and the keystroke goes nowhere.
+        app.activate()
+        let active = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: app.windows["main"])
+        XCTAssertEqual(XCTWaiter().wait(for: [active], timeout: 10), .completed, "the main window is active")
         app.typeKey("e", modifierFlags: [.command, .shift])
         let period = app.descendants(matching: .any)["export.period"]
         XCTAssertTrue(period.waitForExistence(timeout: 5), "⇧⌘E opens the export sheet")
