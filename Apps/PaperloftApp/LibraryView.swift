@@ -20,6 +20,7 @@ struct LibraryView: View {
     @Bindable var model: AppModel
     @State private var targeted = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.undoManager) private var undoManager
     private func navigationButton(_ title: String, symbol: String) -> some View {
         Button { model.selection = title } label: {
             HStack {
@@ -99,6 +100,8 @@ struct LibraryView: View {
         .frame(minWidth: 960, minHeight: 620)
         .onDrop(of: [.fileURL], isTargeted: $targeted) { acceptDrop($0, model: model) }
         .overlay { if targeted { RoundedRectangle(cornerRadius: 12).stroke(Color.accentColor, lineWidth: 3).padding(8).allowsHitTesting(false) } }
+        .onAppear { model.undoManager = undoManager }
+        .onChange(of: undoManager) { model.undoManager = undoManager }
         .alert("Paperloft", isPresented: Binding(get: { model.message != nil }, set: { if !$0 { model.message = nil } })) {
             Button("OK") { model.message = nil }.accessibilityIdentifier("message.ok")
         } message: { Text(model.message ?? "") }
@@ -154,7 +157,37 @@ struct InboxView: View {
     private func filterColor(_ value: String) -> Color {
         switch value { case "Ready": return .green; case "Processing": return .blue; case "Duplicates", "Issues": return .orange; default: return .accentColor }
     }
+    @FocusState private var listFocused: Bool
     var body: some View {
+        content.safeAreaInset(edge: .top, spacing: 0) { noticeBanner }
+            .animation(.easeOut(duration: 0.2), value: model.notice)
+    }
+    /// "Filed to 2026/Meals/ · Undo" and similar, for about six seconds; also announced to VoiceOver.
+    @ViewBuilder private var noticeBanner: some View {
+        if let notice = model.notice {
+            HStack(spacing: 10) {
+                Image(systemName: "checkmark.circle.fill").foregroundStyle(Color.accentColor).accessibilityHidden(true)
+                Text(notice.text).lineLimit(1).truncationMode(.middle).accessibilityIdentifier("inbox.notice")
+                Spacer(minLength: 8)
+                if notice.undo != nil {
+                    Button("Undo") { Task { await model.undoNotice() } }.accessibilityIdentifier("inbox.noticeUndo")
+                }
+                Button { model.notice = nil } label: { Image(systemName: "xmark") }
+                    .buttonStyle(.borderless).accessibilityLabel("Dismiss").accessibilityIdentifier("inbox.noticeDismiss")
+            }
+            .font(.callout).padding(.horizontal, 14).padding(.vertical, 8)
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
+            .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.secondary.opacity(0.25)))
+            .padding(.horizontal, 20).padding(.top, 8)
+            .transition(.move(edge: .top).combined(with: .opacity))
+            .task(id: notice.id) {
+                AccessibilityNotification.Announcement(notice.text).post()
+                try? await Task.sleep(for: .seconds(6))
+                if model.notice?.id == notice.id { model.notice = nil }
+            }
+        }
+    }
+    @ViewBuilder private var content: some View {
         if model.mailRecoveryNeeded {
             VStack(spacing: 16) {
                 Label("Receipt intake needs recovery", systemImage: "exclamationmark.triangle").font(.title2)
@@ -226,7 +259,7 @@ struct InboxView: View {
                         Button {
                             let ids = removalSelection
                             removalSelection.removeAll()
-                            for id in ids { model.setAside(id) }
+                            model.setAside(Array(ids))
                         } label: { Text("Remove selected").foregroundStyle(.red) }
                             .disabled(model.busy).accessibilityIdentifier("inbox.removeSelected")
                             .help("Remove selected Inbox entries. Original files stay in place.")
@@ -254,7 +287,7 @@ struct InboxView: View {
                             InboxRow(id: item.id, name: item.name, sourceLabel: item.intakeSource, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil || item.duplicateMailDeliveryID != nil).equatable()
                         }.tag(item.id).id(item.id)
                     }
-                        }.accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
+                        }.focused($listFocused).accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
                             .onChange(of: model.selectedItemID) {
                                 if let id = model.selectedItemID { proxy.scrollTo(id, anchor: .center) }
                             }
@@ -277,7 +310,8 @@ struct InboxView: View {
                 }.frame(minWidth: 175, idealWidth: 220, maxWidth: 270)
                     .background(WindowAccessibility(label: "Documents awaiting review", target: .splitPane))
                 if let item = visibleItems.first(where: { $0.id == model.selectedItemID }) {
-                    if item.status == "ready" { ReviewView(model: model, item: item).id(item.id) }
+                    // Arrow keys in the list keep focus there; otherwise review starts at Vendor.
+                    if item.status == "ready" { ReviewView(model: model, item: item, autofocusFields: !listFocused).id(item.id) }
                     else {
                         VStack(spacing: 14) {
                             if item.status == "failed" || item.status == "duplicate" {
@@ -360,7 +394,10 @@ struct ReviewView: View {
     @State private var calendarDate = Date()
     private enum Field: Hashable { case vendor, date, total, tax, currency }
     @FocusState private var focusedField: Field?
-    init(model: AppModel, item: InboxItem) { self.model = model; self.item = item; _draft = State(initialValue: item.draft) }
+    private let autofocusFields: Bool
+    init(model: AppModel, item: InboxItem, autofocusFields: Bool = true) {
+        self.model = model; self.item = item; self.autofocusFields = autofocusFields; _draft = State(initialValue: item.draft)
+    }
     /// QA-08: a total Paperloft couldn't verify, still as extracted. Return alone doesn't file it;
     /// clicking Confirm or ⌘Return (Receipt › Confirm and File) does.
     private var totalNeedsDeliberateConfirm: Bool { verificationMessage("total") != nil }
@@ -553,7 +590,7 @@ struct ReviewView: View {
                 .background(WindowAccessibility(label: "Receipt fields and filing actions", target: .splitPane))
         }
         .background(WindowAccessibility(label: "Receipt review", target: .splitPane))
-        .onAppear { focusedField = .vendor }
+        .onAppear { if autofocusFields { focusedField = .vendor } }
         .onChange(of: draft.vendor) { save() }.onChange(of: draft.date) { save() }
         .onChange(of: draft.total) { save() }.onChange(of: draft.tax) { save() }
         .onChange(of: draft.currency) { save() }.onChange(of: draft.category) { save() }
@@ -877,9 +914,14 @@ struct HistoryView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text(batch.createdAt.formatted(date: .abbreviated, time: .shortened)).font(.headline)
                         ForEach(batch.documents) { Text($0.relativePath).font(.callout).foregroundStyle(.primary) }
-                        Text(batch.state == .undone ? "Undone" : batch.state == .complete ? "Filed" : "Recovery needs attention").font(.caption).accessibilityIdentifier("history.state." + batch.id.uuidString)
+                        Text(batch.state == .undone ? "Undone" : batch.state == .complete ? "Filed" : "Recovery needs attention").font(.callout).accessibilityIdentifier("history.state." + batch.id.uuidString)
+                        if batch.state == .undone { Text("Returned to the Inbox for review").font(.callout).foregroundStyle(.primary) }
                     }
                     Spacer()
+                    if batch.state == .undone, model.returnedItems[batch.id]?.contains(where: { id in model.items.contains { $0.id == id && $0.status != "aside" } }) == true {
+                        Button("Show in Inbox") { model.showReturned(batch.id) }
+                            .accessibilityIdentifier("history.showInInbox." + batch.id.uuidString)
+                    }
                     Button("Undo") { Task { await model.undo(batch) } }
                         .disabled(model.busy || batch.state == .undone)
                         .accessibilityIdentifier("history.undo." + batch.id.uuidString)

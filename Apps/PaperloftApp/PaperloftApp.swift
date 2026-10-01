@@ -89,14 +89,6 @@ struct PaperloftApp: App {
                 Button("Paperloft Help") { openWindow(id: "help") }
                     .accessibilityIdentifier("command.help")
             }
-            CommandGroup(replacing: .undoRedo) {
-                Button("Undo Last Filing") {
-                    if let batch = model.batches.first(where: { $0.state == .complete }) { Task { await model.undo(batch) } }
-                }
-                .keyboardShortcut("z", modifiers: .command)
-                .disabled(model.busy || !model.batches.contains(where: { $0.state == .complete }))
-                .accessibilityIdentifier("command.undo")
-            }
         }
         Window("Paperloft Help", id: "help") { HelpView().modifier(AppAppearance()) }
             .defaultSize(width: 640, height: 720)
