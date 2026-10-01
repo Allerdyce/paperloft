@@ -25,6 +25,9 @@ struct PaperloftApp: App {
                     await model.start()
                 }
                 .onOpenURL { url in Task { await model.intake([url]) } }
+                .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+                    Task { await model.followMovedLibrary() }
+                }
         }
         .defaultSize(width: 1180, height: 760)
         .commands {
