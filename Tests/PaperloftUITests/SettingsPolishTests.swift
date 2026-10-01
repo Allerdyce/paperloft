@@ -31,7 +31,17 @@ final class SettingsPolishTests: XCTestCase {
         XCTAssertTrue(addButton.waitForExistence(timeout: 5))
         XCTAssertLessThan(window.frame.maxY - addButton.frame.maxY, 60, "Categories fits its content")
         XCTAssertGreaterThan(window.frame.maxY, addButton.frame.maxY)
+        // Categories are plain rows until renamed: no text field is open.
         let before = app.textFields.matching(NSPredicate(format: "identifier BEGINSWITH 'settings.category.'")).count
+        XCTAssertEqual(before, 0, "rows aren't always-editable fields")
+        let firstRow = app.staticTexts["settings.category.0"]
+        XCTAssertTrue(firstRow.exists)
+        firstRow.click()
+        XCTAssertTrue(removeButton.isEnabled, "clicking a row selects it")
+        app.typeKey(.return, modifierFlags: [])
+        XCTAssertTrue(app.textFields["settings.category.0"].waitForExistence(timeout: 3), "Return renames the selected row")
+        app.typeKey(.escape, modifierFlags: [])
+        XCTAssertTrue(app.staticTexts["settings.category.0"].waitForExistence(timeout: 3), "Esc finishes renaming")
         addButton.click()
         let added = app.textFields.matching(NSPredicate(format: "value BEGINSWITH 'New Category'")).firstMatch
         XCTAssertTrue(added.waitForExistence(timeout: 3), "+ adds a category")

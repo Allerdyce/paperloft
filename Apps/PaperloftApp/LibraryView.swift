@@ -981,6 +981,7 @@ struct PaperloftSettings: View {
     @Bindable var model: AppModel
     var embedded = false
     @State private var selectedCategory: Int?
+    @State private var renamingCategory: Int?
     @FocusState private var editingCategory: Int?
     @AppStorage("appearance") private var appearance = "System"
     private enum Tab: Hashable { case general, filing, categories }
@@ -1110,15 +1111,38 @@ struct PaperloftSettings: View {
         GroupBox("Categories") {
             VStack(alignment: .leading, spacing: 9) {
                 Text("Organizational categories, not tax advice. Changes affect future filing; existing documents stay in their folders.").font(.callout).foregroundStyle(.primary)
+                // Rows select like any list; Return or a double-click renames, Return or Esc finishes.
                 List(selection: $selectedCategory) {
                     ForEach(model.categories.indices, id: \.self) { index in
-                        TextField("Category", text: Binding(get: { model.categories.indices.contains(index) ? model.categories[index] : "" },
-                                                            set: { if model.categories.indices.contains(index) { model.categories[index] = $0; model.saveCategories() } }))
-                            .textFieldStyle(.plain).labelsHidden().focused($editingCategory, equals: index)
-                            .accessibilityIdentifier("settings.category.\(index)").tag(index)
+                        Group {
+                            if renamingCategory == index {
+                                TextField("Category", text: Binding(get: { model.categories.indices.contains(index) ? model.categories[index] : "" },
+                                                                    set: { if model.categories.indices.contains(index) { model.categories[index] = $0; model.saveCategories() } }))
+                                    .textFieldStyle(.plain).labelsHidden().focused($editingCategory, equals: index)
+                                    .onSubmit { renamingCategory = nil }.onExitCommand { renamingCategory = nil }
+                                    .accessibilityIdentifier("settings.category.\(index)")
+                            } else {
+                                Text(model.categories.indices.contains(index) ? model.categories[index] : "")
+                                    .accessibilityIdentifier("settings.category.\(index)")
+                                    .accessibilityAction(named: "Rename") { rename(index) }
+                            }
+                        }.tag(index)
                     }
-                }.listStyle(.bordered(alternatesRowBackgrounds: true)).frame(height: 300)
+                }.listStyle(.bordered(alternatesRowBackgrounds: true))
+                    // Tall enough for every row up to 14 (the default set), so no row is cut in half.
+                    .environment(\.defaultMinListRowHeight, 24)
+                    .frame(height: CGFloat(min(max(model.categories.count, 4), 14)) * 24 + 6)
                     .onDeleteCommand { removeSelectedCategory() }
+                    // Double-click or Return renames; the context menu offers Rename and Remove.
+                    .contextMenu(forSelectionType: Int.self) { indices in
+                        if let index = indices.first {
+                            Button("Rename") { rename(index) }
+                            Button("Remove", role: .destructive) { selectedCategory = index; removeSelectedCategory() }
+                        }
+                    } primaryAction: { indices in
+                        if let index = indices.first, renamingCategory == nil { rename(index) }
+                    }
+
                     .accessibilityIdentifier("settings.categories")
                 HStack(spacing: 0) {
                     Button { addCategory() } label: { Image(systemName: "plus").frame(width: 22, height: 18) }
@@ -1126,6 +1150,12 @@ struct PaperloftSettings: View {
                     Button { removeSelectedCategory() } label: { Image(systemName: "minus").frame(width: 22, height: 18) }
                         .disabled(selectedCategory == nil).help("Remove the selected category")
                         .accessibilityLabel("Remove category").accessibilityIdentifier("settings.removeCategory")
+                    Spacer()
+                    // Return renames the selected category, as in Finder.
+                    Button("Rename") { if let index = selectedCategory { rename(index) } }
+                        .keyboardShortcut(.return, modifiers: [])
+                        .disabled(selectedCategory == nil || renamingCategory != nil)
+                        .accessibilityIdentifier("settings.renameCategory")
                 }.buttonStyle(.bordered).controlSize(.small)
             }.padding(8)
         }
@@ -1136,13 +1166,17 @@ struct PaperloftSettings: View {
         var name = "New Category", number = 2
         while model.categories.contains(where: { $0.caseInsensitiveCompare(name) == .orderedSame }) { name = "New Category \(number)"; number += 1 }
         model.categories.append(name); model.saveCategories()
-        let index = model.categories.count - 1
-        selectedCategory = index
+        rename(model.categories.count - 1)
+    }
+
+    private func rename(_ index: Int) {
+        selectedCategory = index; renamingCategory = index
         Task { @MainActor in editingCategory = index }
     }
 
     private func removeSelectedCategory() {
         guard let index = selectedCategory, model.categories.indices.contains(index) else { return }
+        renamingCategory = nil
         model.categories.remove(at: index); model.saveCategories()
         selectedCategory = model.categories.isEmpty ? nil : min(index, model.categories.count - 1)
     }
