@@ -162,3 +162,36 @@ Verified: root214unit tests PASS, fresh development-signed Release0warnings/erro
 Assumed: none of these changes solves the separate system-model classification failures or establishes broad extraction accuracy.
 
 Not done: previously recorded accessibility, model reliability, performance, live integrations and formal readiness remain. No distribution archive/upload/submission/public release.
+
+## 2026-09-30 to 2026-10-01 — Lead mode: design follow-ups, Pro, baseline, AC-10, release materials
+
+### Verified
+- **Full local CI green at `b906db1`** (merged into run/1 as `93da86b`): `scripts/ci.sh` exit 0; 38/38 UI tests and all unit tests pass, with no skips or exclusions; Debug and Release build with 0 warnings. Result `build/Tests-20261001-163105.xcresult`; logs in `evidence/ci/`.
+- **Acceptance baseline:** `acceptance-v1` on `770d6db` (owner-approved AC-10 and AC-13 amendments); `verify_lock.sh` passes (165 locked files) after the merge.
+- **Local pre-checks** (`evidence/release/local-gates-20261001.md`):
+  - AC-01: fresh clone Debug/Release, 0 warnings.
+  - AC-02: PaperloftKit coverage 95.06%.
+  - AC-03: system model on 150 fixtures, date 100, total 99.26, vendor 97.78, kind 99.33, category 100 (frozen scorer; `evidence/eval-history.csv`).
+  - AC-05: parser 99.26 / 99.26.
+  - AC-13: passes under the amendment.
+- **AC-11 purchase flows with the mock store** (`PaywallFlowTests`): paywall at document 26, buy yearly, buy lifetime, restore, expiry back to Free, export paywall. Model rules are covered by `CommerceModelTests`.
+- **AC-10, local** (`evidence/performance/AC-10-2026-10-01.md`). Both iterations passed the test's assertions; XCTest Clock and Memory metrics were exported.
+  - System model: 100/100 in 369.2 s / 369.4 s, worst main-thread stall 233.7 / 175.7 ms, peak 417 MB.
+  - Parser only: 23.2 s / 23.4 s, 209.2 / 200.0 ms, 443 MB.
+- **Fixed bugs, each with a regression test or a measured run** (BUGS.md):
+  - QA-05, QA-07 and QA-08.
+  - R2-01 to R2-05 and R2-07 to R2-09.
+  - R2-06 is mitigated and still being watched.
+- **Release drafts** (`release/`): metadata within App Store limits; five 2880 × 1800 screenshots and the purchase-review image from `AppStoreScreenshotTests`.
+
+### Assumed
+- Mock-store flows stand in for StoreKit until products exist in App Store Connect. Real StoreKit purchases, and StoreKitTest unit tests, are not verified.
+- AC-10 timings come from this Mac (lead's local runs). The independent verifier's gate run decides AC-10.
+- The site copy matches the shipped build as of `93da86b`.
+
+### Not done
+- **AC-10 signpost metric:** the agent's shell is denied unified-log access. Owner action is in HANDOFF.md.
+- **Gates and reviews:** AC-16 third design review (in progress), formal verifier gates and phase tags, AC-17 personas (owner present), AC-04 fresh holdout (verifier).
+- **Apple-dependent:** App Store Connect app and products, distribution signing, AC-19 upload. All wait on the EvidencePair LLC membership.
+- **Site:** publishing the `paperloft-site` branch waits on the owner.
+- No archive, upload, submission or public release.
