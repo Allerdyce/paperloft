@@ -27,6 +27,7 @@ struct AccessiblePopup: View {
     var title: (String) -> String = { $0 }
     var body: some View {
         NativePopup(label: label, identifier: identifier, choices: choices, selection: $selection, title: title)
+            .popupTextBaselines()
             .frame(minWidth: 90, minHeight: 24)
     }
 }
@@ -41,9 +42,21 @@ struct AccessibleFilterPicker: View {
     @Binding var selection: String
     var body: some View {
         NativePopup(label: label, identifier: identifier, choices: choices, selection: $selection, isBordered: false)
+            .popupTextBaselines()
             .frame(minWidth: 70, minHeight: 24)
             .padding(.horizontal, 12).padding(.vertical, 5)
             .background(Color.secondary.opacity(0.12), in: Capsule())
+    }
+}
+
+private extension View {
+    /// The pop-up's title baseline, 7 pt above its bottom edge (what AppKit reports for the
+    /// 24 pt control). Stating it here keeps SwiftUI from asking the NSPopUpButton during
+    /// every layout pass: each answer re-entered window layout, and the review form's three
+    /// pop-ups held the main thread for over half a second when a document opened (AC-10).
+    func popupTextBaselines() -> some View {
+        alignmentGuide(.firstTextBaseline) { $0.height - 7 }
+            .alignmentGuide(.lastTextBaseline) { $0.height - 7 }
     }
 }
 
@@ -76,9 +89,10 @@ private struct NativePopup: NSViewRepresentable {
                 let item = NSMenuItem(title: text, action: nil, keyEquivalent: ""); item.representedObject = value
                 button.menu?.addItem(item)
             }
+            button.sizeInputsChanged()
         }
         if let index = choices.firstIndex(of: selection) { button.selectItem(at: index) } else { button.select(nil) }
-        button.isBordered = isBordered
+        if button.isBordered != isBordered { button.isBordered = isBordered; button.sizeInputsChanged() }
         button.isEnabled = isEnabled && !choices.isEmpty
         button.setAccessibilityLabel(label)
         button.setAccessibilityIdentifier(identifier)
@@ -94,6 +108,16 @@ private struct NativePopup: NSViewRepresentable {
 }
 
 private final class PressablePopup: NSPopUpButton {
+    /// Measuring means sizing every menu item (the currency menu has well over a hundred),
+    /// and auto layout asks on every pass. The size changes only with the items or bezel.
+    private var measuredSize: NSSize?
+    func sizeInputsChanged() { measuredSize = nil; invalidateIntrinsicContentSize() }
+    override var intrinsicContentSize: NSSize {
+        if let measuredSize { return measuredSize }
+        let size = super.intrinsicContentSize
+        measuredSize = size
+        return size
+    }
     override func accessibilityPerformPress() -> Bool {
         guard isEnabled, numberOfItems > 0 else { return false }
         performClick(nil)

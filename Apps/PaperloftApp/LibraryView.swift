@@ -315,7 +315,7 @@ struct InboxView: View {
                     .background(WindowAccessibility(label: "Documents awaiting review", target: .splitPane))
                 if let item = visibleItems.first(where: { $0.id == model.selectedItemID }) {
                     // Arrow keys in the list keep focus there; otherwise review starts at Vendor.
-                    if item.status == "ready" { ReviewView(model: model, item: item, autofocusFields: !listFocused).id(item.id) }
+                    if item.status == "ready" { ReviewSplitView(model: model, item: item, autofocusFields: !listFocused) }
                     else {
                         VStack(spacing: 14) {
                             if item.status == "quota" {
@@ -501,26 +501,6 @@ struct ReviewView: View {
         }
     }
     var body: some View {
-        HSplitView {
-            VStack(spacing: 0) {
-                HStack {
-                    Text("Receipt preview").font(.caption).foregroundStyle(.primary)
-                    Spacer()
-                    Button("Expand preview", systemImage: "arrow.up.left.and.arrow.down.right") { model.preview(item) }
-                        .accessibilityIdentifier("review.expandPreview")
-                }.padding(10)
-                Group {
-                    if let documentURL = item.documentURL { DocumentPreview(url: documentURL) }
-                    else { Text("Saved receipt preview is unavailable. Reimport the original.") }
-                }
-                    .overlay {
-                        Button { model.preview(item) } label: { Color.clear.contentShape(Rectangle()) }
-                            .buttonStyle(.plain).accessibilityLabel("Open full-size receipt preview")
-                            .accessibilityIdentifier("review.openPreview")
-                    }
-                    .accessibilityElement(children: .contain).accessibilityLabel("Document preview").accessibilityIdentifier("review.preview")
-            }.frame(minWidth: 240, idealWidth: 380, maxWidth: .infinity, maxHeight: .infinity)
-                .background(WindowAccessibility(label: "Document preview", target: .splitPane))
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 7) {
                     Text("Review document").font(.title3.weight(.semibold))
@@ -626,8 +606,6 @@ struct ReviewView: View {
                 }
             }.padding(22).frame(minWidth: 290, idealWidth: 340, maxWidth: 400)
                 .background(WindowAccessibility(label: "Receipt fields and filing actions", target: .splitPane))
-        }
-        .background(WindowAccessibility(label: "Receipt review", target: .splitPane))
         .onAppear { if autofocusFields { focusedField = .vendor } }
         .onChange(of: draft.vendor) { save() }.onChange(of: draft.date) { save() }
         .onChange(of: draft.total) { save() }.onChange(of: draft.tax) { save() }
@@ -638,13 +616,68 @@ struct ReviewView: View {
 
 }
 
+/// The review's document preview. It lives in `ReviewSplitView`, which stays in place while
+/// you move between documents; only the fields column is rebuilt for each one.
+struct ReviewPreviewPane: View {
+    @Bindable var model: AppModel
+    let item: InboxItem
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text("Receipt preview").font(.caption).foregroundStyle(.primary)
+                Spacer()
+                Button("Expand preview", systemImage: "arrow.up.left.and.arrow.down.right") { model.preview(item) }
+                    .accessibilityIdentifier("review.expandPreview")
+            }.padding(10)
+            Group {
+                if let documentURL = item.documentURL { DocumentPreview(url: documentURL) }
+                else { Text("Saved receipt preview is unavailable. Reimport the original.") }
+            }
+                .overlay {
+                    Button { model.preview(item) } label: { Color.clear.contentShape(Rectangle()) }
+                        .buttonStyle(.plain).accessibilityLabel("Open full-size receipt preview")
+                        .accessibilityIdentifier("review.openPreview")
+                }
+                .accessibilityElement(children: .contain).accessibilityLabel("Document preview").accessibilityIdentifier("review.preview")
+        }.frame(minWidth: 240, idealWidth: 380, maxWidth: .infinity, maxHeight: .infinity)
+            .background(WindowAccessibility(label: "Document preview", target: .splitPane))
+    }
+}
+
+/// Preview on the left, fields on the right. Rebuilding the split view, preview and fields for every
+/// document held the main thread for 0.4 s (AC-10 allows 250 ms), so the split view and preview stay
+/// and only the fields column is keyed to the document. When the split view first appears it shows
+/// the preview, then adds the fields one frame later, so neither step blocks for long.
+struct ReviewSplitView: View {
+    @Bindable var model: AppModel
+    let item: InboxItem
+    let autofocusFields: Bool
+    @State private var fieldsReady = false
+    var body: some View {
+        HSplitView {
+            ReviewPreviewPane(model: model, item: item)
+            if fieldsReady {
+                ReviewView(model: model, item: item, autofocusFields: autofocusFields).id(item.id)
+            } else {
+                Color.clear.frame(minWidth: 290, idealWidth: 340, maxWidth: 400).accessibilityHidden(true)
+                    .task {
+                        try? await Task.sleep(for: .milliseconds(16))
+                        fieldsReady = true
+                    }
+            }
+        }
+        .background(WindowAccessibility(label: "Receipt review", target: .splitPane))
+    }
+}
+
 struct DocumentPreview: View {
     let url: URL
-    @State private var image: NSImage?
+    /// Keyed by URL: the preview stays in place between documents, so never show the last one's image.
+    @State private var loaded: (url: URL, image: NSImage)?
     var body: some View {
         Group {
             if url.pathExtension.lowercased() == "pdf" { PDFPreview(url: url) }
-            else if let image { Image(nsImage: image).resizable().scaledToFit().padding(16) }
+            else if let loaded, loaded.url == url { Image(nsImage: loaded.image).resizable().scaledToFit().padding(16) }
             else { ProgressView("Loading preview…") }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity).background(Color(nsColor: .underPageBackgroundColor))
@@ -655,7 +688,7 @@ struct DocumentPreview: View {
                       let thumbnail = CGImageSourceCreateThumbnailAtIndex(source, 0, [kCGImageSourceCreateThumbnailFromImageAlways: true, kCGImageSourceCreateThumbnailWithTransform: true, kCGImageSourceThumbnailMaxPixelSize: 1800] as CFDictionary) else { return Data?.none }
                 return NSBitmapImageRep(cgImage: thumbnail).representation(using: .png, properties: [:])
             }.value
-            if let data { image = NSImage(data: data) }
+            if let data, let image = NSImage(data: data) { loaded = (url, image) }
         }
     }
 }

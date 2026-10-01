@@ -1,0 +1,189 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project Paperloft.xcodeproj -scheme PaperloftPerformanceParser -destination platform=macOS -derivedDataPath build/PerformanceDerivedData -configuration QA ENABLE_TESTABILITY=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES -parallel-testing-enabled NO -resultBundlePath build/Performance-parser-20261001T230629Z.xcresult test
+
+Build settings from command line:
+    ENABLE_TESTABILITY = YES
+    SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  PaperloftKit: /Users/builder/Factory/paperloft-perf/Packages/PaperloftKit @ local
+  PaperloftHandoff: /Users/builder/Factory/paperloft-perf/Packages/PaperloftHandoff @ local
+
+Writing result bundle at path:
+	/Users/builder/Factory/paperloft-perf/build/Performance-parser-20261001T230629Z.xcresult
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (7 targets)
+    Target 'PaperloftPerformanceTests' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftApp' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftKit-product' in project 'PaperloftKit'
+    Target 'PaperloftApp' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftShare' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftKit-product' in project 'PaperloftKit'
+        ➜ Explicit dependency on target 'PaperloftHandoff-product' in project 'PaperloftHandoff'
+    Target 'PaperloftKit-product' in project 'PaperloftKit'
+        ➜ Explicit dependency on target 'PaperloftKit' in project 'PaperloftKit'
+    Target 'PaperloftKit' in project 'PaperloftKit' (no dependencies)
+    Target 'PaperloftShare' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftHandoff-product' in project 'PaperloftHandoff'
+    Target 'PaperloftHandoff-product' in project 'PaperloftHandoff'
+        ➜ Explicit dependency on target 'PaperloftHandoff' in project 'PaperloftHandoff'
+    Target 'PaperloftHandoff' in project 'PaperloftHandoff' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
+    cd /Users/builder/Factory/paperloft-perf/Paperloft.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -o /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
+
+CpResource /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Resources/PerformanceFixtures /Users/builder/Factory/paperloft-perf/build/PerformanceFixtures (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-perf
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft-perf/build/PerformanceFixtures /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Resources
+
+CodeSign /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-perf
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A
+/Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A: replacing existing signature
+
+CodeSign /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-perf
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest
+/Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest: replacing existing signature
+
+CodeSign /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-perf
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --entitlements /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts.app.xcent --timestamp\=none --generate-entitlement-der /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app
+/Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft Receipts.app: replacing existing signature
+
+Validate /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-perf
+    builtin-validationUtility /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app -no-validate-extension -infoplist-subpath Contents/Info.plist
+
+RegisterWithLaunchServices /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft-perf
+    builtin-lsregisterurl --record-path /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Intermediates.noindex/XCBuildData/registered-launchservices.txt -- /System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -f -R -trusted /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft-perf/build/PerformanceDerivedData/SDKExplicitPrecompiledModules
+
+2026-10-01 16:06:40.844156-0700 Paperloft Receipts[14720:5899697] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-10-01 16:06:40.844639-0700 Paperloft Receipts[14720:5899697] [Application] Error registering app with intents framework: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-10-01 16:06:40.847143-0700 Paperloft Receipts[14720:5899687] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-10-01 16:06:40.847228-0700 Paperloft Receipts[14720:5899687] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-10-01 16:06:40.849837-0700 Paperloft Receipts[14720:5899697] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-10-01 16:06:40.849872-0700 Paperloft Receipts[14720:5899697] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-10-01 16:06:40.852314-0700 Paperloft Receipts[14720:5899697] [Connection] Will NOT re-try to establish the connection
+2026-10-01 16:06:40.852376-0700 Paperloft Receipts[14720:5899689] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-10-01 16:06:40.852400-0700 Paperloft Receipts[14720:5899689] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-10-01 16:06:40.967520-0700 Paperloft Receipts[14720:5899643] ApplePersistenceIgnoreState: Existing state will not be touched. New state will be written to /Users/builder/Library/Containers/app.paperloft.receipts/Data/tmp/app.paperloft.receipts.savedState
+Test Suite 'All tests' started at 2026-10-01 16:06:41.396.
+Test Suite 'PaperloftPerformanceTests.xctest' started at 2026-10-01 16:06:41.396.
+Test Suite 'PipelinePerformanceTests' started at 2026-10-01 16:06:41.397.
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' started.
+2026-10-01 16:06:41.517198-0700 Paperloft Receipts[14720:5899643] [WarnOnce] It's not legal to call -layoutSubtreeIfNeeded on a view which is already being laid out.  If you are implementing the view's -layout method, you can call -[super layout] instead.  Break on void _NSDetectedLayoutRecursion(void) to debug.  This will be logged only once.  This may break in the future.
+PERFORMANCE_SETUP clearing temporary inbox records: 100
+2026-10-01 16:06:42.429571-0700 Paperloft Receipts[14720:5899643] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-10-01 16:06:42.431544-0700 Paperloft Receipts[14720:5899643] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-10-01 16:06:42.432080-0700 Paperloft Receipts[14720:5899643] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-10-01 16:06:42.432474-0700 Paperloft Receipts[14720:5899643] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-10-01 16:06:46.591318-0700 Paperloft Receipts[14720:5899687] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 830x1018
+2026-10-01 16:06:46.797493-0700 Paperloft Receipts[14720:5899687] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_tr_model_latincyrillic_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-10-01 16:06:46.797637-0700 Paperloft Receipts[14720:5899853] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_td_model_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-10-01 16:06:46.802686-0700 Paperloft Receipts[14720:5899741] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_orientation_model_v1_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-10-01 16:06:47.101393-0700 Paperloft Receipts[14720:5900052] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-10-01 16:06:47.119959-0700 Paperloft Receipts[14720:5900052] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-10-01 16:06:47.477644-0700 Paperloft Receipts[14720:5899688] [Common] Unable to obtain a task name port right for pid 466: (os/kern) failure (0x5)
+2026-10-01 16:06:48.878191-0700 Paperloft Receipts[14720:5900085] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 865x1032
+2026-10-01 16:06:49.730169-0700 Paperloft Receipts[14720:5899689] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x950
+2026-10-01 16:06:50.691570-0700 Paperloft Receipts[14720:5900084] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1096x992
+2026-10-01 16:06:51.623663-0700 Paperloft Receipts[14720:5900055] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x2052
+2026-10-01 16:06:52.506215-0700 Paperloft Receipts[14720:5900083] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1136x1030
+2026-10-01 16:06:53.433128-0700 Paperloft Receipts[14720:5899744] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x988
+2026-10-01 16:06:54.364513-0700 Paperloft Receipts[14720:5900082] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1369x1037
+2026-10-01 16:06:55.311879-0700 Paperloft Receipts[14720:5899687] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 920x2488
+2026-10-01 16:06:56.163836-0700 Paperloft Receipts[14720:5899853] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 971x1061
+2026-10-01 16:06:57.084104-0700 Paperloft Receipts[14720:5900267] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1000x988
+2026-10-01 16:06:57.930093-0700 Paperloft Receipts[14720:5900081] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 813x1006
+2026-10-01 16:06:59.729188-0700 Paperloft Receipts[14720:5899853] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 834x1044
+2026-10-01 16:07:00.605333-0700 Paperloft Receipts[14720:5899689] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x988
+2026-10-01 16:07:01.497687-0700 Paperloft Receipts[14720:5899711] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1114x1049
+2026-10-01 16:07:02.407718-0700 Paperloft Receipts[14720:5900081] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x1976
+2026-10-01 16:07:03.293702-0700 Paperloft Receipts[14720:5900081] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1153x1012
+2026-10-01 16:07:04.227536-0700 Paperloft Receipts[14720:5900085] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x950
+2026-10-01 16:07:05.176067-0700 Paperloft Receipts[14720:5902070] [Default] Error occured with connection: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service with pid 14742 named com.apple.metricmeasurement.MetricMeasurementHelper" UserInfo={NSDebugDescription=connection to service with pid 14742 named com.apple.metricmeasurement.MetricMeasurementHelper}. Nilling the manager.
+PAPERLOFT_PERFORMANCE {"iteration":1,"heartbeatCount":1260,"memoryReadFailures":0,"failures":[],"seconds":23.169585541676497,"finalLayoutSeconds":0.018878041650168598,"inputCount":100,"priorInboxCount":0,"persistedCompleted":100,"lifetimePeakPhysicalBytes":418678392,"maximumMainHeartbeatGapSeconds":0.20916145833325572,"backend":"parser","synchronousIntakeSeconds":4.529384875000687,"recordedBackends":{"parser":100},"longestGapEndedAtSeconds":5.350746041687671,"completed":100}
+PERFORMANCE_SETUP clearing temporary inbox records: 100
+2026-10-01 16:07:06.521077-0700 Paperloft Receipts[14720:5899643] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-10-01 16:07:06.521495-0700 Paperloft Receipts[14720:5899643] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-10-01 16:07:10.811570-0700 Paperloft Receipts[14720:5900082] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 830x1018
+2026-10-01 16:07:11.118608-0700 Paperloft Receipts[14720:5902073] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-10-01 16:07:11.138032-0700 Paperloft Receipts[14720:5902069] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-10-01 16:07:12.961241-0700 Paperloft Receipts[14720:5903006] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 865x1032
+2026-10-01 16:07:13.859870-0700 Paperloft Receipts[14720:5903005] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x950
+2026-10-01 16:07:14.861632-0700 Paperloft Receipts[14720:5902071] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1096x992
+2026-10-01 16:07:15.771993-0700 Paperloft Receipts[14720:5899853] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x2052
+2026-10-01 16:07:16.649152-0700 Paperloft Receipts[14720:5900267] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1136x1030
+2026-10-01 16:07:17.570313-0700 Paperloft Receipts[14720:5903003] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x988
+2026-10-01 16:07:18.412366-0700 Paperloft Receipts[14720:5902074] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1369x1037
+2026-10-01 16:07:19.364060-0700 Paperloft Receipts[14720:5902074] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 920x2488
+2026-10-01 16:07:20.200927-0700 Paperloft Receipts[14720:5902985] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 971x1061
+2026-10-01 16:07:21.170391-0700 Paperloft Receipts[14720:5902074] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1000x988
+2026-10-01 16:07:22.036762-0700 Paperloft Receipts[14720:5902982] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 813x1006
+2026-10-01 16:07:23.908881-0700 Paperloft Receipts[14720:5903131] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 834x1044
+2026-10-01 16:07:24.832347-0700 Paperloft Receipts[14720:5899697] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x988
+2026-10-01 16:07:25.789465-0700 Paperloft Receipts[14720:5900267] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1114x1049
+2026-10-01 16:07:26.731483-0700 Paperloft Receipts[14720:5904936] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x1976
+2026-10-01 16:07:27.626115-0700 Paperloft Receipts[14720:5899853] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1153x1012
+2026-10-01 16:07:28.555264-0700 Paperloft Receipts[14720:5903003] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x950
+2026-10-01 16:07:29.559297-0700 Paperloft Receipts[14720:5904937] [Default] Error occured with connection: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service with pid 14935 named com.apple.metricmeasurement.MetricMeasurementHelper" UserInfo={NSDebugDescription=connection to service with pid 14935 named com.apple.metricmeasurement.MetricMeasurementHelper}. Nilling the manager.
+PAPERLOFT_PERFORMANCE {"completed":100,"synchronousIntakeSeconds":4.551043916668277,"iteration":2,"seconds":23.35086904169293,"persistedCompleted":100,"backend":"parser","recordedBackends":{"parser":100},"priorInboxCount":0,"heartbeatCount":1252,"lifetimePeakPhysicalBytes":442795856,"inputCount":100,"maximumMainHeartbeatGapSeconds":0.19999758334597573,"memoryReadFailures":0,"failures":[],"finalLayoutSeconds":0.00010995834600180387,"longestGapEndedAtSeconds":5.158735625009285}
+/Users/builder/Factory/paperloft-perf/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Memory Peak Physical, kB] average: 442795.856, relative standard deviation: 0.000%, values: [442795.856000], performanceMetricID:com.apple.dt.XCTMetric_Memory.physical_peak, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+/Users/builder/Factory/paperloft-perf/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Memory Physical, kB] average: 44974.080, relative standard deviation: 0.000%, values: [44974.080000], performanceMetricID:com.apple.dt.XCTMetric_Memory.physical, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+/Users/builder/Factory/paperloft-perf/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Clock Monotonic Time, s] average: 22.977, relative standard deviation: 0.000%, values: [22.977297], performanceMetricID:com.apple.dt.XCTMetric_Clock.time.monotonic, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' passed (48.973 seconds).
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests testSamplerDetectsBlockedMainThread]' started.
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests testSamplerDetectsBlockedMainThread]' passed (0.405 seconds).
+Test Suite 'PipelinePerformanceTests' passed at 2026-10-01 16:07:30.775.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 49.378 (49.379) seconds
+Test Suite 'PaperloftPerformanceTests.xctest' passed at 2026-10-01 16:07:30.776.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 49.378 (49.379) seconds
+Test Suite 'All tests' passed at 2026-10-01 16:07:30.776.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 49.378 (49.380) seconds
+2026-10-01 16:07:31.074 xcodebuild[14701:5899366] [MT] IDETestOperationsObserverDebug: 50.797 elapsed -- Testing started completed.
+2026-10-01 16:07:31.074 xcodebuild[14701:5899366] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-01 16:07:31.074 xcodebuild[14701:5899366] [MT] IDETestOperationsObserverDebug: 50.797 sec, +50.797 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/builder/Factory/paperloft-perf/build/Performance-parser-20261001T230629Z.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started

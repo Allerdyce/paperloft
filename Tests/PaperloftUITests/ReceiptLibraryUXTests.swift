@@ -95,6 +95,7 @@ final class ReceiptLibraryUXTests: XCTestCase {
         app.buttons["review.file"].click()
         app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         XCTAssertTrue(app.buttons["inbox.filter.Duplicates"].waitForExistence(timeout: 10))
+        app.waitForInboxToSettle() // the duplicate exists only once the reloaded samples are read
         app.buttons["inbox.filter.Duplicates"].click()
         XCTAssertTrue(app.staticTexts["review.duplicate"].waitForExistence(timeout: 60))
         XCTAssertFalse(app.buttons["review.file"].isEnabled)

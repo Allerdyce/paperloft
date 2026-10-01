@@ -1,7 +1,7 @@
 {
   "phase": "P3",
-  "step": "Acceptance baseline set (acceptance-v1 on 770d6db, verify_lock 17/17, rulesets on). Full preflight: 9 FAIL, all waiting on Apple membership. Next agent work: merge commerce/paywall (AC-11), refresh stale gates, release materials.",
-  "last_green_commit": "770d6db",
+  "step": "Combined branch merged (release materials, AC-10 harness and fixes, UI-test race fixes); full CI green at b906db1 (38/38 UI, 0 warnings). AC-10 passes locally on time/stalls/memory; signpost metric needs log access (owner). Next: AC-16 third design review, formal verifier gates, AC-17 with owner, Apple-dependent steps after membership.",
+  "last_green_commit": "b906db1",
   "parked": [
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
@@ -10,7 +10,9 @@
     "App Intents: 7/7 framework tests pass locally; large-ZIP/real Shortcuts transport unmeasured; exports over 100MB rejected via Shortcuts (disclosure pending)",
     "Share: Finder live share verified after sized-view fix (2bdeb32); filename fallback 'Document N', Preview/Photos, sheet accessibility and real iPhone scan remain open.",
     "StoreKit/App Store Connect products wait on EvidencePair LLC membership conversion (owner submitted Apple's individual-to-organization migration request 2026-09-30; awaiting confirmation)",
-    "Classifier: residual refusals on PAID/zero-balance invoices and ~15% of bills (safe review fallback); formal email fixture/holdout scoring and live Mail checks incomplete"
+    "Classifier: residual refusals on PAID/zero-balance invoices and ~15% of bills (safe review fallback); formal email fixture/holdout scoring and live Mail checks incomplete",
+    "AC-10 signpost metric (XCTOSSignpostMetric) not collectable from the agent shell: unified log access denied; owner to run scripts/performance_check.sh system from Terminal",
+    "paperloft-site branch release/receipts-1.0-copy ready locally; publishing waits on owner OK"
   ],
-  "updated": "2026-10-01T18:51:32.131620+00:00"
+  "updated": "2026-10-01T23:52:50.153101+00:00"
 }

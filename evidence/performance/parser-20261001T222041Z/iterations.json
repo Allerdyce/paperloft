@@ -1,0 +1,22 @@
+[
+  {
+    "backend": "parser",
+    "failures": [],
+    "memoryReadFailures": 0,
+    "seconds": 24.841663666680688,
+    "persistedCompleted": 100,
+    "finalLayoutSeconds": 0.00026599998818710446,
+    "inputCount": 100,
+    "iteration": 1,
+    "completed": 100,
+    "heartbeatCount": 1134,
+    "priorInboxCount": 0,
+    "maximumMainHeartbeatGapSeconds": 0.42079920833930373,
+    "longestGapEndedAtSeconds": 5.822898666665424,
+    "synchronousIntakeSeconds": 4.909689249994699,
+    "recordedBackends": {
+      "parser": 100
+    },
+    "lifetimePeakPhysicalBytes": 412436136
+  }
+]

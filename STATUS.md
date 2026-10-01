@@ -1,29 +1,38 @@
-# Paperloft development status — 2026-09-30
+# Paperloft development status — 2026-10-01
 
-**Checkpointed for the next model at the owner’s request; not launch-ready.** Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass. Submission and public release remain blocked.
+**Not launch-ready.** Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass. Submission and public release remain blocked.
 
-## Latest verified work
-- Email attachment selection and searchable body-PDF fallback work in the sandbox. Native import/restart/removal tests pass.
-- Transactional Message-ID duplicate recovery is integrated. Reimporting changed bytes with the same ID remains a duplicate after restart; two native tests pass. Root combined unit run: 156 pass (`build/Intake11DuplicateCombined.xcresult`).
-- Watched EML/TIFF routing merged after independent review: 160 unit tests and strict Release pass in the author worktree, including partial writes, rename, retry and proof recovery.
-- Accessible native Library/scan pickers merged. Four product picker-action findings cleared; latest complete native accessibility audit still fails with 18 findings. Native Library filter/search/View flow passes; light/dark captures inspected.
-- Display/startup blocker cleared; local preflight and protected baseline pass.
-
-## Current work
-Latest (2026-09-30 evening, lead mode):
-- **AC-16 design follow-up merged:** Receipt menu, export sheet, Library sorting and formatting, review form, Inbox toolbar, Settings, ⌘1–⌘3 section shortcuts, and clearer empty states. All use native macOS patterns with the owner's branding kept. Summary: `evidence/design/2026-09-30-native/README.md`.
-- **Second design review** (`evidence/design/2026-09-30-r2-critique.md`): most first-round fixes confirmed. It found two new P1s (Undo from History lost the receipt; Remove couldn't be undone), and I found a third (⌘Z undid a filing instead of typing). All three are fixed. AC-16 still has lines below 4: some are deliberate branding, some are frozen-test constraints, and some are smaller polish items.
-- **Bugs:** QA-05, QA-07 and QA-08 fixed. The second review's R2-01–R2-07 are fixed, except R2-06: a one-off layout-loop crash, mitigated and being watched. See BUGS.md.
-- **Full local CI: green.** `ci.sh` exits 0 with 166 tests passing. The audit passes under the owner-amended AC-13.
-- **Acceptance baseline:** `acceptance-v1` on `770d6db`; `verify_lock.sh` 17/17; GitHub rulesets on. The full preflight shows 42 PASS and 9 FAIL, and every FAIL waits on Apple membership (`evidence/release/preflight-20261001.md`).
-- **Owner decisions (2026-10-01):** AC-10 (400 s), AC-13 (system-owned findings excused) and the icon tray contrast are approved and applied.
-- **Parked:** StoreKit waits on the membership conversion; TAX INVOICE refusals.
+## Latest work (2026-10-01, lead mode)
+- **Paperloft Pro** is integrated:
+  - StoreKit 2 store and paywall, with Restore always visible.
+  - 25 automatic reads a month on Free, with manual entry always free.
+  - Pro-gated accountant packs and watched folder.
+  - Purchase flows are covered by mock-store UI tests (AC-11, local).
+- **Acceptance baseline:** `acceptance-v1` on `770d6db`, after the owner-approved AC-10 (400 s) and AC-13 amendments. `verify_lock.sh` 17/17.
+- **Local gate pre-checks** (`evidence/release/local-gates-20261001.md`):
+  - AC-01: fresh clone builds with zero warnings.
+  - AC-02: PaperloftKit coverage 95.06%.
+  - AC-03: system model on 150 fixtures (date 100, total 99.26, vendor 97.78, kind 99.33, category 100).
+  - AC-05: parser 99.26 / 99.26.
+  - AC-13: passes under the amendment.
+- **AC-10 performance** (`evidence/performance/AC-10-2026-10-01.md`):
+  - System model: 100/100 in 369 s, worst main-thread stall 176–234 ms, 417 MB.
+  - Parser only: 23 s.
+  - Two slowdowns fixed on the way (R2-08, R2-09).
+  - The signpost metric needs a run with system-log access (owner action).
+- **Release materials (AC-18 drafts):**
+  - App Store listing, five 2880 × 1800 screenshots and the purchase-review image (`release/`).
+  - Site copy on a local `paperloft-site` branch, **not published**.
 
 ## Remaining launch gates
-Full regression/accessibility, extraction accuracy and fresh email holdout, performance, live Mail/Share/scan, StoreKit/App Intents integration, icon review, formal acceptance baseline and final readiness checks remain open. The last full green CI commit remains `d9454df`; scoped passes above are not full acceptance.
+- **Owner-led:** AC-16 third design review (the paywall is now reviewable), formal verifier gates, AC-17 personas, AC-04 fresh holdout (verifier).
+- **Apple-dependent:** StoreKit products and App Store Connect (AC-19, after the membership conversion).
+- **Fixes and checks:** StoreKitTest unit tests (blocked by an SDK header; PROPOSALS.md), live Mail/Share/scan checks.
 
 ## Owner action
-- Apple's confirmation of the individual-to-LLC membership conversion (submitted 2026-09-30); then the steps in `docs/OWNER-RELEASE-SETUP.md`.
-- Decisions in PROPOSALS.md: the small-size icon contrast candidate (#357C51 tray-front) and the AC-13 system audit findings.
+- Apple's confirmation of the EvidencePair LLC membership conversion; then `docs/OWNER-RELEASE-SETUP.md`.
+- Run `scripts/performance_check.sh system` once from Terminal for AC-10 signpost evidence (HANDOFF.md).
+- OK to publish the site branch `release/receipts-1.0-copy`.
+- Choose a StoreKitTest option in PROPOSALS.md.
 
 No distribution upload has occurred. Evidence and history: REPORT.md; blockers: HANDOFF.md.
