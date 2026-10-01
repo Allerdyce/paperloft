@@ -37,7 +37,7 @@ Every document waits in the Inbox for your confirmation; nothing is filed withou
 Yes. Every filing is listed in History and can be undone there. Right after filing, Edit › Undo (⌘Z) or Undo in the notice does the same. Undo restores files to where they were, including originals you chose to move, and puts the document back in your Inbox with the values you confirmed.
 
 ### 9. How do I give my accountant everything for the year?
-In Library, choose Tax & Accountant Export… (or File › Export for Accountant…, ⇧⌘E), pick a year, quarter or custom range, and choose where to save it. The accountant pack contains a summary PDF, a CSV of transactions and the documents sorted by category, optionally as a ZIP. From Shortcuts, Export Accountant Pack (Paperloft Pro) returns the ZIP for packs up to 100 MB. Export larger packs from the app.
+In Library, choose Tax & Accountant Export… (or File › Tax & Accountant Export…, ⇧⌘E), pick a year, quarter or custom range, and choose where to save it. The accountant pack contains a summary PDF, a CSV of transactions and the documents sorted by category, optionally as a ZIP. From Shortcuts, Export Accountant Pack (Paperloft Pro) returns the ZIP for packs up to 100 MB. Export larger packs from the app.
 
 ### 10. Is Paperloft tax advice?
 No. Paperloft organizes your records into editable categories. It doesn't judge what's deductible or give tax advice. Ask your accountant.

@@ -468,7 +468,7 @@ struct ReviewView: View {
                 HStack {
                     Text("Receipt preview").font(.caption).foregroundStyle(.primary)
                     Spacer()
-                    Button("Expand preview", systemImage: "arrow.up.left.and.arrow.down.right") { model.quickLookURL = item.documentURL }
+                    Button("Expand preview", systemImage: "arrow.up.left.and.arrow.down.right") { model.preview(item) }
                         .accessibilityIdentifier("review.expandPreview")
                 }.padding(10)
                 Group {
@@ -476,7 +476,7 @@ struct ReviewView: View {
                     else { Text("Saved receipt preview is unavailable. Reimport the original.") }
                 }
                     .overlay {
-                        Button { model.quickLookURL = item.documentURL } label: { Color.clear.contentShape(Rectangle()) }
+                        Button { model.preview(item) } label: { Color.clear.contentShape(Rectangle()) }
                             .buttonStyle(.plain).accessibilityLabel("Open full-size receipt preview")
                             .accessibilityIdentifier("review.openPreview")
                     }
@@ -742,7 +742,15 @@ struct BrowseView: View {
             }
             .onDeleteCommand { if !model.busy { pendingDelete = selectedDocument } }
             .accessibilityIdentifier("library.table").accessibilityLabel("Filed documents")
-                .overlay { if model.documents.isEmpty { PaperloftEmptyState(title: "No matching documents", symbol: "doc.text.magnifyingglass", detail: "File a receipt from the Inbox, or adjust your search and filters.") } }
+                .overlay {
+                    if model.documents.isEmpty {
+                        if model.allDocuments.isEmpty {
+                            PaperloftEmptyState(title: "No receipts filed yet", symbol: "tray", detail: "Confirm a receipt in the Inbox and it's filed here.")
+                        } else {
+                            PaperloftEmptyState(title: "No matching documents", symbol: "doc.text.magnifyingglass", detail: "Try other words, or clear the type, category and year filters.")
+                        }
+                    }
+                }
             }
             Text(model.documents.count == 1 ? "1 document" : "\(model.documents.count) documents").font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading).accessibilityIdentifier("library.count")
             Text("Double-click a receipt to open it. Deleted receipts can be restored from Recently Deleted.")
@@ -764,7 +772,7 @@ struct BrowseView: View {
                     .disabled(selectedDocument == nil).help("Show the selected receipt in Finder").accessibilityIdentifier("library.reveal")
                 Button("Delete", systemImage: "trash") { pendingDelete = selectedDocument }
                     .disabled(selectedDocument == nil || model.busy).help("Move the selected receipt to Recently Deleted").accessibilityIdentifier("library.delete")
-                Button("Recently Deleted", systemImage: "clock.arrow.circlepath") { showDeleted = true }
+                Button("Recently Deleted", systemImage: "trash.circle") { showDeleted = true }
                     .help("Restore receipts you deleted").accessibilityIdentifier("library.deleted")
             }
         }
