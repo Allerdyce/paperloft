@@ -1,6 +1,6 @@
 # Paperloft Receipts privacy policy
 
-Last updated: September 30, 2026
+Last updated: October 1, 2026
 
 Paperloft Receipts is made by EvidencePair LLC, California. In this policy, "we" means EvidencePair LLC. Our general privacy policy, covering Paperloft apps and the paperloft.app website, is at <https://paperloft.app/privacy/>. This document adds detail specific to the Paperloft Receipts app.
 
@@ -16,7 +16,7 @@ We don't collect analytics, usage data or advertising identifiers, and the app c
 
 - **Your library:** filed documents are ordinary files in the folder you choose, organized by year and category and named with their date, vendor and total. Extracted fields are also saved with each file. A hidden `.paperloft` folder inside the library holds filing history, the recovery copies that let filings be undone, and Recently Deleted.
 - **Moved originals:** if you choose Move in Settings › Filing, the library gets a copy and the original is renamed to a hidden file (`.paperloft-….source`) in the same folder, so Undo can restore it exactly. That hidden original stays until you undo the filing or delete it yourself.
-- **App data:** the search index, the Inbox, settings, your categories and a copy of each document you add are stored in the app's private container on your Mac. Copies of documents you remove from the Inbox are cleaned up.
+- **App data:** the search index, the Inbox, settings, your categories, a count of the documents read automatically this month (for the Free limit) and a copy of each document you add are stored in the app's private container on your Mac. Copies of documents you remove from the Inbox are cleaned up.
 - **File access:** when you choose a library, watched folder, original-documents folder, files to import or an export destination, macOS gives the app access to that item only.
 - **Sharing and Shortcuts:** files you share to Paperloft from Finder are copied into storage shared only between Paperloft and its Share extension, then into the Inbox for review. Files sent with the File Document shortcut are copied straight into the app's container. Either way, your originals stay where they are.
 
@@ -28,7 +28,7 @@ Your files live in a folder you choose. If you put that folder in a cloud servic
 
 ## Purchases
 
-Purchases are processed by Apple. We don't receive your payment details. Apple's privacy policy applies.
+Purchases are processed by Apple. We don't receive your payment details. The app learns from Apple only whether Paperloft Pro is active on your Mac. Apple's privacy policy applies.
 
 ## Emailing support
 
