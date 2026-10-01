@@ -10,7 +10,8 @@ import PaperloftKit
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         let suite = "app.paperloft.export-request." + UUID().uuidString
         addTeardownBlock { try? FileManager.default.removeItem(at: root); UserDefaults.standard.removePersistentDomain(forName: suite) }
-        let model = AppModel(support: root, preferences: UserDefaults(suiteName: suite)!, extractionBackend: StubBackend())
+        // The accountant pack is Pro (SPEC 6.3); Free is covered in CommerceModelTests.
+        let model = AppModel(support: root, preferences: UserDefaults(suiteName: suite)!, proEntitlement: { true }, extractionBackend: StubBackend())
         model.requestExport()
         XCTAssertTrue(model.exportRequested, "queued before startup")
         XCTAssertFalse(model.showExport)

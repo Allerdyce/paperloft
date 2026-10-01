@@ -31,9 +31,15 @@ struct HelpView: View {
             "History lists each filing. Undo there returns the document to your Inbox with the values you confirmed. Right after filing or removing, Edit › Undo (⌘Z) or Undo in the notice does the same."
         ]),
         Topic(id: "export", title: "Accountant pack and Shortcuts", symbol: "square.and.arrow.up", lines: [
-            "In Library, choose Tax & Accountant Export…, or choose File › Tax & Accountant Export… (⇧⌘E), for a summary PDF, a CSV and the documents by category, optionally as a ZIP.",
+            "In Library, choose Tax & Accountant Export…, or choose File › Tax & Accountant Export… (⇧⌘E), for a summary PDF, a CSV and the documents by category, optionally as a ZIP. Accountant packs are part of Paperloft Pro.",
             "Shortcuts offers File Document, Open Inbox, Total Spent and Export Accountant Pack. Export Accountant Pack needs Paperloft Pro and returns packs up to 100 MB; export larger packs from the app.",
             "Categories are for organizing records. Paperloft doesn't give tax advice."
+        ]),
+        Topic(id: "pro", title: "Free and Pro", symbol: "star", lines: [
+            "Free reads 25 documents automatically each calendar month; samples don't count. Manual entry and browsing are always unlimited.",
+            "Paperloft Pro, yearly with a 7-day free trial or a one-time purchase, reads every document automatically and adds the watched folder, accountant packs and Shortcuts export. Prices appear in your currency before you buy.",
+            "When a month's reads are used, new documents wait in the Inbox: choose Enter Details Myself, or upgrade. Settings › General › Paperloft Pro shows your usage and has Restore Purchases.",
+            "A subscription renews automatically until you cancel it in your App Store account settings."
         ]),
         Topic(id: "privacy", title: "Privacy", symbol: "lock", lines: [
             "Paperloft reads documents on your Mac with on-device Apple Intelligence and text recognition. It has no network access, no analytics and no account."

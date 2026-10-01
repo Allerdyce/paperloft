@@ -17,6 +17,7 @@
 		B51000000000000000000001 /* Apps/PaperloftApp/EmailBodyRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51000000000000000000002 /* Apps/PaperloftApp/EmailBodyRenderer.swift */; };
 		B52000000000000000000001 /* MailReviewPreparation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52000000000000000000002 /* MailReviewPreparation.swift */; };
 		B53000000000000000000001 /* PaperloftIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53000000000000000000002 /* PaperloftIntents.swift */; };
+		B54000000000000000000001 /* StoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54000000000000000000002 /* StoreController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		B51000000000000000000002 /* Apps/PaperloftApp/EmailBodyRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/EmailBodyRenderer.swift; sourceTree = SOURCE_ROOT; };
 		B52000000000000000000002 /* MailReviewPreparation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/MailReviewPreparation.swift; sourceTree = SOURCE_ROOT; };
 		B53000000000000000000002 /* PaperloftIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/PaperloftIntents.swift; sourceTree = SOURCE_ROOT; };
+		B54000000000000000000002 /* StoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/StoreController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -113,6 +115,7 @@
 				B51000000000000000000002 /* Apps/PaperloftApp/EmailBodyRenderer.swift */,
 				B52000000000000000000002 /* MailReviewPreparation.swift */,
 				B53000000000000000000002 /* PaperloftIntents.swift */,
+				B54000000000000000000002 /* StoreController.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				B51000000000000000000001 /* Apps/PaperloftApp/EmailBodyRenderer.swift in Sources */,
 				B52000000000000000000001 /* MailReviewPreparation.swift in Sources */,
 				B53000000000000000000001 /* PaperloftIntents.swift in Sources */,
+				B54000000000000000000001 /* StoreController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

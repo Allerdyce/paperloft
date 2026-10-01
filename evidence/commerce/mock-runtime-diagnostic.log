@@ -1,0 +1,44 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project Paperloft.xcodeproj -scheme PaperloftApp -configuration Debug -destination platform=macOS -derivedDataPath build/CommerceDerivedData "-only-testing:PaperloftStoreTests/StoreControllerTests/testMockPurchaseCancelPendingRestoreExpiry" -test-timeouts-enabled YES -default-test-execution-time-allowance 30 -maximum-test-execution-time-allowance 30 -resultBundlePath build/CommerceMockDiagnostic.xcresult test-without-building
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  PaperloftKit: /Users/builder/Factory/paperloft-commerce/Packages/PaperloftKit @ local
+
+Writing result bundle at path:
+	/Users/builder/Factory/paperloft-commerce/build/CommerceMockDiagnostic.xcresult
+
+2026-09-26 23:15:31.716107-0700 Paperloft Receipts[65958:1155432] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-09-26 23:15:31.735448-0700 Paperloft Receipts[65958:1155432] [Application] Error registering app with intents framework: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-09-26 23:15:31.736072-0700 Paperloft Receipts[65958:1155440] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-09-26 23:15:31.736097-0700 Paperloft Receipts[65958:1155440] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-09-26 23:15:31.737221-0700 Paperloft Receipts[65958:1155432] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-09-26 23:15:31.737249-0700 Paperloft Receipts[65958:1155432] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-09-26 23:15:31.741982-0700 Paperloft Receipts[65958:1155432] [Connection] Will NOT re-try to establish the connection
+2026-09-26 23:15:31.742087-0700 Paperloft Receipts[65958:1155440] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-09-26 23:15:31.742109-0700 Paperloft Receipts[65958:1155440] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-09-26 23:15:31.802235-0700 Paperloft Receipts[65958:1155396] ApplePersistenceIgnoreState: Existing state will not be touched. New state will be written to /Users/builder/Library/Containers/app.paperloft.receipts/Data/tmp/app.paperloft.receipts.savedState
+Test Suite 'Selected tests' started at 2026-09-26 23:15:32.252.
+Test Suite 'PaperloftStoreTests.xctest' started at 2026-09-26 23:15:32.253.
+Test Suite 'StoreControllerTests' started at 2026-09-26 23:15:32.253.
+Test Case '-[PaperloftStoreTests.StoreControllerTests testMockPurchaseCancelPendingRestoreExpiry]' started.
+Test Case '-[PaperloftStoreTests.StoreControllerTests testMockPurchaseCancelPendingRestoreExpiry]' passed (0.002 seconds).
+Test Suite 'StoreControllerTests' passed at 2026-09-26 23:15:32.256.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.002 (0.003) seconds
+Test Suite 'PaperloftStoreTests.xctest' passed at 2026-09-26 23:15:32.256.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.002 (0.003) seconds
+Test Suite 'Selected tests' passed at 2026-09-26 23:15:32.256.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.002 (0.004) seconds
+2026-09-26 23:15:32.564260-0700 Paperloft Receipts[65958:1155396] [client] Timed out waiting for the exit barrier block. activeSendTransactions=9
+2026-09-26 23:15:32.850 xcodebuild[65880:1155028] [MT] IDETestOperationsObserverDebug: 1.790 elapsed -- Testing started completed.
+2026-09-26 23:15:32.850 xcodebuild[65880:1155028] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-09-26 23:15:32.850 xcodebuild[65880:1155028] [MT] IDETestOperationsObserverDebug: 1.790 sec, +1.790 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/builder/Factory/paperloft-commerce/build/CommerceMockDiagnostic.xcresult
+
+** TEST EXECUTE SUCCEEDED **
+
+Testing started

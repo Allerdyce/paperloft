@@ -1,0 +1,25 @@
+Building for debugging...
+[Constructing description]
+[Planning deferred tasks]
+[6 / 15] PaperloftKitTests-product
+[12 / 28]
+[13 / 28]
+[16 / 28]
+[17 / 28]
+[19 / 28] PaperloftKitTests-product
+[23 / 27] PaperloftKitTests-product
+[25 / 27] PaperloftKitTests-product
+Build complete! (3.34 sec)
+Test Suite 'Selected tests' started at 2026-09-26 23:09:49.478.
+Test Suite 'PaperloftKitTests.xctest' started at 2026-09-26 23:09:49.479.
+Test Suite 'UnderstandingQuotaTests' started at 2026-09-26 23:09:49.479.
+Test Case '-[PaperloftKitTests.UnderstandingQuotaTests testPersistenceAndCalendarYearBoundary]' started.
+Test Case '-[PaperloftKitTests.UnderstandingQuotaTests testPersistenceAndCalendarYearBoundary]' passed (0.007 seconds).
+Test Case '-[PaperloftKitTests.UnderstandingQuotaTests testTwentySixthBlockedSamplesExemptAndRetryIdempotent]' started.
+Test Case '-[PaperloftKitTests.UnderstandingQuotaTests testTwentySixthBlockedSamplesExemptAndRetryIdempotent]' passed (0.001 seconds).
+Test Suite 'UnderstandingQuotaTests' passed at 2026-09-26 23:09:49.488.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.008 (0.008) seconds
+Test Suite 'PaperloftKitTests.xctest' passed at 2026-09-26 23:09:49.488.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.008 (0.008) seconds
+Test Suite 'Selected tests' passed at 2026-09-26 23:09:49.488.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.008 (0.009) seconds

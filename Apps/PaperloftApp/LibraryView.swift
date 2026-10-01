@@ -9,6 +9,7 @@ import UniformTypeIdentifiers
 private func inboxDisplayStatus(_ item: InboxItem) -> String {
     if item.review?.duplicate != nil || item.duplicateMailDeliveryID != nil { return "Duplicate" }
     if item.status == "failed" { return "Issue" }
+    if item.status == "quota" { return "Limit reached" }
     if item.status == "ready" {
         if item.review?.assessment.canAutoFile != true || (try? item.draft.receipt()) == nil { return "Issue" }
         return "Ready"
@@ -108,6 +109,8 @@ struct LibraryView: View {
         } message: { Text(model.message ?? "") }
         .quickLookPreview($model.quickLookURL)
         .sheet(isPresented: $model.showExport) { ExportView(model: model) }
+        .background { Color.clear.sheet(isPresented: $model.showPaywall) { PaywallView(store: model.store).modifier(AppAppearance()) } }
+        .onChange(of: model.store.isPro) { if model.store.isPro { model.resumeQuotaPaused() } }
     }
 }
 
@@ -315,7 +318,18 @@ struct InboxView: View {
                     if item.status == "ready" { ReviewView(model: model, item: item, autofocusFields: !listFocused).id(item.id) }
                     else {
                         VStack(spacing: 14) {
-                            if item.status == "failed" || item.status == "duplicate" {
+                            if item.status == "quota" {
+                                Image(systemName: "sparkles").font(.largeTitle).foregroundStyle(Color.accentColor).accessibilityHidden(true)
+                                Text("This month's 25 automatic reads are used").font(.headline)
+                                Text(model.quotaError ?? "Paperloft Pro reads every document automatically. You can also enter this one yourself; manual entry is always free.")
+                                    .foregroundStyle(.primary).multilineTextAlignment(.center).frame(maxWidth: 380)
+                                HStack {
+                                    Button("Enter Details Myself") { Task { await model.enterManually(item.id) } }.accessibilityIdentifier("inbox.enterManually")
+                                    if model.quotaError == nil {
+                                        Button("Upgrade to Pro…") { model.showPaywall = true }.buttonStyle(.borderedProminent).accessibilityIdentifier("inbox.upgrade")
+                                    }
+                                }
+                            } else if item.status == "failed" || item.status == "duplicate" {
                                 Image(systemName: "exclamationmark.triangle").font(.largeTitle).foregroundStyle(.orange).accessibilityHidden(true)
                                 Text(item.status == "duplicate" ? "Email already imported" : "This document needs attention").font(.headline)
                                 Text(item.issue ?? "Import the document again.").foregroundStyle(.primary).multilineTextAlignment(.center)
@@ -981,6 +995,7 @@ struct PaperloftSettings: View {
     @Bindable var model: AppModel
     var embedded = false
     @State private var selectedCategory: Int?
+    @State private var showPaywall = false
     @State private var renamingCategory: Int?
     @FocusState private var editingCategory: Int?
     @AppStorage("appearance") private var appearance = "System"
@@ -1038,6 +1053,18 @@ struct PaperloftSettings: View {
                 #endif
             }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
         }
+        GroupBox("Paperloft Pro") {
+            VStack(alignment: .leading, spacing: 10) {
+                Text(model.isPro ? "Paperloft Pro is active. Every document is read automatically."
+                                 : "Free: \(min(model.quotaUsedThisMonth, UnderstandingQuota.monthlyLimit)) of \(UnderstandingQuota.monthlyLimit) automatic reads used this month. Manual entry and browsing are unlimited.")
+                    .font(.callout).accessibilityIdentifier("settings.proStatus")
+                HStack {
+                    Button(model.isPro ? "Manage Pro…" : "Upgrade…") { showPaywall = true }.accessibilityIdentifier("settings.upgrade")
+                    Button("Restore Purchases") { Task { await model.store.restore() } }.disabled(model.store.busy).accessibilityIdentifier("settings.restore")
+                }
+                if !model.store.status.isEmpty && !showPaywall { Text(model.store.status).font(.callout).accessibilityIdentifier("settings.storeStatus") }
+            }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+        }.sheet(isPresented: $showPaywall) { PaywallView(store: model.store).modifier(AppAppearance()) }
         GroupBox("Watched folder · Pro") {
             VStack(alignment: .leading, spacing: 10) {
                 FolderSummary(url: model.watchedFolderURL, placeholder: "No watched folder chosen", identifier: "settings.watchedFolder")
