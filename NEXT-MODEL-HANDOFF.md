@@ -1,6 +1,6 @@
 # Paperloft 1.1 — handoff to the next model
 
-Updated 2026-09-29 (next-model session: tasks A and B completed and merged; root `run/1` at `0e00dc7` plus this bookkeeping). Resume from the follow-ups below. No background automation is running. All subagents stopped safely, no builds/tests remain running, and `/Users/builder/Factory/.gui.lock` is absent.
+Updated 2026-10-01 (lead mode; see "Completed 2026-10-01" below). Earlier: 2026-09-29 next-model session, tasks A and B merged. Resume from the follow-ups below. No background automation is running. All subagents stopped safely, no builds/tests remain running, and `/Users/builder/Factory/.gui.lock` is absent.
 
 ## Goal and authorization
 
@@ -136,6 +136,21 @@ Signed App Intents are integrated into root as `7f15133` (cherry-pick of `01ccfd
     - History row selection
     - "Needs check" badge wording
   - Paywall and menu bar extra couldn't be reviewed.
+
+## Completed 2026-10-01 (lead mode)
+
+- **Paperloft Pro integrated** (merged at `3d5348b`): StoreKit 2 store, paywall, 25-a-month automatic reads on Free, Pro-gated export and watched folder; mock store for Debug/QA UI tests (`-PaperloftStoreMock YES|Free`). StoreKitTest unit tests are still blocked by Apple's deprecated header under warnings-as-errors; the options are in PROPOSALS.md.
+- **Acceptance baseline:** `acceptance-v1` on `770d6db` after the owner-approved AC-10 (400 s) and AC-13 (system-owned audit findings) amendments; `verify_lock.sh` 17/17; GitHub rulesets on.
+- **Local gate pre-checks** (`evidence/release/local-gates-20261001.md`): AC-01, AC-02 (95.06% kit coverage), AC-03, AC-05, AC-11 (mock-store flows), AC-13 and AC-20. AC-18 drafts are ready.
+- **Release materials** (`release/`): App Store listing draft, five 2880 × 1800 screenshots, and the paywall image for purchase review. Captured by `AppStoreScreenshotTests` with Debug/QA-only hooks (`-PaperloftWindowSize`, `-PaperloftScreenshotMode`, `-PaperloftQuotaUsed`).
+- **Site copy:** `paperloft-site` branch `release/receipts-1.0-copy` (Free and Pro, real screenshots, full FAQ). **Not pushed; needs the owner's OK to publish.**
+- **AC-10 passes locally on time, stalls and memory** (`evidence/performance/AC-10-2026-10-01.md`). The hosted harness: `scripts/performance_check.sh parser|system`. Two fixes: the review pane no longer rebuilds per document (R2-08), and `Money` caches currency digits (R2-09). The signpost metric needs a run with unified-log access (HANDOFF.md).
+- **UI-test robustness:** `waitForInboxToSettle()` for tests that act right after Load Development Receipts. If many unrelated tests fail with "Not hittable", look at the screen recording first: a macOS password prompt for a Claude app update covered the window once.
+- **Next:**
+  1. AC-16 third design review, now that the paywall is reviewable.
+  2. Formal verifier gates.
+  3. AC-17 personas, which need the owner present.
+  4. Apple-dependent steps after the membership is confirmed.
 
 ## Dirty files and safe resumption
 

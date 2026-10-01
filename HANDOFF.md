@@ -28,6 +28,11 @@ local/mail at88dc439 preserves the isolated native promise wrapper and public pr
 
 ## Local performance checks
 
+**2026-10-01 update:** AC-10's timing, main-thread and memory limits pass locally under the owner-amended 400 s target (`evidence/performance/AC-10-2026-10-01.md`). System model: 100/100 in 369.2 s / 369.4 s, worst stall 234 / 176 ms, 417 MB. Parser only: 23.2 s / 23.4 s, 209 / 200 ms, 443 MB.
+
+**Owner action:** the signpost metric still can't be collected from the agent's shell, because macOS denies it unified-log access ("Could not open local log store: Operation not permitted"). Run `scripts/performance_check.sh system` once from Terminal and commit the resulting `evidence/performance/system-<stamp>` folder. The run takes about 13 minutes and uses the screen. If the signpost still doesn't appear there, it's an XCTest collector limitation to note for the verifier. The older notes below are history.
+
+
 Fresh parser runs after independently reviewed row rendering repair completed and persisted100/100 in16.408/16.436s, peak447.32/452.13MB, maximum heartbeat177.28/224.93ms: direct limits passed. Fresh system run on0823af2 completed and persisted100/100 with exact system backend100, no failed items and no prior records;358.972s FAILS240s, while414.50MB and222.74ms satisfy their limits. No repeat is planned without a justified repair. Required signpost data remains unavailable; a separate minimal native Instruments recorder failed with a corrupt/incomplete-log-archive error. AC10 is not passed. Raw bundles remain in local/performance build/; committed evidence is on that branch.
 
 ## Integrated watcher and startup safety
