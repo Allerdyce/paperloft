@@ -157,14 +157,18 @@ At <https://appstoreconnect.apple.com>, signed in as the LLC's Account Holder:
    - Fix each dialog it surfaces until a post-reboot pass is clean.
 4. After that, the owner authorization in `docs/DISTRIBUTION-AUTHORIZATION.md` applies: distribution signing, archives and uploads happen only once readiness checks pass. **Submission for review and public release stay blocked** until you explicitly say otherwise.
 
-## What still blocks the release after this (agent-side)
+## What still blocks the release after this
 
-These don't need you:
-- speed (AC-10)
-- accessibility (AC-13; the proposal needs your decision)
-- purchase-flow tests (AC-11, possible once the products exist)
-- design review (AC-16)
-- QA personas (AC-17)
+**Decisions only you can make** (each is written up in `PROPOSALS.md` with evidence and a recommendation):
+- **AC-10 speed.** 100 documents take about 6 minutes against the 4-minute target. Scheduling changes can't close the gap; the options trade speed against accuracy.
+- **AC-13 accessibility.** The audit's remaining 10 findings come from macOS itself (Touch Bar, emoji picker) and reproduce without Paperloft code.
+- **Icon contrast.** At 16 px the tray blends into the tile. The candidate keeps your design and lightens only the front tray (#357C51).
+
+**Agent-side** (doesn't need you):
+- purchase-flow tests (AC-11), once the products exist
+- design review lines still below 4 (AC-16): some are deliberate branding choices you approved keeping
+- the formal QA persona run (AC-17), which needs you present to approve screen control
 - release checker and screenshots (AC-18)
-- PRIVACY.md, SUPPORT.md and in-app Help (AC-20)
 - the independent final verification (AC-21)
+
+PRIVACY.md, SUPPORT.md and the in-app Help (AC-20) are written and kept current with each change.
