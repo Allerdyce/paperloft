@@ -22,6 +22,9 @@ struct PaperloftApp: App {
             LibraryView(model: model)
                 .modifier(AppAppearance())
                 .background(WindowAccessibility(label: "Paperloft workspace"))
+                #if DEBUG || QA
+                .background(ScreenshotWindowSize())
+                #endif
                 .task {
                     model.openInboxWindow = { openWindow(id: "main") }
                     await model.start()
@@ -166,3 +169,23 @@ struct AppAppearance: ViewModifier {
         }
     }
 }
+
+#if DEBUG || QA
+/// Debug/QA only: `-PaperloftWindowSize 1440x900` sizes the main window for App Store screenshots
+/// (2880 x 1800 at 2x). Never compiled into Release.
+private struct ScreenshotWindowSize: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSView { Sizer() }
+    func updateNSView(_ nsView: NSView, context: Context) {}
+    final class Sizer: NSView {
+        override func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+            guard let window, let value = AppModel.argument("-PaperloftWindowSize") else { return }
+            let parts = value.split(separator: "x").compactMap { Double($0) }
+            guard parts.count == 2 else { return }
+            DispatchQueue.main.async {
+                window.setFrame(NSRect(x: window.frame.minX, y: window.frame.minY, width: parts[0], height: parts[1]), display: true)
+            }
+        }
+    }
+}
+#endif

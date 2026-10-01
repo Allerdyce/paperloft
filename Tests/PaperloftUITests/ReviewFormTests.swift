@@ -10,9 +10,16 @@ final class ReviewFormTests: XCTestCase {
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
         app.launch(); app.activate(); defer { app.terminate() }
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        // A sample library first: it waits for startup, so Load Development Receipts isn't refused as busy.
+        XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 15))
+        app.typeKey(",", modifierFlags: .command)
+        XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
+        app.buttons["settings.newSampleLibrary"].click(); app.typeKey("w", modifierFlags: .command)
+        app.buttons["sidebar.inbox"].click()
         app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let vendor = app.textFields["review.vendor"]
         XCTAssertTrue(vendor.waitForExistence(timeout: 60))
+        app.waitForInboxToSettle()
         let currency = app.popUpButtons["review.currency"], category = app.popUpButtons["review.category"]
         let kind = app.popUpButtons["review.kind"], total = app.textFields["review.total"]
         XCTAssertTrue(currency.exists, "currency is a pop-up")
