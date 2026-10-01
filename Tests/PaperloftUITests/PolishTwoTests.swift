@@ -7,7 +7,7 @@ final class PolishTwoTests: XCTestCase {
     func testRowsHistoryExportAndFileNameSayWhatTheyHold() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
-        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub", "-PaperloftStoreMock", "YES"]
         app.launch(); app.activate(); defer { app.terminate() }
         XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 15))
         app.typeKey(",", modifierFlags: .command)

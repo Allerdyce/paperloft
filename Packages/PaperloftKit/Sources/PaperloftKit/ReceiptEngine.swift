@@ -30,7 +30,9 @@ public actor ReceiptEngine {
         self.library = library; self.index = index; self.backend = backend; self.reader = reader
     }
 
-    public func understand(_ source: URL, emailBodyText: String? = nil, emailHints: MailEnvelope? = nil) async throws -> ReviewedDocument {
+    /// `using` overrides the configured backend, e.g. the built-in parser for manual entry.
+    public func understand(_ source: URL, emailBodyText: String? = nil, emailHints: MailEnvelope? = nil,
+                           using override: (any ExtractionBackend)? = nil) async throws -> ReviewedDocument {
         guard LibraryFiles.extensions.contains(source.pathExtension.lowercased()) else { throw LibraryError.unsupportedFile }
         if let emailBodyText, emailBodyText.utf8.count > MailDocument.maximumBodyBytes { throw MailDocument.Failure.limit("1 MB text body") }
         let reader = reader
@@ -46,7 +48,7 @@ public actor ReceiptEngine {
         // is non-financial. Let intake preserve/retry it instead of silently
         // falling back to an accompanying cover note.
         guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw RecognitionError.unreadableDocument }
-        let extracted = try await backend.extract(text: text)
+        let extracted = try await (override ?? backend).extract(text: text)
         let fields = MailFieldHints.apply(to: extracted, envelope: emailHints)
         let duplicate = try await library.documents().first { $0.contentHash == hash }?.relativePath
         return ReviewedDocument(source: source, contentHash: hash, text: text, fields: fields, duplicateOf: duplicate)

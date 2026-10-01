@@ -1,10 +1,10 @@
-Paperloft factory pre-flight  2026-10-01 11:45:21  user=builder  repo=/Users/builder/Factory/paperloft-decisions
+Paperloft factory pre-flight  2026-10-01 13:25:07  user=builder  repo=/Users/builder/Factory/paperloft-commerce2
 
 == Machine ==
 PASS   macOS 27.0
 PASS   Apple silicon
 PASS   user 'builder' is a Standard user
-PASS   113 GB free
+PASS   111 GB free
 PASS   Retina-class display connected
 
 == Power, sleep, lock, updates ==
@@ -58,7 +58,7 @@ MANUAL Foundation Models check skipped (--fast)
 PASS   repo is under /Users/builder/Factory
 PASS   git repository
 PASS   origin uses the github-paperloft deploy key
-MANUAL DEFERRED (local development only): tag acceptance-v1 missing; commit the kit, tag it and push (section 3.5)
+PASS   tag acceptance-v1 present
 PASS   ssh github-paperloft
 PASS   ssh github-paperloft-site
 PASS   site repo cloned at /Users/builder/Factory/paperloft-site
@@ -73,5 +73,5 @@ MANUAL Computer Use: Screen Recording and Accessibility granted; Locked use on; 
 MANUAL GitHub rulesets: no force-push to main; acceptance-* tags cannot be updated or deleted
 MANUAL App Store Connect: Paid Apps Agreement active; Small Business Program enrolled
 
-Summary: 38 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 16 MANUAL
+Summary: 39 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 15 MANUAL
 GO: LOCAL DEVELOPMENT ONLY. Distribution signing, upload and release remain blocked.

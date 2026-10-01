@@ -4,7 +4,7 @@ final class CoreFlowTests: XCTestCase {
     @MainActor
     private func freshApp() throws -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub", "-PaperloftStoreMock", "YES"]
         app.launch(); app.activate()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
         XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 15))

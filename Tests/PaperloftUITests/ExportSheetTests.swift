@@ -7,7 +7,7 @@ final class ExportSheetTests: XCTestCase {
     func testExportSheetUsesNativePickersAndSteadyLayout() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
-        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub", "-PaperloftStoreMock", "YES"]
         app.launch(); app.activate()
         defer { app.terminate() }
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))

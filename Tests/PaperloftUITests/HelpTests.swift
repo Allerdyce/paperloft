@@ -15,7 +15,7 @@ final class HelpTests: XCTestCase {
         helpMenu.click()
         helpMenu.menuItems["Paperloft Help"].click()
         XCTAssertTrue(app.staticTexts["help.title"].waitForExistence(timeout: 10))
-        for topic in ["start", "add", "review", "undo", "export", "privacy", "support"] {
+        for topic in ["start", "add", "review", "undo", "export", "pro", "privacy", "support"] {
             XCTAssertTrue(app.staticTexts["help.topic.\(topic)"].exists || app.otherElements["help.topic.\(topic)"].exists
                           || app.descendants(matching: .any)["help.topic.\(topic)"].exists, "Help topic \(topic)")
         }

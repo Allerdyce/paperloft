@@ -51,3 +51,31 @@ The 240 s target can't be reached by scheduling. What's left changes what the mo
 
 Recommendation: option 1. Documents are processed in the background with progress shown, and accuracy matters more than about a minute per 100 documents. The acceptance criterion is frozen, so this needs your decision; nothing has been changed.
 
+## 2026-10-01: Pro "auto-file" in SPEC 6.3 isn't built (note for the owner)
+
+SPEC 6.3 lists auto-file among Pro features. The app deliberately files nothing without the user's confirmation: the review inbox, App Intents ("Never auto-file") and SUPPORT all say so. The paywall, Help and SUPPORT therefore list only what Pro delivers in this build: every document read automatically, the watched folder, accountant packs and Shortcuts export. If you want auto-file for confident documents as a Pro option, it's a new feature to scope; nothing is promised meanwhile.
+
+## 2026-10-01: StoreKitTest unit tests can't compile under warnings-as-errors (AC-11 "StoreKit tests"; owner decision)
+
+Xcode 27's own `StoreKitTest.framework/Headers/SKTestTransaction.h:34` uses `SKPaymentTransactionState`, which is deprecated since macOS 15. With `SWIFT_TREAT_WARNINGS_AS_ERRORS=YES`, importing StoreKitTest fails inside Apple's header, before any of our code compiles.
+
+**Approaches tried, all with the identical error** (evidence in `evidence/commerce/`):
+1. the implicit-module build setting
+2. a macOS 14 deployment target for the test bundle
+3. `-Wno-deprecated-declarations`, a diagnostic only, rejected as suppression
+4. on 2026-10-01, the developer frameworks treated as system frameworks (`SYSTEM_FRAMEWORK_SEARCH_PATHS`), with testing search paths off
+
+**What ships now:**
+- The app's commerce code (StoreController, PaywallView, the monthly quota) is integrated and builds with zero warnings.
+- AC-11's purchase flows are covered by XCUITests through the Debug/QA mock store: the paywall at the 26th document, buy yearly, buy lifetime, restore, expiry, and the export paywall.
+- `CommerceModelTests` and `UnderstandingQuotaTests` cover the model.
+- Real StoreKit purchases are exercised in the supervised shakedown with the local StoreKit file.
+- The StoreKitTest-based `StoreControllerTests` stay on `local/commerce`, unmerged.
+
+**Options:**
+- (a) Accept the mock-store XCUITests plus the shakedown as AC-11's StoreKit evidence.
+- (b) Allow a scoped exception: warnings-as-errors off for the store-test target only, which would still show one Apple-header warning.
+- (c) Wait for an SDK fix.
+
+Recommendation: (a).
+

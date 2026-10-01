@@ -207,6 +207,17 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var sharedAcceptedIDs: Set<UUID> = []
     @ObservationIgnored private var engine: ReceiptEngine?
     @ObservationIgnored private let extractionBackend: (any ExtractionBackend)?
+    /// StoreKit purchases and the verified Pro entitlement (SPEC 6.3). The app starts it at launch.
+    let store: StoreController
+    /// Free includes 25 automatically understood documents a month; the paywall shows at the 26th,
+    /// the first export, or from Settings, and never at launch.
+    var showPaywall = false
+    @ObservationIgnored private var quota = UnderstandingQuota()
+    @ObservationIgnored private var quotaLoaded = false
+    /// A damaged or unsaveable ledger stops automatic understanding rather than resetting usage.
+    private(set) var quotaError: String?
+    @ObservationIgnored private var paywallShownForQuota = false
+    var quotaUsedThisMonth: Int { loadQuotaIfNeeded(); return quota.count() }
     @ObservationIgnored private var processingTask: Task<Void, Never>?
     @ObservationIgnored private var searchTask: Task<Void, Never>?
     @ObservationIgnored private var generation = UUID()
@@ -222,7 +233,7 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored var openInboxWindow: (@MainActor () -> Void)?
     @ObservationIgnored private var startupTask: Task<Void, any Error>?
     @ObservationIgnored private var hasAttemptedStartup = false
-    @ObservationIgnored private let proEntitlement: @MainActor () -> Bool
+    @ObservationIgnored private let proEntitlement: (@MainActor () -> Bool)?
 
     static func argument(_ key: String) -> String? {
         let args = ProcessInfo.processInfo.arguments
@@ -230,7 +241,8 @@ final class FileGrant: @unchecked Sendable {
         return args[position + 1]
     }
     init(support suppliedSupport: URL? = nil, preferences suppliedPreferences: UserDefaults? = nil,
-         proEntitlement: @escaping @MainActor () -> Bool = AppModel.defaultProEntitlement,
+         proEntitlement: (@MainActor () -> Bool)? = nil,
+         store: StoreController? = nil,
          mailCommit: ((MailDeliveryLedger.Proof) throws -> UUID)? = nil,
          mailSnapshotWriter: ((Data, URL) throws -> Void)? = nil,
          extractionBackend: (any ExtractionBackend)? = nil,
@@ -248,6 +260,7 @@ final class FileGrant: @unchecked Sendable {
         preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")!
             : qaProfile.map { UserDefaults(suiteName: "app.paperloft.receipts.QA.\($0)")! } ?? .standard)
         self.proEntitlement = proEntitlement
+        self.store = store ?? StoreController()
         self.extractionBackend = extractionBackend
         mailCommitOverride = mailCommit; snapshotWriterOverride = intakeSnapshotWriter ?? mailSnapshotWriter
         retirementSnapshotWriterOverride = retirementSnapshotWriter
@@ -765,6 +778,14 @@ final class FileGrant: @unchecked Sendable {
             while let position = items.firstIndex(where: { $0.status == "waiting" }) {
                 if !inboxMayBeMutated || Task.isCancelled || generation != token { return }
                 let id = items[position].id
+                // Free: past this month's automatic reads, pause the document and show the paywall once.
+                if !(await automaticUnderstandingAllowed(for: items[position])) {
+                    guard inboxMayBeMutated, !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }), items[index].status == "waiting" else { return }
+                    items[index].status = "quota"; persist()
+                    if quotaError == nil && !paywallShownForQuota { paywallShownForQuota = true; showPaywall = true }
+                    continue
+                }
+                guard let position = items.firstIndex(where: { $0.id == id }), items[position].status == "waiting" else { continue }
                 guard let source = items[position].documentURL else {
                     items[position].status = "failed"; items[position].issue = "The saved intake copy is unavailable. Reimport the original receipt."; persist(); continue
                 }
@@ -840,6 +861,7 @@ final class FileGrant: @unchecked Sendable {
                             try await Task.sleep(for: .milliseconds(20))
                         }
                         guard inboxMayBeMutated, !Task.isCancelled, generation == token else { return }
+                        recordUnderstanding(of: id, sample: sample, origin: parentRecord?.origin)
                         try commitMailDelivery(parentID: id, replacements: replacements, messageID: imported.envelope?.messageID)
                         sourceGrants.merge(replacementGrants) { _, new in new }
                         // The parent is never previewed, and all readers above have
@@ -855,6 +877,7 @@ final class FileGrant: @unchecked Sendable {
                     let review = try await engine.understand(source)
                     guard inboxMayBeMutated, !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
                     guard items[index].status == "processing" else { continue }
+                    recordUnderstanding(of: id, sample: items[index].sample, origin: items[index].intakeRecord?.origin)
                     items[index].review = StoredReview(review)
                     items[index].draft = items[index].restoredDraft ?? ReceiptDraft(review.fields); items[index].status = "ready"
                     items[index].restoredDraft = nil
@@ -1218,6 +1241,8 @@ final class FileGrant: @unchecked Sendable {
     }
     func beginExport() {
         guard !busy else { return }
+        // The accountant pack is a Pro feature (SPEC 6.3): Free sees the paywall instead.
+        guard isPro else { showPaywall = true; return }
         exportResult = nil; exportAccess = nil; exportError = nil; quickLookURL = nil; showExport = true
     }
     func export(range: ExportDateRange, zipped: Bool) async {
@@ -1258,15 +1283,70 @@ final class FileGrant: @unchecked Sendable {
         guard let libraryURL else { return }
         NSWorkspace.shared.activateFileViewerSelecting([document.map { libraryURL.appendingPathComponent($0.relativePath) } ?? libraryURL])
     }
-    static func defaultProEntitlement() -> Bool {
+    private var quotaURL: URL { support.appendingPathComponent("understanding-quota.json") }
+    /// UI-test sessions (Debug/QA only) keep the ledger in memory so runs don't share a month's count;
+    /// `-PaperloftQuotaUsed <n>` seeds it so the 26th-document paywall can be tested.
+    private var quotaInMemory: Bool {
         #if DEBUG || QA
-        // The documented mock-store hook is never compiled into Release.
-        if argument("-PaperloftStoreMock") == "YES" { return true }
-        #endif
-        // Commerce integration supplies the cached, verified StoreKit entitlement.
+        return testMode
+        #else
         return false
+        #endif
     }
-    var isPro: Bool { proEntitlement() }
+    @discardableResult private func loadQuotaIfNeeded() -> Bool {
+        if quotaLoaded { return quotaError == nil }
+        quotaLoaded = true
+        if !quotaInMemory {
+            do { quota = try UnderstandingQuota.load(from: quotaURL) }
+            catch { quotaError = "Paperloft couldn't read its monthly reading record, so automatic reading is paused. Enter details yourself, or contact support."; return false }
+        }
+        #if DEBUG || QA
+        if let seed = Self.argument("-PaperloftQuotaUsed").flatMap(Int.init), seed > 0 {
+            for _ in quota.count()..<min(seed, 1000) { quota.recordUnderstanding(id: UUID(), sample: false) }
+        }
+        #endif
+        return true
+    }
+    /// Whether a document may be understood automatically now. Samples, Pro, and documents a filing
+    /// Undo returned (already counted once) are exempt. Before the store has started (unit tests) there's no gate.
+    private func automaticUnderstandingAllowed(for item: InboxItem) async -> Bool {
+        if item.sample || item.intakeRecord?.origin == .returned { return true }
+        guard store.started || proEntitlement != nil else { return true }
+        await store.waitUntilReady()
+        guard loadQuotaIfNeeded() else { return false }
+        return quota.canUnderstand(id: item.id, sample: false, isPro: isPro)
+    }
+    /// Recorded before the success is published; a save failure pauses further automatic reading.
+    private func recordUnderstanding(of id: UUID, sample: Bool, origin: IntakeSource?) {
+        guard !sample, origin != .returned, loadQuotaIfNeeded() else { return }
+        quota.recordUnderstanding(id: id, sample: false)
+        guard !quotaInMemory else { return }
+        do { try quota.save(to: quotaURL) }
+        catch { quotaError = "Paperloft couldn't save its monthly reading record, so automatic reading is paused. " + error.localizedDescription }
+    }
+    /// Documents paused at the monthly limit go back in line, e.g. after a purchase or restore.
+    func resumeQuotaPaused() {
+        guard canMutateRestoredInbox() else { return }
+        var resumed = false
+        for i in items.indices where items[i].status == "quota" { items[i].status = "waiting"; resumed = true }
+        if resumed { persist(); processWaiting() }
+    }
+    /// Manual entry is always free: the built-in reader prefills what it can and the user checks it.
+    func enterManually(_ id: UUID) async {
+        guard canMutateRestoredInbox(), let engine, let index = items.firstIndex(where: { $0.id == id }),
+              ["quota", "failed"].contains(items[index].status), let source = items[index].documentURL else { return }
+        items[index].status = "processing"; persist()
+        do {
+            let review = try await engine.understand(source, using: ParserBackend())
+            guard let i = items.firstIndex(where: { $0.id == id }), items[i].status == "processing" else { return }
+            items[i].review = StoredReview(review); items[i].draft = ReceiptDraft(review.fields); items[i].status = "ready"
+            selectedItemID = id; persist()
+        } catch {
+            guard let i = items.firstIndex(where: { $0.id == id }) else { return }
+            items[i].status = "failed"; items[i].issue = error.localizedDescription; persist()
+        }
+    }
+    var isPro: Bool { proEntitlement?() ?? store.isPro }
 
     // System actions use the same startup, ownership and durable publication boundary
     // as other intake sources. A transport acknowledgment follows the inbox fsync.

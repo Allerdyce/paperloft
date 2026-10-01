@@ -14,6 +14,8 @@ struct PaperloftApp: App {
         // Menu-only launches must restore the watched folder even when no main
         // window is visible. Window tasks share this same coalesced startup.
         Task { await sharedModel.start() }
+        // Entitlements come from StoreKit's signed transaction cache; no paywall at launch.
+        Task { await sharedModel.store.start() }
     }
     var body: some Scene {
         Window("Paperloft Receipts", id: "main") {
@@ -26,7 +28,7 @@ struct PaperloftApp: App {
                 }
                 .onOpenURL { url in Task { await model.intake([url]) } }
                 .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-                    Task { await model.followMovedLibrary() }
+                    Task { await model.followMovedLibrary(); await model.store.refreshEntitlements() }
                 }
         }
         .defaultSize(width: 1180, height: 760)

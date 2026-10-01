@@ -202,7 +202,7 @@ final class ReceiptLibraryUXTests: XCTestCase {
     func testOpenDeleteRestartRestoreAndTaxExport() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
-        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"]
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub", "-PaperloftStoreMock", "YES"]
         app.launch(); app.activate(); defer { app.terminate() }
         func showWindow() {
             if !app.buttons["sidebar.settings"].waitForExistence(timeout: 3) {
