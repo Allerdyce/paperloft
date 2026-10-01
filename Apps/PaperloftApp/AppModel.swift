@@ -2,6 +2,7 @@ import AppKit
 import Darwin
 import CryptoKit
 import Foundation
+import os
 import Observation
 import PaperloftKit
 import PaperloftHandoff
@@ -774,7 +775,14 @@ final class FileGrant: @unchecked Sendable {
         guard inboxMayBeMutated, !processing, let engine else { return }
         let token = generation; processing = true
         processingTask = Task {
-            defer { if generation == token { processing = false; activity = "" } }
+            // AC-10: one signpost interval per batch of automatic understanding (XCTOSSignpostMetric).
+            let log = OSLog(subsystem: "app.paperloft.receipts", category: "Pipeline")
+            let interval = OSSignpostID(log: log)
+            os_signpost(.begin, log: log, name: "UnderstandInboxBatch", signpostID: interval)
+            defer {
+                os_signpost(.end, log: log, name: "UnderstandInboxBatch", signpostID: interval)
+                if generation == token { processing = false; activity = "" }
+            }
             while let position = items.firstIndex(where: { $0.status == "waiting" }) {
                 if !inboxMayBeMutated || Task.isCancelled || generation != token { return }
                 let id = items[position].id

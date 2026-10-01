@@ -18,6 +18,8 @@
 		B52000000000000000000001 /* MailReviewPreparation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52000000000000000000002 /* MailReviewPreparation.swift */; };
 		B53000000000000000000001 /* PaperloftIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53000000000000000000002 /* PaperloftIntents.swift */; };
 		B54000000000000000000001 /* StoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54000000000000000000002 /* StoreController.swift */; };
+		C60000000000000000000039 /* PaperloftKit in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000021 /* PaperloftKit */; };
+		C60000000000000000000042 = {isa = PBXBuildFile; fileRef = C60000000000000000000041; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = B11000000000000000000020;
 			remoteInfo = PaperloftShare;
+		};
+		C60000000000000000000044 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A00000000000000000000005;
+			remoteInfo = PaperloftApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -61,6 +70,8 @@
 		B52000000000000000000002 /* MailReviewPreparation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/MailReviewPreparation.swift; sourceTree = SOURCE_ROOT; };
 		B53000000000000000000002 /* PaperloftIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/PaperloftIntents.swift; sourceTree = SOURCE_ROOT; };
 		B54000000000000000000002 /* StoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apps/PaperloftApp/StoreController.swift; sourceTree = SOURCE_ROOT; };
+		C60000000000000000000031 /* PaperloftPerformanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PaperloftPerformanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C60000000000000000000041 = {isa = PBXFileReference; lastKnownFileType = folder; path = build/PerformanceFixtures; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +80,7 @@
 		A00000000000000000000048 /* Tests/PaperloftUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftUITests; sourceTree = "<group>"; };
 		B11000000000000000000011 /* Apps/PaperloftShare */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Apps/PaperloftShare; sourceTree = "<group>"; };
 		B30000000000000000000003 /* Tests/PaperloftAppTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftAppTests; sourceTree = "<group>"; };
+		C60000000000000000000038 /* Tests/PaperloftPerformanceTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests/PaperloftPerformanceTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +117,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C60000000000000000000033 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C60000000000000000000039 /* PaperloftKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -123,6 +143,7 @@
 		A00000000000000000000002 = {
 			isa = PBXGroup;
 			children = (
+				C60000000000000000000038 /* Tests/PaperloftPerformanceTests */,
 				A00000000000000000000048 /* Tests/PaperloftUITests */,
 				A00000000000000000000038 /* Packages/PaperloftKit/Tests/PaperloftKitTests */,
 				B30000000000000000000003 /* Tests/PaperloftAppTests */,
@@ -241,6 +262,30 @@
 			productReference = B11000000000000000000010 /* PaperloftShare.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		C60000000000000000000030 /* PaperloftPerformanceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C60000000000000000000034 /* Build configuration list for PBXNativeTarget "PaperloftPerformanceTests" */;
+			buildPhases = (
+				C60000000000000000000040,
+				C60000000000000000000032 /* Sources */,
+				C60000000000000000000033 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C60000000000000000000043 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C60000000000000000000038 /* Tests/PaperloftPerformanceTests */,
+			);
+			name = PaperloftPerformanceTests;
+			packageProductDependencies = (
+				A00000000000000000000021 /* PaperloftKit */,
+			);
+			productName = PaperloftPerformanceTests;
+			productReference = C60000000000000000000031 /* PaperloftPerformanceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -266,6 +311,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				C60000000000000000000030 /* PaperloftPerformanceTests */,
 				A00000000000000000000005 /* PaperloftApp */,
 				B11000000000000000000020 /* PaperloftShare */,
 				A00000000000000000000030 /* PaperloftKitTests */,
@@ -296,6 +342,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C60000000000000000000040 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (C60000000000000000000042,); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -332,6 +379,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C60000000000000000000032 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -344,6 +398,11 @@
 			isa = PBXTargetDependency;
 			target = B11000000000000000000020 /* PaperloftShare */;
 			targetProxy = 5A144D583069D80F000C8402 /* PBXContainerItemProxy */;
+		};
+		C60000000000000000000043 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A00000000000000000000005 /* PaperloftApp */;
+			targetProxy = C60000000000000000000044 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -619,6 +678,45 @@
 			};
 			name = QA;
 		};
+		C60000000000000000000035 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Paperloft Receipts.app/Contents/MacOS/Paperloft Receipts";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftPerformanceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C60000000000000000000036 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Paperloft Receipts.app/Contents/MacOS/Paperloft Receipts";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftPerformanceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		C60000000000000000000037 /* QA */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Paperloft Receipts.app/Contents/MacOS/Paperloft Receipts";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.paperloft.PaperloftPerformanceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = QA;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -668,6 +766,16 @@
 				B11000000000000000000022 /* Debug */,
 				B11000000000000000000023 /* Release */,
 				B11000000000000000000024 /* QA */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C60000000000000000000034 /* Build configuration list for PBXNativeTarget "PaperloftPerformanceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C60000000000000000000037 /* QA */,
+				C60000000000000000000035 /* Debug */,
+				C60000000000000000000036 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
