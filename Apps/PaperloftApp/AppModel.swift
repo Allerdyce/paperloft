@@ -432,7 +432,9 @@ final class FileGrant: @unchecked Sendable {
         for (path, bookmark) in saved { if let access = try? LibraryAccess(bookmark: bookmark) { moveGrants[path] = access } }
         if let bookmark = preferences.data(forKey: "paperloft.libraryBookmark") {
             let access = try LibraryAccess(bookmark: bookmark); libraryAccess = access
+            if let renewed = access.refreshedBookmark { preferences.set(renewed, forKey: "paperloft.libraryBookmark") }
             try await configure(access.url, sample: false)
+            if access.refreshedBookmark != nil { message = "Your library folder is now “\(access.url.lastPathComponent)”. Paperloft files there." }
         } else if let path = preferences.string(forKey: "paperloft.demoLibraryPath"), URL(fileURLWithPath: path).path.hasPrefix(support.path + "/") {
             try await configure(URL(fileURLWithPath: path), sample: true)
         } else if testMode { try await createSampleLibrary(discardInbox: false) }
@@ -1009,7 +1011,23 @@ final class FileGrant: @unchecked Sendable {
         selection = "Inbox"; selectedItemID = first; persist(); processWaiting()
         if case .removal = notice?.undo { notice = nil }
     }
+    /// QA-07: if the chosen library folder was renamed or moved while Paperloft was open, follow it
+    /// through its bookmark instead of refusing to file. Runs when the app becomes active and before filing.
+    func followMovedLibrary() async {
+        guard !busy, !isSampleLibrary, let current = libraryURL, !FileManager.default.fileExists(atPath: current.path),
+              let bookmark = preferences.data(forKey: "paperloft.libraryBookmark"),
+              let access = try? LibraryAccess(bookmark: bookmark), access.url.standardizedFileURL != current.standardizedFileURL else { return }
+        let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
+        do {
+            // configure rebuilds the search index for the new location, since the index is keyed by path.
+            try await configure(access.url, sample: false)
+            libraryAccess = access
+            preferences.set(access.refreshedBookmark ?? bookmark, forKey: "paperloft.libraryBookmark")
+            message = "Your library folder is now “\(access.url.lastPathComponent)”. Paperloft files there."
+        } catch { message = error.localizedDescription }
+    }
     func fileSelected() async {
+        await followMovedLibrary()
         guard !filingBlocked, inboxMayBeMutated, let engine, let item = selectedItem, item.status == "ready", let stored = item.review else { return }
         guard stored.duplicate == nil else { message = "This document is already in the library. Remove this duplicate from the Inbox."; return }
         let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
@@ -1326,6 +1344,7 @@ final class FileGrant: @unchecked Sendable {
                 throw AppIssue("Choose a watched folder to grant access.")
             }
             let access = try LibraryAccess(bookmark: bookmark)
+            if let renewed = access.refreshedBookmark { preferences.set(renewed, forKey: "watchedFolderBookmark") }
             try await installWatchedFolder(at: access.url, access: access)
         } catch is CancellationError { return }
         catch { watchedEnabled = false; watchedStatus = "Choose the watched folder again to renew access. " + error.localizedDescription }
