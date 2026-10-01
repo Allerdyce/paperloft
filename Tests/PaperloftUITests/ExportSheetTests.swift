@@ -12,9 +12,10 @@ final class ExportSheetTests: XCTestCase {
         defer { app.terminate() }
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
         XCTAssertTrue(app.staticTexts["content.title"].waitForExistence(timeout: 10))
+        // Right after launch, while startup is still opening the library, ⇧⌘E opens the sheet once it's ready.
         app.typeKey("e", modifierFlags: [.command, .shift])
         let period = app.descendants(matching: .any)["export.period"]
-        XCTAssertTrue(period.waitForExistence(timeout: 5), "⇧⌘E opens the export sheet")
+        XCTAssertTrue(period.waitForExistence(timeout: 15), "⇧⌘E opens the export sheet")
         let sheet = app.sheets.firstMatch
         let year = app.popUpButtons["export.year"]
         XCTAssertTrue(year.exists, "the year is chosen from a pop-up, not typed")

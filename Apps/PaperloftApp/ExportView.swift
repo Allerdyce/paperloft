@@ -90,7 +90,18 @@ struct ExportView: View {
                 if period == "Custom" && range == nil {
                     Text("The end date is before the start date.").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("export.validation")
                 }
-                Text("Only filed receipts dated within this period are included. Dates are inclusive; finish reviewing and filing inbox receipts first.").font(.callout)
+                // What this export will contain, so the period choice can be checked before saving.
+                if let range {
+                    Text(summary(for: range)).font(.callout.weight(.medium)).accessibilityIdentifier("export.summary.count")
+                }
+                if model.inboxCount > 0 {
+                    HStack(spacing: 8) {
+                        Label("\(model.inboxCount) \(model.inboxCount == 1 ? "receipt" : "receipts") in your Inbox \(model.inboxCount == 1 ? "isn't" : "aren't") filed yet.", systemImage: "tray")
+                            .font(.callout)
+                        Button("Review Inbox") { model.selection = "Inbox"; dismiss() }.accessibilityIdentifier("export.reviewInbox")
+                    }
+                }
+                Text("Includes filed receipts dated in this period, first and last days included. Receipts still in your Inbox aren't included.").font(.callout)
                 Text("Currencies stay separate. Missing tax stays blank in the CSV and is counted as unknown in the summary. This pack does not calculate deductions or file a tax return.")
                     .font(.callout).foregroundStyle(.secondary)
             }
@@ -107,6 +118,19 @@ struct ExportView: View {
             }
         }.padding(28).frame(width: 600)
             .accessibilityElement(children: .contain).accessibilityLabel("Tax and accountant export")
+    }
+    /// "3 receipts · $142.80", or the count per currency when they differ.
+    private func summary(for range: ExportDateRange) -> String {
+        let inRange = model.allDocuments.filter { $0.receipt.date.formatted >= range.start.formatted && $0.receipt.date.formatted <= range.end.formatted }
+        let count = "\(inRange.count) \(inRange.count == 1 ? "receipt" : "receipts")"
+        guard !inRange.isEmpty else { return count + " in this period" }
+        let byCurrency = Dictionary(grouping: inRange, by: \.receipt.currency)
+        let totals = byCurrency.keys.sorted().map { code -> String in
+            let minor = byCurrency[code]!.reduce(Int64(0)) { $0 + $1.receipt.totalMinorUnits }
+            let decimal = (try? Money(minorUnits: minor, currency: code).decimal).flatMap { Decimal(string: $0) }
+            return decimal.map { $0.formatted(.currency(code: code)) } ?? code
+        }
+        return count + " · " + totals.joined(separator: " + ")
     }
     private func rowLabel(_ title: String) -> some View {
         Text(title).frame(width: 64, alignment: .trailing).accessibilityHidden(true)
