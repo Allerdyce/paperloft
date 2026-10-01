@@ -52,3 +52,7 @@
 - XCUI reads a SwiftUI `Text` that has an accessibility identifier through `value`, not `label`. An assertion over `.label` compares empty strings and passes without testing anything; read `value` (or fall back to it).
 - The UI-test Inbox and preferences persist across runs, and stub documents all share the vendor "Sample merchant". Identify documents by row or identifier, and have tests undo what they add (e.g. categories).
 - Accessibility audits run right after a section switch catch toolbar animations and flag the window title. Wait for the new screen to settle before auditing. At 10 pt, captions trip the contrast heuristic; use callout.
+- A SwiftUI menu command's `.disabled(...)` state can stay stale after launch, so its shortcut silently does nothing. Keep commands enabled and let the model explain, or queue the request until it's ready.
+- XCUI reports the main window as "Disabled" even in passing runs. Don't gate a test on a window's `enabled` value.
+- Wrapping text in List rows inside an HSplitView can feed back into split-view layout and raise AppKit's "Update Constraints in Window pass" exception. Keep row text single-line when row height would depend on pane width.
+- Features that change persisted state (for example Undo returning documents to the Inbox) change what the next UI test launches into. Rerun the full suite in order, not just the new test.
