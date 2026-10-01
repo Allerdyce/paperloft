@@ -32,8 +32,16 @@ struct PaperloftApp: App {
         .defaultSize(width: 1180, height: 760)
         .commands {
             ImportFromDevicesCommands()
-            // View › Show/Hide Sidebar (⌃⌘S).
+            // View › Show/Hide Sidebar (⌃⌘S), with the three sections above it.
             SidebarCommands()
+            CommandGroup(before: .sidebar) {
+                ForEach(Array(["Inbox", "Library", "History"].enumerated()), id: \.offset) { index, section in
+                    Button(section) { openWindow(id: "main"); model.selection = section }
+                        .keyboardShortcut(KeyEquivalent(Character(String(index + 1))), modifiers: .command)
+                        .accessibilityIdentifier("command.section." + section.lowercased())
+                }
+                Divider()
+            }
             // AppKit's automatic Services scanner blocks accessibility inspection on macOS 27.
             // Keep standard editing commands; receipt actions are explicit commands below.
             CommandGroup(replacing: .systemServices) {}
@@ -46,7 +54,7 @@ struct PaperloftApp: App {
                     .accessibilityIdentifier("command.chooseLibrary")
                 Divider()
                 // The export sheet belongs to the main window, so bring it back first if it was closed.
-                Button("Export for Accountant…") { openWindow(id: "main"); model.beginExport() }
+                Button("Tax & Accountant Export…") { openWindow(id: "main"); model.beginExport() }
                     .keyboardShortcut("e", modifiers: [.command, .shift])
                     .disabled(model.libraryURL == nil || model.busy)
                     .accessibilityIdentifier("command.export")

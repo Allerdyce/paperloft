@@ -1187,6 +1187,20 @@ final class FileGrant: @unchecked Sendable {
             message = report.textFailures.isEmpty ? "Search index rebuilt for \(report.indexedDocuments) documents." : "Indexed \(report.indexedDocuments) documents; text was unavailable for \(report.textFailures.count)."
         } catch { message = error.localizedDescription }
     }
+    /// Quick Look titles a preview by its file name, so preview a link named like the Inbox row
+    /// instead of the staged payload file.
+    func preview(_ item: InboxItem) {
+        guard let document = item.documentURL else { return }
+        let folder = support.appendingPathComponent("Preview", isDirectory: true)
+        try? FileManager.default.removeItem(at: folder)
+        let safe = item.name.replacingOccurrences(of: "/", with: "-").replacingOccurrences(of: ":", with: "-")
+        let named = folder.appendingPathComponent(item.id.uuidString, isDirectory: true).appendingPathComponent(safe.isEmpty ? document.lastPathComponent : safe)
+        do {
+            try FileManager.default.createDirectory(at: named.deletingLastPathComponent(), withIntermediateDirectories: true)
+            if (try? FileManager.default.linkItem(at: document, to: named)) == nil { try FileManager.default.copyItem(at: document, to: named) }
+            quickLookURL = named
+        } catch { quickLookURL = document }
+    }
     func beginExport() {
         guard !busy else { return }
         exportResult = nil; exportAccess = nil; exportError = nil; quickLookURL = nil; showExport = true
