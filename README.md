@@ -20,6 +20,7 @@ scripts/preflight_check.sh --local --log   # environment check for local develop
 scripts/ci.sh                               # clean Debug test build with coverage, all unit and UI tests, then clean Debug and Release builds (warnings are errors)
 scripts/privacy_check.sh                    # entitlements, linked frameworks, privacy manifests
 scripts/eval.sh --model system              # extraction accuracy on the 150 synthetic fixtures (frozen scorer)
+scripts/performance_check.sh system         # AC-10: 100 mixed documents in the real app (about 13 min; parser: about 1 min)
 ```
 
 - Local builds use ad-hoc signing. `PAPERLOFT_CI_XCCONFIG=config/PaulDevelopment.xcconfig scripts/ci.sh` uses development signing, which the App Intents framework tests need.
