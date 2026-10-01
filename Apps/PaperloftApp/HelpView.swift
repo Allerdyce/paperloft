@@ -23,12 +23,12 @@ struct HelpView: View {
         Topic(id: "review", title: "Reviewing and filing", symbol: "checkmark.circle", lines: [
             "Every document waits in the Inbox for your confirmation. Nothing is filed without it.",
             "Check the highlighted fields, correct anything that's wrong, then press Return or click Confirm to file. Tab moves between fields. If Paperloft couldn't verify the total, Return takes you to it instead; click Confirm or press ⌘Return to file it as shown. The Receipt menu also has Confirm and File (⌘Return) and Next and Previous Document (⌘] and ⌘[).",
-            "Issue means a field needs your attention or the document type couldn't be confirmed. Remove sets a document aside without filing it.",
+            "Issue means a field needs your attention or the document type couldn't be confirmed. Remove takes a document out of the Inbox without filing it; Edit › Undo (⌘Z) brings it back, and the original file is never changed.",
             "Paperloft files a copy and leaves your original in place. You can choose Move in Settings › Filing. It never overwrites a file, and deleting from the Library moves the file to Recently Deleted rather than erasing it."
         ]),
         Topic(id: "undo", title: "Finding and undoing", symbol: "clock.arrow.circlepath", lines: [
             "Library lists every filed document, with search and filters. Choose Edit › Find… (⌘F) to search, and click a column heading to sort by it.",
-            "History lists each filing. Undo any of them there, or choose Edit › Undo Last Filing (⌘Z) for the most recent one."
+            "History lists each filing. Undo there returns the document to your Inbox with the values you confirmed. Right after filing or removing, Edit › Undo (⌘Z) or Undo in the notice does the same."
         ]),
         Topic(id: "export", title: "Accountant pack and Shortcuts", symbol: "square.and.arrow.up", lines: [
             "In Library, choose Tax & Accountant Export…, or choose File › Export for Accountant… (⇧⌘E), for a summary PDF, a CSV and the documents by category, optionally as a ZIP.",

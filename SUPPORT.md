@@ -31,10 +31,10 @@ Any of these:
 With Paperloft Pro, a watched folder (Settings › General › Watched folder) sends new files to your Inbox automatically.
 
 ### 7. Why does a document say "Issue" or ask me to check a field?
-Every document waits in the Inbox for your confirmation; nothing is filed without it. Paperloft highlights fields it couldn't read confidently, totals it couldn't verify against the document, and documents whose type it couldn't determine. Correct anything that's wrong, then press Return or click Confirm to file it. If the total couldn't be verified, Return takes you to the total first; click Confirm or press ⌘Return to file it as shown. Remove sets a document aside without filing it. The Receipt menu has the same actions, plus Next and Previous Document (⌘] and ⌘[) for moving through the Inbox.
+Every document waits in the Inbox for your confirmation; nothing is filed without it. Paperloft highlights fields it couldn't read confidently, totals it couldn't verify against the document, and documents whose type it couldn't determine. Correct anything that's wrong, then press Return or click Confirm to file it. If the total couldn't be verified, Return takes you to the total first; click Confirm or press ⌘Return to file it as shown. Remove takes a document out of the Inbox without filing it; Edit › Undo (⌘Z) brings it back. The original file is never changed. The Receipt menu has the same actions, plus Next and Previous Document (⌘] and ⌘[) for moving through the Inbox.
 
 ### 8. Can I undo a filing?
-Yes. Every filing batch is listed in History and can be undone. Edit › Undo Last Filing (⌘Z) undoes the most recent one. Undo restores files to where they were, including originals you chose to move.
+Yes. Every filing is listed in History and can be undone there. Right after filing, Edit › Undo (⌘Z) or Undo in the notice does the same. Undo restores files to where they were, including originals you chose to move, and puts the document back in your Inbox with the values you confirmed.
 
 ### 9. How do I give my accountant everything for the year?
 In Library, choose Tax & Accountant Export… (or File › Export for Accountant…, ⇧⌘E), pick a year, quarter or custom range, and choose where to save it. The accountant pack contains a summary PDF, a CSV of transactions and the documents sorted by category, optionally as a ZIP. From Shortcuts, Export Accountant Pack (Paperloft Pro) returns the ZIP for packs up to 100 MB. Export larger packs from the app.

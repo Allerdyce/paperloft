@@ -21,6 +21,13 @@ struct ReceiptDraft: Codable, Sendable {
         tax = fields.tax ?? ""; currency = fields.currency ?? "USD"
         category = fields.category ?? "Other expenses"; kind = DocumentKind(rawValue: fields.kind) ?? .receipt
     }
+    /// The values the user confirmed when filing, for a document returned to the Inbox by Undo.
+    init(_ receipt: Receipt) {
+        vendor = receipt.vendor; date = receipt.date.formatted
+        total = (try? Money(minorUnits: receipt.totalMinorUnits, currency: receipt.currency).decimal) ?? ""
+        tax = receipt.taxMinorUnits.flatMap { try? Money(minorUnits: $0, currency: receipt.currency).decimal } ?? ""
+        currency = receipt.currency; category = receipt.category; kind = receipt.kind
+    }
     func receipt() throws -> Receipt {
         guard !vendor.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw AppIssue("Enter the vendor name.") }
         guard let date = try? ReceiptDate(iso8601: date) else { throw AppIssue("Enter a valid date as YYYY-MM-DD.") }
@@ -82,7 +89,7 @@ struct InboxItem: Codable, Identifiable, Sendable {
     var documentURL: URL? { intakeRecord == nil ? source : stagedSource }
     private enum CodingKeys: String, CodingKey {
         case id, source, bookmark, intakeRecord, usesOriginalForMove, watchedDelivery, mailDelivery, duplicateMailDeliveryID
-        case review, draft, status, issue, sample, importNotices, intakeSource, receivedAt, displayName
+        case review, draft, status, issue, sample, importNotices, intakeSource, receivedAt, displayName, restoredDraft
     }
     var watchedDelivery: WatchedDeliveryProof?
     var mailDelivery: MailDeliveryLedger.Proof?
@@ -96,6 +103,8 @@ struct InboxItem: Codable, Identifiable, Sendable {
     var intakeSource: String?
     var receivedAt: Date?
     var displayName: String?
+    /// Confirmed values to reapply once a document returned by Undo has been read again.
+    var restoredDraft: ReceiptDraft?
     var name: String { displayName ?? source.lastPathComponent }
 }
 /// Owns a user-granted file's sandbox extension for its entire review lifetime.
@@ -604,7 +613,9 @@ final class FileGrant: @unchecked Sendable {
                 if !inboxMayBeMutated { break }
             }
         }
-        selection = "Inbox"; processWaiting()
+        // Undo from History stays on History, which offers Show in Inbox.
+        if origin != .returned { selection = "Inbox" }
+        processWaiting()
         return accepted
     }
     private func awaitIntakePublication(generation token: UUID? = nil) async throws {
@@ -843,7 +854,8 @@ final class FileGrant: @unchecked Sendable {
                     guard inboxMayBeMutated, !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
                     guard items[index].status == "processing" else { continue }
                     items[index].review = StoredReview(review)
-                    items[index].draft = ReceiptDraft(review.fields); items[index].status = "ready"
+                    items[index].draft = items[index].restoredDraft ?? ReceiptDraft(review.fields); items[index].status = "ready"
+                    items[index].restoredDraft = nil
                 } catch {
                     guard inboxMayBeMutated, !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }) else { return }
                     guard items[index].status == "processing" else { continue }
@@ -922,6 +934,34 @@ final class FileGrant: @unchecked Sendable {
         guard let index = items.firstIndex(where: { $0.id == id }) else { return }
         items[index].draft = draft; persist()
     }
+    /// The main window's undo manager. Filing and removal register here, so Edit › Undo (⌘Z) reverses
+    /// them while text fields keep their own typing undo.
+    @ObservationIgnored weak var undoManager: UndoManager?
+    /// A short confirmation shown under the toolbar after filing, removing or undoing.
+    struct Notice: Identifiable, Equatable {
+        enum Undo: Equatable { case filing(UUID), removal([UUID]) }
+        let id = UUID()
+        let text: String
+        var undo: Undo?
+    }
+    var notice: Notice?
+    func undoNotice() async {
+        guard let target = notice?.undo else { return }
+        notice = nil
+        switch target {
+        case .filing(let batchID): await undoFiling(batchID)
+        case .removal(let ids): restoreRemoved(ids)
+        }
+    }
+    /// The row to select when `id` leaves the list: the next one in on-screen order, else the previous.
+    private func neighbour(of id: UUID) -> UUID? {
+        let known = Set(items.filter { $0.status != "aside" }.map(\.id))
+        let listed = inboxListOrder.filter(known.contains)
+        let order = listed.contains(id) ? listed : items.filter { $0.status != "aside" }.map(\.id)
+        guard let index = order.firstIndex(of: id) else { return order.first }
+        if index + 1 < order.count { return order[index + 1] }
+        return index > 0 ? order[index - 1] : nil
+    }
     /// The Inbox list's current filtered order, so menu navigation stays within what's on screen.
     @ObservationIgnored var inboxListOrder: [UUID] = []
     /// Receipt › Next/Previous Document: move the review selection through the listed Inbox items.
@@ -933,11 +973,41 @@ final class FileGrant: @unchecked Sendable {
         let current = visible.firstIndex { $0 == selectedItem?.id } ?? 0
         selectedItemID = visible[min(max(current + step, 0), visible.count - 1)]
     }
-    func setAside(_ id: UUID) {
+    func setAside(_ id: UUID) { setAside([id]) }
+    /// Removes documents from the Inbox. Edit › Undo, or Undo in the notice, brings them back while
+    /// Paperloft stays open; originals are never touched.
+    func setAside(_ ids: [UUID]) {
         guard canMutateRestoredInbox() else { return }
-        guard let i = items.firstIndex(where: { $0.id == id }) else { return }
-        items[i].status = "aside"; sourceGrants[id] = nil
-        selectedItemID = items.first { $0.status != "aside" }?.id; persist()
+        var previous: [UUID: (String, FileGrant?)] = [:], names: [String] = []
+        let next = ids.count == 1 ? neighbour(of: ids[0]) : nil
+        for id in ids {
+            guard let i = items.firstIndex(where: { $0.id == id }), items[i].status != "aside" else { continue }
+            previous[id] = (items[i].status, sourceGrants[id]); names.append(items[i].name)
+            items[i].status = "aside"; sourceGrants[id] = nil
+        }
+        guard !previous.isEmpty else { return }
+        removedState.merge(previous) { _, new in new }
+        let removed = Array(previous.keys)
+        if let selected = selectedItemID, previous[selected] != nil || items.first(where: { $0.id == selected })?.status == "aside" {
+            selectedItemID = next ?? items.first { $0.status != "aside" }?.id
+        }
+        persist()
+        undoManager?.registerUndo(withTarget: self) { model in MainActor.assumeIsolated { model.restoreRemoved(removed) } }
+        undoManager?.setActionName("Remove from Inbox")
+        notice = Notice(text: names.count == 1 ? "Removed \(names[0])" : "Removed \(names.count) documents", undo: .removal(removed))
+    }
+    /// Status and file access of documents removed this session, for Undo.
+    @ObservationIgnored private var removedState: [UUID: (String, FileGrant?)] = [:]
+    func restoreRemoved(_ ids: [UUID]) {
+        guard canMutateRestoredInbox() else { return }
+        var restored: [UUID] = []
+        for id in ids {
+            guard let i = items.firstIndex(where: { $0.id == id }), items[i].status == "aside", let (status, grant) = removedState[id] else { continue }
+            items[i].status = status; sourceGrants[id] = grant; removedState[id] = nil; restored.append(id)
+        }
+        guard let first = restored.first else { return }
+        selection = "Inbox"; selectedItemID = first; persist(); processWaiting()
+        if case .removal = notice?.undo { notice = nil }
     }
     func fileSelected() async {
         guard !filingBlocked, inboxMayBeMutated, let engine, let item = selectedItem, item.status == "ready", let stored = item.review else { return }
@@ -958,11 +1028,17 @@ final class FileGrant: @unchecked Sendable {
                 guard await grantMoveFolder(required: item.source.deletingLastPathComponent()) else { return }
             }
             let reviewed = ReviewedDocument(id: item.id, source: filingSource, contentHash: stored.hash, text: stored.text, fields: stored.fields, duplicateOf: stored.duplicate)
+            let next = neighbour(of: item.id)
             let outcome = try await engine.file(reviewed, confirmed: receipt, mode: moveOriginal ? .move : .copy, filenameTemplate: filenameTemplate)
             guard inboxMayBeMutated else { return }
             items.removeAll { $0.id == item.id }; sourceGrants[item.id] = nil
-            if selectedItemID == item.id { selectedItemID = items.first { $0.status != "aside" }?.id }
+            if selectedItemID == item.id || selectedItemID == nil { selectedItemID = next ?? items.first { $0.status != "aside" }?.id }
             persist(); await refresh()
+            let batchID = outcome.batch.id
+            undoManager?.registerUndo(withTarget: self) { model in MainActor.assumeIsolated { _ = Task { await model.undoFiling(batchID) } } }
+            undoManager?.setActionName("Filing")
+            let folder = outcome.batch.documents.first.map { ($0.relativePath as NSString).deletingLastPathComponent } ?? ""
+            notice = Notice(text: folder.isEmpty ? "Filed" : "Filed to \(folder)/", undo: .filing(batchID))
             if outcome.indexNeedsRebuild { message = "The document was filed. Rebuild the search index in Settings to update search." }
         } catch {
             message = error.localizedDescription
@@ -985,14 +1061,46 @@ final class FileGrant: @unchecked Sendable {
             return true
         } catch { message = error.localizedDescription; return false }
     }
+    /// Documents an Undo returned to the Inbox this session, by filing batch, for History's Show in Inbox.
+    var returnedItems: [UUID: [UUID]] = [:]
+    func showReturned(_ batchID: UUID) {
+        guard let id = returnedItems[batchID]?.first(where: { id in items.contains { $0.id == id && $0.status != "aside" } }) else { return }
+        selection = "Inbox"; selectedItemID = id
+    }
+    func undoFiling(_ batchID: UUID) async {
+        guard let batch = batches.first(where: { $0.id == batchID && $0.state == .complete }) else { return }
+        await undo(batch)
+    }
+    /// Undoes a filing and returns its documents to the Inbox with the values the user confirmed,
+    /// ready to review again. Copies are taken before undo removes or moves the filed files.
     func undo(_ batch: FilingBatch) async {
-        guard let engine, !busy else { return }; let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
-        let access = libraryAccess
-        defer { withExtendedLifetime(access) {} }
+        guard let engine, !busy else { return }
+        var returning: [(url: URL, receipt: Receipt)] = []
+        let scratch = support.appendingPathComponent("UndoReturn", isDirectory: true).appendingPathComponent(UUID().uuidString, isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: scratch) }
         do {
+            let operation = beginOperation(.libraryMutation); defer { endOperation(operation) }
+            let access = libraryAccess
+            defer { withExtendedLifetime(access) {} }
+            if let root = libraryURL {
+                try? FileManager.default.createDirectory(at: scratch, withIntermediateDirectories: true)
+                for document in batch.documents {
+                    let filed = root.appendingPathComponent(document.relativePath), copy = scratch.appendingPathComponent(filed.lastPathComponent)
+                    if (try? FileManager.default.copyItem(at: filed, to: copy)) != nil { returning.append((copy, document.receipt)) }
+                }
+            }
             let indexed = try await engine.undo(batch); await refresh()
             if !indexed { message = "Undo completed. Rebuild the search index in Settings." }
-        } catch { message = error.localizedDescription }
+        } catch { message = error.localizedDescription; return }
+        guard !returning.isEmpty else { return }
+        let ids = await stageIntake(returning.map(\.url), sourceLabel: "Returned by Undo", origin: .returned)
+        for (id, entry) in zip(ids, returning) {
+            if let index = items.firstIndex(where: { $0.id == id }) { items[index].restoredDraft = ReceiptDraft(entry.receipt) }
+        }
+        guard let first = ids.first else { return }
+        returnedItems[batch.id] = ids
+        selectedItemID = first; persist(); processWaiting()
+        notice = Notice(text: ids.count == 1 ? "Returned \(returning[0].url.lastPathComponent) to the Inbox" : "Returned \(ids.count) documents to the Inbox")
     }
     func deleteDocument(_ document: FiledDocument) async {
         guard inboxMayBeMutated, !busy, let engine else { return }
