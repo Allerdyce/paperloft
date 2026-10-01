@@ -16,5 +16,5 @@
     "Classifier: residual refusals on PAID/zero-balance invoices and ~15% of bills (safe review fallback); formal email fixture/holdout scoring and live Mail checks incomplete",
     "AC-10: 100 documents take about 340-360 s against 240 s; prewarm, concurrent classification (adopted) and two-at-a-time (no gain) tried; options in PROPOSALS.md for the owner"
   ],
-  "updated": "2026-10-01T01:07:10.854449+00:00"
+  "updated": "2026-10-01T02:41:13.106600+00:00"
 }

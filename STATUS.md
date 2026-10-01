@@ -13,8 +13,8 @@
 Latest (2026-09-30 evening, lead mode):
 - **AC-16 design follow-up merged:** Receipt menu, export sheet, Library sorting and formatting, review form, Inbox toolbar, Settings, ⌘1–⌘3 section shortcuts, and clearer empty states. All use native macOS patterns with the owner's branding kept. Summary: `evidence/design/2026-09-30-native/README.md`.
 - **Second design review** (`evidence/design/2026-09-30-r2-critique.md`): most first-round fixes confirmed. It found two new P1s (Undo from History lost the receipt; Remove couldn't be undone), and I found a third (⌘Z undid a filing instead of typing). All three are fixed. AC-16 still has lines below 4: some are deliberate branding, some are frozen-test constraints, and some are smaller polish items.
-- **QA bugs:** QA-05, QA-07 and QA-08 fixed; no open P0/P1/P2 in BUGS.md.
-- **Full local CI:** 163 tests pass. Only the accessibility audit fails, on the same 10 system findings.
+- **Bugs:** QA-05, QA-07 and QA-08 fixed. The second review's R2-01–R2-07 are fixed, except R2-06: a one-off layout-loop crash, mitigated and being watched. See BUGS.md.
+- **Full local CI:** 165 tests pass, with no crashes. Only the accessibility audit fails, on the same 10 system findings.
 - **Waiting on the owner (PROPOSALS.md):**
   - AC-10 speed: the target can't be met by scheduling, since two documents at once gave no gain
   - AC-13 system audit findings
