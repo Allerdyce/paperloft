@@ -1,7 +1,7 @@
 {
   "phase": "P3",
-  "step": "Release-check fixes (required-reason APIs, Terms link, pre-archive checklist) and third design review fixes (all P1s, most P2s) merged; full CI green at e15d7ee (38/38 UI, 0 warnings). Reference-design items await the owner (PROPOSALS). Next: fourth design review, formal verifier gates, AC-17 with owner, Apple-dependent steps.",
-  "last_green_commit": "e15d7ee",
+  "step": "Fourth design review fixes merged (one-step undo, dark selection text, banner placement, shared field checks); full CI green at 2ab8ea1 (39/39 UI, 0 warnings). AC-16 remaining lines are owner decisions (PROPOSALS). Next: owner choices, formal verifier gates, AC-17 with owner, Apple-dependent steps.",
+  "last_green_commit": "2ab8ea1",
   "parked": [
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
@@ -14,5 +14,5 @@
     "AC-10 signpost metric (XCTOSSignpostMetric) not collectable from the agent shell: unified log access denied; owner to run scripts/performance_check.sh system from Terminal",
     "paperloft-site branch release/receipts-1.0-copy ready locally; publishing waits on owner OK"
   ],
-  "updated": "2026-10-02T01:42:25.586947+00:00"
+  "updated": "2026-10-02T03:17:41.620043+00:00"
 }
