@@ -1,7 +1,7 @@
 {
   "phase": "P4",
-  "step": "P3 local readiness PASS by the independent verifier at 7cd0f79 (evidence/gates/P3.md, cycle 3); P3 files locked (no phase tag under the local exception). Formal P3 still needs membership and the full preflight. Next: P4 (AC-12 export, AC-15 App Intents; intents tests need development signing); owner to confirm ACCEPTANCE amendments.",
-  "last_green_commit": "5202bf9",
+  "step": "P4 local self-check PASS at ab35001 (evidence/gates/P4-local-self.md); next: independent P4 verifier (AC-12 export, AC-15 App Intents).",
+  "last_green_commit": "ab35001",
   "parked": [
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
@@ -14,5 +14,5 @@
     "AC-10 signpost metric (XCTOSSignpostMetric) not collectable from the agent shell: unified log access denied; owner to run scripts/performance_check.sh system from Terminal",
     "paperloft-site branch release/receipts-1.0-copy ready locally; publishing waits on owner OK"
   ],
-  "updated": "2026-10-02T05:21:38.940054+00:00"
+  "updated": "2026-10-02T07:08:54.581672+00:00"
 }

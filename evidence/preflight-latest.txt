@@ -1,10 +1,10 @@
-Paperloft factory pre-flight  2026-10-01 11:50:33  user=builder  repo=/Users/builder/Factory/paperloft
+Paperloft factory pre-flight  2026-10-01 23:43:03  user=builder  repo=/Users/builder/Factory/paperloft
 
 == Machine ==
 PASS   macOS 27.0
 PASS   Apple silicon
 PASS   user 'builder' is a Standard user
-PASS   113 GB free
+PASS   81 GB free
 PASS   Retina-class display connected
 
 == Power, sleep, lock, updates ==
@@ -32,26 +32,24 @@ PASS   UI automation needs no password
 
 == Signing and keychain ==
 PASS   identity: Apple Development
-FAIL   no valid 'Apple Distribution' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
-FAIL   no Mac Installer Distribution identity; create it in Xcode > Settings > Accounts > Manage Certificates
+MANUAL DEFERRED (local development only): no valid 'Apple Distribution' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
+MANUAL DEFERRED (local development only): no Mac Installer Distribution identity; create it in Xcode > Settings > Accounts > Manage Certificates
 PASS   login keychain does not auto-lock
-PASS   codesign works with no keychain prompt
 
 == Secrets and App Store Connect ==
 PASS   secrets file present, mode 600
-FAIL   ASC_KEY_ID still has the example value from asc.env.example
-FAIL   ASC_ISSUER_ID still has the example value from asc.env.example
-FAIL   ASC_KEY_PATH still has the example value from asc.env.example
-FAIL   TEAM_ID still has the example value from asc.env.example
+MANUAL DEFERRED (local development only): ASC_KEY_ID requires active membership before release
+MANUAL DEFERRED (local development only): ASC_ISSUER_ID requires active membership before release
+MANUAL DEFERRED (local development only): ASC_KEY_PATH requires active membership before release
+MANUAL DEFERRED (local development only): TEAM_ID requires active membership before release
 PASS   BUNDLE_ID set
 PASS   APP_NAME set
 PASS   SUPPORT_EMAIL set
 PASS   SITE_DOMAIN set
 PASS   LEGAL_ENTITY set
-FAIL   App Store Connect key file not found at '/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8'
-FAIL   no signing identity for team ABCDE12345
-PASS   App Store Connect API reachable
-FAIL   App Store Connect check failed (exit 2): ASC_ERROR could not build a token from the key file: Error Domain=NSCocoaErrorDomain Code=260 "The file “AuthKey_ABC123DEFG.p8” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8, NSURL=file:///Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8, NSUnderlyingError=0x10e54b9a0 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}
+MANUAL DEFERRED (local development only): App Store Connect key file not found at '/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8'
+MANUAL DEFERRED (local development only): no signing identity for team ABCDE12345
+MANUAL DEFERRED (local development only): App Store Connect API, app record and products require full preflight before release
 
 == Apple Intelligence ==
 PASS   on-device model available
@@ -75,5 +73,5 @@ MANUAL Computer Use: Screen Recording and Accessibility granted; Locked use on; 
 MANUAL GitHub rulesets: no force-push to main; acceptance-* tags cannot be updated or deleted
 MANUAL App Store Connect: Paid Apps Agreement active; Small Business Program enrolled
 
-Summary: 42 PASS, 1 WARN, 9 FAIL, 0 TFAIL, 5 MANUAL
-NO-GO: fix every FAIL before starting a run.
+Summary: 40 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 14 MANUAL
+GO: LOCAL DEVELOPMENT ONLY. Distribution signing, upload and release remain blocked.
