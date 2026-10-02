@@ -45,7 +45,7 @@ struct ExportView: View {
                 }
             } else {
                 Text("Share your filed receipts and recorded amounts with your accountant.")
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.primary)
                 GroupBox("Included in your export") {
                     VStack(alignment: .leading, spacing: 10) {
                         included("Transactions CSV — dates, merchants, categories, totals and recorded tax", symbol: "tablecells")
@@ -57,9 +57,10 @@ struct ExportView: View {
                 Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 12, verticalSpacing: 14) {
                     GridRow {
                         rowLabel("Period")
-                        Picker("Period", selection: $period) {
-                            Text("Calendar year").tag("Year"); Text("Quarter").tag("Quarter"); Text("Custom dates").tag("Custom")
-                        }.labelsHidden().fixedSize().accessibilityIdentifier("export.period")
+                        // Native pop-ups with a VoiceOver press action (SwiftUI's menu pickers lack one).
+                        AccessiblePopup(label: "Period", identifier: "export.period", choices: ["Year", "Quarter", "Custom"], selection: $period,
+                                        title: { ["Year": "Calendar year", "Quarter": "Quarter", "Custom": "Custom dates"][$0] ?? $0 })
+                            .fixedSize()
                     }
                     GridRow {
                         rowLabel(period == "Custom" ? "Dates" : "Year")
@@ -71,13 +72,13 @@ struct ExportView: View {
                                 DatePicker("Through", selection: $end, displayedComponents: .date)
                                     .datePickerStyle(.field).labelsHidden().accessibilityIdentifier("export.end")
                             } else {
-                                Picker("Year", selection: $year) {
-                                    ForEach(years, id: \.self) { Text(String($0)).tag($0) }
-                                }.labelsHidden().fixedSize().accessibilityIdentifier("export.year")
+                                AccessiblePopup(label: "Year", identifier: "export.year", choices: years.map(String.init),
+                                                selection: Binding(get: { String(year) }, set: { year = Int($0) ?? year }))
+                                    .fixedSize()
                                 if period == "Quarter" {
-                                    Picker("Quarter", selection: $quarter) {
-                                        ForEach(1...4, id: \.self) { Text("Q\($0)").tag($0) }
-                                    }.labelsHidden().fixedSize().accessibilityIdentifier("export.quarter")
+                                    AccessiblePopup(label: "Quarter", identifier: "export.quarter", choices: ["1", "2", "3", "4"],
+                                                    selection: Binding(get: { String(quarter) }, set: { quarter = Int($0) ?? quarter }), title: { "Q" + $0 })
+                                        .fixedSize()
                                 }
                             }
                         }.frame(minHeight: 28)
@@ -102,7 +103,7 @@ struct ExportView: View {
                     }
                 }
                 Text("Includes filed receipts dated in this period. Currencies stay separate, and missing tax is left blank. Paperloft doesn't calculate deductions or file a tax return.")
-                    .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                    .font(.callout).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
             }
             HStack {
                 Button(model.exportResult == nil ? "Cancel" : "Done") { dismiss() }
@@ -117,6 +118,7 @@ struct ExportView: View {
             }
         }.padding(28).frame(width: 600)
             .accessibilityElement(children: .contain).accessibilityLabel("Tax and accountant export")
+            .background(WindowAccessibility(label: "Tax and accountant export"))
     }
     private func receipts(in range: ExportDateRange?) -> [FiledDocument] {
         guard let range else { return [] }

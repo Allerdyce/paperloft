@@ -4,7 +4,9 @@ import SwiftUI
 /// SwiftUI supplies labels for its own elements, but its AppKit hosting content
 /// group also needs a name when VoiceOver enters a window.
 struct WindowAccessibility: NSViewRepresentable {
-    enum Target { case window, splitPane }
+    /// `.window` labels the window's content; `.panel` also labels the window itself (a menu bar
+    /// extra's panel has no title for VoiceOver otherwise).
+    enum Target { case window, panel, splitPane }
     let label: String
     var target: Target = .window
     func makeNSView(context: Context) -> WindowLabelView { WindowLabelView(label: label, target: target) }
@@ -29,7 +31,8 @@ final class WindowLabelView: NSView {
     }
     override func viewDidMoveToSuperview() { super.viewDidMoveToSuperview(); applyLabel() }
     func applyLabel() {
-        if target == .window { window?.contentView?.setAccessibilityLabel(label); return }
+        if target == .panel { window?.setAccessibilityLabel(label) }
+        if target == .window || target == .panel { window?.contentView?.setAccessibilityLabel(label); return }
         var child: NSView = self
         while let parent = child.superview {
             if parent is NSSplitView { return }

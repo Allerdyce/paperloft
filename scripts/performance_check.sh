@@ -18,6 +18,8 @@ trap 'rm "$lock/owner"; rmdir "$lock"' EXIT
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 output="evidence/performance/$mode-$stamp"
 mkdir -p "$output" build
+# The commit measured, for scripts/performance_evidence_check.py; "dirty" if app or test sources had uncommitted changes.
+{ git rev-parse HEAD; git status --porcelain -- Apps Packages Paperloft.xcodeproj Tests/PaperloftPerformanceTests scripts/generate_performance_inputs.swift | grep -q . && echo dirty; true; } > "$output/commit.txt"
 scripts/preflight_check.sh --local --log > "$output/preflight.log"
 scripts/verify_lock.sh > "$output/lock.log"
 swift scripts/generate_performance_inputs.swift > "$output/fixture-generation.log"

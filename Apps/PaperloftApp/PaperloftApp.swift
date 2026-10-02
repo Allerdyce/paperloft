@@ -136,6 +136,7 @@ struct PaperloftApp: App {
         }
         Window("Paperloft Help", id: "help") { HelpView().modifier(AppAppearance()) }
             .defaultSize(width: 640, height: 720)
+            .restorationBehavior(.disabled) // like Help Viewer: a relaunch opens the library, not last session's help
         Settings { PaperloftSettings(model: model).modifier(AppAppearance()).background(WindowAccessibility(label: "Paperloft settings")) }
         MenuBarExtra {
             MenuBarInbox(model: model).modifier(AppAppearance())
@@ -171,7 +172,7 @@ struct MenuBarInbox: View {
             VStack(spacing: 6) {
                 Image(systemName: "arrow.down.doc").font(.title2).foregroundStyle(Color.accentColor).accessibilityHidden(true)
                 Text("Drop receipts here").font(.callout.weight(.medium))
-                Text("PDF, image or saved email").font(.caption).foregroundStyle(.secondary)
+                Text("PDF, image or saved email").font(.caption).foregroundStyle(.primary)
             }
             .padding(.vertical, 16).frame(maxWidth: .infinity)
             .background(targeted ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
@@ -187,6 +188,10 @@ struct MenuBarInbox: View {
             }
         }
         .padding(20).frame(width: 300)
+        // An opaque panel, so text contrast is measured against what's actually behind it.
+        .background(Color(nsColor: .windowBackgroundColor))
+        .accessibilityElement(children: .contain).accessibilityLabel("Paperloft Inbox")
+        .background(WindowAccessibility(label: "Paperloft Inbox", target: .panel))
     }
 }
 

@@ -1,6 +1,6 @@
 {
-  "phase": "P5",
-  "step": "P4 local readiness PASS by the independent verifier at 28c3cef (evidence/gates/P4.md); P4 files locked, no tag. Next: fix V4-01 (accountant pack ZIP UTF-8 names), then P5 (StoreKit purchase flows of AC-11; StoreKitTest unit tests blocked, owner decision in PROPOSALS).",
+  "phase": "P6",
+  "step": "P3 and P4 local PASS (independent verifier; files locked, no tags). V4-01 fixed. P5 waits on the owner's StoreKitTest choice (PROPOSALS). P6 prep: AC-09 ResilienceTests and AC-14 privacy_check pass; AC-13 audits now also cover Help, the menu bar extra, the export sheet and the paywall (BUGS A6). The in-window Settings page audit waits on the sidebar Settings decision. AC-10 signposts need the owner's Terminal run.",
   "last_green_commit": "ab35001",
   "parked": [
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
@@ -14,5 +14,5 @@
     "AC-10 signpost metric (XCTOSSignpostMetric) not collectable from the agent shell: unified log access denied; owner to run scripts/performance_check.sh system from Terminal",
     "paperloft-site branch release/receipts-1.0-copy ready locally; publishing waits on owner OK"
   ],
-  "updated": "2026-10-02T08:10:07.075030+00:00"
+  "updated": "2026-10-02T09:07:16.992257+00:00"
 }

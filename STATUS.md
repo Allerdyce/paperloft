@@ -1,6 +1,15 @@
-# Paperloft development status — 2026-10-01 (evening)
+# Paperloft development status — 2026-10-02
 
 **Not launch-ready.** Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass. Submission and public release remain blocked.
+
+## Latest work (2026-10-02)
+- **V4-01 fixed:** the accountant pack ZIP now uses NFC names with the UTF-8 flag, so `交通費` and `Zürich` read correctly in Windows' extractor (`ExportZipTests`).
+- **P6 accessibility:** new audits cover Help, the menu bar extra, the export sheet and the paywall.
+  - They found and fixed pop-ups VoiceOver couldn't open, low-contrast secondary text, and unlabelled windows (BUGS.md A6).
+  - The Settings page inside the main window waits on your sidebar Settings decision.
+- **P6 status:**
+  - AC-09 resilience and AC-14 privacy pass locally.
+  - AC-10 still needs your one Terminal run for signposts.
 
 ## Latest work (2026-10-01, lead mode)
 - **Paperloft Pro** is integrated:

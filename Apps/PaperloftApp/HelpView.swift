@@ -18,7 +18,7 @@ struct HelpView: View {
             "Drag PDFs, images (PNG, JPEG, HEIC, TIFF) or saved emails (.eml) onto the window, or onto the window that opens from the menu bar item.",
             "Choose File › Import Receipts…, or copy an image and choose Edit › Paste Image (⇧⌘V).",
             "In Finder, choose Share › Paperloft Receipts. To scan paper, choose File › Import From Device › Scan Documents, listed under your iPhone or iPad.",
-            "With Paperloft Pro, a watched folder (Settings › General) sends new files to your Inbox automatically."
+            "With Paperloft Pro, a watched folder (Settings › General) sends new files to your Inbox."
         ]),
         Topic(id: "review", title: "Reviewing and filing", symbol: "checkmark.circle", lines: [
             "Every document waits in the Inbox for your confirmation. Nothing is filed without it.",
@@ -79,9 +79,14 @@ struct HelpView: View {
                 }
                 Text("Paperloft Receipts is made by EvidencePair LLC.").font(.callout).foregroundStyle(.primary)
             }.padding(28).frame(maxWidth: 640, alignment: .leading)
-        }.frame(minWidth: 520, idealWidth: 640, minHeight: 480, idealHeight: 720)
+        }
+        // An opaque page like a document, so text always sits on a known background.
+        .background(Color(nsColor: .textBackgroundColor))
+        .frame(minWidth: 520, idealWidth: 640, minHeight: 480, idealHeight: 720)
             // A title bar separator, so text doesn't scroll under the title.
             .toolbarBackground(.visible, for: .windowToolbar)
+            .accessibilityElement(children: .contain).accessibilityLabel("Paperloft Help")
+            .background(WindowAccessibility(label: "Paperloft Help"))
             .accessibilityIdentifier("help.root")
     }
 }
