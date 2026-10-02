@@ -144,21 +144,17 @@ public enum AccountantPackExporter {
         let folder = destination.appendingPathComponent(name, isDirectory: true)
         var zipURL: URL?
         if zip {
-            var coordinationError: NSError?
-            var copyError: (any Error)?
-            NSFileCoordinator().coordinate(readingItemAt: folder, options: .forUploading, error: &coordinationError) { archive in
-                do {
-                    guard let canonical = realpath(archive.path, nil) else { throw LibraryError.unsafePath }
-                    defer { free(canonical) }
-                    let resolvedArchive = URL(fileURLWithPath: String(cString: canonical))
-                    let archiveParent = try ExportDirectory(url: resolvedArchive.deletingLastPathComponent())
-                    try archiveParent.copy(resolvedArchive.lastPathComponent, to: parent, name: name + ".zip", expectedHash: nil)
-                    zipURL = destination.appendingPathComponent(name + ".zip")
-                } catch { copyError = error }
+            // Our own writer, so names keep the UTF-8 flag that Windows needs (V4-01).
+            let zipName = name + ".zip"
+            let handle = try parent.createFile(zipName)
+            do {
+                try ZipArchive.write(folder: folder, rootName: name, to: handle)
+                try handle.synchronize(); try handle.close()
+            } catch {
+                try? handle.close(); parent.remove(zipName)
+                throw error
             }
-            if let coordinationError { throw coordinationError }
-            if let copyError { throw copyError }
-            guard zipURL != nil else { throw LibraryError.conflict("ZIP could not be created") }
+            zipURL = destination.appendingPathComponent(zipName)
         }
         return AccountantPackResult(folderURL: folder, zipURL: zipURL, documentCount: selected.count, categoryTotals: categories, monthTotals: months)
     }
@@ -227,6 +223,13 @@ private final class ExportDirectory {
         guard child >= 0 else { throw LibraryError.unsafePath }
         return ExportDirectory(fd: child)
     }
+    /// A new file for streaming writes; never replaces an existing one.
+    func createFile(_ name: String) throws -> FileHandle {
+        let descriptor = openat(fd, name, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        guard descriptor >= 0 else { throw LibraryError.conflict(name) }
+        return FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
+    }
+    func remove(_ name: String) { unlinkat(fd, name, 0) }
     func write(_ data: Data, name: String) throws {
         let descriptor = openat(fd, name, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
         guard descriptor >= 0 else { throw LibraryError.conflict(name) }
