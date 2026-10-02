@@ -46,6 +46,9 @@ Paperloft organizes records; it doesn't give tax advice.
 
 Requires a Mac with Apple silicon and macOS 27 or later. Automatic reading works best with Apple Intelligence turned on.
 
+Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacy Policy: https://paperloft.app/privacy/
+
 ## In-app purchases
 
 | Product ID | Type | Reference name | Display name | Description (55 max) | Price |

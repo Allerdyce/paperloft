@@ -79,3 +79,12 @@ Xcode 27's own `StoreKitTest.framework/Headers/SKTestTransaction.h:34` uses `SKP
 
 Recommendation: (a).
 
+
+## 2026-10-01: First App Store version number — 1.0 or 1.1 (owner decision)
+
+The project builds as version **1.1** (`MARKETING_VERSION`, app and Share targets). The working name "1.1" comes from the intake plan (`docs/INTAKE-1.1-PLAN.md`). But AC-19 (frozen) says "Build 1.0 archived, exported, uploaded", and the listing draft (`release/metadata.md`) is titled 1.0. The release check flagged the mismatch (`evidence/release/2026-10-01-review.md`).
+
+- **Option 1 (recommended):** ship the first App Store release as **1.0**. It matches AC-19 and the listing. The agent sets `MARKETING_VERSION = 1.0` for both targets just before the archive; nothing else changes.
+- **Option 2:** keep 1.1. The listing draft gets retitled, and AC-19's "1.0" is read as "the first build" (that would need your amendment, like the AC-10 one).
+
+Until you decide, the agent follows the frozen criterion and archives as 1.0.
