@@ -20,6 +20,15 @@ if build_warnings evidence/ci/tests.log; then
 fi
 printf '%s\n' "$result" > build/latest-test-result.txt
 printf '%s\n' "$coverage_data" > build/latest-test-derived-data.txt
+# The PaperloftKit package's own tests, unhosted, give AC-02 a whole PaperloftKit coverage target
+# every run; in the app-hosted run above xccov doesn't always list one.
+kit_result="build/KitCoverage-$(date +%Y%m%d-%H%M%S).xcresult"
+(cd Packages/PaperloftKit && xcodebuild test -scheme PaperloftKit-Package -destination 'platform=macOS' -derivedDataPath ../../build/KitCoverageDerivedData -enableCodeCoverage YES -resultBundlePath "../../$kit_result" SWIFT_TREAT_WARNINGS_AS_ERRORS=YES) 2>&1 | tee evidence/ci/kit-tests.log
+if build_warnings evidence/ci/kit-tests.log; then
+  echo "FAIL: PaperloftKit package tests emitted warnings" >&2
+  exit 1
+fi
+printf '%s\n' "$kit_result" > build/latest-kit-coverage.txt
 # Keep the final Release product available to privacy and bundle checks.
 for configuration in Debug Release; do
   scripts/preflight_check.sh --local --fast > evidence/ci/preflight.log
