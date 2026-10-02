@@ -36,6 +36,10 @@ Until then the verifier marks the baseline provenance as a flag.
 
 The P4 verifier raised the same point about distribution: `HANDOFF.md` and `docs/DISTRIBUTION-AUTHORIZATION.md` record your authorization for distribution signing, archives and uploads once readiness checks pass, but only in builder-written files, and the frozen AGENTS.md exception still blocks distribution. Please confirm that too, in the same way. Nothing will be archived or uploaded before the membership, the full preflight and your confirmation.
 
+## P6 open item: the Settings page inside the main window isn't audited
+
+`ScreenAuditTests` now audits Help, the menu bar extra, the export sheet and the paywall (all pass). The long Settings page shown from the sidebar scrolls past the window. The audit then measures off-screen text against other pixels and reports contrast failures that aren't real. Whether that page stays at all is your call in PROPOSALS ("Reference-design elements"). My recommendation, the sidebar row opening the real Settings window, would remove the page, and the Settings window's panes are already audited.
+
 ## Pre-archive checklist (from the 2026-10-01 release check)
 
 Do these after the EvidencePair LLC membership is confirmed and before the first archive (`evidence/release/2026-10-01-review.md`):

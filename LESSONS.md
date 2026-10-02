@@ -78,3 +78,7 @@
 - The Claude desktop window can take focus during long UI runs. One locked test lost a typed "-"; the verifier's rerun passed. Keep other windows from coming forward during UI runs.
 - Flags that need the owner (amendment provenance, distribution authorization) can't be cleared by the builder. Write them in HANDOFF with the exact action.
 - App Intents framework tests need development signing (PaulDevelopment.xcconfig). Under ad-hoc signing they fail with error 800, so pass PAPERLOFT_CI_XCCONFIG to every gate run.
+- Audit screens with a sheet or second window in front using `auditAccessibility(_:screen:container:)`. The audit also measures the window behind against the pixels covering it, and contrast for clipped text samples other pixels. Both kinds of reading are attached, not failed.
+- SwiftUI's menu-style Picker has no accessibility press action on macOS 27 (audit: "Action is missing"). Use the app's AccessiblePopup (an NSPopUpButton) for every pop-up.
+- The audit's contrast heuristic can fail a paragraph whose second line is a single short word. Rewording to remove the orphan fixed it, with no colour change.
+- `.foregroundStyle(.secondary)` text fails the contrast audit in this app's sheets and panels. Use `.primary` with a smaller font for de-emphasis.

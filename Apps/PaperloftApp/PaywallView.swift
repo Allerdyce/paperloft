@@ -17,6 +17,8 @@ struct PaywallView: View {
             }.font(.callout)
         }
         .padding(28).frame(width: 520)
+        .accessibilityElement(children: .contain).accessibilityLabel("Paperloft Pro")
+        .background(WindowAccessibility(label: "Paperloft Pro"))
         .task { await store.start() }
         .onDisappear { store.clearStatus() }
     }
@@ -50,14 +52,14 @@ struct PaywallView: View {
             Label("Tax & Accountant Export and Shortcuts export", systemImage: "square.and.arrow.up")
         }
         Text("Free includes 25 automatic reads a month. Filling in details yourself, browsing and undo are always free. Samples don't count.")
-            .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            .font(.callout).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
         if !store.ready { ProgressView("Checking purchases…").accessibilityIdentifier("paywall.loading") }
         Picker("Plan", selection: $plan) {
             Text("Yearly · \(price(StoreController.yearlyID, mock: "$29.99")) a year").tag(StoreController.yearlyID)
             Text("Lifetime · \(price(StoreController.lifetimeID, mock: "$69.99")) once").tag(StoreController.lifetimeID)
         }
         .pickerStyle(.radioGroup).labelsHidden().accessibilityIdentifier("paywall.plan")
-        Text(planTerms).font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+        Text(planTerms).font(.callout).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
             .accessibilityIdentifier("paywall.terms.detail")
         statusLine
         HStack {
@@ -95,7 +97,7 @@ struct PaywallView: View {
                 .accessibilityIdentifier("paywall.planSummary")
         }
         Text("Every document is read automatically, and the watched folder and Tax & Accountant Export are on.")
-            .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            .font(.callout).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
         statusLine
         HStack {
             Button("Restore Purchases") { Task { await store.restore() } }.accessibilityIdentifier("paywall.restore")
