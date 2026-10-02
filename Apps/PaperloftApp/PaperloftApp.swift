@@ -22,9 +22,6 @@ struct PaperloftApp: App {
             LibraryView(model: model)
                 .modifier(AppAppearance())
                 .background(WindowAccessibility(label: "Paperloft workspace"))
-                #if DEBUG || QA
-                .background(ScreenshotWindowSize())
-                #endif
                 .task {
                     model.openInboxWindow = { openWindow(id: "main") }
                     await model.start()
@@ -99,6 +96,39 @@ struct PaperloftApp: App {
                     .disabled(model.inboxCount < 2)
                     .accessibilityIdentifier("command.previousDocument")
             }
+            #if DEBUG || QA
+            // Debug and QA builds only: test controls that would otherwise need extra launch arguments
+            // (SPEC 6.7 lists the only launch hooks). Never compiled into Release.
+            CommandMenu("Debug") {
+                if model.store.isMock {
+                    Menu("Mock Store") {
+                        Button("Make Pro (Lifetime)") { model.store.mockMakePro(); model.resumeQuotaPaused() }
+                            .accessibilityIdentifier("debug.mockMakePro")
+                        Button("Return to Free") { model.store.mockReturnToFree() }.accessibilityIdentifier("debug.mockReturnToFree")
+                        Divider()
+                        Button("Expire Purchase") { model.store.mockExpire() }.accessibilityIdentifier("debug.mockExpire")
+                        Button("Clear Local Entitlement") { model.store.mockHideEntitlement() }.accessibilityIdentifier("debug.mockClear")
+                        Button("Approve Pending Purchase") { model.store.mockApprovePending(); model.resumeQuotaPaused() }
+                            .accessibilityIdentifier("debug.mockApprove")
+                        Picker("Next Purchase", selection: Binding(get: { model.store.mockOutcome }, set: { model.store.mockOutcome = $0 })) {
+                            ForEach(StoreController.MockOutcome.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) }
+                        }
+                    }
+                }
+                Button("Size Window for App Store Screenshots") {
+                    // 1440 x 900 points is 2880 x 1800 pixels at 2x, the App Store's Mac size.
+                    guard let window = NSApp.mainWindow ?? NSApp.keyWindow else { return }
+                    let top = (window.screen ?? NSScreen.main)?.visibleFrame.maxY ?? 1000
+                    window.setFrame(NSRect(x: 80, y: top - 60 - 900, width: 1440, height: 900), display: true)
+                }.accessibilityIdentifier("debug.screenshotSize")
+                if model.testMode {
+                    Button("Use This Month's Automatic Reads") { model.debugUseAllAutomaticReads() }
+                        .accessibilityIdentifier("debug.useAllReads")
+                    Button("Reset to First Launch and Quit") { model.debugResetToFirstLaunch() }
+                        .accessibilityIdentifier("debug.resetFirstLaunch")
+                }
+            }
+            #endif
             CommandGroup(replacing: .help) {
                 Button("Paperloft Help") { openWindow(id: "help") }
                     .accessibilityIdentifier("command.help")
@@ -179,23 +209,3 @@ struct AppAppearance: ViewModifier {
         }
     }
 }
-
-#if DEBUG || QA
-/// Debug/QA only: `-PaperloftWindowSize 1440x900` sizes the main window for App Store screenshots
-/// (2880 x 1800 at 2x). Never compiled into Release.
-private struct ScreenshotWindowSize: NSViewRepresentable {
-    func makeNSView(context: Context) -> NSView { Sizer() }
-    func updateNSView(_ nsView: NSView, context: Context) {}
-    final class Sizer: NSView {
-        override func viewDidMoveToWindow() {
-            super.viewDidMoveToWindow()
-            guard let window, let value = AppModel.argument("-PaperloftWindowSize") else { return }
-            let parts = value.split(separator: "x").compactMap { Double($0) }
-            guard parts.count == 2 else { return }
-            DispatchQueue.main.async {
-                window.setFrame(NSRect(x: window.frame.minX, y: window.frame.minY, width: parts[0], height: parts[1]), display: true)
-            }
-        }
-    }
-}
-#endif

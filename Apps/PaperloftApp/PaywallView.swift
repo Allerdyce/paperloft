@@ -15,22 +15,6 @@ struct PaywallView: View {
                 Link("Terms of Use", destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!).accessibilityIdentifier("paywall.terms")
                 Link("Manage Subscriptions", destination: URL(string: "https://apps.apple.com/account/subscriptions")!).accessibilityIdentifier("paywall.manage")
             }.font(.callout)
-            #if DEBUG || QA
-            // `-PaperloftScreenshotMode YES` hides the mock panel so review screenshots show the real paywall.
-            if store.isMock && AppModel.argument("-PaperloftScreenshotMode") != "YES" {
-                // Debug/QA mock store only: always expanded so testers and UI tests can drive outcomes.
-                GroupBox("Mock store controls") {
-                    Picker("Purchase outcome", selection: $store.mockOutcome) {
-                        ForEach(StoreController.MockOutcome.allCases, id: \.self) { Text($0.rawValue).tag($0) }
-                    }.accessibilityIdentifier("storeMock.outcome")
-                    HStack {
-                        Button("Expire purchase") { store.mockExpire() }.accessibilityIdentifier("storeMock.expire")
-                        Button("Clear local entitlement") { store.mockHideEntitlement() }.accessibilityIdentifier("storeMock.clear")
-                        Button("Approve pending") { store.mockApprovePending() }.accessibilityIdentifier("storeMock.approve")
-                    }
-                }.accessibilityIdentifier("storeMock.controls")
-            }
-            #endif
         }
         .padding(28).frame(width: 520)
         .task { await store.start() }

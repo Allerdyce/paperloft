@@ -75,6 +75,9 @@ final class PipelinePerformanceTests: XCTestCase {
                 }
                 do {
                     await model.start()
+                    // Pro, so all 100 documents are read automatically (the mock store starts on Free).
+                    model.store.mockMakePro()
+                    XCTAssertTrue(model.isPro, "the performance schemes use -PaperloftStoreMock YES")
                     try await model.newSampleLibrary(discardInbox: true)
                     // Only the documented temporary UI-test workspace is cleared.
                     // All original inputs stay untouched; no production hook is added.

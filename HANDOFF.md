@@ -26,6 +26,14 @@ All-types audit still FAILS. Independent standalone native reproduction document
 
 local/mail at88dc439 preserves the isolated native promise wrapper and public provider harness. Three distinct native drag diagnostics reached the gesture but produced no source MOUSE_DOWN or DRAG_STARTED event; no recipient delivery was established. Window-menu-primed Open Inbox also failed to reopen after closing main. Speculative product fixes were reverted. Saved EML file import is separately integrated; native promises are not accepted or merged. Evidence: that branch's evidence/mail-promises.md and evidence/mail-independent-ui.md.
 
+## Owner action: confirm the 2026-10-01 ACCEPTANCE amendments yourself
+
+The P3 verifier (`evidence/gates/P3.md`) passed the AC-13 audit only under the amended wording. It flagged that `acceptance-v1` and the approval notes were all written by the builder identity, so it can't confirm your approval of the AC-10 (400 s) and AC-13 (system-owned findings) amendments. Please confirm them in a way the verifier can see as yours, for example:
+- a short commit from your own account adding a line such as "Ali confirms the 2026-10-01 AC-10 and AC-13 amendments" under "Owner-approved amendments" in ACCEPTANCE.md, or
+- a GitHub comment on that commit.
+
+Until then the verifier marks the baseline provenance as a flag.
+
 ## Pre-archive checklist (from the 2026-10-01 release check)
 
 Do these after the EvidencePair LLC membership is confirmed and before the first archive (`evidence/release/2026-10-01-review.md`):

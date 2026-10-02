@@ -16,6 +16,7 @@ final class WatchedFolderLifecycleTests: XCTestCase {
             app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
         }
         XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 10))
+        app.makePro() // watched folders are part of Pro
     }
 
     @MainActor

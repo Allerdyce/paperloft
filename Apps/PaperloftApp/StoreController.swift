@@ -24,14 +24,26 @@ import StoreKit
     private var mockPurchased: String?
     enum MockOutcome: String, CaseIterable { case success, cancelled, pending, failure }
     var mockOutcome = MockOutcome.success
-    /// `-PaperloftStoreMock YES` starts as Pro (lifetime) so Pro-only flows can be tested;
-    /// `-PaperloftStoreMock Free` starts on Free so the paywall and purchases can be tested.
+    /// Where a launch-argument mock remembers its purchase; unit tests' mocks keep nothing.
+    private let mockDefaults: UserDefaults?
+    /// `-PaperloftStoreMock YES` (SPEC 6.7) swaps in a mock store so sessions can buy without a
+    /// sandbox account. Like a real account it remembers what was bought, starting on Free; the
+    /// Debug menu makes it Pro or returns it to Free. Unit tests pass `mock:` and `startPro:`.
     init(mock: Bool? = nil, startPro: Bool? = nil) {
         let args = ProcessInfo.processInfo.arguments
-        let value = args.firstIndex(of: "-PaperloftStoreMock").flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil }
-        isMock = mock ?? (value == "YES" || value == "Free")
-        if isMock && (startPro ?? (value == "YES")) { mockPurchased = Self.lifetimeID; isPro = true; plan = .lifetime }
+        let launchMock = args.firstIndex(of: "-PaperloftStoreMock").flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil } == "YES"
+        isMock = mock ?? launchMock
+        mockDefaults = mock == nil && launchMock ? UserDefaults(suiteName: "app.paperloft.receipts.MockStore") : nil
+        if isMock {
+            mockPurchased = startPro.map { $0 ? Self.lifetimeID : nil } ?? mockDefaults?.string(forKey: "purchased")
+            isPro = mockPurchased != nil; plan = mockPlan()
+        }
     }
+    private func saveMock() { mockDefaults?.set(mockPurchased, forKey: "purchased") }
+    /// Debug menu: Pro without going through the paywall (lifetime).
+    func mockMakePro() { guard isMock else { return }; mockPurchased = Self.lifetimeID; isPro = true; plan = .lifetime; status = ""; saveMock() }
+    /// Debug menu: back to Free, with nothing to restore.
+    func mockReturnToFree() { guard isMock else { return }; mockPurchased = nil; isPro = false; plan = nil; status = ""; saveMock() }
     private func mockPlan() -> ProPlan? {
         switch mockPurchased {
         case Self.lifetimeID: return .lifetime
@@ -120,7 +132,7 @@ import StoreKit
         #if DEBUG || QA
         if isMock {
             switch mockOutcome {
-            case .success: mockPurchased = productID; isPro = true; plan = mockPlan(); status = ""
+            case .success: mockPurchased = productID; isPro = true; plan = mockPlan(); status = ""; saveMock()
             case .cancelled: status = "Purchase cancelled. You have not been charged."
             case .pending: status = "Purchase pending approval. Free remains available."
             case .failure: status = "Purchase could not be completed. Try again."
@@ -154,8 +166,8 @@ import StoreKit
         } catch { status = "Purchases could not be restored. Try again when connected." }
     }
     #if DEBUG || QA
-    func mockExpire() { guard isMock else { return }; mockPurchased = nil; isPro = false; plan = nil; status = "Mock subscription expired. Free is active." }
+    func mockExpire() { guard isMock else { return }; mockPurchased = nil; isPro = false; plan = nil; status = "Mock subscription expired. Free is active."; saveMock() }
     func mockHideEntitlement() { guard isMock else { return }; isPro = false; plan = nil; status = "Mock entitlement cleared locally. Restore to recover it." }
-    func mockApprovePending() { guard isMock else { return }; mockPurchased = Self.yearlyID; isPro = true; plan = mockPlan(); status = "Mock pending purchase approved." }
+    func mockApprovePending() { guard isMock else { return }; mockPurchased = Self.yearlyID; isPro = true; plan = mockPlan(); status = "Mock pending purchase approved."; saveMock() }
     #endif
 }

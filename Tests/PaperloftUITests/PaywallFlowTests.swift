@@ -5,9 +5,10 @@ import AppKit
 /// month, buy yearly, buy lifetime, restore, expiry back to Free, and the paywall at the first export.
 /// Real StoreKit purchases are exercised in the supervised shakedown with the local StoreKit file.
 final class PaywallFlowTests: XCTestCase {
-    @MainActor private func launch(_ arguments: [String]) -> XCUIApplication {
+    /// Starts on Free with the mock store (`-PaperloftStoreMock YES`), which remembers purchases.
+    @MainActor private func launch() -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub"] + arguments
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub", "-PaperloftStoreMock", "YES"]
         app.launch(); app.activate()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
         if !app.buttons["sidebar.settings"].waitForExistence(timeout: 5) {
@@ -15,6 +16,7 @@ final class PaywallFlowTests: XCTestCase {
             app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
         }
         XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 10))
+        app.returnToFree()
         app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
         app.buttons["settings.newSampleLibrary"].click(); app.typeKey("w", modifierFlags: .command)
@@ -43,7 +45,8 @@ final class PaywallFlowTests: XCTestCase {
     @MainActor
     func testTwentySixthDocumentPaywallPurchasesRestoreAndExpiry() throws {
         continueAfterFailure = false
-        let app = launch(["-PaperloftStoreMock", "Free", "-PaperloftQuotaUsed", "25"]); defer { app.terminate() }
+        let app = launch(); defer { app.terminate() }
+        app.debugMenu("Use This Month's Automatic Reads")
         // Import one real document: this month's 25 automatic reads are already used.
         XCTAssertTrue(app.buttons["inbox.import"].waitForExistence(timeout: 10)); app.buttons["inbox.import"].click()
         app.typeKey("g", modifierFlags: [.command, .shift])
@@ -82,10 +85,9 @@ final class PaywallFlowTests: XCTestCase {
         XCTAssertTrue(proStatus.waitForExistence(timeout: 10)); XCTAssertTrue(text(proStatus).hasPrefix("Paperloft Pro is active"), text(proStatus))
         XCTAssertTrue(app.buttons["settings.restore"].exists)
         app.buttons["settings.upgrade"].click()
-        let controls = app.descendants(matching: .any)["storeMock.controls"]
-        XCTAssertTrue(controls.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["You have Paperloft Pro"].waitForExistence(timeout: 10))
         // Expiry: the subscription ends and Free returns.
-        XCTAssertTrue(app.buttons["storeMock.expire"].waitForExistence(timeout: 5)); app.buttons["storeMock.expire"].click()
+        app.debugMenu("Mock Store", "Expire Purchase")
         XCTAssertTrue(app.staticTexts["Get Paperloft Pro"].waitForExistence(timeout: 5), "expiry goes back to Free")
         // Lifetime purchase.
         lifetimeChoice(app).click()
@@ -94,7 +96,7 @@ final class PaywallFlowTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["You have Paperloft Pro"].waitForExistence(timeout: 10))
         XCTAssertEqual(text(app.staticTexts["paywall.planSummary"]), "Lifetime purchase. Pro stays yours.")
         // Restore: clear the local entitlement, then restore it.
-        app.buttons["storeMock.clear"].click()
+        app.debugMenu("Mock Store", "Clear Local Entitlement")
         XCTAssertTrue(buy.waitForExistence(timeout: 5))
         app.buttons["paywall.restore"].click()
         XCTAssertTrue(app.staticTexts["You have Paperloft Pro"].waitForExistence(timeout: 10), "Restore Purchases brings Pro back")
@@ -106,7 +108,7 @@ final class PaywallFlowTests: XCTestCase {
     @MainActor
     func testFreeExportShowsThePaywallInsteadOfTheSheet() throws {
         continueAfterFailure = false
-        let app = launch(["-PaperloftStoreMock", "Free"]); defer { app.terminate() }
+        let app = launch(); defer { app.terminate() }
         app.buttons["sidebar.library"].click()
         let export = app.buttons["library.export"]
         XCTAssertTrue(export.waitForExistence(timeout: 10)); export.click()

@@ -4,4 +4,4 @@
 - `screenshots/1…5-*.png`: the five 2880 × 1800 App Store screenshots, captured from the real app with the sample receipts and the on-device model.
 - `screenshots/iap-review-paywall.png`: the paywall, as the review screenshot for both in-app purchases. The mock controls are hidden.
 
-**To regenerate the screenshots:** run `AppStoreScreenshotTests` (UI tests). It sizes the main window to 1440 × 900 points with the Debug/QA-only `-PaperloftWindowSize` hook, waits until the model has read every sample, and attaches the images as `AppStore-*`.
+**To regenerate the screenshots:** run `AppStoreScreenshotTests` (UI tests). It sizes the main window to 1440 × 900 points with the Debug menu's Size Window for App Store Screenshots (Debug/QA builds only), waits until the model has read every sample, and attaches the images as `AppStore-*`.

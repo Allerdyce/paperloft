@@ -5,7 +5,7 @@ import XCTest
 final class AppStoreScreenshotTests: XCTestCase {
     @MainActor private func launch(_ extra: [String]) -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "system", "-PaperloftWindowSize", "1440x900"] + extra
+        app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "system"] + extra
         app.launch(); app.activate()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
         if !app.buttons["sidebar.settings"].waitForExistence(timeout: 5) {
@@ -13,7 +13,16 @@ final class AppStoreScreenshotTests: XCTestCase {
             app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
         }
         XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 10))
+        size(app, to: CGSize(width: 1440, height: 900))
         return app
+    }
+    /// 1440 x 900 points (2880 x 1800 at 2x), with the Debug menu's screenshot size command.
+    @MainActor private func size(_ app: XCUIApplication, to target: CGSize) {
+        let window = app.windows["main"]
+        XCTAssertTrue(window.waitForExistence(timeout: 10))
+        app.debugMenu("Size Window for App Store Screenshots")
+        let sized = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in abs(window.frame.width - target.width) < 1 && abs(window.frame.height - target.height) < 1 }, object: nil)
+        XCTAssertEqual(XCTWaiter().wait(for: [sized], timeout: 5), .completed, "window is \(window.frame.size), not \(target)")
     }
     @MainActor private func theme(_ name: String, _ app: XCUIApplication, freshLibrary: Bool = false) {
         app.typeKey(",", modifierFlags: .command)
@@ -34,6 +43,7 @@ final class AppStoreScreenshotTests: XCTestCase {
     func testCaptureAppStoreScreenshots() throws {
         continueAfterFailure = false
         let app = launch(["-PaperloftStoreMock", "YES"]); defer { app.terminate() }
+        app.makePro() // the export sheet is part of Pro
         theme("Light", app, freshLibrary: true)
         app.buttons["sidebar.inbox"].click()
         app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
@@ -74,7 +84,8 @@ final class AppStoreScreenshotTests: XCTestCase {
     @MainActor
     func testCapturePaywallForPurchaseReview() throws {
         continueAfterFailure = false
-        let app = launch(["-PaperloftStoreMock", "Free", "-PaperloftScreenshotMode", "YES"]); defer { app.terminate() }
+        let app = launch(["-PaperloftStoreMock", "YES"]); defer { app.terminate() }
+        app.returnToFree()
         theme("Light", app, freshLibrary: true)
         app.buttons["sidebar.library"].click()
         app.buttons["library.export"].click()

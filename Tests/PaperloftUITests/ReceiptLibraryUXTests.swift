@@ -213,6 +213,7 @@ final class ReceiptLibraryUXTests: XCTestCase {
             XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 10))
         }
         showWindow()
+        app.makePro() // the tax export is part of Pro
         app.typeKey(",", modifierFlags: .command)
         let fresh = app.buttons["settings.newSampleLibrary"]
         XCTAssertTrue(fresh.waitForExistence(timeout: 10)); fresh.click()
