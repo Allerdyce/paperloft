@@ -59,3 +59,7 @@
 - Load Development Receipts adds documents one at a time. Tests that count rows, pick a filter or open a menu right after it must wait for the Inbox to settle (`waitForInboxToSettle()`: Processing at 0 and the All count steady).
 - Choosing Load Development Receipts before startup finishes is refused as busy ("Wait for the current operation…"). Create the sample library through Settings first, which waits for startup.
 - When many unrelated UI tests fail at once with "Not hittable", look at the last frame of the screen recording before changing tests. On 2026-10-01 a macOS password prompt for a Claude app update covered the window; agents must not answer it.
+- The release checker and privacy script default to `build/DerivedData/...` in the checkout you run them from. CI in a worktree leaves the main checkout's Release build stale, so pass the fresh app path explicitly. An AC-14 "pass" was briefly reported from a stale build.
+- Background computer-use tools can't open the menu bar extra (a status item, maybe hidden by the notch). `MenuBarExtraTests` captures its panel as a Dialog element, without the rest of the screen, for design reviews.
+- Before changing an element the critic marks below 4, check whether it came from the owner's reference design (REPORT.md 2026-09-27) or a locked test. If so, it's a PROPOSALS item, not a silent change.
+- A SwiftUI view keyed with `.id(item.id)` directly inside an `HSplitView` replaces the split pane on every change and loses the divider position. Key a child inside one stable pane instead.

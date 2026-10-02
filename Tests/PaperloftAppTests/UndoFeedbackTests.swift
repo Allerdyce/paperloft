@@ -51,6 +51,30 @@ import PaperloftKit
         XCTAssertEqual(model.batches.first { $0.id == batchID }?.state, .undone)
     }
 
+    /// Fourth design review P1: with the app's default undo manager (grouping by event), filing one
+    /// document and removing another took two Undos to reverse, not one each.
+    func testOneUndoReversesOneAction() async throws {
+        let model = try await model()
+        let undo = UndoManager()
+        model.undoManager = undo
+        let order = model.items.map(\.id)
+        model.inboxListOrder = order
+        model.selectedItemID = order[0]
+        await model.fileSelected()
+        XCTAssertNil(model.message, model.message ?? "")
+        let filed = model.allDocuments.count
+        XCTAssertEqual(filed, 1)
+        model.setAside(order[1])
+        XCTAssertEqual(undo.undoActionName, "Remove from Inbox")
+        undo.undo()
+        XCTAssertEqual(model.items.first { $0.id == order[1] }?.status, "ready", "the removal is undone")
+        try await Task.sleep(for: .milliseconds(500))
+        XCTAssertEqual(model.allDocuments.count, filed, "the same Undo doesn't also undo the filing")
+        XCTAssertTrue(undo.canUndo, "the filing is a separate step")
+        undo.undo()
+        try await waitUntil { model.allDocuments.count == filed - 1 }
+    }
+
     func testRemoveCanBeUndoneWithTheUndoManagerOrTheNotice() async throws {
         let model = try await model()
         let undo = UndoManager(); undo.groupsByEvent = false

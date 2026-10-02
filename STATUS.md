@@ -1,4 +1,4 @@
-# Paperloft development status — 2026-10-01
+# Paperloft development status — 2026-10-01 (evening)
 
 **Not launch-ready.** Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass. Submission and public release remain blocked.
 
@@ -24,8 +24,19 @@
   - App Store listing, five 2880 × 1800 screenshots and the purchase-review image (`release/`).
   - Site copy on a local `paperloft-site` branch, **not published**.
 
+## Reviews (2026-10-01)
+- **Release check** (`evidence/release/2026-10-01-review.md`): 39 PASS, 5 FAIL, 5 PENDING.
+  - Fixed: required-reason API declarations, the Terms of Use link in the listing, and the site claims (on the unpublished branch).
+  - Before the archive: a distribution configuration with the App Group (HANDOFF checklist), and the version, 1.0 or 1.1 (PROPOSALS).
+- **Third design review** (`evidence/design/2026-10-01-critique.md`): 21 of 36 lines below 4.
+  - All P1s and most P2s are fixed and merged (BUGS.md R3).
+  - The rest are reference-design elements that wait on you (PROPOSALS).
+- **Fourth design review** (`evidence/design/2026-10-01-r4-critique.md`): 7 of 36 lines below 4, down from 21 (8 of 40 with the menu bar extra).
+  - Its P1 (one Undo reversed two actions) and P2s are fixed.
+  - The rest are the reference-design items waiting on you.
+
 ## Remaining launch gates
-- **Owner-led:** AC-16 third design review (the paywall is now reviewable), formal verifier gates, AC-17 personas, AC-04 fresh holdout (verifier).
+- **Owner-led:** AC-16 (design review fixes in progress; some items need your decision), formal verifier gates, AC-17 personas, AC-04 fresh holdout (verifier).
 - **Apple-dependent:** StoreKit products and App Store Connect (AC-19, after the membership conversion).
 - **Fixes and checks:** StoreKitTest unit tests (blocked by an SDK header; PROPOSALS.md), live Mail/Share/scan checks.
 
@@ -34,5 +45,6 @@
 - Run `scripts/performance_check.sh system` once from Terminal for AC-10 signpost evidence (HANDOFF.md).
 - OK to publish the site branch `release/receipts-1.0-copy`.
 - Choose a StoreKitTest option in PROPOSALS.md.
+- PROPOSALS.md: the first version number (1.0 or 1.1), and the reference-design elements the design review wants changed (sidebar Settings, heading, status chips, checkboxes, date field, Library cards).
 
 No distribution upload has occurred. Evidence and history: REPORT.md; blockers: HANDOFF.md.

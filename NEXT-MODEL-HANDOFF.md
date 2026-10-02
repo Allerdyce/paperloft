@@ -146,8 +146,14 @@ Signed App Intents are integrated into root as `7f15133` (cherry-pick of `01ccfd
 - **Site copy:** `paperloft-site` branch `release/receipts-1.0-copy` (Free and Pro, real screenshots, full FAQ). **Not pushed; needs the owner's OK to publish.**
 - **AC-10 passes locally on time, stalls and memory** (`evidence/performance/AC-10-2026-10-01.md`). The hosted harness: `scripts/performance_check.sh parser|system`. Two fixes: the review pane no longer rebuilds per document (R2-08), and `Money` caches currency digits (R2-09). The signpost metric needs a run with unified-log access (HANDOFF.md).
 - **UI-test robustness:** `waitForInboxToSettle()` for tests that act right after Load Development Receipts. If many unrelated tests fail with "Not hittable", look at the screen recording first: a macOS password prompt for a Claude app update covered the window once.
+- **Reviews, evening of 2026-10-01:**
+  - Release check: `evidence/release/2026-10-01-review.md`.
+  - Design reviews 3 and 4: `evidence/design/2026-10-01-critique.md` and `-r4-critique.md`.
+  - All P1s and nearly all P2s are fixed (BUGS.md R3, R4).
+  - Owner decisions: the reference-design elements and the version number, in PROPOSALS.md.
+  - Pre-archive checklist: HANDOFF.md.
 - **Next:**
-  1. AC-16 third design review, now that the paywall is reviewable.
+  1. AC-16: apply the owner's choices from PROPOSALS, then a fifth review.
   2. Formal verifier gates.
   3. AC-17 personas, which need the owner present.
   4. Apple-dependent steps after the membership is confirmed.

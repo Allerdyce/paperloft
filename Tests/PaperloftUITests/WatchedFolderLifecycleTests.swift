@@ -102,7 +102,7 @@ final class WatchedFolderLifecycleTests: XCTestCase {
         try original.write(to: folder.appendingPathComponent(fourthName))
         let status = app.descendants(matching: .any).matching(identifier: "menubar.status").firstMatch
         XCTAssertTrue(status.waitForExistence(timeout: 10)); status.click()
-        XCTAssertTrue(app.staticTexts["4 documents in your inbox"].waitForExistence(timeout: 30), "Watched intake must continue while the main window is closed")
+        XCTAssertTrue(app.staticTexts["4 receipts waiting in your Inbox"].waitForExistence(timeout: 30), "Watched intake must continue while the main window is closed")
         XCTAssertFalse(app.windows["main"].exists)
         let background = XCTAttachment(screenshot: app.screenshot())
         background.name = "Watched intake after restart with main closed"; background.lifetime = .keepAlways; add(background)

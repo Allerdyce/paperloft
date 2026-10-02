@@ -102,4 +102,6 @@ The third review (`evidence/design/2026-10-01-critique.md`) scores some lines be
 | **Date as a text field plus calendar button** | One `DatePicker` field | Switch to `DatePicker(.field)`; it also localizes the date |
 | **Library card rows with a "View" pill and in-content search** | A SwiftUI `Table` with sortable columns and toolbar search | Switch to `Table`. More rows fit, and sorting is native |
 
-If you agree with my column, I'll make those changes together, with the UI tests updated, and run a fourth review.
+If you agree with my column, I'll make those changes together, with the UI tests updated, and run another review.
+
+**Fourth review update (2026-10-01):** the critic confirmed that my recommendations would bring the Review inbox, Library and Settings HIG lines to 4. The critic suggested hiding the toolbar title so the serif heading is the only title. I tried that, but without a title macOS put the toolbar buttons at the leading edge, so I reverted it. The double band stays until you decide about the heading. The critic also flagged the grey circle behind the sidebar toggle. That's macOS 27's standard glass toolbar button, not a custom control, so I'd leave it.
