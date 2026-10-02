@@ -45,7 +45,7 @@ final class MailFlowTests: XCTestCase {
         XCTAssertTrue(app.buttons["inbox.import"].waitForExistence(timeout: 30), "One email should produce one selected receipt")
         XCTAssertFalse(app.textFields["review.vendor"].exists)
         app.buttons["sidebar.library"].click()
-        XCTAssertTrue(app.staticTexts["0 documents"].waitForExistence(timeout: 10), "Email-derived documents must remain in review")
+        XCTAssertTrue(app.staticTexts["0 receipts"].waitForExistence(timeout: 10), "Email-derived documents must remain in review")
         // Same message remains a duplicate after the original review is removed,
         // and after another app restart. Content changes do not evade Message-ID.
         app.buttons["sidebar.inbox"].click()

@@ -32,7 +32,8 @@ final class PolishTwoTests: XCTestCase {
         app.typeKey("e", modifierFlags: [.command, .shift])
         let count = app.staticTexts["export.summary.count"]
         XCTAssertTrue(count.waitForExistence(timeout: 5))
-        XCTAssertTrue(text(count).hasPrefix("0 receipts"), text(count))
+        XCTAssertTrue(text(count).hasPrefix("No filed receipts"), text(count))
+        XCTAssertFalse(app.buttons["export.create"].isEnabled, "nothing to export in an empty period")
         XCTAssertTrue(app.buttons["export.reviewInbox"].exists, "unfiled Inbox receipts are pointed out")
         app.buttons["export.reviewInbox"].click()
         XCTAssertTrue(count.waitForNonExistence(timeout: 5), "Review Inbox closes the sheet")

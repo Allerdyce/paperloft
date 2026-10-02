@@ -13,7 +13,7 @@ No. Everything happens on your Mac, and the app has no network access. See the [
 ### 3. Do I need an account, and what does it cost?
 No account: there's nothing to sign up for and no API key to set up. Choose a library folder and start, or choose Try with Samples to practise with made-up receipts in a separate practice library first.
 
-Free reads 25 documents automatically each month (samples don't count), and manual entry is unlimited. Paperloft Pro, yearly with a 7-day free trial or a one-time purchase, reads every document and adds the watched folder, accountant packs and Shortcuts export. Purchases go through the App Store; Restore Purchases is in Settings › General.
+Free reads 25 documents automatically each month (samples don't count), and filling in details yourself is always free. Paperloft Pro, yearly with a 7-day free trial or a one-time purchase, reads every document and adds the watched folder, Tax & Accountant Export and Shortcuts export. Purchases go through the App Store; Restore Purchases is in Settings › General.
 
 ### 4. Where are my files kept, and what happens to the originals?
 Filed documents are ordinary files in the library folder you choose, sorted into year and category folders and named like `2026-09-18_Office-Depot_74.90.pdf`. By default Paperloft files a copy and leaves your original in place. You can choose Move in Settings › Filing. Paperloft never overwrites a file. Deleting from the Library moves a document to Recently Deleted rather than erasing it.
@@ -39,7 +39,7 @@ Every document waits in the Inbox for your confirmation; nothing is filed withou
 Yes. Every filing is listed in History and can be undone there. Right after filing, Edit › Undo (⌘Z) or Undo in the notice does the same. Undo restores files to where they were, including originals you chose to move, and puts the document back in your Inbox with the values you confirmed.
 
 ### 9. How do I give my accountant everything for the year?
-With Paperloft Pro, choose Tax & Accountant Export… in Library (or File › Tax & Accountant Export…, ⇧⌘E), pick a year, quarter or custom range, and choose where to save it. The accountant pack contains a summary PDF, a CSV of transactions and the documents sorted by category, optionally as a ZIP. From Shortcuts, Export Accountant Pack (Paperloft Pro) returns the ZIP for packs up to 100 MB. Export larger packs from the app.
+With Paperloft Pro, choose Tax & Accountant Export… in Library (or File › Tax & Accountant Export…, ⇧⌘E), pick a year, quarter or custom range, and choose where to save it. The export contains a summary PDF, a CSV of transactions and the documents sorted by category, optionally as a ZIP. From Shortcuts, Export Accountant Pack (Paperloft Pro) returns the ZIP for packs up to 100 MB. Export larger packs from the app.
 
 ### 10. Is Paperloft tax advice?
 No. Paperloft organizes your records into editable categories. It doesn't judge what's deductible or give tax advice. Ask your accountant.

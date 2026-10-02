@@ -21,7 +21,7 @@ final class SettingsPolishTests: XCTestCase {
         XCTAssertTrue(practice.exists, "the library shows a readable name, not a container path")
         XCTAssertEqual(app.buttons["settings.reveal"].label, "Show in Finder")
         // The pane ends near the window's bottom edge: no large empty band, nothing cut off.
-        let lastGeneral = app.staticTexts["© 2026 EvidencePair LLC"]
+        let lastGeneral = app.staticTexts["settings.watchedTypes"]
         XCTAssertTrue(lastGeneral.exists)
         XCTAssertLessThan(window.frame.maxY - lastGeneral.frame.maxY, 60, "General fits its content")
         XCTAssertGreaterThan(window.frame.maxY, lastGeneral.frame.maxY)

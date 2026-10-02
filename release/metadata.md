@@ -34,17 +34,20 @@ FIND ANYTHING
 Search filed receipts by merchant or by words in the document. Filter by year, category or document type, and sort by date, merchant, category or total.
 
 READY FOR TAX TIME
-With Paperloft Pro, the accountant pack gives you a summary PDF, a CSV of transactions and the documents sorted by category for any year, quarter or date range.
+With Paperloft Pro, Tax & Accountant Export gives you a summary PDF, a CSV of transactions and the documents sorted by category for any year, quarter or date range.
 
 PRIVATE BY DESIGN
 Paperloft has no account and no network access. Documents are read on your Mac using Apple Intelligence where it's available, with a built-in reader as a fallback. Nothing is uploaded, and there is no analytics or tracking.
 
 FREE AND PRO
-Free reads 25 documents automatically each month, with unlimited manual entry and browsing. Samples don't count. Paperloft Pro reads every document automatically and adds the watched folder, accountant packs and Shortcuts export. It's available as a yearly subscription with a 7-day free trial, or as a one-time lifetime purchase.
+Free reads 25 documents automatically each month, and filling in details yourself and browsing are always free. Samples don't count. Paperloft Pro reads every document automatically and adds the watched folder, Tax & Accountant Export and Shortcuts export. It's available as a yearly subscription with a 7-day free trial, or as a one-time lifetime purchase.
 
 Paperloft organizes records; it doesn't give tax advice.
 
 Requires a Mac with Apple silicon and macOS 27 or later. Automatic reading works best with Apple Intelligence turned on.
+
+Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacy Policy: https://paperloft.app/privacy/
 
 ## In-app purchases
 
@@ -65,5 +68,5 @@ Paperloft Receipts files receipts, invoices and bills into a folder the user cho
 
 - **Try it without setup:** on first launch, choose "Try with Samples". This makes a practice library with five made-up receipts. Select one in the Inbox, check the fields, and press Confirm. Samples don't count toward the Free limit.
 - **On-device reading:** documents are read with Apple's Foundation Models framework when Apple Intelligence is available. Otherwise a built-in reader prefills what it can. Either way, the user confirms every filing.
-- **In-app purchases:** the paywall appears at the 26th automatically read document of a month, at the first accountant pack export, or from Settings › General › Paperloft Pro. To see it right away, open Library and choose "Tax & Accountant Export…". Restore Purchases is on the paywall and in Settings at all times.
-- **Free tier:** 25 automatically read documents a month, unlimited manual entry ("Enter Details Myself"), browsing, search and undo.
+- **In-app purchases:** the paywall appears at the 26th automatically read document of a month, at the first Tax & Accountant Export, or from Settings › General › Paperloft Pro. To see it right away, open Settings › General › Paperloft Pro and choose Upgrade…, or choose "Tax & Accountant Export…" in Library. Restore Purchases is on the paywall and in Settings at all times.
+- **Free tier:** 25 automatically read documents a month, free "Fill In Details" (the basic reader fills in what it can for the user to check), browsing, search and undo.

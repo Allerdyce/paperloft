@@ -26,6 +26,7 @@ import PaperloftKit
         let order = model.items.map(\.id)
         model.inboxListOrder = order
         model.selectedItemID = order[1]
+        let originalName = model.items[1].name
         var draft = model.items[1].draft; draft.vendor = "Edited Vendor"; draft.total = "13.75"
         model.edit(draft, id: order[1])
         await model.fileSelected()
@@ -38,12 +39,15 @@ import PaperloftKit
         await model.undoFiling(batchID)
         XCTAssertNil(model.message, model.message ?? "")
         XCTAssertEqual(model.items.filter { $0.status != "aside" }.count, 5, "the document is back in the Inbox")
-        let returned = try XCTUnwrap(model.items.first { $0.intakeSource == "Returned by Undo" })
+        // Filed this session, so it comes back exactly: same name and place, ready at once (no re-read).
+        let returned = model.items[1]
+        XCTAssertEqual(returned.name, originalName, "the original name, not the filed one")
         XCTAssertEqual(model.selectedItemID, returned.id)
-        try await waitUntil { model.items.first { $0.id == returned.id }?.status == "ready" }
-        let ready = try XCTUnwrap(model.items.first { $0.id == returned.id })
-        XCTAssertEqual(ready.draft.vendor, "Edited Vendor", "the confirmed values come back, not a fresh read")
-        XCTAssertEqual(ready.draft.total, "13.75")
+        XCTAssertEqual(returned.status, "ready", "no second reading")
+        XCTAssertNotNil(returned.review)
+        XCTAssertEqual(returned.draft.vendor, "Edited Vendor", "the confirmed values come back, not a fresh read")
+        XCTAssertEqual(returned.draft.total, "13.75")
+        XCTAssertEqual(model.notice?.text, "Returned \(originalName) to the Inbox")
         XCTAssertEqual(model.batches.first { $0.id == batchID }?.state, .undone)
     }
 

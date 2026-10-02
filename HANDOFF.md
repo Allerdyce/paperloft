@@ -26,6 +26,20 @@ All-types audit still FAILS. Independent standalone native reproduction document
 
 local/mail at88dc439 preserves the isolated native promise wrapper and public provider harness. Three distinct native drag diagnostics reached the gesture but produced no source MOUSE_DOWN or DRAG_STARTED event; no recipient delivery was established. Window-menu-primed Open Inbox also failed to reopen after closing main. Speculative product fixes were reverted. Saved EML file import is separately integrated; native promises are not accepted or merged. Evidence: that branch's evidence/mail-promises.md and evidence/mail-independent-ui.md.
 
+## Pre-archive checklist (from the 2026-10-01 release check)
+
+Do these after the EvidencePair LLC membership is confirmed and before the first archive (`evidence/release/2026-10-01-review.md`):
+1. **Distribution configuration.** Add `config/Distribution.xcconfig`:
+   - production bundle IDs (`app.paperloft.receipts`, `.share`)
+   - `PAPERLOFT_APP_GROUP_ENTITLEMENTS_SUFFIX = Shared` and `PAPERLOFT_APP_GROUP_ENABLED = YES`
+   - distribution signing for the LLC team
+
+   Without it, the App Group is off and Finder sharing says "Sharing needs a signed Paperloft build". After archiving, confirm that both the app's and the extension's entitlements include the group.
+2. **Version.** `MARKETING_VERSION` follows the owner's choice in PROPOSALS.md; it's 1.0 per AC-19 unless the owner picks 1.1.
+3. **App Store Connect description.** Must include the Terms of Use (Apple standard EULA) and Privacy Policy links; they're in `release/metadata.md`.
+4. **Device scan.** Try Import From Device with a real iPhone or iPad once; it has never been tried on hardware.
+5. **Privacy check.** Run `scripts/privacy_check.sh <archived app>`. It now also checks the required-reason API declarations.
+
 ## Local performance checks
 
 **2026-10-01 update:** AC-10's timing, main-thread and memory limits pass locally under the owner-amended 400 s target (`evidence/performance/AC-10-2026-10-01.md`). System model: 100/100 in 369.2 s / 369.4 s, worst stall 234 / 176 ms, 417 MB. Parser only: 23.2 s / 23.4 s, 209 / 200 ms, 443 MB.

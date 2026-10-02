@@ -58,7 +58,7 @@ final class AppStoreScreenshotTests: XCTestCase {
             XCTAssertTrue(app.staticTexts[file].waitForNonExistence(timeout: 15))
         }
         app.buttons["sidebar.library"].click()
-        XCTAssertTrue(app.staticTexts["5 documents"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.staticTexts["5 receipts"].waitForExistence(timeout: 15))
         app.staticTexts.matching(identifier: "library.merchant").element(boundBy: 1).click()
         shoot("2-library-light", app)
         app.typeKey("e", modifierFlags: [.command, .shift])
@@ -78,7 +78,7 @@ final class AppStoreScreenshotTests: XCTestCase {
         theme("Light", app, freshLibrary: true)
         app.buttons["sidebar.library"].click()
         app.buttons["library.export"].click()
-        XCTAssertTrue(app.buttons["paywall.yearly"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["paywall.buy"].waitForExistence(timeout: 10))
         let image = XCTAttachment(screenshot: app.windows["main"].screenshot()); image.name = "AppStore-iap-review-paywall"; image.lifetime = .keepAlways; add(image)
         app.buttons["paywall.continue"].click()
         theme("System", app)

@@ -16,6 +16,11 @@ manifest=app/'Contents/Resources/PrivacyInfo.xcprivacy'
 privacy=plistlib.loads(manifest.read_bytes())
 assert privacy.get('NSPrivacyTracking') is False
 assert privacy.get('NSPrivacyCollectedDataTypes')==[]
+# Required-reason APIs the app uses: its own UserDefaults (CA92.1) and file timestamps in its
+# container (C617.1) and in files the user chose (3B52.1). App Store uploads fail without them.
+declared={entry['NSPrivacyAccessedAPIType']: set(entry['NSPrivacyAccessedAPITypeReasons']) for entry in privacy.get('NSPrivacyAccessedAPITypes', [])}
+assert {'CA92.1'} <= declared.get('NSPrivacyAccessedAPICategoryUserDefaults', set()), 'UserDefaults reason missing'
+assert {'C617.1', '3B52.1'} <= declared.get('NSPrivacyAccessedAPICategoryFileTimestamp', set()), 'File timestamp reasons missing'
 exe=app/'Contents/MacOS/Paperloft Receipts'
 linked=subprocess.check_output(['otool','-L',str(exe)],text=True)
 for line in linked.splitlines()[1:]:

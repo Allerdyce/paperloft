@@ -20,15 +20,18 @@ final class ExportSheetTests: XCTestCase {
         let year = app.popUpButtons["export.year"]
         XCTAssertTrue(year.exists, "the year is chosen from a pop-up, not typed")
         let yearFrame = sheet.frame, periodFrame = period.frame
-        period.radioButtons["Quarter"].click()
+        period.click(); app.menuItems["Quarter"].click()
         XCTAssertTrue(app.descendants(matching: .any)["export.quarter"].waitForExistence(timeout: 2))
         XCTAssertTrue(year.exists)
         XCTAssertEqual(sheet.frame.height, yearFrame.height, accuracy: 1, "switching to Quarter doesn't resize the sheet")
-        period.radioButtons["Custom dates"].click()
+        period.click(); app.menuItems["Custom dates"].click()
         XCTAssertTrue(app.datePickers["export.start"].waitForExistence(timeout: 2))
         XCTAssertTrue(app.datePickers["export.end"].exists)
         XCTAssertFalse(app.descendants(matching: .any)["export.validation"].exists, "no error before any input")
-        XCTAssertTrue(app.buttons["export.create"].isEnabled)
+        // Export is offered only when the period has filed receipts, and the summary says which.
+        let summary = app.staticTexts["export.summary.count"]
+        let empty = (summary.label.isEmpty ? (summary.value as? String ?? "") : summary.label).hasPrefix("No filed receipts")
+        XCTAssertEqual(app.buttons["export.create"].isEnabled, !empty)
         XCTAssertEqual(sheet.frame.height, yearFrame.height, accuracy: 1, "switching to Custom dates doesn't resize the sheet")
         XCTAssertEqual(period.frame.minX, periodFrame.minX, accuracy: 1, "the Period control stays put")
         app.buttons["export.close"].click()

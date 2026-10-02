@@ -38,6 +38,7 @@ import PaperloftKit
         await model.start(); try await model.newSampleLibrary()
         model.beginExport()
         XCTAssertTrue(model.showPaywall, "Free sees the paywall at the first export")
+        XCTAssertEqual(model.paywallReason, .export, "the paywall leads with the export")
         XCTAssertFalse(model.showExport)
         model.showPaywall = false
         await store.purchase(productID: StoreController.lifetimeID)
@@ -59,6 +60,10 @@ import PaperloftKit
         XCTAssertEqual(statuses.filter { $0 == "ready" }.count, 25, "\(statuses)")
         XCTAssertEqual(statuses.filter { $0 == "quota" }.count, 2, "the 26th and 27th wait for Pro or manual entry")
         XCTAssertTrue(model.showPaywall, "the paywall appears at the 26th document")
+        XCTAssertEqual(model.paywallReason, .limit, "the paywall says this month's reads are used")
+        let reset = Calendar.current.dateComponents([.day], from: model.quotaResetDate)
+        XCTAssertEqual(reset.day, 1, "reads start again on the first of next month")
+        XCTAssertGreaterThan(model.quotaResetDate, .now)
         XCTAssertEqual(model.quotaUsedThisMonth, 25)
         // Manual entry is unlimited and doesn't count.
         let paused = try XCTUnwrap(model.items.first { $0.status == "quota" })

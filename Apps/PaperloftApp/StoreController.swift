@@ -11,6 +11,11 @@ import StoreKit
     private(set) var busy = false
     private(set) var status = ""
     private(set) var trialEligible = false
+    /// The active Pro purchase, for "You have Paperloft Pro" details.
+    enum ProPlan: Equatable { case yearly(renews: Date?, trialEnds: Date?), lifetime }
+    private(set) var plan: ProPlan?
+    /// Purchase and restore results are for the sheet that asked; clear them when it closes.
+    func clearStatus() { status = "" }
     @ObservationIgnored private var updates: Task<Void, Never>?
     @ObservationIgnored private var expiryTask: Task<Void, Never>?
     @ObservationIgnored private(set) var started = false
@@ -25,7 +30,16 @@ import StoreKit
         let args = ProcessInfo.processInfo.arguments
         let value = args.firstIndex(of: "-PaperloftStoreMock").flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil }
         isMock = mock ?? (value == "YES" || value == "Free")
-        if isMock && (startPro ?? (value == "YES")) { mockPurchased = Self.lifetimeID; isPro = true }
+        if isMock && (startPro ?? (value == "YES")) { mockPurchased = Self.lifetimeID; isPro = true; plan = .lifetime }
+    }
+    private func mockPlan() -> ProPlan? {
+        switch mockPurchased {
+        case Self.lifetimeID: return .lifetime
+        case Self.yearlyID:
+            let end = Calendar.current.date(byAdding: .day, value: 7, to: .now)
+            return .yearly(renews: end, trialEnds: end)
+        default: return nil
+        }
     }
     #else
     var isMock: Bool { false }
@@ -76,6 +90,7 @@ import StoreKit
         #endif
         var entitled = false
         var nextExpiry: Date?
+        var activePlan: ProPlan?
         for await result in Transaction.currentEntitlements {
             guard case .verified(let transaction) = result,
                   [Self.yearlyID, Self.lifetimeID].contains(transaction.productID),
@@ -85,8 +100,12 @@ import StoreKit
                 nextExpiry = max(nextExpiry ?? expiration, expiration)
             }
             entitled = true
+            if transaction.productID == Self.lifetimeID { activePlan = .lifetime }
+            else if activePlan != .lifetime {
+                activePlan = .yearly(renews: transaction.expirationDate, trialEnds: transaction.offer?.type == .introductory ? transaction.expirationDate : nil)
+            }
         }
-        isPro = entitled; ready = true
+        isPro = entitled; plan = activePlan; ready = true
         expiryTask?.cancel()
         if let nextExpiry {
             expiryTask = Task { [weak self] in
@@ -101,7 +120,7 @@ import StoreKit
         #if DEBUG || QA
         if isMock {
             switch mockOutcome {
-            case .success: mockPurchased = productID; isPro = true; status = "Pro is ready."
+            case .success: mockPurchased = productID; isPro = true; plan = mockPlan(); status = ""
             case .cancelled: status = "Purchase cancelled. You have not been charged."
             case .pending: status = "Purchase pending approval. Free remains available."
             case .failure: status = "Purchase could not be completed. Try again."
@@ -115,7 +134,7 @@ import StoreKit
             case .success(let result):
                 guard case .verified(let transaction) = result else { status = "The purchase could not be verified. Try Restore Purchases."; return }
                 await refreshEntitlements(); await transaction.finish()
-                status = isPro ? "Pro is ready." : "The purchase is not currently active."
+                status = isPro ? "" : "The purchase is not currently active."
             case .userCancelled: status = "Purchase cancelled. You have not been charged."
             case .pending: status = "Purchase pending approval. Free remains available."
             @unknown default: status = "The purchase has not completed. Try Restore Purchases."
@@ -127,16 +146,16 @@ import StoreKit
     func restore() async {
         guard !busy else { return }; busy = true; defer { busy = false }
         #if DEBUG || QA
-        if isMock { isPro = mockPurchased != nil; status = isPro ? "Purchases restored." : "No active purchases to restore."; return }
+        if isMock { isPro = mockPurchased != nil; plan = mockPlan(); status = isPro ? "Purchases restored." : "No purchases found for this Apple Account. If you bought Pro on another Mac, use the same Apple Account here, then choose Restore Purchases."; return }
         #endif
         do {
             try await AppStore.sync(); await refreshEntitlements()
-            status = isPro ? "Purchases restored." : "No active purchases to restore."
+            status = isPro ? "Purchases restored." : "No purchases found for this Apple Account. If you bought Pro on another Mac, use the same Apple Account here, then choose Restore Purchases."
         } catch { status = "Purchases could not be restored. Try again when connected." }
     }
     #if DEBUG || QA
-    func mockExpire() { guard isMock else { return }; mockPurchased = nil; isPro = false; status = "Mock subscription expired. Free is active." }
-    func mockHideEntitlement() { guard isMock else { return }; isPro = false; status = "Mock entitlement cleared locally. Restore to recover it." }
-    func mockApprovePending() { guard isMock else { return }; mockPurchased = Self.yearlyID; isPro = true; status = "Mock pending purchase approved." }
+    func mockExpire() { guard isMock else { return }; mockPurchased = nil; isPro = false; plan = nil; status = "Mock subscription expired. Free is active." }
+    func mockHideEntitlement() { guard isMock else { return }; isPro = false; plan = nil; status = "Mock entitlement cleared locally. Restore to recover it." }
+    func mockApprovePending() { guard isMock else { return }; mockPurchased = Self.yearlyID; isPro = true; plan = mockPlan(); status = "Mock pending purchase approved." }
     #endif
 }
