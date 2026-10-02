@@ -436,14 +436,15 @@ struct InboxRow: View, Equatable {
             // Every row has the same shape: two single lines and a badge. A row's height never
             // depends on the pane's width or on its state (both fed back into the split view).
             Text(summary ?? name).lineLimit(1).truncationMode(summary == nil ? .middle : .tail).font(.callout.weight(.medium))
-            Text(secondLine ?? " ").lineLimit(1).truncationMode(.middle).font(.callout).foregroundStyle(.primary)
-                .accessibilityHidden(secondLine == nil)
+            HStack(spacing: 4) {
+                if let name = summary == nil ? nil : name {
+                    Text(name).lineLimit(1).truncationMode(.middle).layoutPriority(1)
+                }
+                if let sourceLabel { Text((summary == nil ? "" : "· ") + sourceLabel).lineLimit(1).truncationMode(.tail) }
+                if summary == nil && sourceLabel == nil { Text(" ").accessibilityHidden(true) }
+            }.font(.callout).foregroundStyle(.primary)
             ReceiptStatusPill(title: badge.title, symbol: badge.symbol, color: badge.color)
         }.padding(.vertical, 8).accessibilityIdentifier("inbox.item." + id.uuidString)
-    }
-    /// The file name under the merchant line, or where the document came from.
-    private var secondLine: String? {
-        summary == nil ? sourceLabel : [name, sourceLabel].compactMap { $0 }.joined(separator: " · ")
     }
     private var badge: (title: String, symbol: String, color: Color) {
         if duplicate { return ("Duplicate", "doc.on.doc.fill", .orange) }
@@ -1200,6 +1201,7 @@ struct PaperloftSettings: View {
                     }
                 }
                 Text("PDFs, images (including TIFF), and saved email (.eml) are copied to the Inbox for review. Originals stay in place.").font(.caption)
+                    .accessibilityIdentifier("settings.watchedTypes")
                 ForEach(Array(model.watchedIssues.enumerated()), id: \.offset) { _, issue in Text(issue).font(.caption).foregroundStyle(.orange) }
             }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
         } label: {
