@@ -49,3 +49,16 @@
 | R2-08 | P1 | lead, AC-10 run | Opening a document for review held the main thread for 0.4–0.6 s (AC-10 allows 250 ms). The review pane rebuilt its split view, preview and fields for every document, and SwiftUI asked each review pop-up for its text baseline on every layout pass; each answer re-entered window layout and measured every currency in the menu. | **Fixed:** the split view and preview stay in place between documents and only the fields column is rebuilt; on first appearance the fields follow one frame after the preview; the pop-ups state their baseline and cache their size. Parser run: worst stall 226 ms and 207 ms (warm-up and measured). |
 | R2-09 | P2 | lead, AC-10 run | Late in a 100-document system run, each Inbox refresh held the main thread for about 200 ms (the measured iteration stalled for 258 ms). Every row and filter chip status check built `Money`, which created a new `NumberFormatter` each time. | **Fixed:** `Money` looks up each currency's decimal places once. System run: worst stall 234 ms / 176 ms. |
 - **Withdrawn:** QA-09.
+
+## Third design review, 2026-10-01 (critic; `evidence/design/2026-10-01-critique.md`)
+
+| ID | Sev | Found by | Summary | Status |
+| --- | --- | --- | --- | --- |
+| R3-01 | P1 | critic | Review pane layout: the fields column narrowed after a filing, banners and notes pushed content past the window edges, rows overlapped and one wrapped | **Fixed:** one stable fields pane, scrolling fields over a pinned button bar, banner in the filter row, every row the same shape |
+| R3-02 | P1 | critic | Paywall: no primary action, same headline from every entry point, Pro state kept the Free copy, stale restore message | **Fixed:** reason-specific headline, radio plan picker with one default button and Not Now, Pro content with plan details, results cleared on close |
+| R3-03 | P2 | critic | Limit reached looked like Processing and wasn't counted; no reset date; "Enter Details Myself" prefilled fields | **Fixed:** neutral badge counted under Issues, reset date in the pane, Settings and paywall, "Fill In Details" with an honest explanation |
+| R3-04 | P2 | critic | Undo brought a document back renamed, at the bottom, read again | **Fixed for filings made this session** (exact restore, no re-read). After a relaunch Undo still re-reads the document with the confirmed values |
+| R3-05 | P2 | critic | Export allowed an empty period | **Fixed:** Export disabled with "No filed receipts in Q4 2026. Choose another period." |
+| R3-06 | P2 | critic | Dark mode selected-row contrast 2.76:1 | **Fixed:** darker list selection, 6.3:1 with white |
+| R3-07 | P2 | critic | Banner path syntax, tiny dismiss target, short duration; Free watched-folder copy; stale restore result in Settings | **Fixed** |
+| R3-08 | P2 | critic | Reference-design elements (sidebar Settings, heading, chips, checkboxes, date field, Library cards) below 4 | **Owner decision** in PROPOSALS.md |
