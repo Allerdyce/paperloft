@@ -62,3 +62,17 @@
 | R3-06 | P2 | critic | Dark mode selected-row contrast 2.76:1 | **Fixed:** darker list selection, 6.3:1 with white |
 | R3-07 | P2 | critic | Banner path syntax, tiny dismiss target, short duration; Free watched-folder copy; stale restore result in Settings | **Fixed** |
 | R3-08 | P2 | critic | Reference-design elements (sidebar Settings, heading, chips, checkboxes, date field, Library cards) below 4 | **Owner decision** in PROPOSALS.md |
+
+## Fourth design review, 2026-10-01 (critic; `evidence/design/2026-10-01-r4-critique.md`)
+
+Lines below 4 fell from 21 of 36 to 7 (8 of 40 with the menu bar extra). Five of the remaining eight are owner decisions (PROPOSALS.md).
+
+| ID | Sev | Found by | Summary | Status |
+| --- | --- | --- | --- | --- |
+| R4-01 | P1 | critic | One Edit › Undo reversed both a filing and a removal | **Fixed:** each action is its own top-level undo group; `testOneUndoReversesOneAction` fails on the old code |
+| R4-02 | P2 | critic | Dark-mode focused selection still white on light green (2.76:1); the list tint didn't reach AppKit | **Fixed:** dark text on the emphasized selection (5.6:1) |
+| R4-03 | P2 | critic | Notice banner covered the Issues chip and stayed over 45 s | **Fixed:** banner in the Select all row; 8 s, at most 30 s while hovered |
+| R4-04 | P2 | critic | "Finishing a library change…" drawn under Remove and Confirm after filing | **Fixed:** the banner animation no longer cross-fades the fields column |
+| R4-05 | P2 | critic | Row badge and form disagreed ("Check date and total" vs Total only) | **Fixed:** both use `ReviewChecks` |
+| R4-06 | P2 | critic | Total without a currency; menu bar count too faint; Help said "Accountant packs" | **Fixed** |
+| R4-07 | P2 | critic | Two title bands | **Fixed** (the serif heading is the only page title; toolbar title hidden) |
