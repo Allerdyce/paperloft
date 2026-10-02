@@ -106,9 +106,6 @@ struct LibraryView: View {
             .accessibilityElement(children: .contain).accessibilityLabel(model.selection + " workspace")
             .background(WindowAccessibility(label: model.selection, target: .splitPane))
             .navigationTitle(model.selection)
-            // The serif heading below is the page title; the window keeps its title for the
-            // Window menu and VoiceOver, without a second title in the toolbar.
-            .toolbar(removing: .title)
             .receiptDeviceImport(model: model)
 
         }

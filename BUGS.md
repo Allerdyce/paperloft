@@ -75,4 +75,4 @@ Lines below 4 fell from 21 of 36 to 7 (8 of 40 with the menu bar extra). Five of
 | R4-04 | P2 | critic | "Finishing a library change…" drawn under Remove and Confirm after filing | **Fixed:** the banner animation no longer cross-fades the fields column |
 | R4-05 | P2 | critic | Row badge and form disagreed ("Check date and total" vs Total only) | **Fixed:** both use `ReviewChecks` |
 | R4-06 | P2 | critic | Total without a currency; menu bar count too faint; Help said "Accountant packs" | **Fixed** |
-| R4-07 | P2 | critic | Two title bands | **Fixed** (the serif heading is the only page title; toolbar title hidden) |
+| R4-07 | P2 | critic | Two title bands | **Open, owner decision.** Hiding the toolbar title moved the toolbar buttons to the leading edge, and a flexible spacer didn't bring them back, so it was reverted. The locked heading text keeps both bands |
