@@ -1,4 +1,4 @@
-# Paperloft development status — 2026-10-01
+# Paperloft development status — 2026-10-01 (evening)
 
 **Not launch-ready.** Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass. Submission and public release remain blocked.
 
@@ -31,7 +31,9 @@
 - **Third design review** (`evidence/design/2026-10-01-critique.md`): 21 of 36 lines below 4.
   - All P1s and most P2s are fixed and merged (BUGS.md R3).
   - The rest are reference-design elements that wait on you (PROPOSALS).
-  - A fourth review is checking the fixes.
+- **Fourth design review** (`evidence/design/2026-10-01-r4-critique.md`): 7 of 36 lines below 4, down from 21 (8 of 40 with the menu bar extra).
+  - Its P1 (one Undo reversed two actions) and P2s are fixed.
+  - The rest are the reference-design items waiting on you.
 
 ## Remaining launch gates
 - **Owner-led:** AC-16 (design review fixes in progress; some items need your decision), formal verifier gates, AC-17 personas, AC-04 fresh holdout (verifier).
