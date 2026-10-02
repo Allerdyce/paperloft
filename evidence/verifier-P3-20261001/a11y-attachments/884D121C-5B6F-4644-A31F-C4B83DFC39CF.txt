@@ -1,0 +1,17 @@
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: PopUpButton, 0x7b99ca3840, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Element subtree:
+ →PopUpButton, 0x7b99ca3840, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Path to element:
+ →Application, 0x7b99d0ef80, pid: 2757, title: 'Paperloft Receipts', Disabled
+  ↳TouchBar, 0x7b99ca3700, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+   ↳PopUpButton, 0x7b99ca3840, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Query chain:
+ →Find: Target Application 'app.paperloft.receipts'
+  Output: {
+    Application, 0x7b99ca3d40, pid: 2757, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 2757, token: xQoAAAAAAABvY29jXQEAAAAAAAA=
+    Output: {
+      PopUpButton, 0x7b99859b80, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+    }

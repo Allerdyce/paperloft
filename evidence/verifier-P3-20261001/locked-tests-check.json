@@ -1,0 +1,320 @@
+{
+ "xcresult": "build/Verifier-P3-20261001.xcresult",
+ "locked": {
+  "Packages/PaperloftKit/Tests/PaperloftKitTests/ReceiptTests.swift": [
+   {
+    "test": "calendarValidation",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/calendarValidation()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "decodedDatesAreValidated",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/decodedDatesAreValidated()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "filenameDoesNotTraversePaths",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/filenameDoesNotTraversePaths()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "amountsKeepTheirCents",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/amountsKeepTheirCents()",
+      "result": "Passed"
+     }
+    ]
+   }
+  ],
+  "Tests/PaperloftUITests/NavigationTests.swift": [
+   {
+    "test": "testSidebarNavigation",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftUITests/NavigationTests/testSidebarNavigation()",
+      "result": "Passed"
+     }
+    ]
+   }
+  ],
+  "Packages/PaperloftKit/Tests/PaperloftKitTests/ExtractionTests.swift": [
+   {
+    "test": "parserUsesFinalTotalRatherThanTenderedCash",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/parserUsesFinalTotalRatherThanTenderedCash()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "parserRecognizesNonFinancialText",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/parserRecognizesNonFinancialText()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "parserPrefersIssueDateOverDueDate",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/parserPrefersIssueDateOverDueDate()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "stubReturnsInjectedFields",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/stubReturnsInjectedFields()",
+      "result": "Passed"
+     }
+    ]
+   }
+  ],
+  "Packages/PaperloftKit/Tests/PaperloftKitTests/ClassificationRecoveryTests.swift": [
+   {
+    "test": "partialClassificationFailurePreservesReviewButNeverAutoFiles",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/partialClassificationFailurePreservesReviewButNeverAutoFiles()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "extractionPayloadWithoutClassificationDiagnosticRemainsReadable",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/extractionPayloadWithoutClassificationDiagnosticRemainsReadable()",
+      "result": "Passed"
+     }
+    ]
+   }
+  ],
+  "Packages/PaperloftKit/Tests/PaperloftKitTests/IndexTests.swift": [
+   {
+    "test": "indexRebuildRestoresSearchFromLibraryAlone",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/indexRebuildRestoresSearchFromLibraryAlone()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "engineReviewFileSearchUndoAndSourceChange",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/engineReviewFileSearchUndoAndSourceChange()",
+      "result": "Passed"
+     }
+    ]
+   }
+  ],
+  "Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift": [
+   {
+    "test": "copyCollisionsAndUndoPreserveExistingFiles",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/copyCollisionsAndUndoPreserveExistingFiles()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "moveAndUndoRestoreOriginalIdentityAndBytes",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/moveAndUndoRestoreOriginalIdentityAndBytes()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "duplicatesAndModifiedDestinationsAreNeverOverwritten",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/duplicatesAndModifiedDestinationsAreNeverOverwritten()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "symlinkedCategoryCannotEscapeLibrary",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/symlinkedCategoryCannotEscapeLibrary()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "randomizedThousandFileOperationsPreserveEveryOriginal",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/randomizedThousandFileOperationsPreserveEveryOriginal()",
+      "result": "Passed"
+     }
+    ]
+   }
+  ],
+  "Packages/PaperloftKit/Tests/PaperloftKitTests/ParserRobustnessTests.swift": [
+   {
+    "test": "adjacentHeaderDoesNotBecomePartOfVendor",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/adjacentHeaderDoesNotBecomePartOfVendor()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "cardPaymentAndAmountDueAreRecognized",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/cardPaymentAndAmountDueAreRecognized()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "invoiceOpticalCharacterConfusionIsRecognized",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/invoiceOpticalCharacterConfusionIsRecognized()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals()",
+      "result": "Passed"
+     }
+    ]
+   }
+  ],
+  "Packages/PaperloftKit/Tests/PaperloftKitTests/ResilienceTests.swift": [
+   {
+    "test": "emptyCorruptLockedAndLongPDFsFailClearly",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/ResilienceTests/emptyCorruptLockedAndLongPDFsFailClearly()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "fiftyMegapixelImageIsRejectedBeforeOCR",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/ResilienceTests/fiftyMegapixelImageIsRejectedBeforeOCR()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "ordinaryImageAndPDFCompleteWithoutCrashing",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/ResilienceTests/ordinaryImageAndPDFCompleteWithoutCrashing()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "missingLibraryAndInvalidPermissionHaveActionableErrors",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/ResilienceTests/missingLibraryAndInvalidPermissionHaveActionableErrors()",
+      "result": "Passed"
+     }
+    ]
+   }
+  ],
+  "Packages/PaperloftKit/Tests/PaperloftKitTests/TextLayoutTests.swift": [
+   {
+    "test": "separateColumnsPreserveAmountsOnTheirRows",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/separateColumnsPreserveAmountsOnTheirRows()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "rotatedRowsAreNotMistakenForAdjacentLines",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/rotatedRowsAreNotMistakenForAdjacentLines()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "emptyAndInvalidFragmentsDoNotCreateText",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/emptyAndInvalidFragmentsDoNotCreateText()",
+      "result": "Passed"
+     }
+    ]
+   }
+  ],
+  "Packages/PaperloftKit/Tests/PaperloftKitTests/ValidationTests.swift": [
+   {
+    "test": "exactMoneyRejectsRoundingAndOverflow",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/exactMoneyRejectsRoundingAndOverflow()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "currencyPrecisionAndUnicodeFilenames",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/currencyPrecisionAndUnicodeFilenames()",
+      "result": "Passed"
+     }
+    ]
+   },
+   {
+    "test": "assessmentRequiresAgreementAndValidFields",
+    "runs": [
+     {
+      "path": "PaperloftApp/PaperloftKitTests/assessmentRequiresAgreementAndValidFields()",
+      "result": "Passed"
+     }
+    ]
+   }
+  ]
+ },
+ "missing": [],
+ "not_passed": [],
+ "executed_result_counts": {
+  "Passed": 285,
+  "Failed": 7
+ },
+ "locked_total": 32
+}

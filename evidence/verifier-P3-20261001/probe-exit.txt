@@ -1,0 +1,3 @@
+probe build exit=0
+probe test exit=70
+probe test exit=65

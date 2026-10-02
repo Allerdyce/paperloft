@@ -1,0 +1,18 @@
+# Launch-argument checks in non-test product sources at 3dfb51d
+SPEC 6.7 hooks: -PaperloftUITestMode YES, -PaperloftModel stub|parser|system, -PaperloftStoreMock YES (Debug/QA).
+Apps/PaperloftApp/PaywallView.swift:20:            if store.isMock && AppModel.argument("-PaperloftScreenshotMode") != "YES" {
+Apps/PaperloftApp/AppModel.swift:249:        let args = ProcessInfo.processInfo.arguments
+Apps/PaperloftApp/AppModel.swift:262:        testMode = Self.argument("-PaperloftUITestMode") == "YES"
+Apps/PaperloftApp/AppModel.swift:266:        let qaProfile = Self.argument("-PaperloftQAProfile").flatMap { $0.range(of: "^[A-Za-z0-9-]{1,32}$", options: .regularExpression) != nil ? $0 : nil }
+Apps/PaperloftApp/AppModel.swift:521:        switch Self.argument("-PaperloftModel") {
+Apps/PaperloftApp/AppModel.swift:1353:        if let seed = Self.argument("-PaperloftQuotaUsed").flatMap(Int.init), seed > 0 {
+Apps/PaperloftApp/PaperloftApp.swift:192:            guard let window, let value = AppModel.argument("-PaperloftWindowSize") else { return }
+Apps/PaperloftApp/StoreController.swift:30:        let args = ProcessInfo.processInfo.arguments
+Apps/PaperloftApp/StoreController.swift:31:        let value = args.firstIndex(of: "-PaperloftStoreMock").flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil }
+
+# Not in SPEC 6.7:
+-PaperloftQAProfile -> Apps/PaperloftApp/AppModel.swift:266  added in a5e2c59
+-PaperloftQuotaUsed -> Apps/PaperloftApp/AppModel.swift:1353  added in 5bbb6e6
+-PaperloftScreenshotMode -> Apps/PaperloftApp/PaywallView.swift:20  added in c82fc14
+-PaperloftWindowSize -> Apps/PaperloftApp/PaperloftApp.swift:192  added in c82fc14
+-PaperloftStoreMock value "Free" (undocumented value of a 6.7 hook): Apps/PaperloftApp/StoreController.swift:32

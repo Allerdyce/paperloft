@@ -1,0 +1,6 @@
+## XCTSkip / disabled / expected-failure / compiled-out tests
+grep exit=1 (1 = no match)
+## test files deleted since previous verifier P3 commit d17b2bf
+## test files deleted since acceptance-v1
+## test functions removed since d17b2bf (lines removed matching func test / @Test)
+## test functions removed since acceptance-v1

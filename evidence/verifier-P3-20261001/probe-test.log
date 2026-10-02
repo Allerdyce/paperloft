@@ -1,0 +1,752 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test-without-building -project Tools/AccessibilityProbe/AccessibilityProbe.xcodeproj -scheme AccessibilityProbe -destination platform=macOS -derivedDataPath build/AccessibilityProbe -resultBundlePath build/VerifierProbe.xcresult "-only-testing:ProbeTests/ProbeTests"
+
+Writing result bundle at path:
+	/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/build/VerifierProbe.xcresult
+
+2026-10-01 20:45:03.958741-0700 ProbeTests-Runner[8373:6616534] [Default] Running tests...
+Test Suite 'Selected tests' started at 2026-10-01 20:45:04.118.
+Test Suite 'ProbeTests.xctest' started at 2026-10-01 20:45:04.119.
+Test Suite 'ProbeTests' started at 2026-10-01 20:45:04.119.
+Test Case '-[ProbeTests.ProbeTests testEmptyWindowAudit]' started.
+    t =     0.00s Start Test at 2026-10-01 20:45:04.120
+    t =     0.14s Set Up
+    t =     0.15s Open local.diagnostic.AccessibilityProbe
+    t =     0.15s     Launch local.diagnostic.AccessibilityProbe
+2026-10-01 20:45:04.347 xcodebuild[8365:6616298] [MT] IDELaunchParametersSnapshot: debugger version lookup failed for path '<nil>': noURL
+2026-10-01 20:45:04.347 xcodebuild[8365:6616298] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     0.79s         Wait for accessibility to load
+    t =     0.91s         Setting up automation session
+    t =     0.93s         Wait for local.diagnostic.AccessibilityProbe to idle
+    t =     0.94s Waiting 10.0s for Window (First Match) to exist
+    t =     1.97s     Checking `Expect predicate `existsNoRetry == 1` for object Window (First Match)`
+    t =     1.98s         Checking existence of `Window (First Match)`
+    t =     2.02s Find the Target Application 'local.diagnostic.AccessibilityProbe'
+2026-10-01 20:45:06.293085-0700 ProbeTests-Runner[8373:6616534] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =     2.33s Added attachment named 'empty-window'
+    t =     2.33s Requesting snapshot of accessibility hierarchy for app with pid 8376
+    t =     2.38s Requesting snapshot of accessibility hierarchy for app with pid 8376
+PROBE_TREE Attributes: Application, 0x78e9a10dc0, pid: 8376, title: 'AccessibilityProbe', Disabled
+Element subtree:
+ →Application, 0x78e9a10dc0, pid: 8376, title: 'AccessibilityProbe', Disabled
+    Window (Main), 0x78e9a10f00, {{414.0, 325.0}, {1180.0, 792.0}}, identifier: 'main', title: 'Accessibility Probe', Keyboard Focused, Disabled
+      Group, 0x78e9a11040, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+      Button, 0x78e9a11180, {{422.0, 333.0}, {16.0, 16.0}}, identifier: '_XCUI:CloseWindow'
+      Button, 0x78e9a112c0, {{468.0, 333.0}, {16.0, 16.0}}, identifier: '_XCUI:FullScreenWindow'
+        Group, 0x78e9a11400, {{469.0, 334.0}, {14.0, 14.0}}, Disabled
+          Group, 0x78e9a11540, {{469.0, 334.0}, {14.0, 14.0}}, Disabled
+      Button, 0x78e9a11680, {{445.0, 333.0}, {16.0, 16.0}}, identifier: '_XCUI:MinimizeWindow'
+      StaticText, 0x78e9a117c0, {{496.0, 333.0}, {128.0, 16.0}}, value: Accessibility Probe
+    MenuBar, 0x78e9a11900, {{0.0, 0.0}, {1728.0, 33.0}}
+      MenuBarItem, 0x78e9a11a40, {{10.0, 0.0}, {34.0, 33.0}}, title: 'Apple'
+        Menu, 0x78e9a11b80, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9a11cc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_aboutThisMacRequested:', title: 'About This Mac'
+          MenuItem, 0x78e9a11e00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_systemInformationRequested:', title: 'System Information'
+          MenuItem, 0x78e9a11f40, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a12080, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_systemSettingsRequested:', title: 'System Settings…, 2 updates'
+          MenuItem, 0x78e9a121c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_appStoreRequested:', title: 'App Store…, 13 updates'
+          MenuItem, 0x78e9a12300, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a12440, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentsRequested:', title: 'Recent Items'
+            Menu, 0x78e9a12580, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9a126c0, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Applications', Disabled
+              MenuItem, 0x78e9a12800, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'AccessibilityProbe'
+              MenuItem, 0x78e9a12940, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “AccessibilityProbe” in Finder'
+              MenuItem, 0x78e9a12a80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a12bc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a12d00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a12e40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a12f80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a130c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a13200, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a13340, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a13480, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a135c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a13700, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a13840, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a13980, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a13ac0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a13c00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a13d40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a13e80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a80000, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a80140, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9a80280, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Documents', Disabled
+              MenuItem, 0x78e9a803c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'app-icon-source.png'
+              MenuItem, 0x78e9a80500, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “app-icon-source.png” in Finder'
+              MenuItem, 0x78e9a80640, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'AppIcon.icon'
+              MenuItem, 0x78e9a80780, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “AppIcon.icon” in Finder'
+              MenuItem, 0x78e9a808c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'birch-hardware-r4.pdf'
+              MenuItem, 0x78e9a80a00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “birch-hardware-r4.pdf” in Finder'
+              MenuItem, 0x78e9a80b40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'birch-hardware.pdf'
+              MenuItem, 0x78e9a80c80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “birch-hardware.pdf” in Finder'
+              MenuItem, 0x78e9a80dc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'current'
+              MenuItem, 0x78e9a80f00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “current” in Finder'
+              MenuItem, 0x78e9a81040, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'lantern-books.pdf'
+              MenuItem, 0x78e9a81180, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “lantern-books.pdf” in Finder'
+              MenuItem, 0x78e9a812c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'NavigationTests.swift'
+              MenuItem, 0x78e9a81400, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “NavigationTests.swift” in Finder'
+              MenuItem, 0x78e9a81540, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'OWNER-RELEASE-SETUP.md'
+              MenuItem, 0x78e9a81680, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “OWNER-RELEASE-SETUP.md” in Finder'
+              MenuItem, 0x78e9a817c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft.xcodeproj'
+              MenuItem, 0x78e9a81900, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft.xcodeproj” in Finder'
+              MenuItem, 0x78e9a81a40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Untitled 2'
+              MenuItem, 0x78e9a81b80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Untitled 2” in Finder'
+              MenuItem, 0x78e9a81cc0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9a81e00, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Servers', Disabled
+              MenuItem, 0x78e9a81f40, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9a82080, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_clearRecentItemsRequested:', title: 'Clear Menu'
+          MenuItem, 0x78e9a821c0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a82300, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_forceQuitPanelRequested:', title: 'Force Quit…'
+          MenuItem, 0x78e9a82440, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_forceQuitRequested:', title: 'Force Quit AccessibilityProbe'
+          MenuItem, 0x78e9a82580, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a826c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_sleepRequested:', title: 'Sleep'
+          MenuItem, 0x78e9a82800, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_restartRequested:', title: 'Restart…'
+          MenuItem, 0x78e9a82940, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_restartNowRequested:', title: 'Restart'
+          MenuItem, 0x78e9a82a80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_shutDownRequested:', title: 'Shut Down…'
+          MenuItem, 0x78e9a82bc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_shutDownNowRequested:', title: 'Shut Down'
+          MenuItem, 0x78e9a82d00, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a82e40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_lockScreenRequested:', title: 'Lock Screen'
+          MenuItem, 0x78e9a82f80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_logOutRequested:', title: 'Log Out builder …'
+          MenuItem, 0x78e9a830c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_logOutNowRequested:', title: 'Log Out builder '
+          MenuItem, 0x78e9a83200, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+      MenuBarItem, 0x78e9a83340, {{43.0, 0.0}, {142.0, 33.0}}, title: 'AccessibilityProbe'
+        Menu, 0x78e9a83480, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9a835c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'orderFrontStandardAboutPanel:', title: 'About AccessibilityProbe'
+          MenuItem, 0x78e9a83700, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a83840, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'menuAction:', title: 'Settings…'
+          MenuItem, 0x78e9a83980, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a83ac0, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Services'
+            Menu, 0x78e9a83c00, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9a83d40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Activity Monitor'
+              MenuItem, 0x78e9a83e80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Allocations & Leaks'
+              MenuItem, 0x78e9a84000, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'File Activity'
+              MenuItem, 0x78e9a84140, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'System Trace'
+              MenuItem, 0x78e9a84280, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Time Profile Active Application'
+              MenuItem, 0x78e9a843c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Time Profile App Under Mouse'
+              MenuItem, 0x78e9a84500, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Time Profile Entire System'
+              MenuItem, 0x78e9a84640, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Toggle Instruments Recording'
+              MenuItem, 0x78e9a84780, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Ask Claude'
+              MenuItem, 0x78e9a848c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'New Claude Code Session Here'
+              MenuItem, 0x78e9a84a00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Send to Claude'
+              MenuItem, 0x78e9a84b40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_configureServicesMenu:', title: 'Services Settings…'
+          MenuItem, 0x78e9a84c80, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a84dc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'hide:', title: 'Hide AccessibilityProbe'
+          MenuItem, 0x78e9a84f00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'hideOtherApplications:', title: 'Hide Others'
+          MenuItem, 0x78e9a85040, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'unhideAllApplications:', title: 'Show All', Disabled
+          MenuItem, 0x78e9a85180, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a852c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'terminate:', title: 'Quit AccessibilityProbe'
+          MenuItem, 0x78e9a85400, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'NSAlternateQuitMenuItem', title: 'Quit and Keep Windows'
+      MenuBarItem, 0x78e9a85540, {{184.0, 0.0}, {44.0, 33.0}}, title: 'Edit'
+        Menu, 0x78e9a85680, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9a857c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'undo:', title: 'Undo', Disabled
+          MenuItem, 0x78e9a85900, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'redo:', title: 'Redo', Disabled
+          MenuItem, 0x78e9a85a40, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a85b80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'cut:', title: 'Cut', Disabled
+          MenuItem, 0x78e9a85cc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'copy:', title: 'Copy', Disabled
+          MenuItem, 0x78e9a85e00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'paste:', title: 'Paste', Disabled
+          MenuItem, 0x78e9a85f40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'delete:', title: 'Delete', Disabled
+          MenuItem, 0x78e9a86080, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'selectAll:', title: 'Select All', Disabled
+          MenuItem, 0x78e9a861c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_NSMenuItemLegacyWritingToolsSeparatorIdentifier', Disabled
+          MenuItem, 0x78e9a86300, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '__NSTextViewContextSubmenuIdentifierWritingTools', title: 'Writing Tools'
+            Menu, 0x78e9a86440, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9a86580, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Show Writing Tools', Disabled
+              MenuItem, 0x78e9a866c0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9a86800, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Proofread', Disabled
+              MenuItem, 0x78e9a86940, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Rewrite', Disabled
+              MenuItem, 0x78e9a86a80, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9a86bc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Make Friendly', Disabled
+              MenuItem, 0x78e9a86d00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Make Professional', Disabled
+              MenuItem, 0x78e9a86e40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Make Concise', Disabled
+              MenuItem, 0x78e9a86f80, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9a870c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Summarize', Disabled
+              MenuItem, 0x78e9a87200, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Create Key Points', Disabled
+              MenuItem, 0x78e9a87340, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Make List', Disabled
+              MenuItem, 0x78e9a87480, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Make Table', Disabled
+              MenuItem, 0x78e9a875c0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9a87700, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Compose…', Disabled
+          MenuItem, 0x78e9a87840, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a87980, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_NSMenuItemAutoFillIdentifier', title: 'AutoFill'
+            Menu, 0x78e9a87ac0, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9a87c00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_handleInsertFromContactsCommand:', title: 'Contact…', Disabled
+              MenuItem, 0x78e9a87d40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_handleInsertFromPasswordsCommand:', title: 'Passwords…', Disabled
+              MenuItem, 0x78e9a87e80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_handleInsertFromCreditCardsCommand:', title: 'Credit Card…', Disabled
+          MenuItem, 0x78e9a88000, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'startDictation:', title: 'Start Dictation…'
+          MenuItem, 0x78e9a88140, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'orderFrontCharacterPalette:', title: 'Emoji & Symbols'
+      MenuBarItem, 0x78e9a88280, {{227.0, 0.0}, {50.0, 33.0}}, title: 'View'
+        Menu, 0x78e9a883c0, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9a88500, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'toggleFullScreen:', title: 'Enter Full Screen'
+      MenuBarItem, 0x78e9a88640, {{276.0, 0.0}, {70.0, 33.0}}, title: 'Window'
+        Menu, 0x78e9a88780, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9a888c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'performClose:', title: 'Close'
+          MenuItem, 0x78e9a88a00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'closeAll:', title: 'Close All'
+          MenuItem, 0x78e9a88b40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'performMiniaturize:', title: 'Minimize'
+          MenuItem, 0x78e9a88c80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'miniaturizeAll:', title: 'Minimize All'
+          MenuItem, 0x78e9a88dc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'performZoom:', title: 'Zoom'
+          MenuItem, 0x78e9a88f00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'zoomAll:', title: 'Zoom All'
+          MenuItem, 0x78e9a89040, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomFill:', title: 'Fill'
+          MenuItem, 0x78e9a89180, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomCenter:', title: 'Center'
+          MenuItem, 0x78e9a892c0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a89400, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Move & Resize'
+            Menu, 0x78e9a89540, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9a89680, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Halves', Disabled
+              MenuItem, 0x78e9a897c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomLeft:', title: 'Left'
+              MenuItem, 0x78e9a89900, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomRight:', title: 'Right'
+              MenuItem, 0x78e9a89a40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomTop:', title: 'Top'
+              MenuItem, 0x78e9a89b80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomBottom:', title: 'Bottom'
+              MenuItem, 0x78e9a89cc0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9a89e00, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Quarters', Disabled
+              MenuItem, 0x78e9a89f40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomTopLeft:', title: 'Top Left'
+              MenuItem, 0x78e9a8a080, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomTopRight:', title: 'Top Right'
+              MenuItem, 0x78e9a8a1c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomBottomLeft:', title: 'Bottom Left'
+              MenuItem, 0x78e9a8a300, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomBottomRight:', title: 'Bottom Right'
+              MenuItem, 0x78e9a8a440, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9a8a580, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Arrange', Disabled
+              MenuItem, 0x78e9a8a6c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomLeftAndRight:', title: 'Left & Right'
+              MenuItem, 0x78e9a8a800, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomLeftThreeUp:', title: 'Left & Quarters'
+              MenuItem, 0x78e9a8a940, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomRightAndLeft:', title: 'Right & Left'
+              MenuItem, 0x78e9a8aa80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomRightThreeUp:', title: 'Right & Quarters'
+              MenuItem, 0x78e9a8abc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomTopAndBottom:', title: 'Top & Bottom'
+              MenuItem, 0x78e9a8ad00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomTopThreeUp:', title: 'Top & Quarters'
+              MenuItem, 0x78e9a8ae40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomBottomAndTop:', title: 'Bottom & Top'
+              MenuItem, 0x78e9a8af80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomBottomThreeUp:', title: 'Bottom & Quarters'
+              MenuItem, 0x78e9a8b0c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomQuarters:', title: 'Quarters'
+              MenuItem, 0x78e9a8b200, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9a8b340, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomUntile:', title: 'Return to Previous Size', Disabled
+          MenuItem, 0x78e9a8b480, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Full Screen Tile'
+            Menu, 0x78e9a8b5c0, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9a8b700, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_tileLeft:', title: 'Left of Screen'
+              MenuItem, 0x78e9a8b840, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_tileRight:', title: 'Right of Screen'
+          MenuItem, 0x78e9a8b980, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a8bac0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a8bc00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'arrangeInFront:', title: 'Bring All to Front'
+          MenuItem, 0x78e9a8bd40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'alternateArrangeInFront:', title: 'Arrange in Front'
+          MenuItem, 0x78e9a8be80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_removeWindowFromStageManagerSet:', title: 'Remove Window from Set', Disabled
+      MenuBarItem, 0x78e9a8c000, {{345.0, 0.0}, {49.0, 33.0}}, title: 'Help'
+        Menu, 0x78e9a8c140, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9a8c280, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showHelp:', title: 'AccessibilityProbe Help'
+    TouchBar, 0x78e9a8c3c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x78e9a10dc0, pid: 8376, title: 'AccessibilityProbe', Disabled
+Query chain:
+ →Find: Target Application 'local.diagnostic.AccessibilityProbe'
+  Output: {
+    Application, 0x78e9a8c500, pid: 8376, title: 'AccessibilityProbe', Disabled
+  }
+
+    t =     2.64s Find the Any (Descendant with identity binding to AX element pid: 8376, token: uCAAAAAAAABvY29jLQAAAAAAAAA=)
+    t =     2.68s Requesting snapshot of accessibility hierarchy for app with pid 8376
+    t =     2.72s Find: Descendant with identity binding to AX element pid: 8376, token: uCAAAAAAAABvY29jLQAAAAAAAAA=
+    t =     2.73s Requesting snapshot of accessibility hierarchy for app with pid 8376
+    t =     2.80s Find: Descendant with identity binding to AX element pid: 8376, token: uCAAAAAAAABvY29jLQAAAAAAAAA=
+    t =     2.81s Requesting snapshot of accessibility hierarchy for app with pid 8376
+    t =     2.81s Using snapshot previously cached by application
+PROBE_ISSUE type=XCUIAccessibilityAuditType(rawValue: 8) description=Element has no description detail=This element is missing useful accessibility information. element=Attributes: Group, 0x78e9b28500, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+Element subtree:
+ →Group, 0x78e9b28500, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+Path to element:
+ →Application, 0x78e9b28140, pid: 8376, title: 'AccessibilityProbe', Disabled
+  ↳Window (Main), 0x78e9b283c0, {{414.0, 325.0}, {1180.0, 792.0}}, identifier: 'main', title: 'Accessibility Probe', Keyboard Focused, Disabled
+   ↳Group, 0x78e9b28500, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+Query chain:
+ →Find: Target Application 'local.diagnostic.AccessibilityProbe'
+  Output: {
+    Application, 0x78e9b4b980, pid: 8376, title: 'AccessibilityProbe', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 8376, token: uCAAAAAAAABvY29jLQAAAAAAAAA=
+    Output: {
+      Group, 0x78e9b4bc00, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+    }
+
+    t =     2.81s Find the Any (Descendant with identity binding to AX element pid: 8376, token: uCAAAAAAAABvY29jLQAAAAAAAAA=)
+    t =     2.84s Checking existence of `Group`
+    t =     2.87s Find the Group
+2026-10-01 20:45:07.017660-0700 ProbeTests-Runner[8373:6616534] [DisplayManager] Found 1 displays containing rect (414.0, 325.0, 1180.0, 792.0): [1]
+/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/Tools/AccessibilityProbe/Tests/ProbeTests.swift:15: error: -[ProbeTests.ProbeTests testEmptyWindowAudit] : Element has no description
+    t =     3.00s Find the Any (Descendant with identity binding to AX element pid: 8376, token: uCAAAAAAAABvY29jLAAAAAAAAAA=)
+    t =     3.03s Requesting snapshot of accessibility hierarchy for app with pid 8376
+    t =     3.07s Find: Descendant with identity binding to AX element pid: 8376, token: uCAAAAAAAABvY29jLAAAAAAAAAA=
+    t =     3.08s Requesting snapshot of accessibility hierarchy for app with pid 8376
+    t =     3.12s Find: Descendant with identity binding to AX element pid: 8376, token: uCAAAAAAAABvY29jLAAAAAAAAAA=
+    t =     3.13s Requesting snapshot of accessibility hierarchy for app with pid 8376
+    t =     3.13s Using snapshot previously cached by application
+PROBE_ISSUE type=XCUIAccessibilityAuditType(rawValue: 8) description=Element has no description detail=This element is missing useful accessibility information. element=Attributes: TouchBar, 0x78e9b3fd40, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x78e9b3fd40, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x78e9b4ae40, pid: 8376, title: 'AccessibilityProbe', Disabled
+  ↳TouchBar, 0x78e9b3fd40, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'local.diagnostic.AccessibilityProbe'
+  Output: {
+    Application, 0x78e9b3fe80, pid: 8376, title: 'AccessibilityProbe', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 8376, token: uCAAAAAAAABvY29jLAAAAAAAAAA=
+    Output: {
+      TouchBar, 0x78e9b075c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+    }
+
+    t =     3.13s Find the Any (Descendant with identity binding to AX element pid: 8376, token: uCAAAAAAAABvY29jLAAAAAAAAAA=)
+    t =     3.16s Checking existence of `TouchBar`
+    t =     3.19s Find the TouchBar
+2026-10-01 20:45:07.336457-0700 ProbeTests-Runner[8373:6616534] [DisplayManager] Found 1 displays containing rect (80.0, 0.0, 685.0, 30.0): [1]
+/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/Tools/AccessibilityProbe/Tests/ProbeTests.swift:15: error: -[ProbeTests.ProbeTests testEmptyWindowAudit] : Element has no description
+    t =     3.23s Tear Down
+Test Case '-[ProbeTests.ProbeTests testEmptyWindowAudit]' failed (3.351 seconds).
+Test Case '-[ProbeTests.ProbeTests testStandardControlsAudit]' started.
+    t =     0.00s Start Test at 2026-10-01 20:45:07.472
+    t =     0.12s Set Up
+    t =     0.13s Open local.diagnostic.AccessibilityProbe
+    t =     0.13s     Launch local.diagnostic.AccessibilityProbe
+    t =     0.13s         Terminate local.diagnostic.AccessibilityProbe:8376
+2026-10-01 20:45:08.616 xcodebuild[8365:6616298] [MT] IDELaunchParametersSnapshot: debugger version lookup failed for path '<nil>': noURL
+2026-10-01 20:45:08.617 xcodebuild[8365:6616298] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     1.56s         Wait for accessibility to load
+    t =     1.79s         Setting up automation session
+    t =     1.82s         Wait for local.diagnostic.AccessibilityProbe to idle
+    t =     1.82s Waiting 10.0s for Window (First Match) to exist
+    t =     2.85s     Checking `Expect predicate `existsNoRetry == 1` for object Window (First Match)`
+    t =     2.85s         Checking existence of `Window (First Match)`
+    t =     2.87s Click TextField (First Match)
+    t =     2.87s     Wait for local.diagnostic.AccessibilityProbe to idle
+    t =     2.89s     Find the TextField (First Match)
+    t =     2.93s     Check for interrupting elements affecting "Search" TextField
+    t =     2.95s     Synthesize event
+    t =     3.45s     Wait for local.diagnostic.AccessibilityProbe to idle
+    t =     3.47s Find the Target Application 'local.diagnostic.AccessibilityProbe'
+2026-10-01 20:45:11.154735-0700 ProbeTests-Runner[8373:6616534] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =     3.92s Added attachment named 'standard-controls'
+    t =     3.92s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     3.98s Requesting snapshot of accessibility hierarchy for app with pid 8392
+PROBE_TREE Attributes: Application, 0x78e9a11900, pid: 8392, title: 'AccessibilityProbe', Disabled
+Element subtree:
+ →Application, 0x78e9a11900, pid: 8392, title: 'AccessibilityProbe', Disabled
+    Window (Main), 0x78e9a11a40, {{414.0, 325.0}, {1180.0, 792.0}}, identifier: 'main', title: 'Accessibility Probe', Disabled
+      Group, 0x78e9a11b80, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+        TextField, 0x78e9a12440, {{819.0, 708.0}, {370.0, 26.0}}, placeholderValue: 'Search', Keyboard Focused
+        StaticText, 0x78e9a12580, {{927.8, 745.0}, {39.0, 16.0}}, value: Status
+        PopUpButton, 0x78e9a13e80, {{975.0, 741.0}, {105.5, 24.0}}, value: All
+      Button, 0x78e9a13d40, {{422.0, 333.0}, {16.0, 16.0}}, identifier: '_XCUI:CloseWindow'
+      Button, 0x78e9a13c00, {{468.0, 333.0}, {16.0, 16.0}}, identifier: '_XCUI:FullScreenWindow'
+        Group, 0x78e9a13ac0, {{469.0, 334.0}, {14.0, 14.0}}, Disabled
+          Group, 0x78e9a13980, {{469.0, 334.0}, {14.0, 14.0}}, Disabled
+      Button, 0x78e9a13840, {{445.0, 333.0}, {16.0, 16.0}}, identifier: '_XCUI:MinimizeWindow'
+      StaticText, 0x78e9a13700, {{496.0, 333.0}, {128.0, 16.0}}, value: Accessibility Probe
+    MenuBar, 0x78e9a135c0, {{0.0, 0.0}, {1728.0, 33.0}}
+      MenuBarItem, 0x78e9a13480, {{10.0, 0.0}, {34.0, 33.0}}, title: 'Apple'
+        Menu, 0x78e9a13340, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9a13200, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_aboutThisMacRequested:', title: 'About This Mac'
+          MenuItem, 0x78e9a130c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_systemInformationRequested:', title: 'System Information'
+          MenuItem, 0x78e9a12f80, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a12e40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_systemSettingsRequested:', title: 'System Settings…, 2 updates'
+          MenuItem, 0x78e9a12d00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_appStoreRequested:', title: 'App Store…, 13 updates'
+          MenuItem, 0x78e9a12bc0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9a12a80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentsRequested:', title: 'Recent Items'
+            Menu, 0x78e9a12940, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9a12800, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Applications', Disabled
+              MenuItem, 0x78e9a126c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'AccessibilityProbe'
+              MenuItem, 0x78e9a12300, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “AccessibilityProbe” in Finder'
+              MenuItem, 0x78e9a121c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a12080, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a11f40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a11e00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a11cc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a10f00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a117c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a11680, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a112c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a11400, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a11540, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9a11180, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9a11040, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9b4bc00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9b4bd40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9b4be80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9b4bac0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft Receipts'
+              MenuItem, 0x78e9b4b980, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft Receipts” in Finder'
+              MenuItem, 0x78e9b4aa80, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9b4af80, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Documents', Disabled
+              MenuItem, 0x78e9b4b0c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'app-icon-source.png'
+              MenuItem, 0x78e9b4b700, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “app-icon-source.png” in Finder'
+              MenuItem, 0x78e9b4b480, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'AppIcon.icon'
+              MenuItem, 0x78e9b4a940, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “AppIcon.icon” in Finder'
+              MenuItem, 0x78e9b4ae40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'birch-hardware-r4.pdf'
+              MenuItem, 0x78e9b4a300, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “birch-hardware-r4.pdf” in Finder'
+              MenuItem, 0x78e9b4a1c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'birch-hardware.pdf'
+              MenuItem, 0x78e9b4a080, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “birch-hardware.pdf” in Finder'
+              MenuItem, 0x78e9b497c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'current'
+              MenuItem, 0x78e9b49680, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “current” in Finder'
+              MenuItem, 0x78e9b48000, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'lantern-books.pdf'
+              MenuItem, 0x78e9b48140, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “lantern-books.pdf” in Finder'
+              MenuItem, 0x78e9b48280, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'NavigationTests.swift'
+              MenuItem, 0x78e9b483c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “NavigationTests.swift” in Finder'
+              MenuItem, 0x78e9b48500, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'OWNER-RELEASE-SETUP.md'
+              MenuItem, 0x78e9b48640, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “OWNER-RELEASE-SETUP.md” in Finder'
+              MenuItem, 0x78e9b48780, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Paperloft.xcodeproj'
+              MenuItem, 0x78e9b48b40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Paperloft.xcodeproj” in Finder'
+              MenuItem, 0x78e9b48c80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Untitled 2'
+              MenuItem, 0x78e9b48dc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Untitled 2” in Finder'
+              MenuItem, 0x78e9b48f00, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9b49040, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Servers', Disabled
+              MenuItem, 0x78e9b49180, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9b492c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_clearRecentItemsRequested:', title: 'Clear Menu'
+          MenuItem, 0x78e9b49400, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9b49540, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_forceQuitPanelRequested:', title: 'Force Quit…'
+          MenuItem, 0x78e9b49900, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_forceQuitRequested:', title: 'Force Quit AccessibilityProbe'
+          MenuItem, 0x78e9b49a40, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9b49b80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_sleepRequested:', title: 'Sleep'
+          MenuItem, 0x78e9b49cc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_restartRequested:', title: 'Restart…'
+          MenuItem, 0x78e9b49e00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_restartNowRequested:', title: 'Restart'
+          MenuItem, 0x78e9b49f40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_shutDownRequested:', title: 'Shut Down…'
+          MenuItem, 0x78e9b4ad00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_shutDownNowRequested:', title: 'Shut Down'
+          MenuItem, 0x78e9b4a440, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9b4a580, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_lockScreenRequested:', title: 'Lock Screen'
+          MenuItem, 0x78e9b48a00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_logOutRequested:', title: 'Log Out builder …'
+          MenuItem, 0x78e9b4a800, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_logOutNowRequested:', title: 'Log Out builder '
+          MenuItem, 0x78e9b4a6c0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+      MenuBarItem, 0x78e9b488c0, {{43.0, 0.0}, {142.0, 33.0}}, title: 'AccessibilityProbe'
+        Menu, 0x78e9b4abc0, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9b3c000, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'orderFrontStandardAboutPanel:', title: 'About AccessibilityProbe'
+          MenuItem, 0x78e9b3c140, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9b3c280, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'menuAction:', title: 'Settings…'
+          MenuItem, 0x78e9b3c3c0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9b3c500, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Services'
+            Menu, 0x78e9b3c640, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9b3c780, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Activity Monitor'
+              MenuItem, 0x78e9b3c8c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Allocations & Leaks'
+              MenuItem, 0x78e9b3ca00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'File Activity'
+              MenuItem, 0x78e9b3cb40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'System Trace'
+              MenuItem, 0x78e9b3cc80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Time Profile Active Application'
+              MenuItem, 0x78e9b3cdc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Time Profile App Under Mouse'
+              MenuItem, 0x78e9b3cf00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Time Profile Entire System'
+              MenuItem, 0x78e9b3d040, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Toggle Instruments Recording'
+              MenuItem, 0x78e9b3d180, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Ask Claude'
+              MenuItem, 0x78e9b3d2c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'New Claude Code Session Here'
+              MenuItem, 0x78e9b3d400, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Send to Claude'
+              MenuItem, 0x78e9b3d540, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_configureServicesMenu:', title: 'Services Settings…'
+          MenuItem, 0x78e9b3d680, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9b3d7c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'hide:', title: 'Hide AccessibilityProbe'
+          MenuItem, 0x78e9b3d900, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'hideOtherApplications:', title: 'Hide Others'
+          MenuItem, 0x78e9b3da40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'unhideAllApplications:', title: 'Show All', Disabled
+          MenuItem, 0x78e9b3db80, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9b3dcc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'terminate:', title: 'Quit AccessibilityProbe'
+          MenuItem, 0x78e9b3de00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'NSAlternateQuitMenuItem', title: 'Quit and Keep Windows'
+      MenuBarItem, 0x78e9b3df40, {{184.0, 0.0}, {44.0, 33.0}}, title: 'Edit'
+        Menu, 0x78e9b3e080, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9b3e1c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'undo:', title: 'Undo', Disabled
+          MenuItem, 0x78e9b3e300, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'redo:', title: 'Redo', Disabled
+          MenuItem, 0x78e9b3e440, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9b3e580, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'cut:', title: 'Cut', Disabled
+          MenuItem, 0x78e9b3e6c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'copy:', title: 'Copy', Disabled
+          MenuItem, 0x78e9b3e800, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'paste:', title: 'Paste', Disabled
+          MenuItem, 0x78e9b3e940, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'delete:', title: 'Delete', Disabled
+          MenuItem, 0x78e9b3ea80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'selectAll:', title: 'Select All'
+          MenuItem, 0x78e9b3ebc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_NSMenuItemLegacyWritingToolsSeparatorIdentifier', Disabled
+          MenuItem, 0x78e9b3ed00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '__NSTextViewContextSubmenuIdentifierWritingTools', title: 'Writing Tools'
+            Menu, 0x78e9b3ee40, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9b3ef80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Show Writing Tools'
+              MenuItem, 0x78e9b3f0c0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9b3f200, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Proofread'
+              MenuItem, 0x78e9b3f340, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Rewrite'
+              MenuItem, 0x78e9b3f480, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9b3f5c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Make Friendly'
+              MenuItem, 0x78e9b3f700, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Make Professional'
+              MenuItem, 0x78e9b3f840, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Make Concise'
+              MenuItem, 0x78e9b3f980, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9b3fac0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Summarize'
+              MenuItem, 0x78e9b3fc00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Create Key Points'
+              MenuItem, 0x78e9b3fd40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Make List'
+              MenuItem, 0x78e9b3fe80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Make Table'
+              MenuItem, 0x78e9b04000, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9b04140, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showWritingTools:', title: 'Compose…'
+          MenuItem, 0x78e9b04280, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9b043c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_NSMenuItemAutoFillIdentifier', title: 'AutoFill'
+            Menu, 0x78e9b04500, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9b04640, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_handleInsertFromContactsCommand:', title: 'Contact…'
+              MenuItem, 0x78e9b04780, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_handleInsertFromPasswordsCommand:', title: 'Passwords…'
+              MenuItem, 0x78e9b048c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_handleInsertFromCreditCardsCommand:', title: 'Credit Card…'
+          MenuItem, 0x78e9b04a00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'startDictation:', title: 'Start Dictation…'
+          MenuItem, 0x78e9b04b40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'orderFrontCharacterPalette:', title: 'Emoji & Symbols'
+      MenuBarItem, 0x78e9b04c80, {{227.0, 0.0}, {50.0, 33.0}}, title: 'View'
+        Menu, 0x78e9b04dc0, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9b04f00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'toggleFullScreen:', title: 'Enter Full Screen'
+      MenuBarItem, 0x78e9b05040, {{276.0, 0.0}, {70.0, 33.0}}, title: 'Window'
+        Menu, 0x78e9b05180, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9b052c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'performClose:', title: 'Close'
+          MenuItem, 0x78e9b05400, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'closeAll:', title: 'Close All'
+          MenuItem, 0x78e9b05540, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'performMiniaturize:', title: 'Minimize'
+          MenuItem, 0x78e9b05680, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'miniaturizeAll:', title: 'Minimize All'
+          MenuItem, 0x78e9b057c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'performZoom:', title: 'Zoom'
+          MenuItem, 0x78e9b05900, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'zoomAll:', title: 'Zoom All'
+          MenuItem, 0x78e9b05a40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomFill:', title: 'Fill'
+          MenuItem, 0x78e9b05b80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomCenter:', title: 'Center'
+          MenuItem, 0x78e9b05cc0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9b05e00, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Move & Resize'
+            Menu, 0x78e9b05f40, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9b06080, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Halves', Disabled
+              MenuItem, 0x78e9b061c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomLeft:', title: 'Left'
+              MenuItem, 0x78e9b06300, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomRight:', title: 'Right'
+              MenuItem, 0x78e9b06440, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomTop:', title: 'Top'
+              MenuItem, 0x78e9b06580, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomBottom:', title: 'Bottom'
+              MenuItem, 0x78e9b066c0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9b06800, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Quarters', Disabled
+              MenuItem, 0x78e9b06940, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomTopLeft:', title: 'Top Left'
+              MenuItem, 0x78e9b06a80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomTopRight:', title: 'Top Right'
+              MenuItem, 0x78e9b06bc0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomBottomLeft:', title: 'Bottom Left'
+              MenuItem, 0x78e9b06d00, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomBottomRight:', title: 'Bottom Right'
+              MenuItem, 0x78e9b06e40, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9b06f80, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Arrange', Disabled
+              MenuItem, 0x78e9b070c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomLeftAndRight:', title: 'Left & Right'
+              MenuItem, 0x78e9b07200, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomLeftThreeUp:', title: 'Left & Quarters'
+              MenuItem, 0x78e9b07340, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomRightAndLeft:', title: 'Right & Left'
+              MenuItem, 0x78e9b07480, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomRightThreeUp:', title: 'Right & Quarters'
+              MenuItem, 0x78e9b075c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomTopAndBottom:', title: 'Top & Bottom'
+              MenuItem, 0x78e9b07700, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomTopThreeUp:', title: 'Top & Quarters'
+              MenuItem, 0x78e9b07840, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomBottomAndTop:', title: 'Bottom & Top'
+              MenuItem, 0x78e9b07980, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomBottomThreeUp:', title: 'Bottom & Quarters'
+              MenuItem, 0x78e9b07ac0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomQuarters:', title: 'Quarters'
+              MenuItem, 0x78e9b07c00, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x78e9b07d40, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_zoomUntile:', title: 'Return to Previous Size', Disabled
+          MenuItem, 0x78e9b07e80, {{0.0, 1117.0}, {0.0, 0.0}}, title: 'Full Screen Tile'
+            Menu, 0x78e9af8000, {{0.0, 1117.0}, {0.0, 0.0}}
+              MenuItem, 0x78e9af8140, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_tileLeft:', title: 'Left of Screen'
+              MenuItem, 0x78e9af8280, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_tileRight:', title: 'Right of Screen'
+          MenuItem, 0x78e9af83c0, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9af8500, {{0.0, 1117.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x78e9af8640, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'arrangeInFront:', title: 'Bring All to Front'
+          MenuItem, 0x78e9af8780, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'alternateArrangeInFront:', title: 'Arrange in Front'
+          MenuItem, 0x78e9af88c0, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: '_removeWindowFromStageManagerSet:', title: 'Remove Window from Set', Disabled
+      MenuBarItem, 0x78e9af8a00, {{345.0, 0.0}, {49.0, 33.0}}, title: 'Help'
+        Menu, 0x78e9af8b40, {{0.0, 1117.0}, {0.0, 0.0}}
+          MenuItem, 0x78e9af8c80, {{0.0, 1117.0}, {0.0, 0.0}}, identifier: 'showHelp:', title: 'AccessibilityProbe Help'
+    TouchBar, 0x78e9af8dc0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+      PopUpButton, 0x78e9af8f00, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+      DisclosureTriangle, 0x78e9af9040, {{320.0, 0.0}, {15.0, 30.0}}, title: 'Candidate Bar', value: 1, Disabled
+      Button, 0x78e9af9180, {{337.0, 0.0}, {141.5, 30.0}}, title: 'I', value: 0, Disabled
+      Button, 0x78e9af92c0, {{480.5, 0.0}, {141.0, 30.0}}, title: 'I'm', value: 0, Disabled
+      Button, 0x78e9af9400, {{623.5, 0.0}, {141.5, 30.0}}, title: 'We', value: 0, Disabled
+Path to element:
+ →Application, 0x78e9a11900, pid: 8392, title: 'AccessibilityProbe', Disabled
+Query chain:
+ →Find: Target Application 'local.diagnostic.AccessibilityProbe'
+  Output: {
+    Application, 0x78e9af9540, pid: 8392, title: 'AccessibilityProbe', Disabled
+  }
+
+    t =     4.27s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jRAAAAAAAAAA=)
+    t =     5.30s     Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jRAAAAAAAAAA=) (retry 1)
+    t =     6.36s     Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jRAAAAAAAAAA=) (retry 2)
+PROBE_ISSUE type=XCUIAccessibilityAuditType(rawValue: 8589934592) description=Parent/Child mismatch detail=This element is not an accessibility child of the parent element. element=nil
+    t =     6.42s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jRAAAAAAAAAA=)
+    t =     7.46s     Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jRAAAAAAAAAA=) (retry 1)
+    t =     8.52s     Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jRAAAAAAAAAA=) (retry 2)
+/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/Tools/AccessibilityProbe/Tests/ProbeTests.swift:15: error: -[ProbeTests.ProbeTests testStandardControlsAudit] : Parent/Child mismatch
+    t =     8.58s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jLgAAAAAAAAA=)
+    t =     8.63s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     8.69s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jLgAAAAAAAAA=
+    t =     8.70s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     8.76s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jLgAAAAAAAAA=
+    t =     8.76s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     8.76s Using snapshot previously cached by application
+PROBE_ISSUE type=XCUIAccessibilityAuditType(rawValue: 8) description=Element has no description detail=This element is missing useful accessibility information. element=Attributes: Group, 0x78e9a8a6c0, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+Element subtree:
+ →Group, 0x78e9a8a6c0, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+    TextField, 0x78e9a89540, {{819.0, 708.0}, {370.0, 26.0}}, placeholderValue: 'Search', Keyboard Focused
+    StaticText, 0x78e9a89cc0, {{927.8, 745.0}, {39.0, 16.0}}, value: Status
+    PopUpButton, 0x78e9a8a300, {{975.0, 741.0}, {105.5, 24.0}}, value: All
+Path to element:
+ →Application, 0x78e9a8a1c0, pid: 8392, title: 'AccessibilityProbe', Disabled
+  ↳Window (Main), 0x78e9a8a580, {{414.0, 325.0}, {1180.0, 792.0}}, identifier: 'main', title: 'Accessibility Probe', Disabled
+   ↳Group, 0x78e9a8a6c0, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+Query chain:
+ →Find: Target Application 'local.diagnostic.AccessibilityProbe'
+  Output: {
+    Application, 0x78ea48de00, pid: 8392, title: 'AccessibilityProbe', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jLgAAAAAAAAA=
+    Output: {
+      Group, 0x78ea48e080, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+    }
+
+    t =     8.77s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jLgAAAAAAAAA=)
+    t =     8.81s Checking existence of `Group`
+    t =     8.83s Find the Group
+2026-10-01 20:45:16.327968-0700 ProbeTests-Runner[8373:6616534] [DisplayManager] Found 1 displays containing rect (414.0, 325.0, 1180.0, 792.0): [1]
+/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/Tools/AccessibilityProbe/Tests/ProbeTests.swift:15: error: -[ProbeTests.ProbeTests testStandardControlsAudit] : Element has no description
+    t =     8.90s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jNAAAAAAAAAA=)
+    t =     8.93s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     8.98s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jNAAAAAAAAAA=
+    t =     8.99s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.03s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jNAAAAAAAAAA=
+    t =     9.03s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.03s Using snapshot previously cached by application
+PROBE_ISSUE type=XCUIAccessibilityAuditType(rawValue: 8) description=Element has no description detail=This element is missing useful accessibility information. element=Attributes: TextField, 0x78e9afe300, {{819.0, 708.0}, {370.0, 26.0}}, placeholderValue: 'Search', Keyboard Focused
+Element subtree:
+ →TextField, 0x78e9afe300, {{819.0, 708.0}, {370.0, 26.0}}, placeholderValue: 'Search', Keyboard Focused
+Path to element:
+ →Application, 0x78e9afe580, pid: 8392, title: 'AccessibilityProbe', Disabled
+  ↳Window (Main), 0x78e9afdf40, {{414.0, 325.0}, {1180.0, 792.0}}, identifier: 'main', title: 'Accessibility Probe', Disabled
+   ↳Group, 0x78e9afe1c0, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+    ↳TextField, 0x78e9afe300, {{819.0, 708.0}, {370.0, 26.0}}, placeholderValue: 'Search', Keyboard Focused
+Query chain:
+ →Find: Target Application 'local.diagnostic.AccessibilityProbe'
+  Output: {
+    Application, 0x78e9a85f40, pid: 8392, title: 'AccessibilityProbe', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jNAAAAAAAAAA=
+    Output: {
+      TextField, 0x78e9a86300, {{819.0, 708.0}, {370.0, 26.0}}, placeholderValue: 'Search', Keyboard Focused
+    }
+
+    t =     9.04s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jNAAAAAAAAAA=)
+    t =     9.07s Checking existence of `"Search" TextField`
+    t =     9.10s Find the "Search" TextField
+2026-10-01 20:45:16.592962-0700 ProbeTests-Runner[8373:6616534] [DisplayManager] Found 1 displays containing rect (819.0, 708.0, 370.0, 26.0): [1]
+/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/Tools/AccessibilityProbe/Tests/ProbeTests.swift:15: error: -[ProbeTests.ProbeTests testStandardControlsAudit] : Element has no description
+    t =     9.13s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jNgAAAAAAAAA=)
+    t =     9.16s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.22s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jNgAAAAAAAAA=
+    t =     9.23s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.28s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jNgAAAAAAAAA=
+    t =     9.28s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.28s Using snapshot previously cached by application
+PROBE_ISSUE type=XCUIAccessibilityAuditType(rawValue: 4294967296) description=Action is missing detail=This element is missing accessibility action support equivalent to click/tap inputs. element=Attributes: PopUpButton, 0x78e9b29680, {{975.0, 741.0}, {105.5, 24.0}}, value: All
+Element subtree:
+ →PopUpButton, 0x78e9b29680, {{975.0, 741.0}, {105.5, 24.0}}, value: All
+Path to element:
+ →Application, 0x78e9b29cc0, pid: 8392, title: 'AccessibilityProbe', Disabled
+  ↳Window (Main), 0x78e9b29a40, {{414.0, 325.0}, {1180.0, 792.0}}, identifier: 'main', title: 'Accessibility Probe', Disabled
+   ↳Group, 0x78e9b2a080, {{414.0, 325.0}, {1180.0, 792.0}}, Disabled
+    ↳PopUpButton, 0x78e9b29680, {{975.0, 741.0}, {105.5, 24.0}}, value: All
+Query chain:
+ →Find: Target Application 'local.diagnostic.AccessibilityProbe'
+  Output: {
+    Application, 0x78e9b45f40, pid: 8392, title: 'AccessibilityProbe', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jNgAAAAAAAAA=
+    Output: {
+      PopUpButton, 0x78e9b46580, {{975.0, 741.0}, {105.5, 24.0}}, value: All
+    }
+
+    t =     9.28s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jNgAAAAAAAAA=)
+    t =     9.32s Checking existence of `"All" PopUpButton`
+    t =     9.35s Find the "All" PopUpButton
+2026-10-01 20:45:16.859255-0700 ProbeTests-Runner[8373:6616534] [DisplayManager] Found 1 displays containing rect (975.0, 741.0, 105.5, 24.0): [1]
+/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/Tools/AccessibilityProbe/Tests/ProbeTests.swift:15: error: -[ProbeTests.ProbeTests testStandardControlsAudit] : Action is missing
+    t =     9.40s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jLQAAAAAAAAA=)
+    t =     9.44s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.52s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jLQAAAAAAAAA=
+    t =     9.53s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.61s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jLQAAAAAAAAA=
+    t =     9.62s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.62s Using snapshot previously cached by application
+PROBE_ISSUE type=XCUIAccessibilityAuditType(rawValue: 8) description=Element has no description detail=This element is missing useful accessibility information. element=Attributes: TouchBar, 0x78e9a81680, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x78e9a81680, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+    PopUpButton, 0x78e9a817c0, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+    DisclosureTriangle, 0x78e9a81900, {{320.0, 0.0}, {15.0, 30.0}}, title: 'Candidate Bar', value: 1, Disabled
+    Button, 0x78e9a81a40, {{337.0, 0.0}, {141.5, 30.0}}, title: 'I', value: 0, Disabled
+    Button, 0x78e9a81b80, {{480.5, 0.0}, {141.0, 30.0}}, title: 'I'm', value: 0, Disabled
+    Button, 0x78e9a81cc0, {{623.5, 0.0}, {141.5, 30.0}}, title: 'We', value: 0, Disabled
+Path to element:
+ →Application, 0x78e9a8de00, pid: 8392, title: 'AccessibilityProbe', Disabled
+  ↳TouchBar, 0x78e9a81680, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'local.diagnostic.AccessibilityProbe'
+  Output: {
+    Application, 0x78e9a81e00, pid: 8392, title: 'AccessibilityProbe', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jLQAAAAAAAAA=
+    Output: {
+      TouchBar, 0x78e9b29040, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+    }
+
+    t =     9.62s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jLQAAAAAAAAA=)
+    t =     9.66s Checking existence of `TouchBar`
+    t =     9.69s Find the TouchBar
+2026-10-01 20:45:17.193463-0700 ProbeTests-Runner[8373:6616534] [DisplayManager] Found 1 displays containing rect (80.0, 0.0, 685.0, 30.0): [1]
+/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/Tools/AccessibilityProbe/Tests/ProbeTests.swift:15: error: -[ProbeTests.ProbeTests testStandardControlsAudit] : Element has no description
+    t =     9.74s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jMgAAAAAAAAA=)
+    t =     9.77s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.82s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jMgAAAAAAAAA=
+    t =     9.83s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.88s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jMgAAAAAAAAA=
+    t =     9.88s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =     9.88s Using snapshot previously cached by application
+PROBE_ISSUE type=XCUIAccessibilityAuditType(rawValue: 8) description=Element has no description detail=This element is missing useful accessibility information. element=Attributes: PopUpButton, 0x78e9b45900, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Element subtree:
+ →PopUpButton, 0x78e9b45900, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Path to element:
+ →Application, 0x78e9b2a580, pid: 8392, title: 'AccessibilityProbe', Disabled
+  ↳TouchBar, 0x78e9b457c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+   ↳PopUpButton, 0x78e9b45900, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Query chain:
+ →Find: Target Application 'local.diagnostic.AccessibilityProbe'
+  Output: {
+    Application, 0x78e9b45f40, pid: 8392, title: 'AccessibilityProbe', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jMgAAAAAAAAA=
+    Output: {
+      PopUpButton, 0x78e9a8d180, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+    }
+
+    t =     9.89s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jMgAAAAAAAAA=)
+    t =     9.92s Checking existence of `"emoji & symbols" PopUpButton`
+    t =     9.94s Find the "emoji & symbols" PopUpButton
+2026-10-01 20:45:17.447999-0700 ProbeTests-Runner[8373:6616534] [DisplayManager] Found 1 displays containing rect (79.0, -1.0, 74.0, 32.0): [1]
+/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/Tools/AccessibilityProbe/Tests/ProbeTests.swift:15: error: -[ProbeTests.ProbeTests testStandardControlsAudit] : Element has no description
+    t =    10.00s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jMgAAAAAAAAA=)
+    t =    10.03s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =    10.08s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jMgAAAAAAAAA=
+    t =    10.09s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =    10.14s Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jMgAAAAAAAAA=
+    t =    10.14s Requesting snapshot of accessibility hierarchy for app with pid 8392
+    t =    10.14s Using snapshot previously cached by application
+PROBE_ISSUE type=XCUIAccessibilityAuditType(rawValue: 4294967296) description=Action is missing detail=This element is missing accessibility action support equivalent to click/tap inputs. element=Attributes: PopUpButton, 0x78e9a81900, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Element subtree:
+ →PopUpButton, 0x78e9a81900, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Path to element:
+ →Application, 0x78e9a8fac0, pid: 8392, title: 'AccessibilityProbe', Disabled
+  ↳TouchBar, 0x78e9a817c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+   ↳PopUpButton, 0x78e9a81900, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+Query chain:
+ →Find: Target Application 'local.diagnostic.AccessibilityProbe'
+  Output: {
+    Application, 0x78e9a81f40, pid: 8392, title: 'AccessibilityProbe', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jMgAAAAAAAAA=
+    Output: {
+      PopUpButton, 0x78e9b292c0, {{79.0, -1.0}, {74.0, 32.0}}, label: 'emoji & symbols'
+    }
+
+    t =    10.15s Find the Any (Descendant with identity binding to AX element pid: 8392, token: yCAAAAAAAABvY29jMgAAAAAAAAA=)
+    t =    10.18s Checking existence of `"emoji & symbols" PopUpButton`
+    t =    10.21s Find the "emoji & symbols" PopUpButton
+2026-10-01 20:45:17.720154-0700 ProbeTests-Runner[8373:6616534] [DisplayManager] Found 1 displays containing rect (79.0, -1.0, 74.0, 32.0): [1]
+/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/Tools/AccessibilityProbe/Tests/ProbeTests.swift:15: error: -[ProbeTests.ProbeTests testStandardControlsAudit] : Action is missing
+    t =    10.27s Tear Down
+Test Case '-[ProbeTests.ProbeTests testStandardControlsAudit]' failed (10.568 seconds).
+Test Suite 'ProbeTests' failed at 2026-10-01 20:45:18.039.
+	 Executed 2 tests, with 9 failures (0 unexpected) in 13.918 (13.920) seconds
+Test Suite 'ProbeTests.xctest' failed at 2026-10-01 20:45:18.040.
+	 Executed 2 tests, with 9 failures (0 unexpected) in 13.918 (13.921) seconds
+Test Suite 'Selected tests' failed at 2026-10-01 20:45:18.040.
+	 Executed 2 tests, with 9 failures (0 unexpected) in 13.918 (13.922) seconds
+2026-10-01 20:45:18.326 xcodebuild[8365:6616302]  IDETestOperationsObserverDebug: Failure collecting logarchive: Error Domain=OSLogErrorDomain Code=13 "Log archive creation failed with error 13, warnings during creation: failed to read version.plist
+" UserInfo={NSLocalizedDescription=Log archive creation failed with error 13, warnings during creation: failed to read version.plist
+}
+2026-10-01 20:45:18.332 xcodebuild[8365:6616298] [MT] IDETestOperationsObserverDebug: 14.984 elapsed -- Testing started completed.
+2026-10-01 20:45:18.332 xcodebuild[8365:6616298] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-01 20:45:18.332 xcodebuild[8365:6616298] [MT] IDETestOperationsObserverDebug: 14.984 sec, +14.984 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/builder/Factory/paperloft/evidence/checkouts/a11y-probe-e5889f4/build/VerifierProbe.xcresult
+
+Failing tests:
+	ProbeTests.testEmptyWindowAudit()
+	ProbeTests.testStandardControlsAudit()
+	ProbeTests.testStandardControlsAudit()
+	ProbeTests.testStandardControlsAudit()
+
+** TEST EXECUTE FAILED **
+
+Testing started

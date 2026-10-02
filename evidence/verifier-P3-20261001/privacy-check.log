@@ -1,0 +1,2 @@
+PASS: app and embedded extensions sandboxed, no outgoing network, privacy manifests, activation rules, Apple system libraries only.
+exit=0

@@ -1,0 +1,16 @@
+This element is missing useful accessibility information.
+Attributes: TouchBar, 0x7b99d06940, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x7b99d06940, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x7b99c3cc80, pid: 2757, title: 'Paperloft Receipts', Disabled
+  ↳TouchBar, 0x7b99d06940, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'app.paperloft.receipts'
+  Output: {
+    Application, 0x7b99d06d00, pid: 2757, title: 'Paperloft Receipts', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 2757, token: xQoAAAAAAABvY29jLQAAAAAAAAA=
+    Output: {
+      TouchBar, 0x7b99d2ae40, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+    }

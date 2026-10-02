@@ -1,0 +1,5 @@
+# Product-source search (non-test): Packages/PaperloftKit/Sources Packages/PaperloftHandoff/Sources Apps
+## holdout / private-samples (case-insensitive)
+grep exit=1 (1 = no match)
+## fixture file names (Tests/Fixtures, Tests/MailFixtures, UITest resources):      234 names
+fixture filename hits=0

@@ -1,0 +1,152 @@
+{
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ReceiptTests.swift": [
+  [
+   "swift-testing",
+   "calendarValidation"
+  ],
+  [
+   "swift-testing",
+   "decodedDatesAreValidated"
+  ],
+  [
+   "swift-testing",
+   "filenameDoesNotTraversePaths"
+  ],
+  [
+   "swift-testing",
+   "amountsKeepTheirCents"
+  ]
+ ],
+ "Tests/PaperloftUITests/NavigationTests.swift": [
+  [
+   "xctest",
+   "testSidebarNavigation"
+  ]
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ExtractionTests.swift": [
+  [
+   "swift-testing",
+   "parserUsesFinalTotalRatherThanTenderedCash"
+  ],
+  [
+   "swift-testing",
+   "parserRecognizesNonFinancialText"
+  ],
+  [
+   "swift-testing",
+   "parserPrefersIssueDateOverDueDate"
+  ],
+  [
+   "swift-testing",
+   "stubReturnsInjectedFields"
+  ]
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ClassificationRecoveryTests.swift": [
+  [
+   "swift-testing",
+   "partialClassificationFailurePreservesReviewButNeverAutoFiles"
+  ],
+  [
+   "swift-testing",
+   "extractionPayloadWithoutClassificationDiagnosticRemainsReadable"
+  ]
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/IndexTests.swift": [
+  [
+   "swift-testing",
+   "indexRebuildRestoresSearchFromLibraryAlone"
+  ],
+  [
+   "swift-testing",
+   "engineReviewFileSearchUndoAndSourceChange"
+  ]
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift": [
+  [
+   "swift-testing",
+   "copyCollisionsAndUndoPreserveExistingFiles"
+  ],
+  [
+   "swift-testing",
+   "moveAndUndoRestoreOriginalIdentityAndBytes"
+  ],
+  [
+   "swift-testing",
+   "duplicatesAndModifiedDestinationsAreNeverOverwritten"
+  ],
+  [
+   "swift-testing",
+   "symlinkedCategoryCannotEscapeLibrary"
+  ],
+  [
+   "swift-testing",
+   "randomizedThousandFileOperationsPreserveEveryOriginal"
+  ]
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ParserRobustnessTests.swift": [
+  [
+   "swift-testing",
+   "adjacentHeaderDoesNotBecomePartOfVendor"
+  ],
+  [
+   "swift-testing",
+   "cardPaymentAndAmountDueAreRecognized"
+  ],
+  [
+   "swift-testing",
+   "invoiceOpticalCharacterConfusionIsRecognized"
+  ],
+  [
+   "swift-testing",
+   "savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals"
+  ]
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ResilienceTests.swift": [
+  [
+   "swift-testing",
+   "emptyCorruptLockedAndLongPDFsFailClearly"
+  ],
+  [
+   "swift-testing",
+   "fiftyMegapixelImageIsRejectedBeforeOCR"
+  ],
+  [
+   "swift-testing",
+   "ordinaryImageAndPDFCompleteWithoutCrashing"
+  ],
+  [
+   "swift-testing",
+   "missingLibraryAndInvalidPermissionHaveActionableErrors"
+  ]
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/TextLayoutTests.swift": [
+  [
+   "swift-testing",
+   "separateColumnsPreserveAmountsOnTheirRows"
+  ],
+  [
+   "swift-testing",
+   "rotatedRowsAreNotMistakenForAdjacentLines"
+  ],
+  [
+   "swift-testing",
+   "emptyAndInvalidFragmentsDoNotCreateText"
+  ]
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ValidationTests.swift": [
+  [
+   "swift-testing",
+   "exactMoneyRejectsRoundingAndOverflow"
+  ],
+  [
+   "swift-testing",
+   "currencyPrecisionAndUnicodeFilenames"
+  ],
+  [
+   "swift-testing",
+   "assessmentRequiresAgreementAndValidFields"
+  ]
+ ],
+ "Packages/PaperloftKit/Tools/PaperloftCrashWorker/main.swift": [],
+ "Tests/PaperloftUITests/TestSupport.swift": []
+}
