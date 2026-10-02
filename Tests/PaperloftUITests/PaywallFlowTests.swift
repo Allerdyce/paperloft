@@ -22,6 +22,9 @@ final class PaywallFlowTests: XCTestCase {
         return app
     }
     @MainActor private func text(_ element: XCUIElement) -> String { element.label.isEmpty ? (element.value as? String ?? "") : element.label }
+    @MainActor private func lifetimeChoice(_ app: XCUIApplication) -> XCUIElement {
+        app.radioButtons.matching(NSPredicate(format: "label BEGINSWITH 'Lifetime'")).firstMatch
+    }
     private func receiptPDF() throws -> URL {
         let pdf = NSMutableData()
         var page = CGRect(x: 0, y: 0, width: 400, height: 400)
@@ -50,23 +53,25 @@ final class PaywallFlowTests: XCTestCase {
         let open = app.windows["open-panel"].buttons["OKButton"]
         XCTAssertTrue(open.waitForExistence(timeout: 10)); open.click()
 
-        let yearly = app.buttons["paywall.yearly"]
-        XCTAssertTrue(yearly.waitForExistence(timeout: 20), "the paywall appears at the 26th document")
-        XCTAssertTrue(app.buttons["paywall.lifetime"].exists)
+        let buy = app.buttons["paywall.buy"], headline = app.staticTexts["paywall.headline"]
+        XCTAssertTrue(buy.waitForExistence(timeout: 20), "the paywall appears at the 26th document")
+        XCTAssertEqual(text(headline), "This month's 25 automatic reads are used", "it says why it opened")
+        XCTAssertEqual(buy.label, "Start Free Trial", "Yearly is preselected; one prominent buy button")
+        XCTAssertTrue(lifetimeChoice(app).exists)
         XCTAssertTrue(app.buttons["paywall.restore"].exists, "Restore Purchases is always visible")
-        XCTAssertTrue(app.staticTexts["Make room for every receipt"].exists)
+        XCTAssertFalse(app.buttons["paywall.close"].exists, "Not Now is the only way out, as a sheet's cancel button")
         let shot = XCTAttachment(screenshot: app.screenshot()); shot.name = "Paywall at document 26"; shot.lifetime = .keepAlways; add(shot)
-        // Continue with Free: the document waits, with manual entry and upgrade offered.
+        // Not Now: the document waits, with Fill In Details and upgrade offered.
         app.buttons["paywall.continue"].click()
         XCTAssertTrue(app.buttons["inbox.enterManually"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["Limit reached"].exists)
 
         // Buy yearly: Pro is active and the paused document is read automatically.
         app.buttons["inbox.upgrade"].click()
-        XCTAssertTrue(yearly.waitForExistence(timeout: 10)); yearly.click()
-        let status = app.staticTexts["paywall.status"]
-        XCTAssertTrue(status.waitForExistence(timeout: 10)); XCTAssertEqual(text(status), "Pro is ready.")
-        XCTAssertTrue(app.staticTexts["Paperloft Pro is active"].exists)
+        XCTAssertTrue(buy.waitForExistence(timeout: 10)); buy.click()
+        XCTAssertTrue(app.staticTexts["You have Paperloft Pro"].waitForExistence(timeout: 10))
+        XCTAssertTrue(text(app.staticTexts["paywall.planSummary"]).hasPrefix("Your free trial ends on"), text(app.staticTexts["paywall.planSummary"]))
+        XCTAssertFalse(buy.exists, "Pro shows its own content, not the offer")
         app.buttons["paywall.continue"].click()
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 20), "buying Pro resumes reading")
         XCTAssertFalse(app.staticTexts["Limit reached"].exists)
@@ -81,16 +86,19 @@ final class PaywallFlowTests: XCTestCase {
         XCTAssertTrue(controls.waitForExistence(timeout: 10))
         // Expiry: the subscription ends and Free returns.
         XCTAssertTrue(app.buttons["storeMock.expire"].waitForExistence(timeout: 5)); app.buttons["storeMock.expire"].click()
-        XCTAssertTrue(app.staticTexts["Make room for every receipt"].waitForExistence(timeout: 5), "expiry goes back to Free")
+        XCTAssertTrue(app.staticTexts["Get Paperloft Pro"].waitForExistence(timeout: 5), "expiry goes back to Free")
         // Lifetime purchase.
-        app.buttons["paywall.lifetime"].click()
-        XCTAssertTrue(app.staticTexts["Paperloft Pro is active"].waitForExistence(timeout: 10))
+        lifetimeChoice(app).click()
+        XCTAssertEqual(buy.label, "Buy Lifetime")
+        buy.click()
+        XCTAssertTrue(app.staticTexts["You have Paperloft Pro"].waitForExistence(timeout: 10))
+        XCTAssertEqual(text(app.staticTexts["paywall.planSummary"]), "Lifetime purchase. Pro stays yours.")
         // Restore: clear the local entitlement, then restore it.
         app.buttons["storeMock.clear"].click()
-        XCTAssertTrue(app.buttons["paywall.yearly"].waitForExistence(timeout: 5))
+        XCTAssertTrue(buy.waitForExistence(timeout: 5))
         app.buttons["paywall.restore"].click()
-        XCTAssertTrue(app.staticTexts["Paperloft Pro is active"].waitForExistence(timeout: 10), "Restore Purchases brings Pro back")
-        XCTAssertEqual(text(status), "Purchases restored.")
+        XCTAssertTrue(app.staticTexts["You have Paperloft Pro"].waitForExistence(timeout: 10), "Restore Purchases brings Pro back")
+        XCTAssertEqual(text(app.staticTexts["paywall.status"]), "Purchases restored.")
         app.buttons["paywall.continue"].click()
         app.typeKey("w", modifierFlags: .command)
     }
@@ -102,7 +110,8 @@ final class PaywallFlowTests: XCTestCase {
         app.buttons["sidebar.library"].click()
         let export = app.buttons["library.export"]
         XCTAssertTrue(export.waitForExistence(timeout: 10)); export.click()
-        XCTAssertTrue(app.buttons["paywall.yearly"].waitForExistence(timeout: 10), "the first export shows the paywall on Free")
+        XCTAssertTrue(app.buttons["paywall.buy"].waitForExistence(timeout: 10), "the first export shows the paywall on Free")
+        XCTAssertEqual(text(app.staticTexts["paywall.headline"]), "Tax & Accountant Export is part of Pro")
         XCTAssertFalse(app.descendants(matching: .any)["export.period"].exists)
         app.buttons["paywall.continue"].click()
     }

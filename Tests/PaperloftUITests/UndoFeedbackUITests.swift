@@ -53,6 +53,6 @@ final class UndoFeedbackUITests: XCTestCase {
         XCTAssertTrue(all.waitForExistence(timeout: 10))
         let back = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in inboxCount() == count }, object: nil)
         XCTAssertEqual(XCTWaiter().wait(for: [back], timeout: 15), .completed, "the undone document is back in the Inbox")
-        XCTAssertTrue(app.staticTexts["Returned by Undo"].waitForExistence(timeout: 5), "its row says where it came from")
+        XCTAssertFalse(app.staticTexts["Returned by Undo"].exists, "it comes back as it was, without an extra label")
     }
 }

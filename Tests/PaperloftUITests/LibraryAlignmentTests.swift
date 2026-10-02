@@ -25,7 +25,7 @@ final class LibraryAlignmentTests: XCTestCase {
             XCTAssertTrue(app.staticTexts[file].waitForNonExistence(timeout: 15))
         }
         app.buttons["sidebar.library"].click()
-        XCTAssertTrue(app.staticTexts["5 documents"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.staticTexts["5 receipts"].waitForExistence(timeout: 15))
 
         // SwiftUI puts a text's string in the accessibility value when it has an identifier.
         func text(_ element: XCUIElement) -> String { element.label.isEmpty ? (element.value as? String ?? "") : element.label }
@@ -51,7 +51,7 @@ final class LibraryAlignmentTests: XCTestCase {
         XCTAssertEqual(merchants(), ascending.reversed(), "a second click reverses the order")
         // The order survives a trip to another section.
         app.buttons["sidebar.history"].click(); app.buttons["sidebar.library"].click()
-        XCTAssertTrue(app.staticTexts["5 documents"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["5 receipts"].waitForExistence(timeout: 10))
         XCTAssertEqual(merchants(), ascending.reversed(), "sort order is kept when coming back to Library")
 
         // Toolbar actions follow the selection.
@@ -69,6 +69,6 @@ final class LibraryAlignmentTests: XCTestCase {
         let focused = XCTNSPredicateExpectation(predicate: NSPredicate(format: "hasKeyboardFocus == true"), object: search)
         XCTAssertEqual(XCTWaiter().wait(for: [focused], timeout: 5), .completed, "⌘F focuses Library search")
         app.typeText("Juniper")
-        XCTAssertTrue(app.staticTexts["1 document"].waitForExistence(timeout: 10), "typing after ⌘F searches the Library")
+        XCTAssertTrue(app.staticTexts["1 receipt"].waitForExistence(timeout: 10), "typing after ⌘F searches the Library")
     }
 }

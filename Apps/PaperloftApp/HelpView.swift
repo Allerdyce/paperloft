@@ -30,15 +30,15 @@ struct HelpView: View {
             "Library lists every filed document, with search and filters. Choose Edit › Find… (⌘F) to search, and click a column heading to sort by it.",
             "History lists each filing. Undo there returns the document to your Inbox with the values you confirmed. Right after filing or removing, Edit › Undo (⌘Z) or Undo in the notice does the same."
         ]),
-        Topic(id: "export", title: "Accountant pack and Shortcuts", symbol: "square.and.arrow.up", lines: [
+        Topic(id: "export", title: "Tax & Accountant Export and Shortcuts", symbol: "square.and.arrow.up", lines: [
             "In Library, choose Tax & Accountant Export…, or choose File › Tax & Accountant Export… (⇧⌘E), for a summary PDF, a CSV and the documents by category, optionally as a ZIP. Accountant packs are part of Paperloft Pro.",
             "Shortcuts offers File Document, Open Inbox, Total Spent and Export Accountant Pack. Export Accountant Pack needs Paperloft Pro and returns packs up to 100 MB; export larger packs from the app.",
             "Categories are for organizing records. Paperloft doesn't give tax advice."
         ]),
         Topic(id: "pro", title: "Free and Pro", symbol: "star", lines: [
-            "Free reads 25 documents automatically each calendar month; samples don't count. Manual entry and browsing are always unlimited.",
-            "Paperloft Pro, yearly with a 7-day free trial or a one-time purchase, reads every document automatically and adds the watched folder, accountant packs and Shortcuts export. Prices appear in your currency before you buy.",
-            "When a month's reads are used, new documents wait in the Inbox: choose Enter Details Myself, or upgrade. Settings › General › Paperloft Pro shows your usage and has Restore Purchases.",
+            "Free includes 25 automatic reads each calendar month; samples don't count. Filling in details yourself, browsing and undo are always free.",
+            "Paperloft Pro, yearly with a 7-day free trial or a one-time purchase, reads every document automatically and adds the watched folder, Tax & Accountant Export and Shortcuts export. Prices appear in your currency before you buy.",
+            "When a month's reads are used, new documents wait in the Inbox. Choose Fill In Details to have the basic reader fill in what it can for you to check, or upgrade. Settings › General › Paperloft Pro shows your usage and has Restore Purchases.",
             "A subscription renews automatically until you cancel it in your App Store account settings."
         ]),
         Topic(id: "privacy", title: "Privacy", symbol: "lock", lines: [
@@ -75,6 +75,8 @@ struct HelpView: View {
                 Text("Paperloft Receipts is made by EvidencePair LLC.").font(.callout).foregroundStyle(.primary)
             }.padding(28).frame(maxWidth: 640, alignment: .leading)
         }.frame(minWidth: 520, idealWidth: 640, minHeight: 480, idealHeight: 720)
+            // A title bar separator, so text doesn't scroll under the title.
+            .toolbarBackground(.visible, for: .windowToolbar)
             .accessibilityIdentifier("help.root")
     }
 }

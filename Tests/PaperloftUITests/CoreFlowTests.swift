@@ -40,21 +40,21 @@ final class CoreFlowTests: XCTestCase {
         let search = app.textFields["library.search"]; search.click(); search.typeText("Keyboard")
         XCTAssertTrue(app.staticTexts["Keyboard Desk"].waitForExistence(timeout: 5))
         search.typeKey("a", modifierFlags: .command); search.typeText("no-such-vendor")
-        XCTAssertTrue(app.staticTexts["No matching documents"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["No receipts match “no-such-vendor”"].waitForExistence(timeout: 5))
         app.buttons["library.export"].click()
         let exportYear = app.popUpButtons["export.year"]
         XCTAssertTrue(exportYear.waitForExistence(timeout: 5)); exportYear.click()
         app.menuItems["2026"].click()
         app.buttons["export.create"].click()
         XCTAssertTrue(app.staticTexts["Export complete"].waitForExistence(timeout: 15))
-        XCTAssertEqual(app.staticTexts["export.result"].value as? String, "1 document copied, with transactions.csv and summary.pdf.")
+        XCTAssertEqual(app.staticTexts["export.result"].value as? String, "1 receipt copied, with transactions.csv and summary.pdf.")
         app.buttons["export.close"].click()
         app.buttons["sidebar.history"].click()
         let undo = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "history.undo.")).firstMatch
         XCTAssertTrue(undo.waitForExistence(timeout: 5)); undo.click()
         XCTAssertTrue(app.staticTexts["Undone"].waitForExistence(timeout: 10))
         app.buttons["sidebar.library"].click()
-        XCTAssertTrue(app.staticTexts["0 documents"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["0 receipts"].waitForExistence(timeout: 5))
     }
     @MainActor
     func testInvalidAmountCannotFileAndSetAsideAdvancesInbox() throws {
@@ -78,7 +78,7 @@ final class CoreFlowTests: XCTestCase {
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
         app.buttons["review.file"].click()
         app.buttons["sidebar.library"].click()
-        XCTAssertTrue(app.staticTexts["1 document"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.staticTexts["1 receipt"].waitForExistence(timeout: 15))
         app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         let repeatDocument = app.staticTexts["01-office.pdf"]
         XCTAssertTrue(repeatDocument.waitForExistence(timeout: 10)); repeatDocument.click()

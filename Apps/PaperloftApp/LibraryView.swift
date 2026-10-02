@@ -17,6 +17,19 @@ private func inboxDisplayStatus(_ item: InboxItem) -> String {
     return "Processing"
 }
 
+/// What a row that needs attention asks you to check ("Check total" rather than a bare "Issue").
+private func inboxIssueLabel(_ item: InboxItem) -> String {
+    if item.status == "failed" { return "Couldn't read" }
+    guard let review = item.review else { return "Check details" }
+    let reasons = review.assessment.reasons
+    if reasons.contains(.notReceipt) || reasons.contains(.invalidKind) || reasons.contains(.classificationUnavailable) { return "Check type" }
+    if (try? item.draft.receipt()) == nil { return "Missing details" }
+    if reasons.contains(.missingCategory) { return "Check category" }
+    if reasons.contains(.parserDisagreement) || reasons.contains(.parserUnavailable) || reasons.contains(.lowConfidence) { return "Check date and total" }
+    if reasons.contains(.taxSourceUnverified) { return "Check tax" }
+    return "Check details"
+}
+
 struct LibraryView: View {
     @Bindable var model: AppModel
     @State private var targeted = false
@@ -109,7 +122,7 @@ struct LibraryView: View {
         } message: { Text(model.message ?? "") }
         .quickLookPreview($model.quickLookURL)
         .sheet(isPresented: $model.showExport) { ExportView(model: model) }
-        .background { Color.clear.sheet(isPresented: $model.showPaywall) { PaywallView(store: model.store).modifier(AppAppearance()) } }
+        .background { Color.clear.sheet(isPresented: $model.showPaywall) { PaywallView(store: model.store, reason: model.paywallReason, resetDate: model.quotaResetDate).modifier(AppAppearance()) } }
         .onChange(of: model.store.isPro) { if model.store.isPro { model.resumeQuotaPaused() } }
     }
 }
@@ -126,7 +139,7 @@ struct InboxView: View {
         case "Ready": return inboxDisplayStatus(item) == "Ready"
         case "Processing": return inboxDisplayStatus(item) == "Processing"
         case "Duplicates": return item.review?.duplicate != nil || item.duplicateMailDeliveryID != nil
-        case "Issues": return inboxDisplayStatus(item) == "Issue"
+        case "Issues": return ["Issue", "Limit reached"].contains(inboxDisplayStatus(item))
         default: return true
         }
     }
@@ -158,15 +171,41 @@ struct InboxView: View {
         pinnedReviewID = id
         model.selectedItemID = id
     }
+    /// Free, past this month's automatic reads: the document waits with its preview beside this.
+    private func limitPane(_ item: InboxItem) -> some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Label("This month's 25 automatic reads are used", systemImage: "hand.raised")
+                .font(.headline).accessibilityIdentifier("inbox.limitTitle")
+            Text(model.quotaError ?? "Automatic reads start again on \(model.quotaResetDate.formatted(.dateTime.month(.wide).day())). Until then, this document waits here.")
+                .foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+            if model.quotaError == nil {
+                Button("Upgrade to Pro…") { model.paywallReason = .limit; model.showPaywall = true }
+                    .buttonStyle(.borderedProminent).accessibilityIdentifier("inbox.upgrade")
+                Text("Paperloft Pro reads every document automatically.").font(.callout).foregroundStyle(.secondary)
+            }
+            Divider()
+            Button("Fill In Details") { Task { await model.enterManually(item.id) } }.accessibilityIdentifier("inbox.enterManually")
+            Text("Paperloft's basic reader fills in what it can, free. You check each field before filing.")
+                .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }.padding(22).frame(maxWidth: .infinity, alignment: .leading)
+            .background(WindowAccessibility(label: "Monthly limit and options", target: .splitPane))
+    }
     private func filterColor(_ value: String) -> Color {
         switch value { case "Ready": return .green; case "Processing": return .blue; case "Duplicates", "Issues": return .orange; default: return .accentColor }
     }
     @FocusState private var listFocused: Bool
+    /// The list layout with its filter row, where the notice sits without moving anything.
+    private var showsList: Bool { !model.mailRecoveryNeeded && model.libraryURL != nil && model.inboxCount > 0 }
+    @State private var noticeHovered = false
     var body: some View {
-        content.safeAreaInset(edge: .top, spacing: 0) { noticeBanner }
-            .animation(.easeOut(duration: 0.2), value: model.notice)
+        content.safeAreaInset(edge: .top, spacing: 0) {
+            if !showsList { noticeBanner.padding(.horizontal, 20).padding(.top, 8) }
+        }
+        .animation(.easeOut(duration: 0.2), value: model.notice)
     }
-    /// "Filed to 2026/Meals/ · Undo" and similar, for about six seconds; also announced to VoiceOver.
+    /// "Filed to 2026 › Meals · Undo" and similar, for eight seconds (longer while the pointer is
+    /// over it); also announced to VoiceOver.
     @ViewBuilder private var noticeBanner: some View {
         if let notice = model.notice {
             HStack(spacing: 10) {
@@ -176,17 +215,20 @@ struct InboxView: View {
                 if notice.undo != nil {
                     Button("Undo") { Task { await model.undoNotice() } }.accessibilityIdentifier("inbox.noticeUndo")
                 }
-                Button { model.notice = nil } label: { Image(systemName: "xmark") }
-                    .buttonStyle(.borderless).accessibilityLabel("Dismiss").accessibilityIdentifier("inbox.noticeDismiss")
+                Button { model.notice = nil } label: {
+                    Image(systemName: "xmark").frame(width: 20, height: 20).contentShape(Rectangle())
+                }
+                .buttonStyle(.borderless).accessibilityLabel("Dismiss").accessibilityIdentifier("inbox.noticeDismiss")
             }
-            .font(.callout).padding(.horizontal, 14).padding(.vertical, 8)
+            .font(.callout).padding(.horizontal, 12).padding(.vertical, 6)
             .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
             .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.secondary.opacity(0.25)))
-            .padding(.horizontal, 20).padding(.top, 8)
-            .transition(.move(edge: .top).combined(with: .opacity))
+            .onHover { noticeHovered = $0 }
+            .transition(.opacity)
             .task(id: notice.id) {
                 AccessibilityNotification.Announcement(notice.text).post()
-                try? await Task.sleep(for: .seconds(6))
+                try? await Task.sleep(for: .seconds(8))
+                while noticeHovered, model.notice?.id == notice.id { try? await Task.sleep(for: .milliseconds(500)) }
                 if model.notice?.id == notice.id { model.notice = nil }
             }
         }
@@ -238,6 +280,7 @@ struct InboxView: View {
             }
         } else {
             VStack(spacing: 0) {
+                HStack(spacing: 12) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
                         ForEach(filters, id: \.self) { value in
@@ -253,6 +296,8 @@ struct InboxView: View {
                                 .accessibilityAddTraits(filter == value ? [.isSelected] : [])
                         }
                     }.padding(.vertical, 12)
+                }
+                noticeBanner.frame(maxWidth: 440)
                 }.padding(.horizontal, 20)
                 HStack(spacing: 12) {
                     Button("Select all") { removalSelection = Set(visibleItems.map(\.id)) }.disabled(visibleItems.isEmpty)
@@ -288,10 +333,12 @@ struct InboxView: View {
                             })).toggleStyle(.checkbox).labelsHidden()
                                 .accessibilityLabel("Select " + item.name)
                                 .accessibilityIdentifier("inbox.select." + item.id.uuidString)
-                            InboxRow(id: item.id, name: item.name, summary: inboxRowSummary(item), sourceLabel: item.intakeSource, status: inboxDisplayStatus(item), duplicate: item.review?.duplicate != nil || item.duplicateMailDeliveryID != nil).equatable()
+                            InboxRow(id: item.id, name: item.name, summary: inboxRowSummary(item), sourceLabel: item.intakeSource, status: inboxDisplayStatus(item), issueLabel: inboxIssueLabel(item), duplicate: item.review?.duplicate != nil || item.duplicateMailDeliveryID != nil).equatable()
                         }.tag(item.id).id(item.id)
                     }
                         }.focused($listFocused).accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
+                            // A darker green than the accent in dark mode, so white row text keeps 6:1 contrast.
+                            .tint(Color("ListSelection"))
                             .onChange(of: model.selectedItemID) {
                                 if let id = model.selectedItemID { proxy.scrollTo(id, anchor: .center) }
                             }
@@ -316,20 +363,14 @@ struct InboxView: View {
                 if let item = visibleItems.first(where: { $0.id == model.selectedItemID }) {
                     // Arrow keys in the list keep focus there; otherwise review starts at Vendor.
                     if item.status == "ready" { ReviewSplitView(model: model, item: item, autofocusFields: !listFocused) }
-                    else {
+                    else if item.status == "quota" {
+                        HSplitView {
+                            ReviewPreviewPane(model: model, item: item)
+                            limitPane(item).frame(minWidth: 320, idealWidth: 360, maxWidth: 420, maxHeight: .infinity)
+                        }
+                    } else {
                         VStack(spacing: 14) {
-                            if item.status == "quota" {
-                                Image(systemName: "sparkles").font(.largeTitle).foregroundStyle(Color.accentColor).accessibilityHidden(true)
-                                Text("This month's 25 automatic reads are used").font(.headline)
-                                Text(model.quotaError ?? "Paperloft Pro reads every document automatically. You can also enter this one yourself; manual entry is always free.")
-                                    .foregroundStyle(.primary).multilineTextAlignment(.center).frame(maxWidth: 380)
-                                HStack {
-                                    Button("Enter Details Myself") { Task { await model.enterManually(item.id) } }.accessibilityIdentifier("inbox.enterManually")
-                                    if model.quotaError == nil {
-                                        Button("Upgrade to Pro…") { model.showPaywall = true }.buttonStyle(.borderedProminent).accessibilityIdentifier("inbox.upgrade")
-                                    }
-                                }
-                            } else if item.status == "failed" || item.status == "duplicate" {
+                            if item.status == "failed" || item.status == "duplicate" {
                                 Image(systemName: "exclamationmark.triangle").font(.largeTitle).foregroundStyle(.orange).accessibilityHidden(true)
                                 Text(item.status == "duplicate" ? "Email already imported" : "This document needs attention").font(.headline)
                                 Text(item.issue ?? "Import the document again.").foregroundStyle(.primary).multilineTextAlignment(.center)
@@ -387,24 +428,30 @@ struct InboxRow: View, Equatable {
     var summary: String? = nil
     var sourceLabel: String? = nil
     let status: String
+    var issueLabel = "Check details"
     let duplicate: Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            if let summary {
-                // One line each, so a row's height never depends on the list pane's width
-                // (wrapping text there fed back into the split view's layout).
-                Text(summary).lineLimit(1).truncationMode(.tail).font(.callout.weight(.medium))
-                Text(name).lineLimit(1).truncationMode(.middle).font(.callout).foregroundStyle(.primary)
-            } else {
-                Text(name).lineLimit(2).font(.callout.weight(.medium))
-            }
-            if let sourceLabel { Text(sourceLabel).font(.caption).foregroundStyle(.secondary).lineLimit(2) }
-            ReceiptStatusPill(title: statusLabel, symbol: status == "Issue" ? "exclamationmark.triangle.fill" : status == "Ready" ? "checkmark.circle.fill" : duplicate ? "doc.on.doc.fill" : "clock.fill", color: duplicate || status == "Issue" ? .orange : status == "Ready" ? .green : .blue)
+            // Every row has the same shape: two single lines and a badge. A row's height never
+            // depends on the pane's width or on its state (both fed back into the split view).
+            Text(summary ?? name).lineLimit(1).truncationMode(summary == nil ? .middle : .tail).font(.callout.weight(.medium))
+            Text(secondLine ?? " ").lineLimit(1).truncationMode(.middle).font(.callout).foregroundStyle(.primary)
+                .accessibilityHidden(secondLine == nil)
+            ReceiptStatusPill(title: badge.title, symbol: badge.symbol, color: badge.color)
         }.padding(.vertical, 8).accessibilityIdentifier("inbox.item." + id.uuidString)
     }
-    private var statusLabel: String {
-        if duplicate { return "Duplicate" }
-        return status
+    /// The file name under the merchant line, or where the document came from.
+    private var secondLine: String? {
+        summary == nil ? sourceLabel : [name, sourceLabel].compactMap { $0 }.joined(separator: " · ")
+    }
+    private var badge: (title: String, symbol: String, color: Color) {
+        if duplicate { return ("Duplicate", "doc.on.doc.fill", .orange) }
+        switch status {
+        case "Ready": return ("Ready", "checkmark.circle.fill", .green)
+        case "Issue": return (issueLabel, "exclamationmark.triangle.fill", .orange)
+        case "Limit reached": return ("Limit reached", "hand.raised.fill", .gray)
+        default: return (status, "clock.fill", .blue)
+        }
     }
 }
 
@@ -501,88 +548,105 @@ struct ReviewView: View {
         }
     }
     var body: some View {
-            VStack(alignment: .leading, spacing: 16) {
-                VStack(alignment: .leading, spacing: 7) {
-                    Text("Review document").font(.title3.weight(.semibold))
-                    if item.review?.assessment.reasons.contains(.notReceipt) == true {
-                        // QA-06: say plainly that the reader judged this not to be a financial document.
-                        Label("This doesn't look like a receipt, invoice or bill. Remove it, or choose a document type and fill in the details if it is one.",
-                              systemImage: "questionmark.folder").font(.callout).foregroundStyle(.primary)
-                            .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("review.notReceipt")
-                    }
-                    if let duplicate = item.review?.duplicate {
-                        Label("Already filed: \(duplicate)", systemImage: "doc.on.doc").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.duplicate")
-                    }
-                }
-                // Every row is label + control, so labels share one trailing-aligned column and a
-                // warning outlines only the control it's about.
-                Form {
-                    LabeledContent("Vendor") {
-                        TextField("Vendor", text: $draft.vendor).labelsHidden().focused($focusedField, equals: .vendor).accessibilityIdentifier("review.vendor").modifier(ReviewHighlight(message: fieldMessage("vendor")))
-                    }
-                    LabeledContent("Date") {
-                    HStack {
-                        TextField("Date", text: $draft.date, prompt: Text("YYYY-MM-DD")).labelsHidden().focused($focusedField, equals: .date).accessibilityIdentifier("review.date")
-                        Button {
-                            let formatter = DateFormatter()
-                            formatter.locale = Locale(identifier: "en_US_POSIX")
-                            formatter.dateFormat = "yyyy-MM-dd"
-                            formatter.isLenient = false
-                            calendarDate = formatter.date(from: draft.date) ?? Date()
-                            showDatePicker = true
-                        } label: { Image(systemName: "calendar") }
-                        .accessibilityLabel("Choose receipt date").accessibilityIdentifier("review.chooseDate")
-                        .popover(isPresented: $showDatePicker, arrowEdge: .leading) {
-                            VStack(alignment: .leading, spacing: 12) {
-                                ReceiptCalendar(selection: $calendarDate)
-                                HStack {
-                                    Button("Cancel") { showDatePicker = false }
-                                    Spacer()
-                                    Button("Use date") {
-                                    let formatter = DateFormatter()
-                                    formatter.locale = Locale(identifier: "en_US_POSIX")
-                                    formatter.dateFormat = "yyyy-MM-dd"
-                                    draft.date = formatter.string(from: calendarDate)
-                                    showDatePicker = false
-                                    }.buttonStyle(.borderedProminent).accessibilityIdentifier("review.useDate")
-                                }
-                            }.padding(18).frame(width: 320)
+        VStack(alignment: .leading, spacing: 0) {
+            // Notes and warnings scroll; Remove and Confirm stay put at the bottom, so nothing
+            // pushes the window content past its edges.
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 7) {
+                        Text("Review receipt").font(.title3.weight(.semibold))
+                        if item.review?.assessment.reasons.contains(.notReceipt) == true {
+                            // QA-06: say plainly that the reader judged this not to be a financial document.
+                            Label("This doesn't look like a receipt, invoice or bill. Remove it, or choose a document type and fill in the details if it is one.",
+                                  systemImage: "questionmark.folder").font(.callout).foregroundStyle(.primary)
+                                .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("review.notReceipt")
                         }
-                    }.modifier(ReviewHighlight(message: fieldMessage("date")))
+                        if let duplicate = item.review?.duplicate {
+                            Label("Already filed: \(duplicate)", systemImage: "doc.on.doc").font(.callout).foregroundStyle(.orange).accessibilityIdentifier("review.duplicate")
+                        }
                     }
-                    LabeledContent("Total") {
-                        TextField("Total", text: $draft.total).labelsHidden().monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(message: fieldMessage("total")))
+                    // Every row is label + control, so labels share one trailing-aligned column and a
+                    // warning outlines only the control it's about.
+                    Form {
+                        LabeledContent("Vendor") {
+                            TextField("Vendor", text: $draft.vendor).labelsHidden().focused($focusedField, equals: .vendor).accessibilityIdentifier("review.vendor").modifier(ReviewHighlight(message: fieldMessage("vendor")))
+                        }
+                        LabeledContent("Date") {
+                        HStack {
+                            TextField("Date", text: $draft.date, prompt: Text("YYYY-MM-DD")).labelsHidden().focused($focusedField, equals: .date).accessibilityIdentifier("review.date")
+                            Button {
+                                let formatter = DateFormatter()
+                                formatter.locale = Locale(identifier: "en_US_POSIX")
+                                formatter.dateFormat = "yyyy-MM-dd"
+                                formatter.isLenient = false
+                                calendarDate = formatter.date(from: draft.date) ?? Date()
+                                showDatePicker = true
+                            } label: { Image(systemName: "calendar") }
+                            .accessibilityLabel("Choose receipt date").accessibilityIdentifier("review.chooseDate")
+                            .popover(isPresented: $showDatePicker, arrowEdge: .leading) {
+                                VStack(alignment: .leading, spacing: 12) {
+                                    ReceiptCalendar(selection: $calendarDate)
+                                    HStack {
+                                        Button("Cancel") { showDatePicker = false }
+                                        Spacer()
+                                        Button("Use date") {
+                                        let formatter = DateFormatter()
+                                        formatter.locale = Locale(identifier: "en_US_POSIX")
+                                        formatter.dateFormat = "yyyy-MM-dd"
+                                        draft.date = formatter.string(from: calendarDate)
+                                        showDatePicker = false
+                                        }.buttonStyle(.borderedProminent).accessibilityIdentifier("review.useDate")
+                                    }
+                                }.padding(18).frame(width: 320)
+                            }
+                        }.modifier(ReviewHighlight(message: fieldMessage("date")))
+                        }
+                        LabeledContent("Total") {
+                            TextField("Total", text: $draft.total).labelsHidden().monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(message: fieldMessage("total")))
+                        }
+                        LabeledContent("Tax") {
+                            TextField("Tax (optional)", text: $draft.tax, prompt: Text("Optional")).labelsHidden().monospacedDigit().focused($focusedField, equals: .tax).accessibilityIdentifier("review.tax").modifier(ReviewHighlight(message: fieldMessage("tax")))
+                        }
+                        LabeledContent("Currency") {
+                            AccessiblePopup(label: "Currency", identifier: "review.currency", choices: CurrencyChoices.list(including: draft.currency), selection: $draft.currency, title: CurrencyChoices.title)
+                                .modifier(ReviewHighlight(message: fieldMessage("currency")))
+                        }
+                        LabeledContent("Category") {
+                            AccessiblePopup(label: "Category", identifier: "review.category", choices: Array(Set(model.categories + [draft.category])).sorted(), selection: $draft.category)
+                                .modifier(ReviewHighlight(message: fieldMessage("category")))
+                        }
+                        LabeledContent("Document type") {
+                            AccessiblePopup(label: "Document type", identifier: "review.kind", choices: ["Receipt", "Invoice", "Bill"], selection: Binding(get: { draft.kind.rawValue.capitalized }, set: { draft.kind = DocumentKind(rawValue: $0.lowercased()) ?? .receipt }))
+                                .modifier(ReviewHighlight(message: fieldMessage("kind")))
+                        }
                     }
-                    LabeledContent("Tax") {
-                        TextField("Tax (optional)", text: $draft.tax, prompt: Text("Optional")).labelsHidden().monospacedDigit().focused($focusedField, equals: .tax).accessibilityIdentifier("review.tax").modifier(ReviewHighlight(message: fieldMessage("tax")))
+                    .formStyle(.columns)
+                    .textFieldStyle(.roundedBorder)
+                    .onSubmit { submitFromKeyboard() }
+                    if let error = model.templateError {
+                        Text(error).font(.caption).foregroundStyle(.orange).accessibilityIdentifier("review.validation")
                     }
-                    LabeledContent("Currency") {
-                        AccessiblePopup(label: "Currency", identifier: "review.currency", choices: CurrencyChoices.list(including: draft.currency), selection: $draft.currency, title: CurrencyChoices.title)
-                            .modifier(ReviewHighlight(message: fieldMessage("currency")))
+                    if let why = unexplainedIssueSummary {
+                        Label(why, systemImage: "info.circle").font(.callout).foregroundStyle(.primary)
+                            .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("review.why")
                     }
-                    LabeledContent("Category") {
-                        AccessiblePopup(label: "Category", identifier: "review.category", choices: Array(Set(model.categories + [draft.category])).sorted(), selection: $draft.category)
-                            .modifier(ReviewHighlight(message: fieldMessage("category")))
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Files to \(String(draft.date.prefix(4))) › \(draft.category)")
+                            .font(.caption).foregroundStyle(.primary).lineLimit(2).accessibilityIdentifier("review.destination")
+                        Text(model.mode == .copy ? "Saves a copy to your library. Your original stays in place." : "Moves the original to your library. You can undo this in History.")
+                            .font(.caption).foregroundStyle(.primary)
                     }
-                    LabeledContent("Document type") {
-                        AccessiblePopup(label: "Document type", identifier: "review.kind", choices: ["Receipt", "Invoice", "Bill"], selection: Binding(get: { draft.kind.rawValue.capitalized }, set: { draft.kind = DocumentKind(rawValue: $0.lowercased()) ?? .receipt }))
-                            .modifier(ReviewHighlight(message: fieldMessage("kind")))
+                    if let notices = item.importNotices, !notices.isEmpty {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Button("Import details", systemImage: showImportDetails ? "chevron.down" : "chevron.right") { showImportDetails.toggle() }
+                                .buttonStyle(.plain).accessibilityIdentifier("review.importDetailsButton")
+                            if showImportDetails { Text(notices.joined(separator: "\n")).font(.caption).textSelection(.enabled) }
+                        }.font(.caption).accessibilityElement(children: .contain).accessibilityIdentifier("review.importNotices")
                     }
-                }
-                .textFieldStyle(.roundedBorder)
-                .onSubmit { submitFromKeyboard() }
-                if let error = model.templateError {
-                    Text(error).font(.caption).foregroundStyle(.orange).accessibilityIdentifier("review.validation")
-                }
-                if let why = unexplainedIssueSummary {
-                    Label(why, systemImage: "info.circle").font(.callout).foregroundStyle(.primary)
-                        .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("review.why")
-                }
-                Spacer(minLength: 0)
-                Text("Files to \(String(draft.date.prefix(4))) › \(draft.category)")
-                    .font(.caption).foregroundStyle(.primary).lineLimit(2).accessibilityIdentifier("review.destination")
-                Text(model.mode == .copy ? "Saves a copy to your library. Your original stays in place." : "Moves the original to your library. You can undo this in History.")
-                    .font(.caption).foregroundStyle(.primary)
+                }.padding(22).frame(maxWidth: .infinity, alignment: .leading)
+            }
+            Divider()
+            VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     Button { model.setAside(item.id) } label: { Text("Remove").foregroundStyle(.red) }.help("Remove from Inbox. The original file stays in place.").accessibilityIdentifier("review.setAside")
                     Spacer()
@@ -594,18 +658,11 @@ struct ReviewView: View {
                     Text(reason).font(.caption).foregroundStyle(.primary)
                         .accessibilityIdentifier("review.filingUnavailableReason")
                 }
-                Text(totalNeedsDeliberateConfirm ? "Check the total, then click Confirm or press ⌘Return · Tab to move between fields"
+                Text(totalNeedsDeliberateConfirm ? "Check the total, then press ⌘Return to confirm"
                                                  : "Return to confirm · Tab to move between fields")
                     .font(.caption).foregroundStyle(.primary).accessibilityIdentifier("review.keyboardHint")
-                if let notices = item.importNotices, !notices.isEmpty {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Button("Import details", systemImage: showImportDetails ? "chevron.down" : "chevron.right") { showImportDetails.toggle() }
-                            .buttonStyle(.plain).accessibilityIdentifier("review.importDetailsButton")
-                        if showImportDetails { Text(notices.joined(separator: "\n")).font(.caption).textSelection(.enabled) }
-                    }.font(.caption).accessibilityElement(children: .contain).accessibilityIdentifier("review.importNotices")
-                }
-            }.padding(22).frame(minWidth: 290, idealWidth: 340, maxWidth: 400)
-                .background(WindowAccessibility(label: "Receipt fields and filing actions", target: .splitPane))
+            }.padding(.horizontal, 22).padding(.vertical, 12)
+        }
         .onAppear { if autofocusFields { focusedField = .vendor } }
         .onChange(of: draft.vendor) { save() }.onChange(of: draft.date) { save() }
         .onChange(of: draft.total) { save() }.onChange(of: draft.tax) { save() }
@@ -656,15 +713,20 @@ struct ReviewSplitView: View {
     var body: some View {
         HSplitView {
             ReviewPreviewPane(model: model, item: item)
-            if fieldsReady {
-                ReviewView(model: model, item: item, autofocusFields: autofocusFields).id(item.id)
-            } else {
-                Color.clear.frame(minWidth: 290, idealWidth: 340, maxWidth: 400).accessibilityHidden(true)
-                    .task {
-                        try? await Task.sleep(for: .milliseconds(16))
-                        fieldsReady = true
-                    }
+            // One stable pane for the fields, so the divider stays where it was while documents change.
+            ZStack(alignment: .topLeading) {
+                if fieldsReady {
+                    ReviewView(model: model, item: item, autofocusFields: autofocusFields).id(item.id)
+                } else {
+                    Color.clear.accessibilityHidden(true)
+                        .task {
+                            try? await Task.sleep(for: .milliseconds(16))
+                            fieldsReady = true
+                        }
+                }
             }
+            .frame(minWidth: 320, idealWidth: 360, maxWidth: 420, maxHeight: .infinity)
+            .background(WindowAccessibility(label: "Receipt fields and filing actions", target: .splitPane))
         }
         .background(WindowAccessibility(label: "Receipt review", target: .splitPane))
     }
@@ -756,9 +818,10 @@ struct BrowseView: View {
                 LibraryFilterChip(title: "Category", identifier: "library.category", choices: ["All categories"] + Array(Set(model.categories + model.allDocuments.map { $0.receipt.category })).sorted(), selection: $model.categoryFilter)
                 LibraryFilterChip(title: "Year", identifier: "library.year", choices: ["All years"] + Array(Set(model.allDocuments.map { String($0.receipt.date.year) })).sorted().reversed(), selection: $model.yearFilter)
                 Spacer(minLength: 8)
+                // On Free this shows what Pro adds; with Pro it needs something to export.
                 Button("Tax & Accountant Export…", systemImage: "square.and.arrow.up") { model.beginExport() }
-                    .buttonStyle(.borderedProminent).buttonBorderShape(.capsule)
-                    .disabled(model.libraryURL == nil || model.busy).accessibilityIdentifier("library.export")
+                    .buttonStyle(.bordered).buttonBorderShape(.capsule)
+                    .disabled(model.libraryURL == nil || model.busy || (model.isPro && model.allDocuments.isEmpty)).accessibilityIdentifier("library.export")
             }
             Text("Filed receipts").font(.headline).padding(.top, 8)
             VStack(spacing: 4) {
@@ -827,12 +890,15 @@ struct BrowseView: View {
                         if model.allDocuments.isEmpty {
                             PaperloftEmptyState(title: "No receipts filed yet", symbol: "tray", detail: "Confirm a receipt in the Inbox and it's filed here.")
                         } else {
-                            PaperloftEmptyState(title: "No matching documents", symbol: "doc.text.magnifyingglass", detail: "Try other words, or clear the type, category and year filters.")
+                            let filtered = model.kindFilter != "All types" || model.categoryFilter != "All categories" || model.yearFilter != "All years"
+                            PaperloftEmptyState(title: model.search.isEmpty ? "No receipts match these filters" : "No receipts match “\(model.search)”",
+                                                symbol: "doc.text.magnifyingglass",
+                                                detail: filtered ? "Try other words, or set the type, category and year back to All." : "Try other words, or a merchant name.")
                         }
                     }
                 }
             }
-            Text(model.documents.count == 1 ? "1 document" : "\(model.documents.count) documents").font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading).accessibilityIdentifier("library.count")
+            Text(model.documents.count == 1 ? "1 receipt" : "\(model.documents.count) receipts").font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading).accessibilityIdentifier("library.count")
             Text("Double-click a receipt to open it. Deleted receipts can be restored from Recently Deleted.")
                 .font(.caption).foregroundStyle(.primary).frame(maxWidth: .infinity, alignment: .leading)
         }.padding(24).background(canvas)
@@ -842,7 +908,7 @@ struct BrowseView: View {
                 pendingDelete = nil
             }.accessibilityIdentifier("library.confirmDelete")
             Button("Cancel", role: .cancel) { pendingDelete = nil }
-        } message: { Text("It will leave your library and future exports. You can restore it from Recently Deleted; external originals are preserved.") }
+        } message: { Text("It leaves your library and future exports. You can restore it from Recently Deleted. The original file on your Mac isn't changed.") }
         .sheet(isPresented: $showDeleted) { RecentlyDeletedView(model: model) }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
@@ -1088,20 +1154,40 @@ struct PaperloftSettings: View {
         }
         GroupBox("Paperloft Pro") {
             VStack(alignment: .leading, spacing: 10) {
-                Text(model.isPro ? "Paperloft Pro is active. Every document is read automatically."
-                                 : "Free: \(min(model.quotaUsedThisMonth, UnderstandingQuota.monthlyLimit)) of \(UnderstandingQuota.monthlyLimit) automatic reads used this month. Manual entry and browsing are unlimited.")
-                    .font(.callout).accessibilityIdentifier("settings.proStatus")
+                if model.isPro {
+                    Text("Paperloft Pro is active. Every document is read automatically.")
+                        .font(.callout).accessibilityIdentifier("settings.proStatus")
+                } else {
+                    let used = min(model.quotaUsedThisMonth, UnderstandingQuota.monthlyLimit)
+                    ProgressView(value: Double(used), total: Double(UnderstandingQuota.monthlyLimit)) {
+                        Text("Free: \(used) of \(UnderstandingQuota.monthlyLimit) automatic reads used this month")
+                            .font(.callout).accessibilityIdentifier("settings.proStatus")
+                    }.accessibilityIdentifier("settings.quotaGauge")
+                    Text(used >= UnderstandingQuota.monthlyLimit
+                         ? "Automatic reads start again on \(model.quotaResetDate.formatted(.dateTime.month(.wide).day())). New documents wait in the Inbox for you to fill in."
+                         : "Filling in details yourself, browsing and undo are always free.")
+                        .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                }
                 HStack {
                     Button(model.isPro ? "Manage Pro…" : "Upgrade…") { showPaywall = true }.accessibilityIdentifier("settings.upgrade")
                     Button("Restore Purchases") { Task { await model.store.restore() } }.disabled(model.store.busy).accessibilityIdentifier("settings.restore")
                 }
                 if !model.store.status.isEmpty && !showPaywall { Text(model.store.status).font(.callout).accessibilityIdentifier("settings.storeStatus") }
             }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
-        }.sheet(isPresented: $showPaywall) { PaywallView(store: model.store).modifier(AppAppearance()) }
-        GroupBox("Watched folder · Pro") {
+        }
+        .onDisappear { model.store.clearStatus() }
+        .sheet(isPresented: $showPaywall) { PaywallView(store: model.store, reason: .settings).modifier(AppAppearance()) }
+        GroupBox {
             VStack(alignment: .leading, spacing: 10) {
                 FolderSummary(url: model.watchedFolderURL, placeholder: "No watched folder chosen", identifier: "settings.watchedFolder")
-                Text(model.watchedStatus).accessibilityIdentifier("settings.watchedStatus")
+                if model.isPro {
+                    Text(model.watchedStatus).accessibilityIdentifier("settings.watchedStatus")
+                } else {
+                    HStack {
+                        Text("Watched folders are part of Paperloft Pro.").accessibilityIdentifier("settings.watchedStatus")
+                        Button("Upgrade…") { showPaywall = true }.accessibilityIdentifier("settings.watchedUpgrade")
+                    }
+                }
                 HStack {
                     Button("Choose Watched Folder…") { Task { await model.chooseWatchedFolder() } }
                         .disabled(model.busy || !model.isPro).accessibilityIdentifier("settings.chooseWatchedFolder")
@@ -1115,6 +1201,12 @@ struct PaperloftSettings: View {
                 Text("PDFs, images (including TIFF), and saved email (.eml) are copied to the Inbox for review. Originals stay in place.").font(.caption)
                 ForEach(Array(model.watchedIssues.enumerated()), id: \.offset) { _, issue in Text(issue).font(.caption).foregroundStyle(.orange) }
             }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
+        } label: {
+            HStack(spacing: 6) {
+                Text("Watched Folder")
+                Text("Pro").font(.caption.weight(.semibold)).padding(.horizontal, 6).padding(.vertical, 1)
+                    .background(Color.accentColor.opacity(0.18), in: Capsule()).accessibilityLabel("Paperloft Pro feature")
+            }
         }
     }
 

@@ -35,7 +35,7 @@ struct ExportView: View {
             }
             if let result = model.exportResult {
                 Label("Export complete", systemImage: "checkmark.circle.fill").font(.headline).foregroundStyle(Color.accentColor)
-                Text("\(result.documentCount) \(result.documentCount == 1 ? "document" : "documents") copied, with transactions.csv and summary.pdf.")
+                Text("\(result.documentCount) \(result.documentCount == 1 ? "receipt" : "receipts") copied, with transactions.csv and summary.pdf.")
                     .accessibilityIdentifier("export.result")
                 Text(result.folderURL.path).font(.callout).textSelection(.enabled)
                 HStack {
@@ -49,7 +49,7 @@ struct ExportView: View {
                 GroupBox("Included in your export") {
                     VStack(alignment: .leading, spacing: 10) {
                         included("Transactions CSV — dates, merchants, categories, totals and recorded tax", symbol: "tablecells")
-                        included("Summary PDF — category, month and recorded-tax totals", symbol: "doc.richtext")
+                        included("Summary PDF — totals by category and month, with tax", symbol: "doc.richtext")
                         included("Receipt files — copies of your filed originals, grouped by category", symbol: "folder")
                     }.frame(maxWidth: .infinity, alignment: .leading).padding(6)
                 }
@@ -59,7 +59,7 @@ struct ExportView: View {
                         rowLabel("Period")
                         Picker("Period", selection: $period) {
                             Text("Calendar year").tag("Year"); Text("Quarter").tag("Quarter"); Text("Custom dates").tag("Custom")
-                        }.pickerStyle(.segmented).labelsHidden().fixedSize().accessibilityIdentifier("export.period")
+                        }.labelsHidden().fixedSize().accessibilityIdentifier("export.period")
                     }
                     GridRow {
                         rowLabel(period == "Custom" ? "Dates" : "Year")
@@ -77,7 +77,7 @@ struct ExportView: View {
                                 if period == "Quarter" {
                                     Picker("Quarter", selection: $quarter) {
                                         ForEach(1...4, id: \.self) { Text("Q\($0)").tag($0) }
-                                    }.pickerStyle(.segmented).labelsHidden().fixedSize().accessibilityIdentifier("export.quarter")
+                                    }.labelsHidden().fixedSize().accessibilityIdentifier("export.quarter")
                                 }
                             }
                         }.frame(minHeight: 28)
@@ -101,9 +101,8 @@ struct ExportView: View {
                         Button("Review Inbox") { model.selection = "Inbox"; dismiss() }.accessibilityIdentifier("export.reviewInbox")
                     }
                 }
-                Text("Includes filed receipts dated in this period, first and last days included. Receipts still in your Inbox aren't included.").font(.callout)
-                Text("Currencies stay separate. Missing tax stays blank in the CSV and is counted as unknown in the summary. This pack does not calculate deductions or file a tax return.")
-                    .font(.callout).foregroundStyle(.secondary)
+                Text("Includes filed receipts dated in this period. Currencies stay separate, and missing tax is left blank. Paperloft doesn't calculate deductions or file a tax return.")
+                    .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             }
             HStack {
                 Button(model.exportResult == nil ? "Cancel" : "Done") { dismiss() }
@@ -113,17 +112,24 @@ struct ExportView: View {
                 if model.exportResult == nil {
                     Button("Choose Destination & Export…") { if let range { Task { await model.export(range: range, zipped: zipped) } } }
                         .buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
-                        .disabled(range == nil || model.busy).accessibilityIdentifier("export.create")
+                        .disabled(range == nil || model.busy || receipts(in: range).isEmpty).accessibilityIdentifier("export.create")
                 }
             }
         }.padding(28).frame(width: 600)
             .accessibilityElement(children: .contain).accessibilityLabel("Tax and accountant export")
     }
+    private func receipts(in range: ExportDateRange?) -> [FiledDocument] {
+        guard let range else { return [] }
+        return model.allDocuments.filter { $0.receipt.date.formatted >= range.start.formatted && $0.receipt.date.formatted <= range.end.formatted }
+    }
     /// "3 receipts · $142.80", or the count per currency when they differ.
     private func summary(for range: ExportDateRange) -> String {
-        let inRange = model.allDocuments.filter { $0.receipt.date.formatted >= range.start.formatted && $0.receipt.date.formatted <= range.end.formatted }
+        let inRange = receipts(in: range)
         let count = "\(inRange.count) \(inRange.count == 1 ? "receipt" : "receipts")"
-        guard !inRange.isEmpty else { return count + " in this period" }
+        guard !inRange.isEmpty else {
+            let when = period == "Quarter" ? "in Q\(quarter) \(year)" : period == "Custom" ? "between these dates" : "in \(year)"
+            return "No filed receipts \(when). Choose another period."
+        }
         let byCurrency = Dictionary(grouping: inRange, by: \.receipt.currency)
         let totals = byCurrency.keys.sorted().map { code -> String in
             let minor = byCurrency[code]!.reduce(Int64(0)) { $0 + $1.receipt.totalMinorUnits }

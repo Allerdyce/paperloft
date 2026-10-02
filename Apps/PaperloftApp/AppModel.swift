@@ -213,6 +213,15 @@ final class FileGrant: @unchecked Sendable {
     /// Free includes 25 automatically understood documents a month; the paywall shows at the 26th,
     /// the first export, or from Settings, and never at launch.
     var showPaywall = false
+    /// Why the paywall opened, so it can lead with the reason.
+    enum PaywallReason { case settings, export, limit }
+    var paywallReason = PaywallReason.settings
+    /// When this month's automatic reads start again: the first day of next month.
+    var quotaResetDate: Date {
+        let calendar = Calendar.current
+        let month = calendar.date(from: calendar.dateComponents([.year, .month], from: .now)) ?? .now
+        return calendar.date(byAdding: .month, value: 1, to: month) ?? .now
+    }
     @ObservationIgnored private var quota = UnderstandingQuota()
     @ObservationIgnored private var quotaLoaded = false
     /// A damaged or unsaveable ledger stops automatic understanding rather than resetting usage.
@@ -790,7 +799,7 @@ final class FileGrant: @unchecked Sendable {
                 if !(await automaticUnderstandingAllowed(for: items[position])) {
                     guard inboxMayBeMutated, !Task.isCancelled, generation == token, let index = items.firstIndex(where: { $0.id == id }), items[index].status == "waiting" else { return }
                     items[index].status = "quota"; persist()
-                    if quotaError == nil && !paywallShownForQuota { paywallShownForQuota = true; showPaywall = true }
+                    if quotaError == nil && !paywallShownForQuota { paywallShownForQuota = true; paywallReason = .limit; showPaywall = true }
                     continue
                 }
                 guard let position = items.firstIndex(where: { $0.id == id }), items[position].status == "waiting" else { continue }
@@ -1080,6 +1089,7 @@ final class FileGrant: @unchecked Sendable {
             let next = neighbour(of: item.id)
             let outcome = try await engine.file(reviewed, confirmed: receipt, mode: moveOriginal ? .move : .copy, filenameTemplate: filenameTemplate)
             guard inboxMayBeMutated else { return }
+            filedSnapshots[outcome.batch.id] = (item, items.firstIndex { $0.id == item.id } ?? items.count)
             items.removeAll { $0.id == item.id }; sourceGrants[item.id] = nil
             if selectedItemID == item.id || selectedItemID == nil { selectedItemID = next ?? items.first { $0.status != "aside" }?.id }
             persist(); await refresh()
@@ -1087,7 +1097,8 @@ final class FileGrant: @unchecked Sendable {
             undoManager?.registerUndo(withTarget: self) { model in MainActor.assumeIsolated { _ = Task { await model.undoFiling(batchID) } } }
             undoManager?.setActionName("Filing")
             let folder = outcome.batch.documents.first.map { ($0.relativePath as NSString).deletingLastPathComponent } ?? ""
-            notice = Notice(text: folder.isEmpty ? "Filed" : "Filed to \(folder)/", undo: .filing(batchID))
+            // Same order as the form's "Files to 2026 › Meals".
+            notice = Notice(text: folder.isEmpty ? "Filed" : "Filed to " + folder.replacingOccurrences(of: "/", with: " › "), undo: .filing(batchID))
             if outcome.indexNeedsRebuild { message = "The document was filed. Rebuild the search index in Settings to update search." }
         } catch {
             message = error.localizedDescription
@@ -1112,6 +1123,9 @@ final class FileGrant: @unchecked Sendable {
     }
     /// Documents an Undo returned to the Inbox this session, by filing batch, for History's Show in Inbox.
     var returnedItems: [UUID: [UUID]] = [:]
+    /// Each document as it was in the Inbox when filed this session, and where it was in the list,
+    /// so Undo can put it back exactly: same name, place, reading and confirmed values.
+    @ObservationIgnored private var filedSnapshots: [UUID: (item: InboxItem, index: Int)] = [:]
     func showReturned(_ batchID: UUID) {
         guard let id = returnedItems[batchID]?.first(where: { id in items.contains { $0.id == id && $0.status != "aside" } }) else { return }
         selection = "Inbox"; selectedItemID = id
@@ -1142,14 +1156,26 @@ final class FileGrant: @unchecked Sendable {
             if !indexed { message = "Undo completed. Rebuild the search index in Settings." }
         } catch { message = error.localizedDescription; return }
         guard !returning.isEmpty else { return }
-        let ids = await stageIntake(returning.map(\.url), sourceLabel: "Returned by Undo", origin: .returned)
+        let ids = await stageIntake(returning.map(\.url), origin: .returned)
+        let snapshot = filedSnapshots.removeValue(forKey: batch.id)
         for (id, entry) in zip(ids, returning) {
-            if let index = items.firstIndex(where: { $0.id == id }) { items[index].restoredDraft = ReceiptDraft(entry.receipt) }
+            guard let index = items.firstIndex(where: { $0.id == id }) else { continue }
+            if let snapshot, ids.count == 1, let review = snapshot.item.review, items[index].status == "waiting" {
+                // Filed this session: restore the document as it was, without reading it again.
+                var restored = items.remove(at: index)
+                restored.displayName = snapshot.item.name; restored.review = review
+                restored.draft = ReceiptDraft(entry.receipt); restored.status = "ready"
+                restored.intakeSource = snapshot.item.intakeSource; restored.importNotices = snapshot.item.importNotices
+                items.insert(restored, at: min(snapshot.index, items.count))
+            } else {
+                items[index].restoredDraft = ReceiptDraft(entry.receipt)
+            }
         }
         guard let first = ids.first else { return }
         returnedItems[batch.id] = ids
         selectedItemID = first; persist(); processWaiting()
-        notice = Notice(text: ids.count == 1 ? "Returned \(returning[0].url.lastPathComponent) to the Inbox" : "Returned \(ids.count) documents to the Inbox")
+        let name = items.first { $0.id == first }?.name ?? returning[0].url.lastPathComponent
+        notice = Notice(text: ids.count == 1 ? "Returned \(name) to the Inbox" : "Returned \(ids.count) documents to the Inbox")
     }
     func deleteDocument(_ document: FiledDocument) async {
         guard inboxMayBeMutated, !busy, let engine else { return }
@@ -1250,7 +1276,7 @@ final class FileGrant: @unchecked Sendable {
     func beginExport() {
         guard !busy else { return }
         // The accountant pack is a Pro feature (SPEC 6.3): Free sees the paywall instead.
-        guard isPro else { showPaywall = true; return }
+        guard isPro else { paywallReason = .export; showPaywall = true; return }
         exportResult = nil; exportAccess = nil; exportError = nil; quickLookURL = nil; showExport = true
     }
     func export(range: ExportDateRange, zipped: Bool) async {
