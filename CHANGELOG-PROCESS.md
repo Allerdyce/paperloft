@@ -186,3 +186,8 @@ Added TaxExportTests alongside unchanged export verification to check newly requ
 2026-09-30: `scripts/ci.sh` now fails only on build/compiler warnings. Lines of the form `<unknown>:0: warning: -[Class test] : …` are XCTest runtime notices, not build diagnostics, and are excluded. Why: an intermittent priority-inversion notice inside a passing App Intents test (build/a11y-fixes/ci.log line 2980) would have failed an otherwise green CI. Compiler and linker warnings still fail, as checked with sample lines.
 
 2026-10-01: `scripts/privacy_check.sh` now also requires the app's privacy manifest to declare the required-reason APIs it uses: UserDefaults (CA92.1) and file timestamps (C617.1, 3B52.1). Why: the release check (`evidence/release/2026-10-01-review.md`) found the manifest declared none, and App Store uploads are refused for that. Evidence: the code reads its own UserDefaults suites and file dates inside its container and in user-chosen folders.
+## 2026-09-26 — Independent accessibility diagnostic
+
+Added Tools/AccessibilityProbe as a separate Apple-only app/UI-test project to distinguish native macOS 27 audit findings from product code. Default all-issues audit keeps handler false and reproduces host Group, TouchBar, emoji popup and Picker failures. No checks weakened. Evidence: evidence/a11y-probe/report.md and Probe.xcresult. Diagnostic only, no acceptance claim.
+
+- Extended the isolated native probe with PDF accessibility labeling and ordinary Settings overlap cases. Public page labels preserve native PDF text children; the Settings probe reproduces inactive History contrast findings but not the foreground caption issue. Reports retain failing audits without suppressions or phase acceptance claims.
