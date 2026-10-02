@@ -43,13 +43,19 @@ The P4 verifier raised the same point about distribution: `HANDOFF.md` and `docs
 ## Pre-archive checklist (from the 2026-10-01 release check)
 
 Do these after the EvidencePair LLC membership is confirmed and before the first archive (`evidence/release/2026-10-01-review.md`):
-1. **Distribution configuration.** Add `config/Distribution.xcconfig`:
-   - production bundle IDs (`app.paperloft.receipts`, `.share`)
-   - `PAPERLOFT_APP_GROUP_ENTITLEMENTS_SUFFIX = Shared` and `PAPERLOFT_APP_GROUP_ENABLED = YES`
-   - distribution signing for the LLC team
+1. **Distribution configuration.** `config/Distribution.xcconfig` is ready (2026-10-02):
+   - production bundle IDs
+   - the App Group on (`PaperloftShared` entitlements)
+   - automatic signing
+   - version 1.0
 
-   Without it, the App Group is off and Finder sharing says "Sharing needs a signed Paperloft build". After archiving, confirm that both the app's and the extension's entitlements include the group.
-2. **Version.** `MARKETING_VERSION` follows the owner's choice in PROPOSALS.md; it's 1.0 per AC-19 unless the owner picks 1.1.
+   An unsigned Release build with it compiles with 0 warnings, and both Info.plists say 1.0 with the group enabled. What's left:
+   - Put `DEVELOPMENT_TEAM = <LLC team ID>` in `config/Distribution.local.xcconfig` (git-ignored).
+   - Archive with `-xcconfig config/Distribution.xcconfig`.
+   - Export with `config/ExportOptions-AppStore.plist`. It exports to a folder and never uploads.
+   - After archiving, confirm that both the app's and the extension's entitlements include the group.
+
+2. **Version.** The distribution config sets `MARKETING_VERSION = 1.0` (AC-19). If the owner picks 1.1 in PROPOSALS.md, change that one line.
 3. **App Store Connect description.** Must include the Terms of Use (Apple standard EULA) and Privacy Policy links; they're in `release/metadata.md`.
 4. **Device scan.** Try Import From Device with a real iPhone or iPad once; it has never been tried on hardware.
 5. **Privacy check.** Run `scripts/privacy_check.sh <archived app>`. It now also checks the required-reason API declarations.

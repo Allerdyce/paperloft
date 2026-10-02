@@ -92,7 +92,7 @@ The project builds as version **1.1** (`MARKETING_VERSION`, app and Share target
 - **Option 1 (recommended):** ship the first App Store release as **1.0**. It matches AC-19 and the listing. The agent sets `MARKETING_VERSION = 1.0` for both targets just before the archive; nothing else changes.
 - **Option 2:** keep 1.1. The listing draft gets retitled, and AC-19's "1.0" is read as "the first build" (that would need your amendment, like the AC-10 one).
 
-Until you decide, the agent follows the frozen criterion and archives as 1.0.
+Until you decide, the agent follows the frozen criterion and archives as 1.0. *2026-10-02:* `config/Distribution.xcconfig` sets 1.0 for distribution builds only. Development builds still say 1.1.
 
 ## 2026-10-01: Reference-design elements the third design review wants changed (AC-16; owner decision)
 

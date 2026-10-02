@@ -1,0 +1,20 @@
+// App Store distribution for the EvidencePair LLC team (docs/DISTRIBUTION-AUTHORIZATION.md).
+// Archive and upload only after the readiness checks pass. Submission for review and public
+// release stay with the owner.
+//
+// The team isn't recorded here: put `DEVELOPMENT_TEAM = <team ID>` in
+// config/Distribution.local.xcconfig (git-ignored) once the LLC membership is active.
+#include? "Distribution.local.xcconfig"
+
+CODE_SIGN_STYLE = Automatic
+
+// Production bundle IDs come from each target: app.paperloft.receipts and app.paperloft.receipts.share.
+// The App Group ($(TeamIdentifierPrefix)app.paperloft.receipts) carries Finder sharing from the
+// extension to the app; without it the extension says "Sharing needs a signed Paperloft build".
+PAPERLOFT_APP_GROUP_ENTITLEMENTS_SUFFIX = Shared
+PAPERLOFT_APP_GROUP_ENABLED = YES
+PAPERLOFT_INTENT_APP_BUNDLE_IDENTIFIER = app.paperloft.receipts
+
+// AC-19 (frozen) archives build 1.0. Development builds say 1.1, the intake plan's working name.
+// If the owner picks 1.1 for the first release (PROPOSALS.md), change this line.
+MARKETING_VERSION = 1.0
