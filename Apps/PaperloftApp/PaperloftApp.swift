@@ -136,6 +136,7 @@ struct PaperloftApp: App {
         }
         Window("Paperloft Help", id: "help") { HelpView().modifier(AppAppearance()) }
             .defaultSize(width: 640, height: 720)
+            .restorationBehavior(.disabled) // like Help Viewer: a relaunch opens the library, not last session's help
         Settings { PaperloftSettings(model: model).modifier(AppAppearance()).background(WindowAccessibility(label: "Paperloft settings")) }
         MenuBarExtra {
             MenuBarInbox(model: model).modifier(AppAppearance())

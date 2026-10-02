@@ -20,7 +20,12 @@ final class ScreenAuditTests: XCTestCase {
     @MainActor
     func testHelpAndMenuBarExtra() throws {
         continueAfterFailure = true
-        let app = launch(); defer { app.terminate() }
+        let app = launch()
+        defer { // never leave Help open behind a failed audit for the next test's launch
+            let help = app.windows["Paperloft Help"]
+            if help.exists { help.buttons[XCUIIdentifierCloseWindow].click() }
+            app.terminate()
+        }
         app.menuBars.menuBarItems["Help"].click()
         app.menuBars.menuBarItems["Help"].menus.menuItems["Paperloft Help"].firstMatch.click()
         XCTAssertTrue(app.staticTexts["help.title"].waitForExistence(timeout: 10))
@@ -52,5 +57,20 @@ final class ScreenAuditTests: XCTestCase {
         XCTAssertTrue(app.buttons["paywall.buy"].waitForExistence(timeout: 10))
         try auditAccessibility(app, screen: "Sheet", container: app.sheets.firstMatch)
         app.buttons["paywall.continue"].click()
+    }
+
+    /// A Help window left open when the app quit used to come back at the next launch, in front of
+    /// the library (it covered the sidebar in the App Store screenshot run).
+    @MainActor
+    func testHelpIsNotReopenedAtLaunch() throws {
+        let app = launch()
+        app.menuBars.menuBarItems["Help"].click()
+        app.menuBars.menuBarItems["Help"].menus.menuItems["Paperloft Help"].firstMatch.click()
+        XCTAssertTrue(app.windows["Paperloft Help"].waitForExistence(timeout: 10))
+        Thread.sleep(forTimeInterval: 2) // let macOS record the window state
+        app.terminate()
+        let relaunched = launch(); defer { relaunched.terminate() }
+        XCTAssertTrue(relaunched.buttons["sidebar.inbox"].isHittable, "the library is in front")
+        XCTAssertFalse(relaunched.windows["Paperloft Help"].exists, "Help isn't reopened")
     }
 }

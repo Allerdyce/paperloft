@@ -82,3 +82,16 @@ Lines below 4 fell from 21 of 36 to 7 (8 of 40 with the menu bar extra). Five of
 | ID | Sev | Found by | Summary | Status |
 | --- | --- | --- | --- | --- |
 | V4-01 | P2 | verifier, independent AC-12 harness | The accountant pack ZIP (the "Also create a ZIP archive" option in Tax & Accountant Export…, and the Export Accountant Pack intent) stores non-ASCII names as decomposed UTF-8 (NFD) without the ZIP UTF-8 name flag. Unzipped with Windows' built-in extractor, folders such as `交通費` and files such as `Zürich-Bahn` show as mojibake, and on normalization-sensitive file systems the NFC paths in `transactions.csv` won't byte-match the NFD names. The folder pack itself is correct. Evidence: `evidence/verifier-P4-20261002-001001/independent-export-run.log` (18 non-NFC entries, flag never set). | **Fixed:** the pack ZIP is written by `ZipArchive`: NFC names with the UTF-8 flag, DEFLATE, CRC-32; `ExportZipTests` checks flags, names, completeness and contents; `unzip -t` and Python `zipfile` read it cleanly |
+
+## P6 screen audits, 2026-10-02 (`ScreenAuditTests`)
+
+The P3 and P4 verifiers listed these screens as never audited. Accessibility audits now cover them, and each passes after the fixes below.
+
+| ID | Sev | Found by | Summary | Status |
+| --- | --- | --- | --- | --- |
+| A6-01 | P2 | XCUI audit | Export sheet pop-ups (period, year, quarter) had no accessibility press action ("Action is missing"), so VoiceOver couldn't open them | **Fixed:** they use the app's `AccessiblePopup` (NSPopUpButton), like the review form |
+| A6-02 | P2 | XCUI audit | Secondary-coloured text failed contrast in the paywall, the export sheet and the menu bar panel; the panel's translucent material made it worse | **Fixed:** primary text at a smaller size, opaque menu bar panel |
+| A6-03 | P3 | XCUI audit | The export sheet, paywall, Help window and menu bar panel had no accessibility label on their content group (the panel window had none either) | **Fixed:** `WindowAccessibility` labels each, with a `.panel` target for the menu bar extra |
+| A6-04 | P3 | XCUI audit | A Help paragraph whose second line was a single word failed the contrast check | **Fixed:** reworded, no colour change |
+| A6-06 | P2 | CI (App Store screenshot run) | A Help window open when the app quit came back at the next launch in front of the library. It covered the sidebar, and the core audit then measured Help text against the window in front of it | **Fixed:** the Help window isn't restored (`restorationBehavior(.disabled)`, as Help Viewer does); `testHelpIsNotReopenedAtLaunch` fails without it. The audit test also closes Help even when it fails |
+| A6-05 | P3 | builder | The Settings page shown inside the main window isn't audited: its long scroll view reports false contrast failures for off-screen text | **Open, owner decision:** PROPOSALS "Reference-design elements" (the sidebar Settings row) |
