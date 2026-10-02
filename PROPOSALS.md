@@ -79,6 +79,11 @@ Xcode 27's own `StoreKitTest.framework/Headers/SKTestTransaction.h:34` uses `SKP
 
 Recommendation: (a).
 
+**2026-10-02 update:** SPEC 6.7's "StoreKit test configuration loads under test" depends on the same block, because loading a configuration in tests is what StoreKitTest's `SKTestSession` does.
+- **Now on run/1:** `Tests/StoreKit/Paperloft.storekit`, with both products, the prices and the one-week yearly trial. It's attached to the scheme's Run action, so supervised and persona sessions run from Xcode buy through real StoreKit locally, with no account.
+- **Tried without StoreKitTest:** a scheme Test-action reference, with two path forms. Hosted StoreKit 2 tests still got no products, and the generated `.xctestrun` carries no configuration. So tests can't load it without the blocked framework.
+- **Your choice of option covers this too.**
+
 
 ## 2026-10-01: First App Store version number — 1.0 or 1.1 (owner decision)
 
