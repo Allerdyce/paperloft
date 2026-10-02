@@ -29,6 +29,12 @@ if build_warnings evidence/ci/kit-tests.log; then
   exit 1
 fi
 printf '%s\n' "$kit_result" > build/latest-kit-coverage.txt
+# One result with every test run: app-hosted plus the package's own. Its coverage always has a
+# whole PaperloftKit target for scripts/coverage_check.py (locked; it reads latest-test-result.txt).
+merged="build/Tests-merged-$(date +%Y%m%d-%H%M%S).xcresult"
+xcrun xcresulttool merge "$result" "$kit_result" --output-path "$merged"
+printf '%s\n' "$result" > build/latest-hosted-test-result.txt
+printf '%s\n' "$merged" > build/latest-test-result.txt
 # Keep the final Release product available to privacy and bundle checks.
 for configuration in Debug Release; do
   scripts/preflight_check.sh --local --fast > evidence/ci/preflight.log

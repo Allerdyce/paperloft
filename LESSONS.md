@@ -72,3 +72,4 @@
 - Test the shipping control, not a Debug shortcut to the same result. "Load Development Receipts" didn't count for "samples to first filed document".
 - A waiver should name exactly what a reproduction shows. "No element" alone was too broad; the reproduced kind is an unattributed parent/child mismatch.
 - Locked test helpers (DebugMenuSupport, AccessibilityAuditSupport) are frozen now. New behaviour needs new helper files, not edits to these.
+- Before editing anything under scripts/, run `grep <path> ACCEPTANCE.lock`. `coverage_check.py` and `crash_recovery_test.py` are locked. Change what feeds a locked checker (ci.sh), never the checker itself.

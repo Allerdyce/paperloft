@@ -1,13 +1,8 @@
 {
   "target": "PaperloftKit",
-  "measurements": [
-    {
-      "source": "package tests",
-      "coveredLines": 2828,
-      "executableLines": 3035,
-      "lineCoverage": 0.9317957166392092,
-      "xcresult": "build/KitCoverage.xcresult"
-    }
-  ],
+  "coveredLines": 894,
+  "executableLines": 1015,
+  "lineCoverage": 0.8807881773399014,
+  "xcresult": "build/Tests-20260926-222436.xcresult",
   "result": "PASS"
 }
