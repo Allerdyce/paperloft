@@ -1,0 +1,26 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "46659CEB-6DDC-4A0F-8A6D-D057BFB00727.txt",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "System-owned accessibility finding (AC-13 exception)_0_191B0FC6-710F-40F7-921C-C003A363C14D.txt",
+        "timestamp" : 1790917405.696
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "7D8E91C6-D01D-4277-B97C-1B7E47BC5EF2.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "First launch_0_D0BF3EE6-C4FE-4278-84D8-77B16D26E685.png",
+        "timestamp" : 1790917405.075
+      }
+    ],
+    "testIdentifier" : "OnboardingSamplesTests/testTryWithSamplesToFirstFiledReceipt()",
+    "testIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/OnboardingSamplesTests/testTryWithSamplesToFirstFiledReceipt"
+  }
+]

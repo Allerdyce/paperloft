@@ -24,6 +24,10 @@
   - App Store listing, five 2880 × 1800 screenshots and the purchase-review image (`release/`).
   - Site copy on a local `paperloft-site` branch, **not published**.
 
+## Gates
+- **P3 (app and core UX): local PASS**, independent verifier at `7cd0f79` (`evidence/gates/P3.md`). Files locked; no phase tag under the local exception. The formal gate waits on membership.
+- **Flag for you:** confirm the 2026-10-01 AC-10/AC-13 amendments from your own account (HANDOFF.md).
+
 ## Reviews (2026-10-01)
 - **Release check** (`evidence/release/2026-10-01-review.md`): 39 PASS, 5 FAIL, 5 PENDING.
   - Fixed: required-reason API declarations, the Terms of Use link in the listing, and the site claims (on the unpublished branch).

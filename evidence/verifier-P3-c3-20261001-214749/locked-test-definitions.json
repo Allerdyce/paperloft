@@ -1,0 +1,56 @@
+{
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ReceiptTests.swift": [
+  "SWIFT-TESTING:@Test func calendarValidation() throws {",
+  "SWIFT-TESTING:@Test func decodedDatesAreValidated() {",
+  "SWIFT-TESTING:@Test func filenameDoesNotTraversePaths() {",
+  "SWIFT-TESTING:@Test func amountsKeepTheirCents() throws {"
+ ],
+ "Tests/PaperloftUITests/NavigationTests.swift": [
+  "NavigationTests/testSidebarNavigation()"
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ExtractionTests.swift": [
+  "SWIFT-TESTING:@Test func parserUsesFinalTotalRatherThanTenderedCash() async throws {",
+  "SWIFT-TESTING:@Test func parserRecognizesNonFinancialText() async throws {",
+  "SWIFT-TESTING:@Test func parserPrefersIssueDateOverDueDate() async throws {",
+  "SWIFT-TESTING:@Test func stubReturnsInjectedFields() async throws {"
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ClassificationRecoveryTests.swift": [
+  "SWIFT-TESTING:@Test func partialClassificationFailurePreservesReviewButNeverAutoFiles() throws {",
+  "SWIFT-TESTING:@Test func extractionPayloadWithoutClassificationDiagnosticRemainsReadable() throws {"
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/IndexTests.swift": [
+  "SWIFT-TESTING:@Test func indexRebuildRestoresSearchFromLibraryAlone() async throws {",
+  "SWIFT-TESTING:@Test func engineReviewFileSearchUndoAndSourceChange() async throws {"
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift": [
+  "SWIFT-TESTING:@Test func copyCollisionsAndUndoPreserveExistingFiles() async throws {",
+  "SWIFT-TESTING:@Test func moveAndUndoRestoreOriginalIdentityAndBytes() async throws {",
+  "SWIFT-TESTING:@Test func duplicatesAndModifiedDestinationsAreNeverOverwritten() async throws {",
+  "SWIFT-TESTING:@Test func symlinkedCategoryCannotEscapeLibrary() async throws {",
+  "SWIFT-TESTING:@Test func randomizedThousandFileOperationsPreserveEveryOriginal() async throws {"
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ParserRobustnessTests.swift": [
+  "SWIFT-TESTING:@Test func adjacentHeaderDoesNotBecomePartOfVendor() {",
+  "SWIFT-TESTING:@Test func cardPaymentAndAmountDueAreRecognized() {",
+  "SWIFT-TESTING:@Test func invoiceOpticalCharacterConfusionIsRecognized() {",
+  "SWIFT-TESTING:@Test func savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals() {"
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ResilienceTests.swift": [
+  "SWIFT-TESTING:@Test func emptyCorruptLockedAndLongPDFsFailClearly() throws {",
+  "SWIFT-TESTING:@Test func fiftyMegapixelImageIsRejectedBeforeOCR() throws {",
+  "SWIFT-TESTING:@Test func ordinaryImageAndPDFCompleteWithoutCrashing() throws {",
+  "SWIFT-TESTING:@Test func missingLibraryAndInvalidPermissionHaveActionableErrors() throws {"
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/TextLayoutTests.swift": [
+  "SWIFT-TESTING:@Test func separateColumnsPreserveAmountsOnTheirRows() {",
+  "SWIFT-TESTING:@Test func rotatedRowsAreNotMistakenForAdjacentLines() {",
+  "SWIFT-TESTING:@Test func emptyAndInvalidFragmentsDoNotCreateText() {"
+ ],
+ "Packages/PaperloftKit/Tests/PaperloftKitTests/ValidationTests.swift": [
+  "SWIFT-TESTING:@Test func exactMoneyRejectsRoundingAndOverflow() throws {",
+  "SWIFT-TESTING:@Test func currencyPrecisionAndUnicodeFilenames() throws {",
+  "SWIFT-TESTING:@Test func assessmentRequiresAgreementAndValidFields() {"
+ ],
+ "Packages/PaperloftKit/Tools/PaperloftCrashWorker/main.swift": [],
+ "Tests/PaperloftUITests/TestSupport.swift": []
+}

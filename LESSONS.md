@@ -67,3 +67,8 @@
 - UI-test mode creates a practice library at launch, so onboarding is unreachable there. Debug › Reset to First Launch leaves a one-launch request that skips it.
 - XCUI drags on window edges and Accessibility-API resizes from the test runner don't resize windows on this Mac. A Debug menu command sizes the window for screenshots.
 - After XCUI terminates the app, macOS may relaunch it with no window. Every test that relaunches needs the Window › Paperloft Receipts fallback.
+- P3 closed locally after three verifier cycles. Cycle 1 (2026-09-27) failed the audit. Cycle 2 failed on Debug-only launch arguments and on a samples path tested only through a Debug menu item. Cycle 3 passed.
+- Give the verifier only the gate name and its frozen role. It found real problems the builder's own checks missed, such as undocumented hooks and an untested shipping button.
+- Test the shipping control, not a Debug shortcut to the same result. "Load Development Receipts" didn't count for "samples to first filed document".
+- A waiver should name exactly what a reproduction shows. "No element" alone was too broad; the reproduced kind is an unattributed parent/child mismatch.
+- Locked test helpers (DebugMenuSupport, AccessibilityAuditSupport) are frozen now. New behaviour needs new helper files, not edits to these.

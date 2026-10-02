@@ -1,0 +1,400 @@
+{
+ "summary": {
+  "defined_in_locked_files": 32,
+  "found_executed": 32,
+  "missing": [],
+  "not_passed": [],
+  "ambiguous_name_matches": [],
+  "total_test_cases_in_xcresult": 293,
+  "xcresult_results": {
+   "Failed": 7,
+   "Passed": 286
+  }
+ },
+ "rows": [
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ReceiptTests.swift",
+   "test": "calendarValidation()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "calendarValidation()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ReceiptTests.swift",
+   "test": "decodedDatesAreValidated()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "decodedDatesAreValidated()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ReceiptTests.swift",
+   "test": "filenameDoesNotTraversePaths()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "filenameDoesNotTraversePaths()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ReceiptTests.swift",
+   "test": "amountsKeepTheirCents()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "amountsKeepTheirCents()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Tests/PaperloftUITests/NavigationTests.swift",
+   "test": "NavigationTests/testSidebarNavigation()",
+   "executions": [
+    [
+     "PaperloftUITests",
+     "NavigationTests",
+     "testSidebarNavigation()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ExtractionTests.swift",
+   "test": "parserUsesFinalTotalRatherThanTenderedCash()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "parserUsesFinalTotalRatherThanTenderedCash()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ExtractionTests.swift",
+   "test": "parserRecognizesNonFinancialText()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "parserRecognizesNonFinancialText()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ExtractionTests.swift",
+   "test": "parserPrefersIssueDateOverDueDate()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "parserPrefersIssueDateOverDueDate()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ExtractionTests.swift",
+   "test": "stubReturnsInjectedFields()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "stubReturnsInjectedFields()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ClassificationRecoveryTests.swift",
+   "test": "partialClassificationFailurePreservesReviewButNeverAutoFiles()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "partialClassificationFailurePreservesReviewButNeverAutoFiles()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ClassificationRecoveryTests.swift",
+   "test": "extractionPayloadWithoutClassificationDiagnosticRemainsReadable()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "extractionPayloadWithoutClassificationDiagnosticRemainsReadable()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/IndexTests.swift",
+   "test": "indexRebuildRestoresSearchFromLibraryAlone()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "indexRebuildRestoresSearchFromLibraryAlone()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/IndexTests.swift",
+   "test": "engineReviewFileSearchUndoAndSourceChange()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "engineReviewFileSearchUndoAndSourceChange()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift",
+   "test": "copyCollisionsAndUndoPreserveExistingFiles()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "copyCollisionsAndUndoPreserveExistingFiles()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift",
+   "test": "moveAndUndoRestoreOriginalIdentityAndBytes()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "moveAndUndoRestoreOriginalIdentityAndBytes()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift",
+   "test": "duplicatesAndModifiedDestinationsAreNeverOverwritten()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "duplicatesAndModifiedDestinationsAreNeverOverwritten()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift",
+   "test": "symlinkedCategoryCannotEscapeLibrary()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "symlinkedCategoryCannotEscapeLibrary()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift",
+   "test": "randomizedThousandFileOperationsPreserveEveryOriginal()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "randomizedThousandFileOperationsPreserveEveryOriginal()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ParserRobustnessTests.swift",
+   "test": "adjacentHeaderDoesNotBecomePartOfVendor()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "adjacentHeaderDoesNotBecomePartOfVendor()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ParserRobustnessTests.swift",
+   "test": "cardPaymentAndAmountDueAreRecognized()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "cardPaymentAndAmountDueAreRecognized()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ParserRobustnessTests.swift",
+   "test": "invoiceOpticalCharacterConfusionIsRecognized()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "invoiceOpticalCharacterConfusionIsRecognized()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ParserRobustnessTests.swift",
+   "test": "savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ResilienceTests.swift",
+   "test": "emptyCorruptLockedAndLongPDFsFailClearly()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     "ResilienceTests",
+     "emptyCorruptLockedAndLongPDFsFailClearly()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ResilienceTests.swift",
+   "test": "fiftyMegapixelImageIsRejectedBeforeOCR()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     "ResilienceTests",
+     "fiftyMegapixelImageIsRejectedBeforeOCR()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ResilienceTests.swift",
+   "test": "ordinaryImageAndPDFCompleteWithoutCrashing()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     "ResilienceTests",
+     "ordinaryImageAndPDFCompleteWithoutCrashing()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ResilienceTests.swift",
+   "test": "missingLibraryAndInvalidPermissionHaveActionableErrors()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     "ResilienceTests",
+     "missingLibraryAndInvalidPermissionHaveActionableErrors()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/TextLayoutTests.swift",
+   "test": "separateColumnsPreserveAmountsOnTheirRows()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "separateColumnsPreserveAmountsOnTheirRows()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/TextLayoutTests.swift",
+   "test": "rotatedRowsAreNotMistakenForAdjacentLines()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "rotatedRowsAreNotMistakenForAdjacentLines()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/TextLayoutTests.swift",
+   "test": "emptyAndInvalidFragmentsDoNotCreateText()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "emptyAndInvalidFragmentsDoNotCreateText()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ValidationTests.swift",
+   "test": "exactMoneyRejectsRoundingAndOverflow()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "exactMoneyRejectsRoundingAndOverflow()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ValidationTests.swift",
+   "test": "currencyPrecisionAndUnicodeFilenames()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "currencyPrecisionAndUnicodeFilenames()",
+     "Passed"
+    ]
+   ]
+  },
+  {
+   "file": "Packages/PaperloftKit/Tests/PaperloftKitTests/ValidationTests.swift",
+   "test": "assessmentRequiresAgreementAndValidFields()",
+   "executions": [
+    [
+     "PaperloftKitTests",
+     null,
+     "assessmentRequiresAgreementAndValidFields()",
+     "Passed"
+    ]
+   ]
+  }
+ ]
+}

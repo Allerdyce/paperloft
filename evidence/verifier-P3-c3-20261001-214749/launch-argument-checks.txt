@@ -1,0 +1,8 @@
+== launch-argument / environment reads in product sources (Apps/*, Packages/*/Sources)
+Apps/PaperloftApp/AppModel.swift:248:    static func argument(_ key: String) -> String? {
+Apps/PaperloftApp/AppModel.swift:249:        let args = ProcessInfo.processInfo.arguments
+Apps/PaperloftApp/AppModel.swift:262:        testMode = Self.argument("-PaperloftUITestMode") == "YES"
+Apps/PaperloftApp/AppModel.swift:513:        switch Self.argument("-PaperloftModel") {
+Apps/PaperloftApp/StoreController.swift:29:    /// `-PaperloftStoreMock YES` (SPEC 6.7) swaps in a mock store so sessions can buy without a
+Apps/PaperloftApp/StoreController.swift:33:        let args = ProcessInfo.processInfo.arguments
+Apps/PaperloftApp/StoreController.swift:34:        let launchMock = args.firstIndex(of: "-PaperloftStoreMock").flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil } == "YES"

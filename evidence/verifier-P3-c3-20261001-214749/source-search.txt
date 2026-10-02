@@ -1,0 +1,6 @@
+== fixture basenames (233 names from Tests/Fixtures, Tests/MailFixtures, Tests/PaperloftUITests/Resources) in product sources
+grep exit 1 (1 = no hits)
+== stems document-NNN / email-NNN
+grep exit 1
+== holdout / private-samples (case-insensitive)
+grep exit 1

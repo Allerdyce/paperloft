@@ -1,0 +1,16 @@
+string | Release count | QA count
+Reset to First Launch | 0 | 1
+debug.resetFirstLaunch | 0 | 1
+debug.nextLaunchIsFirstLaunch | 0 | 1
+Use This Month | 0 | 1
+Make Pro (Lifetime) | 0 | 1
+Load Development Receipts | 0 | 0
+settings.newSampleLibrary | 0 | 0
+-PaperloftStoreMock | 0 | 1
+app.paperloft.receipts.MockStore | 0 | 1
+-PaperloftUITestMode | 1 | 1
+-PaperloftModel | 0 | 0
+PaperloftQAProfile | 0 | 0
+PaperloftQuotaUsed | 0 | 0
+PaperloftScreenshotMode | 0 | 0
+PaperloftWindowSize | 0 | 0

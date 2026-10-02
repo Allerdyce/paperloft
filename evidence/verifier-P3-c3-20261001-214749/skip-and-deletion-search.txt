@@ -1,0 +1,32 @@
+== skip / disable markers in tests, packages, tools, scheme, scripts
+grep exit 1
+== deleted or renamed test files since 3dfb51d
+== removed test function declarations since 3dfb51d
+== added
++    func testTryWithSamplesToFirstFiledReceipt() throws {
++    @MainActor func testPDFBaseline() throws { try run(label: false) }
++    @MainActor func testPDFPublicLabel() throws { try run(label: true) }
++    @MainActor func testEmptyWindowAudit() throws { try audit(empty: true) }
++    @MainActor func testStandardControlsAudit() throws { try audit(empty: false) }
++    @MainActor func testNativeSettingsContrast() throws {
+== deleted or renamed test files since acceptance-v1
+== removed test function declarations since acceptance-v1
+== added
++    func testTwentySixthBlockedSamplesExemptAndRetryIdempotent() {
++    func testPersistenceAndCalendarYearBoundary() throws {
++    func testExportIsProAndFreeSeesThePaywall() async throws {
++    func testTwentySixthReadPausesManualEntryIsFreeAndPurchaseResumes() async throws {
++    func testOneUndoReversesOneAction() async throws {
++    @MainActor func testSamplerDetectsBlockedMainThread() {
++    @MainActor func test100MixedDocuments() throws {
++    func testCaptureAppStoreScreenshots() throws {
++    func testCapturePaywallForPurchaseReview() throws {
++    func testMenuBarExtraShowsCountDropTargetAndActions() throws {
++    func testTryWithSamplesToFirstFiledReceipt() throws {
++    func testTwentySixthDocumentPaywallPurchasesRestoreAndExpiry() throws {
++    func testFreeExportShowsThePaywallInsteadOfTheSheet() throws {
++    @MainActor func testPDFBaseline() throws { try run(label: false) }
++    @MainActor func testPDFPublicLabel() throws { try run(label: true) }
++    @MainActor func testEmptyWindowAudit() throws { try audit(empty: true) }
++    @MainActor func testStandardControlsAudit() throws { try audit(empty: false) }
++    @MainActor func testNativeSettingsContrast() throws {
