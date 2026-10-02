@@ -63,3 +63,7 @@
 - Background computer-use tools can't open the menu bar extra (a status item, maybe hidden by the notch). `MenuBarExtraTests` captures its panel as a Dialog element, without the rest of the screen, for design reviews.
 - Before changing an element the critic marks below 4, check whether it came from the owner's reference design (REPORT.md 2026-09-27) or a locked test. If so, it's a PROPOSALS item, not a silent change.
 - A SwiftUI view keyed with `.id(item.id)` directly inside an `HSplitView` replaces the split pane on every change and loses the divider position. Key a child inside one stable pane instead.
+- The verifier fails any launch-argument check in product code that SPEC 6.7 doesn't list, even Debug/QA-only ones. Put test controls in a Debug menu (Debug/QA builds) instead, and keep `-PaperloftStoreMock` to exactly `YES`.
+- UI-test mode creates a practice library at launch, so onboarding is unreachable there. Debug › Reset to First Launch leaves a one-launch request that skips it.
+- XCUI drags on window edges and Accessibility-API resizes from the test runner don't resize windows on this Mac. A Debug menu command sizes the window for screenshots.
+- After XCUI terminates the app, macOS may relaunch it with no window. Every test that relaunches needs the Window › Paperloft Receipts fallback.
