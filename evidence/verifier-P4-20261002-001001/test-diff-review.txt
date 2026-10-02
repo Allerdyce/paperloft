@@ -1,0 +1,25 @@
+## test-file changes since 7cd0f79
+ Tests/PaperloftUITests/AppIntentFrameworkTests.swift | 5 +++++
+ 1 file changed, 5 insertions(+)
+diff --git a/Tests/PaperloftUITests/AppIntentFrameworkTests.swift b/Tests/PaperloftUITests/AppIntentFrameworkTests.swift
+index c8b665e..1d2153f 100644
+--- a/Tests/PaperloftUITests/AppIntentFrameworkTests.swift
++++ b/Tests/PaperloftUITests/AppIntentFrameworkTests.swift
+@@ -21,6 +21,11 @@ final class AppIntentFrameworkTests: XCTestCase {
+         if pro { app.launchArguments += ["-PaperloftStoreMock", "YES"] }
+         app.launch()
+         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
++        // macOS restoration may leave no window after a terminated run; use the public Window command.
++        if !app.buttons["sidebar.inbox"].waitForExistence(timeout: 5) {
++            app.menuBars.menuBarItems["Window"].click()
++            app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
++        }
+         if pro { app.makePro() }
+     }
+ 
+## removed test functions / @Test since acceptance-v1
+0 removed
+## added test functions since acceptance-v1 (count)
+18
+      53
+770d6db21392eb20558df4de6f774a058bb999ae 2026-10-01 11:46:40 -0700

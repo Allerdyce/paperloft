@@ -1,0 +1,27 @@
+## ProcessInfo / arguments / CommandLine / environment
+Apps/PaperloftApp/AppModel.swift:249:        let args = ProcessInfo.processInfo.arguments
+Apps/PaperloftApp/StoreController.swift:33:        let args = ProcessInfo.processInfo.arguments
+## UserDefaults.standard
+Apps/PaperloftApp/AppModel.swift:1358:        UserDefaults.standard.removePersistentDomain(forName: Self.uiTestSuite)
+## -Paperloft argument names
+   1 Apps/PaperloftApp/AppModel.swift:262:"-PaperloftUITestMode"
+   1 Apps/PaperloftApp/AppModel.swift:513:"-PaperloftModel"
+   1 Apps/PaperloftApp/AppModel.swift:654:"PaperloftAppGroupEnabled"
+   1 Apps/PaperloftApp/AppModel.swift:655:"PaperloftAppGroupIdentifier"
+   1 Apps/PaperloftApp/StoreController.swift:34:"-PaperloftStoreMock"
+   1 Apps/PaperloftShare/ShareViewController.swift:94:"PaperloftAppGroupEnabled"
+   1 Apps/PaperloftShare/ShareViewController.swift:95:"PaperloftAppGroupIdentifier"
+## #if DEBUG / QA
+Apps/PaperloftApp/AppModel.swift:1330:        #if DEBUG || QA
+Apps/PaperloftApp/AppModel.swift:1346:    #if DEBUG || QA
+Apps/PaperloftApp/AppModel.swift:1368:        #if DEBUG || QA
+Apps/PaperloftApp/PaperloftApp.swift:64:                #if DEBUG
+Apps/PaperloftApp/PaperloftApp.swift:99:            #if DEBUG || QA
+Apps/PaperloftApp/LibraryView.swift:1178:                #if DEBUG
+Apps/PaperloftApp/StoreController.swift:22:    #if DEBUG || QA
+Apps/PaperloftApp/StoreController.swift:69:        #if DEBUG || QA
+Apps/PaperloftApp/StoreController.swift:86:        #if DEBUG || QA
+Apps/PaperloftApp/StoreController.swift:100:        #if DEBUG || QA
+Apps/PaperloftApp/StoreController.swift:132:        #if DEBUG || QA
+Apps/PaperloftApp/StoreController.swift:160:        #if DEBUG || QA
+Apps/PaperloftApp/StoreController.swift:168:    #if DEBUG || QA

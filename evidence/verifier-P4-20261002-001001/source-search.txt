@@ -1,0 +1,9 @@
+# product files searched:       52
+## fixture basenames (exact, fixed-string)
+0 hits
+## fixture stems document-NNN / email-NNN
+0 hits
+## holdout / private-samples (case-insensitive)
+0 hits
+## Fixtures/ path refs
+0 hits

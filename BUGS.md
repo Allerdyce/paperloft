@@ -76,3 +76,9 @@ Lines below 4 fell from 21 of 36 to 7 (8 of 40 with the menu bar extra). Five of
 | R4-05 | P2 | critic | Row badge and form disagreed ("Check date and total" vs Total only) | **Fixed:** both use `ReviewChecks` |
 | R4-06 | P2 | critic | Total without a currency; menu bar count too faint; Help said "Accountant packs" | **Fixed** |
 | R4-07 | P2 | critic | Two title bands | **Open, owner decision.** Hiding the toolbar title moved the toolbar buttons to the leading edge, and a flexible spacer didn't bring them back, so it was reverted. The locked heading text keeps both bands |
+
+## Verifier P4, 2026-10-02 (`evidence/gates/P4.md`)
+
+| ID | Sev | Found by | Summary | Status |
+| --- | --- | --- | --- | --- |
+| V4-01 | P2 | verifier, independent AC-12 harness | The accountant pack ZIP (the "Also create a ZIP archive" option in Tax & Accountant Export…, and the Export Accountant Pack intent) stores non-ASCII names as decomposed UTF-8 (NFD) without the ZIP UTF-8 name flag. Unzipped with Windows' built-in extractor, folders such as `交通費` and files such as `Zürich-Bahn` show as mojibake, and on normalization-sensitive file systems the NFC paths in `transactions.csv` won't byte-match the NFD names. The folder pack itself is correct. Evidence: `evidence/verifier-P4-20261002-001001/independent-export-run.log` (18 non-NFC entries, flag never set). | Open |

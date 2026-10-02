@@ -1,0 +1,61 @@
+diff --git a/scripts/ci.sh b/scripts/ci.sh
+index d5262cb..9ded5cd 100755
+--- a/scripts/ci.sh
++++ b/scripts/ci.sh
+@@ -20,6 +20,21 @@ if build_warnings evidence/ci/tests.log; then
+ fi
+ printf '%s\n' "$result" > build/latest-test-result.txt
+ printf '%s\n' "$coverage_data" > build/latest-test-derived-data.txt
++# The PaperloftKit package's own tests, unhosted, give AC-02 a whole PaperloftKit coverage target
++# every run; in the app-hosted run above xccov doesn't always list one.
++kit_result="build/KitCoverage-$(date +%Y%m%d-%H%M%S).xcresult"
++(cd Packages/PaperloftKit && xcodebuild test -scheme PaperloftKit-Package -destination 'platform=macOS' -derivedDataPath ../../build/KitCoverageDerivedData -enableCodeCoverage YES -resultBundlePath "../../$kit_result" SWIFT_TREAT_WARNINGS_AS_ERRORS=YES) 2>&1 | tee evidence/ci/kit-tests.log
++if build_warnings evidence/ci/kit-tests.log; then
++  echo "FAIL: PaperloftKit package tests emitted warnings" >&2
++  exit 1
++fi
++printf '%s\n' "$kit_result" > build/latest-kit-coverage.txt
++# One result with every test run: app-hosted plus the package's own. Its coverage always has a
++# whole PaperloftKit target for scripts/coverage_check.py (locked; it reads latest-test-result.txt).
++merged="build/Tests-merged-$(date +%Y%m%d-%H%M%S).xcresult"
++xcrun xcresulttool merge "$result" "$kit_result" --output-path "$merged"
++printf '%s\n' "$result" > build/latest-hosted-test-result.txt
++printf '%s\n' "$merged" > build/latest-test-result.txt
+ # Keep the final Release product available to privacy and bundle checks.
+ for configuration in Debug Release; do
+   scripts/preflight_check.sh --local --fast > evidence/ci/preflight.log
+diff --git a/scripts/gate_check.py b/scripts/gate_check.py
+index 1d5c704..8c423f4 100644
+--- a/scripts/gate_check.py
++++ b/scripts/gate_check.py
+@@ -10,8 +10,8 @@ args = sys.argv[1:]
+ local = "--local" in args
+ if local:
+     args.remove("--local")
+-if len(args) != 1 or args[0] not in {"P0", "P1", "P2", "P3"}:
+-    sys.exit("Usage: scripts/gate.sh P0|P1|P2|P3 [--local]")
++if len(args) != 1 or args[0] not in {"P0", "P1", "P2", "P3", "P4"}:
++    sys.exit("Usage: scripts/gate.sh P0|P1|P2|P3|P4 [--local]")
+ phase = args[0]
+ 
+ def snapshot():
+@@ -51,7 +51,7 @@ elif phase == "P2":
+                  ["scripts/eval.sh", "--model", "parser"],
+                  ["scripts/eval.sh", "--model", "system"],
+                  ["scripts/eval.sh", "--private"]]
+-if phase == "P3":
++if phase in ("P3", "P4"):
+     commands += [["scripts/build_qa.sh"], ["python3", "scripts/coverage_check.py"]]
+ rows = []
+ code = 0
+@@ -110,6 +110,10 @@ finally:
+     text += "\n- Source integrity: " + ("FAIL: " + ", ".join(changed) if changed else "PASS") + "\n"
+     text += "\n" + ("LOCAL CHECKS" if local else "SELF-CHECK") + (": PASS" if code == 0 else ": FAIL") + "\n"
+     text += "Independent verifier decision required. Local readiness never closes a formal gate.\n"
++    if phase == "P4":
++        import os
++        signing = os.environ.get("PAPERLOFT_CI_XCCONFIG") or "ad-hoc (App Intents framework tests need development signing; see README)"
++        text += "AC-15's App Intents framework tests ran with signing: " + signing + ".\n"
+     if phase == "P2":
+         text += "AC-04 requires the independent verifier's fresh60-document holdout run. The builder never reads or scores it directly. P1 fixture difficulty was decided before locking; P2 uses the frozen accuracy thresholds on the unchanged corpus.\n"
+     report.write_text(text)

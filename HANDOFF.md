@@ -34,6 +34,8 @@ The P3 verifier (`evidence/gates/P3.md`) passed the AC-13 audit only under the a
 
 Until then the verifier marks the baseline provenance as a flag.
 
+The P4 verifier raised the same point about distribution: `HANDOFF.md` and `docs/DISTRIBUTION-AUTHORIZATION.md` record your authorization for distribution signing, archives and uploads once readiness checks pass, but only in builder-written files, and the frozen AGENTS.md exception still blocks distribution. Please confirm that too, in the same way. Nothing will be archived or uploaded before the membership, the full preflight and your confirmation.
+
 ## Pre-archive checklist (from the 2026-10-01 release check)
 
 Do these after the EvidencePair LLC membership is confirmed and before the first archive (`evidence/release/2026-10-01-review.md`):

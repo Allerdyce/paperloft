@@ -1,0 +1,242 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "80DA6343-769B-48E0-B147-5D40B2EC43C0",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-10-02 at 12.21.13 AM",
+        "timestamp" : 1790925673.919
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "9ACFADE8-4A0B-499A-BB8B-AC363C665919",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.24 AM",
+        "timestamp" : 1790925684.607
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "EC2C3B14-C601-473F-A948-9514D5E6C8DD",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-10-02 at 12.21.13 AM",
+        "timestamp" : 1790925673.614
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "E5E2452C-2B32-42FE-9571-0ECBEC0BC29C",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.13 AM",
+        "timestamp" : 1790925673.665
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "3922DBFD-FE70-4B54-9982-343393BB7B21",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-10-02 at 12.21.12 AM",
+        "timestamp" : 1790925672.915
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "18A43ABD-0EC1-4A5F-B543-0093EBF1848B",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.13 AM",
+        "timestamp" : 1790925673.416
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "34E72F64-1422-4050-822E-03AD044BDD5D",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-10-02 at 12.21.09 AM",
+        "timestamp" : 1790925669.892
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "F04B4516-FCD1-4C52-B4DF-64CF56CB5E5C",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.11 AM",
+        "timestamp" : 1790925671.248
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "47D096BD-F913-4279-AFAE-8125E6905D0A",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-10-02 at 12.21.10 AM",
+        "timestamp" : 1790925670.066
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "291D842A-34CD-4BAC-9737-FA3B8AE5B14A",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.10 AM",
+        "timestamp" : 1790925670.284
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "0FA613D0-3487-4554-B12B-E9601A471769",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-10-02 at 12.21.09 AM",
+        "timestamp" : 1790925669.267
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "AAFB6322-A09F-465C-9156-708E295742F1",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.09 AM",
+        "timestamp" : 1790925669.774
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "876899D0-42BF-44CE-AB4D-ACAF78C19CE4",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-10-02 at 12.21.07 AM",
+        "timestamp" : 1790925667.431
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "8D222A85-60F1-4388-9B26-9DE148D70305",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.07 AM",
+        "timestamp" : 1790925667.934
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "6B307853-34F7-489F-9A58-CB2569BCAAE9",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-10-02 at 12.21.06 AM",
+        "timestamp" : 1790925666.706
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "DA7D7D7B-2D7D-4578-A3D9-1E5C3E22A547",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.06 AM",
+        "timestamp" : 1790925666.784
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "56CC2D5F-1B0A-4D4D-845D-F6B7C5094C14",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-10-02 at 12.21.05 AM",
+        "timestamp" : 1790925665.817
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "C33A7033-2E98-4148-98E5-F358D4E69EC1",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.06 AM",
+        "timestamp" : 1790925666.316
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "1F3BA0A5-7B87-4DC1-8171-7C2F52AC3204",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-10-02 at 12.21.04 AM",
+        "timestamp" : 1790925664.1
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "E9DF2653-537C-414B-AD4B-B88FBD7A53F8",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.04 AM",
+        "timestamp" : 1790925664.376
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "CE21C264-8CCB-4554-B357-887B7906AF96",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.03 AM",
+        "timestamp" : 1790925663.927
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "F6B436EA-1953-492C-B84A-0554FF5239C7",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.03 AM",
+        "timestamp" : 1790925663.027
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "4A87D369-26FA-4FA4-A3DC-A227AA3CC8B4",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.01 AM",
+        "timestamp" : 1790925661.428
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "92CA0A85-66D0-4482-A38F-0D2523446EDF",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.21.01 AM",
+        "timestamp" : 1790925661.268
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "EF57574A-7395-478E-99FA-02AB8E4B444D",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-10-02 at 12.20.59 AM",
+        "timestamp" : 1790925659.663
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "exportedFileName" : "81E2A1D2-286B-451B-8959-484B7FE5267A.mp4",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Screen Recording 2026-10-02 at 12.20.54 AM.mp4",
+        "timestamp" : 1790925654.003
+      }
+    ],
+    "testIdentifier" : "CoreFlowTests/testInvalidAmountCannotFileAndSetAsideAdvancesInbox()",
+    "testIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/CoreFlowTests/testInvalidAmountCannotFileAndSetAsideAdvancesInbox"
+  }
+]

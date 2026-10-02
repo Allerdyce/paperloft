@@ -73,3 +73,8 @@
 - A waiver should name exactly what a reproduction shows. "No element" alone was too broad; the reproduced kind is an unattributed parent/child mismatch.
 - Locked test helpers (DebugMenuSupport, AccessibilityAuditSupport) are frozen now. New behaviour needs new helper files, not edits to these.
 - Before editing anything under scripts/, run `grep <path> ACCEPTANCE.lock`. `coverage_check.py` and `crash_recovery_test.py` are locked. Change what feeds a locked checker (ci.sh), never the checker itself.
+- P4 closed locally in one verifier cycle, after three self-check rounds: window restoration, coverage target flakiness, and a locked-file edit caught by the baseline.
+- The verifier writes its own independent harnesses (160 random receipts, four export packs). Builder tests are necessary, not sufficient.
+- The Claude desktop window can take focus during long UI runs. One locked test lost a typed "-"; the verifier's rerun passed. Keep other windows from coming forward during UI runs.
+- Flags that need the owner (amendment provenance, distribution authorization) can't be cleared by the builder. Write them in HANDOFF with the exact action.
+- App Intents framework tests need development signing (PaulDevelopment.xcconfig). Under ad-hoc signing they fail with error 800, so pass PAPERLOFT_CI_XCCONFIG to every gate run.
