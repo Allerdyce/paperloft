@@ -90,11 +90,15 @@ import PaperloftKit
         undo.undo()
         XCTAssertEqual(model.items.first { $0.id == order[0] }?.status, "ready", "Edit › Undo brings it back")
         XCTAssertEqual(model.selectedItemID, order[0])
+        let name = try XCTUnwrap(model.items.first { $0.id == order[0] }?.name)
+        XCTAssertEqual(model.notice?.text, "Restored \(name) to the Inbox", "the notice says what Undo did")
+        XCTAssertNil(model.notice?.undo)
 
         // Bulk removal is one step, and the notice's Undo works too.
         undo.beginUndoGrouping(); model.setAside([order[1], order[2]]); undo.endUndoGrouping()
         XCTAssertEqual(model.notice?.text, "Removed 2 documents")
         await model.undoNotice()
         XCTAssertEqual(model.items.filter { [order[1], order[2]].contains($0.id) }.map(\.status), ["ready", "ready"])
+        XCTAssertEqual(model.notice?.text, "Restored 2 documents to the Inbox")
     }
 }

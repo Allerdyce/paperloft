@@ -1050,14 +1050,15 @@ final class FileGrant: @unchecked Sendable {
     @ObservationIgnored private var removedState: [UUID: (String, FileGrant?)] = [:]
     func restoreRemoved(_ ids: [UUID]) {
         guard canMutateRestoredInbox() else { return }
-        var restored: [UUID] = []
+        var restored: [UUID] = [], names: [String] = []
         for id in ids {
             guard let i = items.firstIndex(where: { $0.id == id }), items[i].status == "aside", let (status, grant) = removedState[id] else { continue }
-            items[i].status = status; sourceGrants[id] = grant; removedState[id] = nil; restored.append(id)
+            items[i].status = status; sourceGrants[id] = grant; removedState[id] = nil; restored.append(id); names.append(items[i].name)
         }
         guard let first = restored.first else { return }
         selection = "Inbox"; selectedItemID = first; persist(); processWaiting()
-        if case .removal = notice?.undo { notice = nil }
+        // Say what Undo did, as undoing a filing does, rather than leaving the last notice up.
+        notice = Notice(text: names.count == 1 ? "Restored \(names[0]) to the Inbox" : "Restored \(names.count) documents to the Inbox")
     }
     /// QA-07: if the chosen library folder was renamed or moved while Paperloft was open, follow it
     /// through its bookmark instead of refusing to file. Runs when the app becomes active and before filing.

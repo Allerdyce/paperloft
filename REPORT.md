@@ -195,3 +195,30 @@ Not done: previously recorded accessibility, model reliability, performance, liv
 - **Apple-dependent:** App Store Connect app and products, distribution signing, AC-19 upload. All wait on the EvidencePair LLC membership.
 - **Site:** publishing the `paperloft-site` branch waits on the owner.
 - No archive, upload, submission or public release.
+
+## 2026-10-02 — Lead mode: P3/P4 local gates, V4-01, P6 audits
+
+### Verified
+- **P3 and P4 local readiness:** both passed by the independent verifier (`evidence/gates/P3.md` at `7cd0f79`, cycle 3; `evidence/gates/P4.md` at `28c3cef`). Their files are locked (185 locked files verify), with no phase tags under the local exception.
+- **V4-01** (the verifier's P4 finding):
+  - The accountant pack ZIP now has NFC names with the UTF-8 flag, DEFLATE and CRC-32.
+  - `ExportZipTests` checks the flags, names, completeness and contents.
+  - `unzip -t` and Python `zipfile` both read the archive cleanly.
+- **P6 accessibility (AC-13):** `ScreenAuditTests` audits Help, the menu bar extra, the export sheet and the paywall, and every audit passes. The fixes are BUGS.md A6-01 to A6-04.
+- **Help no longer reopens at launch (A6-06):** `testHelpIsNotReopenedAtLaunch` fails without the fix and passes with it.
+- **Full local CI green at `c816835`** (merged into run/1 as `1a83e7d`):
+  - 43 UI and app tests and 116 kit tests pass, with no skips or exclusions.
+  - Results: `build/Tests-merged-20261002-030329.xcresult`.
+- **`scripts/gate.sh P6`:**
+  - Runs the P3/P4 checks plus `scripts/performance_evidence_check.py`.
+  - That script accepts AC-10 evidence only from committed runs of the current sources that meet every frozen limit, including the signpost.
+  - Today's evidence fails it: it has no commit record and no signpost.
+
+### Assumed
+- AC-09 is covered by `ResilienceTests`, `LibraryRenameTests` (stale bookmark) and the app-level error tests. The verifier decides.
+
+### Not done
+- **AC-10 signposts:** owner Terminal run (HANDOFF.md).
+- **The Settings page inside the main window isn't audited (A6-05):** it waits on the sidebar Settings decision (PROPOSALS).
+- **P5:** waits on the StoreKitTest choice (PROPOSALS).
+- No archive, upload, submission or public release.

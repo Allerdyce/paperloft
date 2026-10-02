@@ -75,6 +75,7 @@ Lines below 4 fell from 21 of 36 to 7 (8 of 40 with the menu bar extra). Five of
 | R4-04 | P2 | critic | "Finishing a library change…" drawn under Remove and Confirm after filing | **Fixed:** the banner animation no longer cross-fades the fields column |
 | R4-05 | P2 | critic | Row badge and form disagreed ("Check date and total" vs Total only) | **Fixed:** both use `ReviewChecks` |
 | R4-06 | P2 | critic | Total without a currency; menu bar count too faint; Help said "Accountant packs" | **Fixed** |
+| R4-08 | P3 | critic | Undo of a removal left the previous notice text up (`34`) | **Fixed:** "Restored 04-software.pdf to the Inbox" (or "Restored 2 documents…"), as undoing a filing says "Returned … to the Inbox"; `UndoFeedbackTests` asserts it. Not changed: the critic's minor note that Fill In Details shows a spinner in place of the preview. Keeping the preview while a document reads would rebuild the review split view on each Processing → Ready change. That rebuild measured 0.4 s on the main thread, over AC-10's 250 ms |
 | R4-07 | P2 | critic | Two title bands | **Open, owner decision.** Hiding the toolbar title moved the toolbar buttons to the leading edge, and a flexible spacer didn't bring them back, so it was reverted. The locked heading text keeps both bands |
 
 ## Verifier P4, 2026-10-02 (`evidence/gates/P4.md`)
