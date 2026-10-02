@@ -1,8 +1,8 @@
 {
   "target": "PaperloftKit",
-  "coveredLines": 2828,
-  "executableLines": 3035,
-  "lineCoverage": 0.9317957166392092,
-  "xcresult": "build/Tests-merged-20261002-000623.xcresult",
+  "coveredLines": 3031,
+  "executableLines": 3151,
+  "lineCoverage": 0.9619168517930815,
+  "xcresult": "build/Tests-merged-20261002-043409.xcresult",
   "result": "PASS"
 }
