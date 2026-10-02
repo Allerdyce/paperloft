@@ -13,3 +13,4 @@ evidence/checkouts/
 .build/
 
 __pycache__/
+config/Distribution.local.xcconfig

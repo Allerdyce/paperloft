@@ -10,6 +10,10 @@
 - **P6 status:**
   - AC-09 resilience and AC-14 privacy pass locally.
   - AC-10 still needs your one Terminal run for signposts.
+- **Design follow-ups:**
+  - Undoing a removal now says "Restored … to the Inbox".
+  - The status chips already tell VoiceOver which one is selected (now tested), so keeping them needs no more work.
+- **Distribution configuration** (pre-archive checklist 1–2): `config/Distribution.xcconfig` sets version 1.0 with the App Group on, and an unsigned build with it compiles cleanly. Your LLC team ID goes in a git-ignored local file. Nothing was signed, archived or uploaded.
 
 ## Latest work (2026-10-01, lead mode)
 - **Paperloft Pro** is integrated:

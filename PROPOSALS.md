@@ -92,7 +92,7 @@ The project builds as version **1.1** (`MARKETING_VERSION`, app and Share target
 - **Option 1 (recommended):** ship the first App Store release as **1.0**. It matches AC-19 and the listing. The agent sets `MARKETING_VERSION = 1.0` for both targets just before the archive; nothing else changes.
 - **Option 2:** keep 1.1. The listing draft gets retitled, and AC-19's "1.0" is read as "the first build" (that would need your amendment, like the AC-10 one).
 
-Until you decide, the agent follows the frozen criterion and archives as 1.0.
+Until you decide, the agent follows the frozen criterion and archives as 1.0. *2026-10-02:* `config/Distribution.xcconfig` sets 1.0 for distribution builds only. Development builds still say 1.1.
 
 ## 2026-10-01: Reference-design elements the third design review wants changed (AC-16; owner decision)
 
@@ -102,7 +102,7 @@ The third review (`evidence/design/2026-10-01-critique.md`) scores some lines be
 | --- | --- | --- |
 | **Settings row in the sidebar**, showing Settings inside the main window (alongside the real ⌘, Settings window) | Remove it; settings live only in the Settings window | Keep the row for the look, but have it open the real Settings window, so there's one place to change things |
 | **Serif heading "A place for your paperwork"** under the toolbar title "Inbox" (about 125 px of titles) | One title: "Inbox" with a subtitle like "2 receipts to review" | Needs your call: the locked NavigationTests pins this heading text, so changing it would need an acceptance amendment. Otherwise keep it and accept the extra band |
-| **Coloured status chips** (All, Ready, Processing, Duplicates, Issues) | A segmented control in the toolbar, or a filter pop-up | Keep the chips (they're part of the look) but give them keyboard focus and VoiceOver selection state; or switch to a segmented control if you prefer native |
+| **Coloured status chips** (All, Ready, Processing, Duplicates, Issues) | A segmented control in the toolbar, or a filter pop-up | Keep the chips (they're part of the look); or switch to a segmented control if you prefer native. *Checked 2026-10-02:* the chips already report which one is selected to VoiceOver (`StatusChipAccessibilityTests`), and with Full Keyboard Access on they take keyboard focus like any Mac button. Keeping them needs no further work |
 | **Row checkboxes and "Select all"** | Native list multi-selection (⌘-click, ⇧-click, Edit › Select All) with batch actions in the toolbar | Switch to native multi-selection. The checkboxes are the least Mac-like element |
 | **Date as a text field plus calendar button** | One `DatePicker` field | Switch to `DatePicker(.field)`; it also localizes the date |
 | **Library card rows with a "View" pill and in-content search** | A SwiftUI `Table` with sortable columns and toolbar search | Switch to `Table`. More rows fit, and sorting is native |
