@@ -21,6 +21,11 @@ final class AppIntentFrameworkTests: XCTestCase {
         if pro { app.launchArguments += ["-PaperloftStoreMock", "YES"] }
         app.launch()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        // macOS restoration may leave no window after a terminated run; use the public Window command.
+        if !app.buttons["sidebar.inbox"].waitForExistence(timeout: 5) {
+            app.menuBars.menuBarItems["Window"].click()
+            app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
+        }
         if pro { app.makePro() }
     }
 
