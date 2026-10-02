@@ -137,7 +137,7 @@ struct MenuBarInbox: View {
             Label("Paperloft", systemImage: "tray.fill").font(.headline)
             Text(model.inboxCount == 0 ? "Your Inbox is empty"
                  : "\(model.inboxCount) \(model.inboxCount == 1 ? "receipt" : "receipts") waiting in your Inbox")
-                .foregroundStyle(.secondary).accessibilityIdentifier("menubar.count")
+                .foregroundStyle(.primary).accessibilityIdentifier("menubar.count")
             VStack(spacing: 6) {
                 Image(systemName: "arrow.down.doc").font(.title2).foregroundStyle(Color.accentColor).accessibilityHidden(true)
                 Text("Drop receipts here").font(.callout.weight(.medium))

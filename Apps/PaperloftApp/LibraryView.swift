@@ -17,17 +17,18 @@ private func inboxDisplayStatus(_ item: InboxItem) -> String {
     return "Processing"
 }
 
-/// What a row that needs attention asks you to check ("Check total" rather than a bare "Issue").
+/// What a row that needs attention asks you to check ("Check total" rather than a bare "Issue"),
+/// from the same field checks the review form shows.
 private func inboxIssueLabel(_ item: InboxItem) -> String {
     if item.status == "failed" { return "Couldn't read" }
-    guard let review = item.review else { return "Check details" }
-    let reasons = review.assessment.reasons
-    if reasons.contains(.notReceipt) || reasons.contains(.invalidKind) || reasons.contains(.classificationUnavailable) { return "Check type" }
-    if (try? item.draft.receipt()) == nil { return "Missing details" }
-    if reasons.contains(.missingCategory) { return "Check category" }
-    if reasons.contains(.parserDisagreement) || reasons.contains(.parserUnavailable) || reasons.contains(.lowConfidence) { return "Check date and total" }
-    if reasons.contains(.taxSourceUnverified) { return "Check tax" }
-    return "Check details"
+    guard item.review != nil else { return "Check details" }
+    let flagged = ReviewChecks(item: item, draft: item.draft).flagged
+    let names = ["vendor": "merchant", "date": "date", "total": "total", "tax": "tax", "currency": "currency", "category": "category", "kind": "type"]
+    switch flagged.count {
+    case 1: return "Check " + (names[flagged[0]] ?? "details")
+    case 2: return "Check \(names[flagged[0]] ?? flagged[0]) and \(names[flagged[1]] ?? flagged[1])"
+    default: return "Check details"
+    }
 }
 
 struct LibraryView: View {
@@ -105,6 +106,9 @@ struct LibraryView: View {
             .accessibilityElement(children: .contain).accessibilityLabel(model.selection + " workspace")
             .background(WindowAccessibility(label: model.selection, target: .splitPane))
             .navigationTitle(model.selection)
+            // The serif heading below is the page title; the window keeps its title for the
+            // Window menu and VoiceOver, without a second title in the toolbar.
+            .toolbar(removing: .title)
             .receiptDeviceImport(model: model)
 
         }
@@ -201,9 +205,8 @@ struct InboxView: View {
     @State private var noticeHovered = false
     var body: some View {
         content.safeAreaInset(edge: .top, spacing: 0) {
-            if !showsList { noticeBanner.padding(.horizontal, 20).padding(.top, 8) }
+            if !showsList { noticeBanner.padding(.horizontal, 20).padding(.top, 8).animation(.easeOut(duration: 0.2), value: model.notice) }
         }
-        .animation(.easeOut(duration: 0.2), value: model.notice)
     }
     /// "Filed to 2026 › Meals · Undo" and similar, for eight seconds (longer while the pointer is
     /// over it); also announced to VoiceOver.
@@ -229,7 +232,8 @@ struct InboxView: View {
             .task(id: notice.id) {
                 AccessibilityNotification.Announcement(notice.text).post()
                 try? await Task.sleep(for: .seconds(8))
-                while noticeHovered, model.notice?.id == notice.id { try? await Task.sleep(for: .milliseconds(500)) }
+                // Longer while the pointer rests on it, up to half a minute.
+                for _ in 0..<44 where noticeHovered && model.notice?.id == notice.id { try? await Task.sleep(for: .milliseconds(500)) }
                 if model.notice?.id == notice.id { model.notice = nil }
             }
         }
@@ -281,7 +285,6 @@ struct InboxView: View {
             }
         } else {
             VStack(spacing: 0) {
-                HStack(spacing: 12) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
                         ForEach(filters, id: \.self) { value in
@@ -297,8 +300,6 @@ struct InboxView: View {
                                 .accessibilityAddTraits(filter == value ? [.isSelected] : [])
                         }
                     }.padding(.vertical, 12)
-                }
-                noticeBanner.frame(maxWidth: 440)
                 }.padding(.horizontal, 20)
                 HStack(spacing: 12) {
                     Button("Select all") { removalSelection = Set(visibleItems.map(\.id)) }.disabled(visibleItems.isEmpty)
@@ -314,7 +315,8 @@ struct InboxView: View {
                             .disabled(model.busy).accessibilityIdentifier("inbox.removeSelected")
                             .help("Remove selected Inbox entries. Original files stay in place.")
                     }
-                    Spacer()
+                    Spacer(minLength: 12)
+                    noticeBanner.frame(maxWidth: 480).animation(.easeOut(duration: 0.2), value: model.notice)
                         if let pastedID = model.pastedItemID, model.selectedItemID == pastedID,
                            model.items.contains(where: { $0.id == pastedID && $0.status != "aside" }) {
                             Label("Image added", systemImage: "checkmark.circle.fill")
@@ -338,8 +340,6 @@ struct InboxView: View {
                         }.tag(item.id).id(item.id)
                     }
                         }.focused($listFocused).accessibilityIdentifier("inbox.list").accessibilityLabel("Documents awaiting review")
-                            // A darker green than the accent in dark mode, so white row text keeps 6:1 contrast.
-                            .tint(Color("ListSelection"))
                             .onChange(of: model.selectedItemID) {
                                 if let id = model.selectedItemID { proxy.scrollTo(id, anchor: .center) }
                             }
@@ -431,6 +431,17 @@ struct InboxRow: View, Equatable {
     let status: String
     var issueLabel = "Check details"
     let duplicate: Bool
+    @Environment(\.colorScheme) private var scheme
+    @Environment(\.backgroundProminence) private var prominence
+    nonisolated static func == (lhs: InboxRow, rhs: InboxRow) -> Bool {
+        lhs.id == rhs.id && lhs.name == rhs.name && lhs.summary == rhs.summary && lhs.sourceLabel == rhs.sourceLabel
+            && lhs.status == rhs.status && lhs.issueLabel == rhs.issueLabel && lhs.duplicate == rhs.duplicate
+    }
+    /// In dark mode the focused selection is a light green, where white text is 2.8:1; use dark text
+    /// there (5.6:1). Everywhere else the system colours are right.
+    private var textStyle: AnyShapeStyle {
+        scheme == .dark && prominence == .increased ? AnyShapeStyle(Color("EmphasizedRowText")) : AnyShapeStyle(.primary)
+    }
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             // Every row has the same shape: two single lines and a badge. A row's height never
@@ -442,9 +453,9 @@ struct InboxRow: View, Equatable {
                 }
                 if let sourceLabel { Text((summary == nil ? "" : "· ") + sourceLabel).lineLimit(1).truncationMode(.tail) }
                 if summary == nil && sourceLabel == nil { Text(" ").accessibilityHidden(true) }
-            }.font(.callout).foregroundStyle(.primary)
-            ReceiptStatusPill(title: badge.title, symbol: badge.symbol, color: badge.color)
-        }.padding(.vertical, 8).accessibilityIdentifier("inbox.item." + id.uuidString)
+            }.font(.callout)
+            ReceiptStatusPill(title: badge.title, symbol: badge.symbol, color: badge.color, foreground: textStyle)
+        }.foregroundStyle(textStyle).padding(.vertical, 8).accessibilityIdentifier("inbox.item." + id.uuidString)
     }
     private var badge: (title: String, symbol: String, color: Color) {
         if duplicate { return ("Duplicate", "doc.on.doc.fill", .orange) }
@@ -461,37 +472,26 @@ struct ReceiptStatusPill: View {
     let title: String
     let symbol: String
     let color: Color
+    var foreground = AnyShapeStyle(.primary)
     var body: some View {
         Label(title, systemImage: symbol)
             .font(.subheadline.weight(.semibold))
-            .foregroundStyle(.primary)
+            .foregroundStyle(foreground)
             .padding(.horizontal, 9).padding(.vertical, 5)
             .background(color.opacity(0.18), in: Capsule())
             .overlay(Capsule().strokeBorder(color.opacity(0.55), lineWidth: 1))
     }
 }
 
-struct ReviewView: View {
-    @Bindable var model: AppModel
+/// Which review fields need a look, and why. The review form and the Inbox row badge both use it,
+/// so a row never says "Check date and total" while the form flags only Total.
+struct ReviewChecks {
     let item: InboxItem
+    let draft: ReceiptDraft
     private var sourceCheck: ExtractedFields { item.review?.sourceCheck ?? ParserBackend.parse("") }
-    @State private var draft: ReceiptDraft
-    @State private var showDatePicker = false
-    @State private var showImportDetails = false
-    @State private var calendarDate = Date()
-    private enum Field: Hashable { case vendor, date, total, tax, currency }
-    @FocusState private var focusedField: Field?
-    private let autofocusFields: Bool
-    init(model: AppModel, item: InboxItem, autofocusFields: Bool = true) {
-        self.model = model; self.item = item; self.autofocusFields = autofocusFields; _draft = State(initialValue: item.draft)
-    }
-    /// QA-08: a total Paperloft couldn't verify, still as extracted. Return alone doesn't file it;
-    /// clicking Confirm or ⌘Return (Receipt › Confirm and File) does.
-    private var totalNeedsDeliberateConfirm: Bool { verificationMessage("total") != nil }
-    private func submitFromKeyboard() {
-        if totalNeedsDeliberateConfirm { focusedField = .total } else { Task { await model.fileSelected() } }
-    }
-    private func verificationMessage(_ field: String) -> String? {
+    static let fields = ["vendor", "date", "total", "tax", "currency", "category", "kind"]
+    var flagged: [String] { Self.fields.filter { fieldMessage($0) != nil } }
+    func verificationMessage(_ field: String) -> String? {
         guard let review = item.review else { return nil }
         let reasons = review.assessment.reasons
         let crossCheck = reasons.contains(.parserUnavailable) || reasons.contains(.parserDisagreement)
@@ -516,14 +516,7 @@ struct ReviewView: View {
         }
         return nil
     }
-    /// QA-04: an Issue with no field message still says why it needs a look.
-    private var unexplainedIssueSummary: String? {
-        guard let reasons = item.review?.assessment.reasons, inboxDisplayStatus(item) == "Issue",
-              !reasons.contains(.notReceipt),
-              ["vendor", "date", "total", "tax", "currency", "category", "kind"].allSatisfy({ fieldMessage($0) == nil }) else { return nil }
-        return ReviewExplanation.summary(for: reasons)
-    }
-    private func fieldMessage(_ field: String) -> String? {
+    func fieldMessage(_ field: String) -> String? {
         let currency = draft.currency.uppercased().trimmingCharacters(in: .whitespaces)
         let validCurrency = (try? Money(minorUnits: 0, currency: currency)) != nil
         let total = try? Money(decimal: draft.total, currency: validCurrency ? currency : "USD")
@@ -549,6 +542,42 @@ struct ReviewView: View {
         default: return verificationMessage(field)
         }
     }
+}
+
+struct ReviewView: View {
+    @Bindable var model: AppModel
+    let item: InboxItem
+    @State private var draft: ReceiptDraft
+    @State private var showDatePicker = false
+    @State private var showImportDetails = false
+    @State private var calendarDate = Date()
+    private enum Field: Hashable { case vendor, date, total, tax, currency }
+    @FocusState private var focusedField: Field?
+    private let autofocusFields: Bool
+    init(model: AppModel, item: InboxItem, autofocusFields: Bool = true) {
+        self.model = model; self.item = item; self.autofocusFields = autofocusFields; _draft = State(initialValue: item.draft)
+    }
+    /// QA-08: a total Paperloft couldn't verify, still as extracted. Return alone doesn't file it;
+    /// clicking Confirm or ⌘Return (Receipt › Confirm and File) does.
+    private var totalNeedsDeliberateConfirm: Bool { verificationMessage("total") != nil }
+    private func submitFromKeyboard() {
+        if totalNeedsDeliberateConfirm { focusedField = .total } else { Task { await model.fileSelected() } }
+    }
+    private func verificationMessage(_ field: String) -> String? { checks.verificationMessage(field) }
+    /// QA-04: an Issue with no field message still says why it needs a look.
+    private var unexplainedIssueSummary: String? {
+        guard let reasons = item.review?.assessment.reasons, inboxDisplayStatus(item) == "Issue",
+              !reasons.contains(.notReceipt),
+              ["vendor", "date", "total", "tax", "currency", "category", "kind"].allSatisfy({ fieldMessage($0) == nil }) else { return nil }
+        return ReviewExplanation.summary(for: reasons)
+    }
+    private var checks: ReviewChecks { ReviewChecks(item: item, draft: draft) }
+    /// The amount's currency, shown inside the Total and Tax fields ("45.47  USD").
+    private var currencyTag: some View {
+        Text(draft.currency.uppercased()).font(.caption.weight(.medium)).foregroundStyle(.secondary)
+            .padding(.trailing, 7).allowsHitTesting(false).accessibilityHidden(true)
+    }
+    private func fieldMessage(_ field: String) -> String? { checks.fieldMessage(field) }
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Notes and warnings scroll; Remove and Confirm stay put at the bottom, so nothing
@@ -604,10 +633,12 @@ struct ReviewView: View {
                         }.modifier(ReviewHighlight(message: fieldMessage("date")))
                         }
                         LabeledContent("Total") {
-                            TextField("Total", text: $draft.total).labelsHidden().monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total").modifier(ReviewHighlight(message: fieldMessage("total")))
+                            TextField("Total", text: $draft.total).labelsHidden().monospacedDigit().focused($focusedField, equals: .total).accessibilityIdentifier("review.total")
+                            .overlay(alignment: .trailing) { currencyTag }.modifier(ReviewHighlight(message: fieldMessage("total")))
                         }
                         LabeledContent("Tax") {
-                            TextField("Tax (optional)", text: $draft.tax, prompt: Text("Optional")).labelsHidden().monospacedDigit().focused($focusedField, equals: .tax).accessibilityIdentifier("review.tax").modifier(ReviewHighlight(message: fieldMessage("tax")))
+                            TextField("Tax (optional)", text: $draft.tax, prompt: Text("Optional")).labelsHidden().monospacedDigit().focused($focusedField, equals: .tax).accessibilityIdentifier("review.tax")
+                            .overlay(alignment: .trailing) { currencyTag }.modifier(ReviewHighlight(message: fieldMessage("tax")))
                         }
                         LabeledContent("Currency") {
                             AccessiblePopup(label: "Currency", identifier: "review.currency", choices: CurrencyChoices.list(including: draft.currency), selection: $draft.currency, title: CurrencyChoices.title)

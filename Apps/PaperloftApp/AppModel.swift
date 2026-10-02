@@ -979,6 +979,23 @@ final class FileGrant: @unchecked Sendable {
     /// The main window's undo manager. Filing and removal register here, so Edit › Undo (⌘Z) reverses
     /// them while text fields keep their own typing undo.
     @ObservationIgnored weak var undoManager: UndoManager?
+    /// One Edit › Undo reverses one action. Filing registers after an await, outside the click that
+    /// started it, so relying on grouping by event could leave a group open that the next action
+    /// joins (one Undo then reversed a filing and a removal). Outside any group, each action gets its own.
+    private func registerUndoStep(_ name: String, _ undo: @escaping @MainActor (AppModel) -> Void) {
+        guard let undoManager else { return }
+        let register = {
+            undoManager.registerUndo(withTarget: self) { model in MainActor.assumeIsolated { undo(model) } }
+            undoManager.setActionName(name)
+        }
+        guard undoManager.groupingLevel == 0 else { return register() }
+        // With grouping by event on, a group begun here would nest inside an automatic one that stays
+        // open for whatever registers next. Turn it off just long enough to make a top-level group.
+        let byEvent = undoManager.groupsByEvent
+        undoManager.groupsByEvent = false
+        undoManager.beginUndoGrouping(); register(); undoManager.endUndoGrouping()
+        undoManager.groupsByEvent = byEvent
+    }
     /// A short confirmation shown under the toolbar after filing, removing or undoing.
     struct Notice: Identifiable, Equatable {
         enum Undo: Equatable { case filing(UUID), removal([UUID]) }
@@ -1034,8 +1051,7 @@ final class FileGrant: @unchecked Sendable {
             selectedItemID = next ?? items.first { $0.status != "aside" }?.id
         }
         persist()
-        undoManager?.registerUndo(withTarget: self) { model in MainActor.assumeIsolated { model.restoreRemoved(removed) } }
-        undoManager?.setActionName("Remove from Inbox")
+        registerUndoStep("Remove from Inbox") { model in model.restoreRemoved(removed) }
         notice = Notice(text: names.count == 1 ? "Removed \(names[0])" : "Removed \(names.count) documents", undo: .removal(removed))
     }
     /// Status and file access of documents removed this session, for Undo.
@@ -1094,8 +1110,7 @@ final class FileGrant: @unchecked Sendable {
             if selectedItemID == item.id || selectedItemID == nil { selectedItemID = next ?? items.first { $0.status != "aside" }?.id }
             persist(); await refresh()
             let batchID = outcome.batch.id
-            undoManager?.registerUndo(withTarget: self) { model in MainActor.assumeIsolated { _ = Task { await model.undoFiling(batchID) } } }
-            undoManager?.setActionName("Filing")
+            registerUndoStep("Filing") { model in _ = Task { await model.undoFiling(batchID) } }
             let folder = outcome.batch.documents.first.map { ($0.relativePath as NSString).deletingLastPathComponent } ?? ""
             // Same order as the form's "Files to 2026 › Meals".
             notice = Notice(text: folder.isEmpty ? "Filed" : "Filed to " + folder.replacingOccurrences(of: "/", with: " › "), undo: .filing(batchID))
