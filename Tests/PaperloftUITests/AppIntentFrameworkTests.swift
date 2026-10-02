@@ -21,6 +21,7 @@ final class AppIntentFrameworkTests: XCTestCase {
         if pro { app.launchArguments += ["-PaperloftStoreMock", "YES"] }
         app.launch()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        if pro { app.makePro() }
     }
 
     @MainActor func testOpenInbox() async throws {

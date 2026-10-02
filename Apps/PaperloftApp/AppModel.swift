@@ -260,15 +260,7 @@ final class FileGrant: @unchecked Sendable {
          retirementSnapshotWriter: ((Data, URL) throws -> Void)? = nil,
          retirementBeforeDiscard: (@MainActor () async -> Void)? = nil) {
         testMode = Self.argument("-PaperloftUITestMode") == "YES"
-        // QA-only: `-PaperloftQAProfile <name>` gives a persona session its own settings and app data,
-        // so it starts from first launch without touching other builds' state (Debug/QA builds only).
-        #if DEBUG || QA
-        let qaProfile = Self.argument("-PaperloftQAProfile").flatMap { $0.range(of: "^[A-Za-z0-9-]{1,32}$", options: .regularExpression) != nil ? $0 : nil }
-        #else
-        let qaProfile: String? = nil
-        #endif
-        preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: "app.paperloft.receipts.UI")!
-            : qaProfile.map { UserDefaults(suiteName: "app.paperloft.receipts.QA.\($0)")! } ?? .standard)
+        preferences = suppliedPreferences ?? (testMode ? UserDefaults(suiteName: Self.uiTestSuite)! : .standard)
         self.proEntitlement = proEntitlement
         self.store = store ?? StoreController()
         self.extractionBackend = extractionBackend
@@ -280,7 +272,7 @@ final class FileGrant: @unchecked Sendable {
         scannedPages = ScannedPages(rawValue: preferences.string(forKey: "scannedPages") ?? "") ?? .separate
         mode = FilingMode(rawValue: preferences.string(forKey: "filingMode") ?? "copy") ?? .copy
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        support = suppliedSupport ?? base.appendingPathComponent(testMode ? "Paperloft-UI" : qaProfile.map { "Paperloft-QA-\($0)" } ?? "Paperloft", isDirectory: true)
+        support = suppliedSupport ?? base.appendingPathComponent(testMode ? "Paperloft-UI" : "Paperloft", isDirectory: true)
         let ownershipKey = support.standardizedFileURL.path
         Self.liveInboxModels[ownershipKey, default: []].removeAll { $0.model == nil }
         Self.liveInboxModels[ownershipKey, default: []].append(WeakInboxModel(self))
@@ -460,7 +452,7 @@ final class FileGrant: @unchecked Sendable {
             if access.refreshedBookmark != nil { message = "Your library folder is now “\(access.url.lastPathComponent)”. Paperloft files there." }
         } else if let path = preferences.string(forKey: "paperloft.demoLibraryPath"), URL(fileURLWithPath: path).path.hasPrefix(support.path + "/") {
             try await configure(URL(fileURLWithPath: path), sample: true)
-        } else if testMode { try await createSampleLibrary(discardInbox: false) }
+        } else if testMode && !takeFirstLaunchRequest() { try await createSampleLibrary(discardInbox: false) }
         selectedItemID = items.first { $0.status != "aside" }?.id
         if preferences.bool(forKey: "watchedFolderEnabled"), !watchedConfigurationPending, watchedScanner == nil {
             let configuration = watchedConfiguration
@@ -1333,8 +1325,7 @@ final class FileGrant: @unchecked Sendable {
         NSWorkspace.shared.activateFileViewerSelecting([document.map { libraryURL.appendingPathComponent($0.relativePath) } ?? libraryURL])
     }
     private var quotaURL: URL { support.appendingPathComponent("understanding-quota.json") }
-    /// UI-test sessions (Debug/QA only) keep the ledger in memory so runs don't share a month's count;
-    /// `-PaperloftQuotaUsed <n>` seeds it so the 26th-document paywall can be tested.
+    /// UI-test sessions (Debug/QA only) keep the ledger in memory so runs don't share a month's count.
     private var quotaInMemory: Bool {
         #if DEBUG || QA
         return testMode
@@ -1349,12 +1340,38 @@ final class FileGrant: @unchecked Sendable {
             do { quota = try UnderstandingQuota.load(from: quotaURL) }
             catch { quotaError = "Paperloft couldn't read its monthly reading record, so automatic reading is paused. Enter details yourself, or contact support."; return false }
         }
-        #if DEBUG || QA
-        if let seed = Self.argument("-PaperloftQuotaUsed").flatMap(Int.init), seed > 0 {
-            for _ in quota.count()..<min(seed, 1000) { quota.recordUnderstanding(id: UUID(), sample: false) }
-        }
-        #endif
         return true
+    }
+    static let uiTestSuite = "app.paperloft.receipts.UI"
+    #if DEBUG || QA
+    /// Debug menu (Debug/QA builds only): use up this month's automatic reads in a UI-test session,
+    /// so the monthly limit and its paywall can be tried without importing 25 documents.
+    func debugUseAllAutomaticReads() {
+        guard quotaInMemory, loadQuotaIfNeeded() else { return }
+        for _ in quota.count()..<UnderstandingQuota.monthlyLimit { quota.recordUnderstanding(id: UUID(), sample: false) }
+        paywallShownForQuota = false
+    }
+    /// Debug menu (Debug/QA builds, UI-test sessions only): forget the UI-test library, Inbox and
+    /// settings and quit, so the next launch is a first launch. Never touches a real library.
+    func debugResetToFirstLaunch() {
+        guard testMode, support.lastPathComponent == "Paperloft-UI" else { return }
+        UserDefaults.standard.removePersistentDomain(forName: Self.uiTestSuite)
+        try? FileManager.default.removeItem(at: support)
+        UserDefaults(suiteName: Self.uiTestSuite)?.set(true, forKey: Self.firstLaunchRequestKey)
+        NSApplication.shared.terminate(nil)
+    }
+    #endif
+    private static let firstLaunchRequestKey = "debug.nextLaunchIsFirstLaunch"
+    /// After Reset to First Launch, the next UI-test launch shows onboarding instead of making its
+    /// usual temporary library. One launch only: the request is cleared as it's read.
+    private func takeFirstLaunchRequest() -> Bool {
+        #if DEBUG || QA
+        guard preferences.bool(forKey: Self.firstLaunchRequestKey) else { return false }
+        preferences.removeObject(forKey: Self.firstLaunchRequestKey)
+        return true
+        #else
+        return false
+        #endif
     }
     /// Whether a document may be understood automatically now. Samples, Pro, and documents a filing
     /// Undo returned (already counted once) are exempt. Before the store has started (unit tests) there's no gate.

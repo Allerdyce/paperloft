@@ -10,6 +10,7 @@ final class PolishTwoTests: XCTestCase {
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub", "-PaperloftStoreMock", "YES"]
         app.launch(); app.activate(); defer { app.terminate() }
         XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 15))
+        app.makePro()
         app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
         app.buttons["settings.newSampleLibrary"].click()

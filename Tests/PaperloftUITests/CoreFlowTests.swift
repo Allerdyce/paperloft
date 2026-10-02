@@ -7,7 +7,13 @@ final class CoreFlowTests: XCTestCase {
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub", "-PaperloftStoreMock", "YES"]
         app.launch(); app.activate()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        // macOS restoration may leave no window after a terminated run; use the public Window command.
+        if !app.buttons["sidebar.settings"].waitForExistence(timeout: 5) {
+            app.menuBars.menuBarItems["Window"].click()
+            app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
+        }
         XCTAssertTrue(app.buttons["sidebar.settings"].waitForExistence(timeout: 15))
+        app.makePro() // export is part of Pro
         app.typeKey(",", modifierFlags: .command)
         let fresh = app.buttons["settings.newSampleLibrary"]
         XCTAssertTrue(fresh.waitForExistence(timeout: 10)); fresh.click()
@@ -101,6 +107,10 @@ final class CoreFlowTests: XCTestCase {
         XCTAssertTrue(vendor.waitForExistence(timeout: 60)); vendor.click()
         vendor.typeKey("a", modifierFlags: .command); vendor.typeText("Saved Draft")
         app.terminate(); app.launch(); app.activate()
+        if !vendor.waitForExistence(timeout: 8) {
+            app.menuBars.menuBarItems["Window"].click()
+            app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
+        }
         XCTAssertTrue(vendor.waitForExistence(timeout: 20))
         XCTAssertEqual(vendor.value as? String, "Saved Draft")
     }
@@ -108,7 +118,7 @@ final class CoreFlowTests: XCTestCase {
     func testCoreScreensAccessibilityAudit() throws {
         continueAfterFailure = true
         let app = try freshApp(); defer { app.terminate() }
-        try audit(app)
+        try auditAccessibility(app)
         for section in ["library", "history"] {
             app.buttons["sidebar." + section].click()
             // Switching sections animates toolbar items in or out, and the window title with them.
@@ -117,7 +127,7 @@ final class CoreFlowTests: XCTestCase {
             let shown = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", section.capitalized), object: heading)
             XCTAssertEqual(XCTWaiter().wait(for: [shown], timeout: 5), .completed, "\(section) is showing")
             Thread.sleep(forTimeInterval: 1.5)
-            try audit(app)
+            try auditAccessibility(app)
         }
         // Audit Settings as the only window, every pane. While Settings is open the audit also
         // inspects the main window behind it, even minimized, and measures its elements against
@@ -126,12 +136,12 @@ final class CoreFlowTests: XCTestCase {
         app.typeKey("w", modifierFlags: .command)
         app.typeKey(",", modifierFlags: .command)
         XCTAssertTrue(app.buttons["settings.newSampleLibrary"].waitForExistence(timeout: 10))
-        try audit(app)
+        try auditAccessibility(app)
         for pane in ["Filing", "Categories"] {
             let tab = app.toolbars.buttons[pane]
             XCTAssertTrue(tab.waitForExistence(timeout: 5), "Settings pane \(pane)")
             tab.click()
-            try audit(app)
+            try auditAccessibility(app)
         }
         app.typeKey("w", modifierFlags: .command)
         app.typeKey(",", modifierFlags: .command)
@@ -142,30 +152,8 @@ final class CoreFlowTests: XCTestCase {
         XCTAssertTrue(app.buttons["sidebar.inbox"].waitForExistence(timeout: 10))
         app.buttons["sidebar.inbox"].click(); app.menuBars.menuBarItems["File"].click(); app.menuBars.menuItems["Load Development Receipts"].click()
         XCTAssertTrue(app.textFields["review.vendor"].waitForExistence(timeout: 60))
-        try audit(app)
+        try auditAccessibility(app)
     }
 
-    @MainActor
-    private func audit(_ app: XCUIApplication) throws {
-        try app.performAccessibilityAudit { issue in
-            let description = issue.element?.debugDescription ?? "No element"
-            let systemOwned = Self.isSystemOwned(issue)
-            let detail = XCTAttachment(string: issue.detailedDescription + "\n" + description)
-            detail.name = systemOwned ? "System-owned accessibility finding (AC-13 exception)" : "Accessibility issue details"
-            detail.lifetime = .keepAlways
-            self.add(detail)
-            return systemOwned
-        }
-    }
-    /// ACCEPTANCE.md AC-13 (owner-approved amendment, 2026-10-01): findings on system-owned elements
-    /// the app doesn't create — Touch Bar items, the emoji & symbols popup, and issues XCTest
-    /// attributes to no element — don't fail the audit. A minimal non-Paperloft app reproduces all of
-    /// them (evidence/a11y-probe/intake11-current/settings-isolation.md). Anything on an app element fails.
-    @MainActor private static func isSystemOwned(_ issue: XCUIAccessibilityAuditIssue) -> Bool {
-        guard let element = issue.element else { return true }
-        if element.elementType == .touchBar || element.label.localizedCaseInsensitiveContains("emoji & symbols") { return true }
-        // Touch Bar descendants: XCTest describes their path from the TouchBar element.
-        return element.debugDescription.contains("TouchBar")
-    }
 
 }

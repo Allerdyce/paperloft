@@ -8,9 +8,17 @@ final class ExportSheetTests: XCTestCase {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchArguments = ["-PaperloftUITestMode", "YES", "-PaperloftModel", "stub", "-PaperloftStoreMock", "YES"]
+        // Export is part of Pro; the mock store remembers it across the relaunch below.
+        app.launch(); app.activate()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        app.makePro(); app.terminate()
         app.launch(); app.activate()
         defer { app.terminate() }
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        if !app.staticTexts["content.title"].waitForExistence(timeout: 3) {
+            app.menuBars.menuBarItems["Window"].click()
+            app.menuBars.menuBarItems["Window"].menus.menuItems["Paperloft Receipts"].click()
+        }
         XCTAssertTrue(app.staticTexts["content.title"].waitForExistence(timeout: 10))
         // Right after launch, while startup is still opening the library, ⇧⌘E opens the sheet once it's ready.
         app.typeKey("e", modifierFlags: [.command, .shift])
