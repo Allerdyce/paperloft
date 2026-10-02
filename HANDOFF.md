@@ -1,4 +1,27 @@
-# Latest continuation checkpoint
+# Owner summary — 2026-10-02
+
+**Where things stand:**
+- **P3 and P4:** both pass locally with the independent verifier (`evidence/gates/P3.md`, `P4.md`). The verifier's P4 finding, V4-01, is fixed.
+- **P6:** every check passes except AC-10, which needs your Terminal run (item 3 below).
+- **CI:** full local CI is green on run/1.
+- **Nothing has been signed for distribution, archived, uploaded or submitted.**
+
+**What I need from you, most important first:**
+1. **Apple membership:** Apple's confirmation of the EvidencePair LLC membership conversion. Then:
+   - work through `docs/OWNER-RELEASE-SETUP.md` (identities, the App Store Connect app, products);
+   - put the team ID in `config/Distribution.local.xcconfig` (pre-archive checklist below).
+2. **Confirm two things from your own account:** the 2026-10-01 AC-10/AC-13 amendments and the distribution authorization. The verifier can't confirm them from builder-written files (section below).
+3. **AC-10 run from Terminal:** run `scripts/performance_check.sh system`, then `scripts/performance_check.sh parser`, and commit both folders ("Local performance checks" below). After that, `scripts/gate.sh P6 --local` can pass.
+4. **Decisions in PROPOSALS.md:**
+   - **StoreKitTest option:** this unblocks P5.
+   - **Reference-design elements:** your sidebar Settings choice also unblocks the last accessibility audit.
+   - **First version, 1.0 or 1.1:** 1.0 unless you say otherwise.
+5. **Site:** OK to publish the `paperloft-site` branch `release/receipts-1.0-copy`.
+6. **Later, with you present:** the AC-17 persona sessions, and one Import From Device try with a real iPhone or iPad.
+
+The sections below "History" are earlier checkpoints, kept for the record. Where they disagree with this summary, STATUS.md or BUGS.md, those three are current. For example, the App Intents tests and the accessibility audits now pass.
+
+# History: continuation checkpoint, 2026-09-29 (superseded)
 
 The owner requested a credit-saving handoff on2026-09-29. Read **[NEXT-MODEL-HANDOFF.md](NEXT-MODEL-HANDOFF.md)** first; it supersedes historical status below where noted. All jobs stopped and GUI lock is free.
 

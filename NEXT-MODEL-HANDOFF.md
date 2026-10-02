@@ -1,5 +1,31 @@
 # Paperloft 1.1 — handoff to the next model
 
+## 2026-10-02 update (read this first)
+
+**State:**
+- P3 and P4 pass locally with the independent verifier, with their files locked (185). V4-01 is fixed.
+- The P6 audits are merged (`ScreenAuditTests`).
+- `scripts/gate.sh P6 --local` exists. It fails only on AC-10 evidence, which needs the owner's Terminal run.
+- `config/Distribution.xcconfig` is ready (version 1.0, App Group on; the team ID waits on the membership).
+- Full local CI is green on run/1.
+
+**What's blocked, and on what:**
+- **P5:** the owner's StoreKitTest choice.
+- **AC-10:** the owner's Terminal run.
+- **The last audit (in-window Settings) and AC-16 lines:** the owner's reference-design decisions.
+- **App Store Connect work:** the LLC membership.
+- **AC-17:** the owner being present.
+
+The owner's to-do list is at the top of HANDOFF.md. Current status is in STATUS.md, STATE.json and BUGS.md.
+
+**Working rules learned this session (LESSONS.md):**
+- Run full CI before every merge, with `PAPERLOFT_CI_XCCONFIG=config/PaulDevelopment.xcconfig scripts/ci.sh` and the GUI lock held.
+- When a UI test failure doesn't make sense, look at the last frame of the screen recording first. Window restoration carries over from one test launch to the next.
+- Never edit locked files; `scripts/verify_lock.sh` catches it.
+- Don't edit the checkout `gate.sh` is running in. It fails on any source change.
+
+## Earlier handoff (2026-10-01 and before)
+
 Updated 2026-10-01 (lead mode; see "Completed 2026-10-01" below). Earlier: 2026-09-29 next-model session, tasks A and B merged. Resume from the follow-ups below. No background automation is running. All subagents stopped safely, no builds/tests remain running, and `/Users/builder/Factory/.gui.lock` is absent.
 
 ## Goal and authorization
