@@ -1,7 +1,7 @@
 {
   "phase": "P3",
-  "step": "Fourth design review fixes merged (one-step undo, dark selection text, banner placement, shared field checks); full CI green at 2ab8ea1 (39/39 UI, 0 warnings). AC-16 remaining lines are owner decisions (PROPOSALS). Next: owner choices, formal verifier gates, AC-17 with owner, Apple-dependent steps.",
-  "last_green_commit": "2ab8ea1",
+  "step": "P3 verifier cycle 1 FAIL fixed (only SPEC 6.7 launch hooks; Debug menu; first-launch Try with Samples UI test; narrowed AC-13 waiver; probe on run/1). Full CI green at 5202bf9 (40/40 UI, 0 warnings). Next: P3 verifier cycle 2; owner to confirm ACCEPTANCE amendments.",
+  "last_green_commit": "5202bf9",
   "parked": [
     "Strict StoreKitTest SDK-header import blocked on isolated local/commerce branch",
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
@@ -14,5 +14,5 @@
     "AC-10 signpost metric (XCTOSSignpostMetric) not collectable from the agent shell: unified log access denied; owner to run scripts/performance_check.sh system from Terminal",
     "paperloft-site branch release/receipts-1.0-copy ready locally; publishing waits on owner OK"
   ],
-  "updated": "2026-10-02T03:17:41.620043+00:00"
+  "updated": "2026-10-02T04:46:05.263463+00:00"
 }
