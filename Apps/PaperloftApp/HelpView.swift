@@ -41,6 +41,11 @@ struct HelpView: View {
             "When a month's reads are used, new documents wait in the Inbox. Choose Fill In Details to have the basic reader fill in what it can for you to check, or upgrade. Settings › General › Paperloft Pro shows your usage and has Restore Purchases.",
             "A subscription renews automatically until you cancel it in your App Store account settings."
         ]),
+        Topic(id: "keyboard", title: "Keyboard shortcuts", symbol: "keyboard", lines: [
+            "⌘1 Inbox, ⌘2 Library, ⌘3 History. ⌘, opens Settings.",
+            "In the Inbox: ↑ and ↓ move between documents, Tab moves between fields, Return confirms, and ⌘Return confirms a total Paperloft asked you to check. ⌘Z undoes the last filing or removal.",
+            "⌘I imports files, ⇧⌘V pastes an image, ⌘F finds in the Library, and ⇧⌘E opens Tax & Accountant Export."
+        ]),
         Topic(id: "privacy", title: "Privacy", symbol: "lock", lines: [
             "Paperloft reads documents on your Mac with on-device Apple Intelligence and text recognition. It has no network access, no analytics and no account."
         ])

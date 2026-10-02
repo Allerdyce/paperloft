@@ -148,7 +148,7 @@ struct InboxView: View {
         if !visibleItems.contains(where: { $0.id == model.selectedItemID }) { model.selectedItemID = visibleItems.first?.id }
         pinnedReviewID = model.items.first(where: { $0.id == model.selectedItemID && $0.status == "ready" })?.id
     }
-    private func intakeCard(title: String, symbol: String, detail: String, action: String, identifier: String, perform: @escaping () async -> Void) -> some View {
+    private func intakeCard(title: String, symbol: String, detail: String, action: String, identifier: String, prominent: Bool = true, perform: @escaping () async -> Void) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             Image(systemName: symbol).font(.system(size: 26, weight: .medium)).frame(height: 32)
                 .foregroundStyle(Color.accentColor).accessibilityHidden(true)
@@ -156,9 +156,10 @@ struct InboxView: View {
             Text(detail).font(.body).foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity, alignment: .leading)
             Spacer(minLength: 4)
-            Button(action) { Task { await perform() } }
-                .buttonStyle(.borderedProminent).controlSize(.large)
-                .accessibilityIdentifier(identifier)
+            Group {
+                if prominent { Button(action) { Task { await perform() } }.buttonStyle(.borderedProminent) }
+                else { Button(action) { Task { await perform() } }.buttonStyle(.bordered) }
+            }.controlSize(.large).accessibilityIdentifier(identifier)
         }.padding(24).frame(maxWidth: .infinity, minHeight: 220, alignment: .topLeading)
             .background(Color.accentColor.opacity(0.04), in: RoundedRectangle(cornerRadius: 16))
             .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(Color.accentColor.opacity(0.2)))
@@ -264,12 +265,12 @@ struct InboxView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Bring your receipts together").font(.system(size: 25, weight: .semibold, design: .serif))
+                        Text("Bring your receipts together").font(.title2.weight(.semibold))
                         Text("Choose how to add your first receipt.").foregroundStyle(.primary)
                     }
                     HStack(alignment: .top, spacing: 20) {
                         intakeCard(title: "Import", symbol: "square.and.arrow.down", detail: "Add receipt files from your Mac. Choose PDFs, images or saved emails.", action: "Choose files…", identifier: "inbox.import") { await model.importFiles() }
-                        intakeCard(title: "Paste", symbol: "doc.on.clipboard", detail: "Paste a copied receipt image or screenshot into your Inbox.", action: "Paste image", identifier: "inbox.paste") { await model.pasteImage() }
+                        intakeCard(title: "Paste", symbol: "doc.on.clipboard", detail: "Paste a copied receipt image or screenshot into your Inbox.", action: "Paste image", identifier: "inbox.paste", prominent: false) { await model.pasteImage() }
                     }
                     Label("You can also drag receipt files anywhere into this Inbox.", systemImage: "arrow.down.doc")
                         .font(.callout).foregroundStyle(.primary)
@@ -1103,14 +1104,14 @@ struct PaperloftSettings: View {
     var body: some View {
         if embedded {
             ScrollView {
-                VStack(alignment: .leading, spacing: 24) { generalSections; filingSections; categorySections; aboutSection }.padding(24)
+                VStack(alignment: .leading, spacing: 24) { generalSections; filingSections; categorySections }.padding(24)
             }.frame(maxWidth: .infinity, maxHeight: .infinity).accessibilityIdentifier("settings.root")
         } else {
             // Standard Settings tabs keep every control inside the visible window; one long
             // scrolling pane left filing controls below the window edge.
             // Settings always opens on General rather than the last pane shown.
             TabView(selection: $tab) {
-                pane { generalSections; aboutSection }.tabItem { Label("General", systemImage: "gearshape") }.tag(Tab.general)
+                pane { generalSections }.tabItem { Label("General", systemImage: "gearshape") }.tag(Tab.general)
                 pane { filingSections }.tabItem { Label("Filing", systemImage: "folder") }.tag(Tab.filing)
                 pane { categorySections }.tabItem { Label("Categories", systemImage: "tag") }.tag(Tab.categories)
             }.frame(width: 610).accessibilityIdentifier("settings.root")
@@ -1143,7 +1144,7 @@ struct PaperloftSettings: View {
                 HStack {
                     Button("Choose Folder…") { Task { await model.chooseLibrary() } }.disabled(model.busy).accessibilityIdentifier("settings.chooseFolder")
                     Button("Show in Finder") { model.reveal() }.disabled(model.libraryURL == nil).accessibilityIdentifier("settings.reveal")
-                    Button("Rebuild Search Index") { Task { await model.rebuildIndex() } }.disabled(model.busy || model.libraryURL == nil).accessibilityIdentifier("settings.rebuild")
+                    Button("Refresh Library") { Task { await model.rebuildIndex() } }.disabled(model.busy || model.libraryURL == nil).accessibilityIdentifier("settings.rebuild")
                 }
                 #if DEBUG
                 Button("Start Fresh Sample Library") {
@@ -1210,14 +1211,6 @@ struct PaperloftSettings: View {
         }
     }
 
-    private var aboutSection: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Text("Paperloft Receipts").font(.headline)
-            Text("On-device processing. No analytics or tracking.").foregroundStyle(.primary)
-            Text("© 2026 EvidencePair LLC").font(.caption).foregroundStyle(.primary)
-        }
-    }
-
     @ViewBuilder private var filingSections: some View {
         GroupBox("Scanned pages") {
             VStack(alignment: .leading, spacing: 8) {
@@ -1246,8 +1239,10 @@ struct PaperloftSettings: View {
                 }
                 Text("Keep {date}, {vendor} and {total}; optionally add {currency}, {category} or {kind}.").font(.callout).foregroundStyle(.primary)
                 if let error = model.templateError { Text(error).font(.caption).foregroundStyle(.orange).accessibilityIdentifier("settings.templateError") }
-                Text("Moving requires access to the original folder. Recovery copies are kept so Undo can restore your files.").font(.caption).foregroundStyle(.primary)
-                Button("Allow Access to Original Folder…") { Task { _ = await model.grantMoveFolder() } }.accessibilityIdentifier("settings.moveAccess")
+                if model.mode == .move {
+                    Text("Moving requires access to the original folder. Recovery copies are kept so Undo can restore your files.").font(.caption).foregroundStyle(.primary)
+                    Button("Allow Access to Original Folder…") { Task { _ = await model.grantMoveFolder() } }.accessibilityIdentifier("settings.moveAccess")
+                }
             }.padding(8).frame(maxWidth: .infinity, alignment: .leading)
         }
     }

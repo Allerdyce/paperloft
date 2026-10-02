@@ -1099,7 +1099,7 @@ final class FileGrant: @unchecked Sendable {
             let folder = outcome.batch.documents.first.map { ($0.relativePath as NSString).deletingLastPathComponent } ?? ""
             // Same order as the form's "Files to 2026 › Meals".
             notice = Notice(text: folder.isEmpty ? "Filed" : "Filed to " + folder.replacingOccurrences(of: "/", with: " › "), undo: .filing(batchID))
-            if outcome.indexNeedsRebuild { message = "The document was filed. Rebuild the search index in Settings to update search." }
+            if outcome.indexNeedsRebuild { message = "The document was filed. Choose Refresh Library in Settings › General to update search." }
         } catch {
             message = error.localizedDescription
             if mode == .move, item.intakeRecord != nil, item.usesOriginalForMove == true {
@@ -1153,7 +1153,7 @@ final class FileGrant: @unchecked Sendable {
                 }
             }
             let indexed = try await engine.undo(batch); await refresh()
-            if !indexed { message = "Undo completed. Rebuild the search index in Settings." }
+            if !indexed { message = "Undo completed. Choose Refresh Library in Settings › General to update search." }
         } catch { message = error.localizedDescription; return }
         guard !returning.isEmpty else { return }
         let ids = await stageIntake(returning.map(\.url), origin: .returned)

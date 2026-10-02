@@ -88,3 +88,18 @@ The project builds as version **1.1** (`MARKETING_VERSION`, app and Share target
 - **Option 2:** keep 1.1. The listing draft gets retitled, and AC-19's "1.0" is read as "the first build" (that would need your amendment, like the AC-10 one).
 
 Until you decide, the agent follows the frozen criterion and archives as 1.0.
+
+## 2026-10-01: Reference-design elements the third design review wants changed (AC-16; owner decision)
+
+The third review (`evidence/design/2026-10-01-critique.md`) scores some lines below 4 because of elements that came from your reference-design work on 2026-09-27 (REPORT.md: "Expensify references informed styling"), or that a locked test pins. AC-16 needs 4 or better everywhere, but these are look-and-feel choices you made, so I haven't changed them. The P1s and most P2s are fixed (BUGS.md R3 notes, commit 5c02333).
+
+| Element today | Critic's recommendation | My recommendation |
+| --- | --- | --- |
+| **Settings row in the sidebar**, showing Settings inside the main window (alongside the real ⌘, Settings window) | Remove it; settings live only in the Settings window | Keep the row for the look, but have it open the real Settings window, so there's one place to change things |
+| **Serif heading "A place for your paperwork"** under the toolbar title "Inbox" (about 125 px of titles) | One title: "Inbox" with a subtitle like "2 receipts to review" | Needs your call: the locked NavigationTests pins this heading text, so changing it would need an acceptance amendment. Otherwise keep it and accept the extra band |
+| **Coloured status chips** (All, Ready, Processing, Duplicates, Issues) | A segmented control in the toolbar, or a filter pop-up | Keep the chips (they're part of the look) but give them keyboard focus and VoiceOver selection state; or switch to a segmented control if you prefer native |
+| **Row checkboxes and "Select all"** | Native list multi-selection (⌘-click, ⇧-click, Edit › Select All) with batch actions in the toolbar | Switch to native multi-selection. The checkboxes are the least Mac-like element |
+| **Date as a text field plus calendar button** | One `DatePicker` field | Switch to `DatePicker(.field)`; it also localizes the date |
+| **Library card rows with a "View" pill and in-content search** | A SwiftUI `Table` with sortable columns and toolbar search | Switch to `Table`. More rows fit, and sorting is native |
+
+If you agree with my column, I'll make those changes together, with the UI tests updated, and run a fourth review.
