@@ -135,16 +135,26 @@ struct MenuBarInbox: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             Label("Paperloft", systemImage: "tray.fill").font(.headline)
-            Text("\(model.inboxCount) documents in your inbox").foregroundStyle(.secondary)
-            Text("Drop PDF, image or EML email receipts here").padding(20)
-                .frame(maxWidth: .infinity)
-                .background(targeted ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
-                .onDrop(of: [.fileURL], isTargeted: $targeted) { acceptDrop($0, model: model) }
-                .accessibilityIdentifier("menubar.drop")
-            Button("Open Inbox") { model.selection = "Inbox"; openWindow(id: "main"); NSApplication.shared.activate() }
-                .accessibilityIdentifier("menubar.open")
-            Button("Import Receipts…") { openWindow(id: "main"); NSApplication.shared.activate(); Task { await model.importFiles() } }
-                .accessibilityIdentifier("menubar.import")
+            Text(model.inboxCount == 0 ? "Your Inbox is empty"
+                 : "\(model.inboxCount) \(model.inboxCount == 1 ? "receipt" : "receipts") waiting in your Inbox")
+                .foregroundStyle(.secondary).accessibilityIdentifier("menubar.count")
+            VStack(spacing: 6) {
+                Image(systemName: "arrow.down.doc").font(.title2).foregroundStyle(Color.accentColor).accessibilityHidden(true)
+                Text("Drop receipts here").font(.callout.weight(.medium))
+                Text("PDF, image or saved email").font(.caption).foregroundStyle(.secondary)
+            }
+            .padding(.vertical, 16).frame(maxWidth: .infinity)
+            .background(targeted ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
+            .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(targeted ? Color.accentColor : .clear, style: StrokeStyle(lineWidth: 1.5, dash: [5, 3])))
+            .onDrop(of: [.fileURL], isTargeted: $targeted) { acceptDrop($0, model: model) }
+            .accessibilityElement(children: .combine).accessibilityIdentifier("menubar.drop")
+            HStack {
+                Button("Import Receipts…") { openWindow(id: "main"); NSApplication.shared.activate(); Task { await model.importFiles() } }
+                    .accessibilityIdentifier("menubar.import")
+                Spacer()
+                Button("Open Inbox") { model.selection = "Inbox"; openWindow(id: "main"); NSApplication.shared.activate() }
+                    .buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction).accessibilityIdentifier("menubar.open")
+            }
         }
         .padding(20).frame(width: 300)
     }
