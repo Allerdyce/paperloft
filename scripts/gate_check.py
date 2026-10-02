@@ -10,8 +10,8 @@ args = sys.argv[1:]
 local = "--local" in args
 if local:
     args.remove("--local")
-if len(args) != 1 or args[0] not in {"P0", "P1", "P2", "P3"}:
-    sys.exit("Usage: scripts/gate.sh P0|P1|P2|P3 [--local]")
+if len(args) != 1 or args[0] not in {"P0", "P1", "P2", "P3", "P4"}:
+    sys.exit("Usage: scripts/gate.sh P0|P1|P2|P3|P4 [--local]")
 phase = args[0]
 
 def snapshot():
@@ -51,7 +51,7 @@ elif phase == "P2":
                  ["scripts/eval.sh", "--model", "parser"],
                  ["scripts/eval.sh", "--model", "system"],
                  ["scripts/eval.sh", "--private"]]
-if phase == "P3":
+if phase in ("P3", "P4"):
     commands += [["scripts/build_qa.sh"], ["python3", "scripts/coverage_check.py"]]
 rows = []
 code = 0
@@ -110,6 +110,10 @@ finally:
     text += "\n- Source integrity: " + ("FAIL: " + ", ".join(changed) if changed else "PASS") + "\n"
     text += "\n" + ("LOCAL CHECKS" if local else "SELF-CHECK") + (": PASS" if code == 0 else ": FAIL") + "\n"
     text += "Independent verifier decision required. Local readiness never closes a formal gate.\n"
+    if phase == "P4":
+        import os
+        signing = os.environ.get("PAPERLOFT_CI_XCCONFIG") or "ad-hoc (App Intents framework tests need development signing; see README)"
+        text += "AC-15's App Intents framework tests ran with signing: " + signing + ".\n"
     if phase == "P2":
         text += "AC-04 requires the independent verifier's fresh60-document holdout run. The builder never reads or scores it directly. P1 fixture difficulty was decided before locking; P2 uses the frozen accuracy thresholds on the unchanged corpus.\n"
     report.write_text(text)
