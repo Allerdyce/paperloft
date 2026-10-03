@@ -51,13 +51,19 @@ local/mail at88dc439 preserves the isolated native promise wrapper and public pr
 
 ## Owner action: confirm the 2026-10-01 ACCEPTANCE amendments yourself
 
-The P3 verifier (`evidence/gates/P3.md`) passed the AC-13 audit only under the amended wording. It flagged that `acceptance-v1` and the approval notes were all written by the builder identity, so it can't confirm your approval of the AC-10 (400 s) and AC-13 (system-owned findings) amendments. Please confirm them in a way the verifier can see as yours, for example:
-- a short commit from your own account adding a line such as "Ali confirms the 2026-10-01 AC-10 and AC-13 amendments" under "Owner-approved amendments" in ACCEPTANCE.md, or
-- a GitHub comment on that commit.
+The P3 verifier (`evidence/gates/P3.md`) passed the AC-13 audit only under the amended wording. It flagged that `acceptance-v1` and the approval notes were all written by the builder identity, so it can't confirm your approval of the AC-10 (400 s) and AC-13 (system-owned findings) amendments.
+
+**How:** don't edit ACCEPTANCE.md or AGENTS.md. `scripts/verify_lock.sh` requires both to stay identical to `acceptance-v1`, so any edit fails every later gate. Instead:
+1. Signed in to your own GitHub account, open the repository on github.com and switch to `run/1`.
+2. Choose **Add file → Create new file** and name it `docs/OWNER-CONFIRMATION.md`.
+3. Confirm both amendments (and the `acceptance-v1` baseline at `770d6db`) and the distribution authorization below.
+4. Commit directly to `run/1`.
+
+A web commit carries your account and GitHub's "Verified" signature, which the verifier can tell apart from the unsigned "Paperloft Builder" commits.
 
 Until then the verifier marks the baseline provenance as a flag.
 
-The P4 verifier raised the same point about distribution: `HANDOFF.md` and `docs/DISTRIBUTION-AUTHORIZATION.md` record your authorization for distribution signing, archives and uploads once readiness checks pass, but only in builder-written files, and the frozen AGENTS.md exception still blocks distribution. Please confirm that too, in the same way. Nothing will be archived or uploaded before the membership, the full preflight and your confirmation.
+The P4 verifier raised the same point about distribution: `HANDOFF.md` and `docs/DISTRIBUTION-AUTHORIZATION.md` record your authorization for distribution signing, archives and uploads once readiness checks pass, but only in builder-written files, and the frozen AGENTS.md exception still blocks distribution. Please confirm that in the same `docs/OWNER-CONFIRMATION.md` file. Nothing will be archived or uploaded before the membership, the full preflight and your confirmation.
 
 ## P6 open item: the Settings page inside the main window isn't audited
 
