@@ -13,7 +13,7 @@
 2. ~~Confirm the 2026-10-01 amendments and the distribution authorization from your own account.~~ **Done 2026-10-02:** `docs/OWNER-CONFIRMATION.md`, commit `ad6656a`, made through GitHub's web editor from your account (Allerdyce).
 3. **AC-10 run from Terminal:** run `scripts/performance_check.sh system`, then `scripts/performance_check.sh parser`, and commit both folders ("Local performance checks" below). After that, `scripts/gate.sh P6 --local` can pass.
 4. **Decisions in PROPOSALS.md:**
-   - **StoreKitTest option:** this unblocks P5.
+   - ~~StoreKitTest option~~ **Decided 2026-10-02: (a).** Please add it to `docs/OWNER-CONFIRMATION.md` from your account. P5 then closes after the shakedown purchase.
    - **Reference-design elements:** your sidebar Settings choice also unblocks the last accessibility audit.
    - **First version, 1.0 or 1.1:** 1.0 unless you say otherwise.
 5. **Site:** OK to publish the `paperloft-site` branch `release/receipts-1.0-copy`.
