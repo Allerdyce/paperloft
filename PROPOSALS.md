@@ -79,7 +79,7 @@ Xcode 27's own `StoreKitTest.framework/Headers/SKTestTransaction.h:34` uses `SKP
 
 Recommendation: (a).
 
-**Decision, 2026-10-02: the owner chose (a)** in chat. The mock-store XCUITests, plus real StoreKit purchases from the local `.storekit` file in the supervised shakedown, are AC-11's StoreKit evidence. That also covers SPEC 6.7's "StoreKit test configuration loads under test" and shakedown step 7. The StoreKitTest-based tests stay unmerged on `local/commerce`. The frozen wording says "StoreKit tests", so the owner is adding this to `docs/OWNER-CONFIRMATION.md` from their own account.
+**Decision, 2026-10-02: the owner chose (a)** in chat. The mock-store XCUITests, plus real StoreKit purchases from the local `.storekit` file in the supervised shakedown, are AC-11's StoreKit evidence. That also covers SPEC 6.7's "StoreKit test configuration loads under test" and shakedown step 7. The StoreKitTest-based tests stay unmerged on `local/commerce`. The frozen wording says "StoreKit tests", so the owner confirmed this from their own account in `docs/OWNER-CONFIRMATION.md` (item 3, commit `625b2b1`).
 
 **2026-10-02 update:** SPEC 6.7's "StoreKit test configuration loads under test" depends on the same block, because loading a configuration in tests is what StoreKitTest's `SKTestSession` does.
 - **Now on run/1:** `Tests/StoreKit/Paperloft.storekit`, with both products, the prices and the one-week yearly trial. It's attached to the scheme's Run action, so supervised and persona sessions run from Xcode buy through real StoreKit locally, with no account.
