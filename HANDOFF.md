@@ -10,7 +10,7 @@
 1. **Apple membership:** Apple's confirmation of the EvidencePair LLC membership conversion. Then:
    - work through `docs/OWNER-RELEASE-SETUP.md` (identities, the App Store Connect app, products);
    - put the team ID in `config/Distribution.local.xcconfig` (pre-archive checklist below).
-2. **Confirm two things from your own account:** the 2026-10-01 AC-10/AC-13 amendments and the distribution authorization. The verifier can't confirm them from builder-written files (section below).
+2. ~~Confirm the 2026-10-01 amendments and the distribution authorization from your own account.~~ **Done 2026-10-02:** `docs/OWNER-CONFIRMATION.md`, commit `ad6656a`, made through GitHub's web editor from your account (Allerdyce).
 3. **AC-10 run from Terminal:** run `scripts/performance_check.sh system`, then `scripts/performance_check.sh parser`, and commit both folders ("Local performance checks" below). After that, `scripts/gate.sh P6 --local` can pass.
 4. **Decisions in PROPOSALS.md:**
    - **StoreKitTest option:** this unblocks P5.
@@ -49,7 +49,7 @@ All-types audit still FAILS. Independent standalone native reproduction document
 
 local/mail at88dc439 preserves the isolated native promise wrapper and public provider harness. Three distinct native drag diagnostics reached the gesture but produced no source MOUSE_DOWN or DRAG_STARTED event; no recipient delivery was established. Window-menu-primed Open Inbox also failed to reopen after closing main. Speculative product fixes were reverted. Saved EML file import is separately integrated; native promises are not accepted or merged. Evidence: that branch's evidence/mail-promises.md and evidence/mail-independent-ui.md.
 
-## Owner action: confirm the 2026-10-01 ACCEPTANCE amendments yourself
+## Owner action: confirm the 2026-10-01 ACCEPTANCE amendments yourself (done 2026-10-02, `docs/OWNER-CONFIRMATION.md`, commit `ad6656a`)
 
 The P3 verifier (`evidence/gates/P3.md`) passed the AC-13 audit only under the amended wording. It flagged that `acceptance-v1` and the approval notes were all written by the builder identity, so it can't confirm your approval of the AC-10 (400 s) and AC-13 (system-owned findings) amendments.
 

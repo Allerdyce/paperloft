@@ -40,7 +40,7 @@
 ## Gates
 - **P4 (export and App Intents): local PASS**, independent verifier at `28c3cef` (`evidence/gates/P4.md`). Files locked, no tag.
 - **P3 (app and core UX): local PASS**, independent verifier at `7cd0f79` (`evidence/gates/P3.md`). Files locked; no phase tag under the local exception. The formal gate waits on membership.
-- **Flags for you** (HANDOFF.md): from your own account, confirm the 2026-10-01 AC-10/AC-13 amendments and the distribution authorization (the verifier sees both only in builder-written files).
+- **Owner confirmation:** done 2026-10-02 from your own GitHub account (`docs/OWNER-CONFIRMATION.md`, commit `ad6656a`). It covers the AC-10/AC-13 amendments, the `acceptance-v1` baseline and the distribution authorization.
 
 ## Reviews (2026-10-01)
 - **Release check** (`evidence/release/2026-10-01-review.md`): 39 PASS, 5 FAIL, 5 PENDING.
