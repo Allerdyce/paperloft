@@ -1,0 +1,65 @@
+[
+  {
+    "testIdentifier" : "PipelinePerformanceTests/test100MixedDocuments()",
+    "testIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftPerformanceTests/PipelinePerformanceTests/test100MixedDocuments",
+    "testRuns" : [
+      {
+        "device" : {
+          "deviceId" : "00006000-000458260AFA401E",
+          "deviceName" : "My Mac"
+        },
+        "metrics" : [
+          {
+            "baselineAverage" : 0,
+            "baselineName" : "",
+            "displayName" : "Memory Peak Physical",
+            "identifier" : "com.apple.dt.XCTMetric_Memory.physical_peak",
+            "maxPercentRegression" : 10,
+            "maxPercentRelativeStandardDeviation" : 10,
+            "maxRegression" : 0,
+            "maxStandardDeviation" : 10,
+            "measurements" : [
+              449005.416
+            ],
+            "polarity" : "prefers smaller",
+            "unitOfMeasurement" : "kB"
+          },
+          {
+            "baselineAverage" : 0,
+            "baselineName" : "",
+            "displayName" : "Memory Physical",
+            "identifier" : "com.apple.dt.XCTMetric_Memory.physical",
+            "maxPercentRegression" : 10,
+            "maxPercentRelativeStandardDeviation" : 10,
+            "maxRegression" : 0,
+            "maxStandardDeviation" : 10,
+            "measurements" : [
+              58425.368
+            ],
+            "polarity" : "prefers smaller",
+            "unitOfMeasurement" : "kB"
+          },
+          {
+            "baselineAverage" : 0,
+            "baselineName" : "",
+            "displayName" : "Clock Monotonic Time",
+            "identifier" : "com.apple.dt.XCTMetric_Clock.time.monotonic",
+            "maxPercentRegression" : 10,
+            "maxPercentRelativeStandardDeviation" : 10,
+            "maxRegression" : 0,
+            "maxStandardDeviation" : 10,
+            "measurements" : [
+              22.572682061000002
+            ],
+            "polarity" : "prefers smaller",
+            "unitOfMeasurement" : "s"
+          }
+        ],
+        "testPlanConfiguration" : {
+          "configurationId" : "1",
+          "configurationName" : "Test Scheme Action"
+        }
+      }
+    ]
+  }
+]

@@ -1,6 +1,10 @@
-# Paperloft development status — 2026-10-02
+# Paperloft development status — 2026-10-08
 
 **Not launch-ready.** Distribution signing, release archives and App Store Connect uploads are authorized once readiness checks pass. Submission and public release remain blocked.
+
+## Latest work (2026-10-08)
+- **AC-10 re-measured on current run/1:** system model 366.9 s / 366.0 s (limit 400 s), parser 23.2 s / 22.9 s (limit 30 s), worst main-thread gap 179 ms, peak 449 MB. The first run of the day took 429 s; a bisect found no code regression, so your 10-02 run was most likely slowed by the Mac (`evidence/performance/AC-10-2026-10-08.md`).
+- **Still needed from you:** the Terminal run for the signpost metric, on a Mac that has been awake for a few minutes (HANDOFF item 3).
 
 ## Latest work (2026-10-02)
 - **V4-01 fixed:** the accountant pack ZIP now uses NFC names with the UTF-8 flag, so `交通費` and `Zürich` read correctly in Windows' extractor (`ExportZipTests`).

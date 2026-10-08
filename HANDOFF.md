@@ -12,6 +12,7 @@
    - put the team ID in `config/Distribution.local.xcconfig` (pre-archive checklist below).
 2. ~~Confirm the 2026-10-01 amendments and the distribution authorization from your own account.~~ **Done 2026-10-02:** `docs/OWNER-CONFIRMATION.md`, commit `ad6656a`, made through GitHub's web editor from your account (Allerdyce).
 3. **AC-10 run from Terminal:** run `scripts/performance_check.sh system`, then `scripts/performance_check.sh parser`, and commit both folders ("Local performance checks" below). After that, `scripts/gate.sh P6 --local` can pass.
+   - **2026-10-08:** your 10-02 run was most likely slowed by the Mac, not the code: a bisect found no regression. Current run/1 passes timing, memory and main-thread limits from the agent's shell (system 366.9 s / 366.0 s, parser 23.2 s / 22.9 s; `evidence/performance/AC-10-2026-10-08.md`). Only the signpost is missing, and it needs your Terminal. Run it on a Mac that has been awake for a few minutes with nothing indexing. If the system run misses 400 s anyway, run it once more.
 4. **Decisions in PROPOSALS.md:**
    - ~~StoreKitTest option~~ **Decided 2026-10-02: (a)**, confirmed from your account (`docs/OWNER-CONFIRMATION.md` item 3, `625b2b1`). P5 closes after the shakedown purchase.
    - **Reference-design elements:** your sidebar Settings choice also unblocks the last accessibility audit.
