@@ -1,3 +1,11 @@
+## Latest restart point — November 18, 2026
+
+Settings repair `4c361ce` is independently scoped-reviewed and merged into run/1. Five targeted UI tests, including all inline Settings tabs in Light/Dark, and strict signed Debug/Release builds pass. No audit exceptions added. Earlier full CI (446 tests) and fresh AC-10 passed before this UI change; integrated regression/performance must be refreshed before claiming final current-source readiness.
+
+The owner is asked to sign into Xcode → Settings → Apple Accounts. GUI is free; do not seize it until owner completes that handoff. Xcode inspection found no signed-in accounts. API key absent from standard key folder and Downloads; local asc.env remains placeholders. Owner confirms organization conversion complete. Never request credentials in chat.
+
+Next: after owner sign-in, inspect team/certificates; perform authorized setup within tool confirmation rules. Run integrated CI/performance and independent gates, remaining purchase/design/persona/device checks. Nothing archived/uploaded/submitted/released.
+
 ## Owner update — 2026-11-18
 
 Owner confirms Apple membership conversion to EvidencePair LLC is complete. Do not keep migration approval listed as pending. Local distribution certificates/API configuration still need verification/setup. Owner also closed Storage/System Settings after heavy background CPU activity was observed during performance testing.
