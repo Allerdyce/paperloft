@@ -1,3 +1,7 @@
+## 2026-11-18 — Production app record created
+
+Apple agreements, bank and W-9 visibly Active. Registered app.paperloft.receipts (no optional capabilities yet) and created Paperloft Receipts, macOS, en-US, SKU paperloft-receipts-macos, App Store ID 6836564418. Version 1.0 Prepare for Submission. Apple reported user-access settings could not be saved, with all existing users having access (same Full Access intended). Screenshot build/app-store-record-created.jpg. No build uploaded. Extension/App Groups provisioning, IAP/listing metadata, local StoreKit shakedown and independent reviews still remain. Integrated CI/performance evidence committed/pushed.
+
 ## 2026-11-18 — Integrated checks passed; API unblocked
 
 CI 448 tests passed, zero failures/skips; clean Debug/Release. Coverage 97.87%, privacy PASS. System performance 361.847/361.930 seconds, parser 24.480/23.934 seconds; all 100 documents each run, no failures. Required metrics captured; performance_evidence_check.py PASS. Evidence system-20261118T231955Z and parser-20261118T233237Z. API now returns ASC_NO_APP for app.paperloft.receipts (agreement restriction cleared). Next create ASC app record, local StoreKit purchase shakedown, independent P6/P7 reviews, remaining integration checks. No archive/upload/submission.
