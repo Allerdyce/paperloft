@@ -9,4 +9,10 @@
 </dict></array>
 <key>PaperloftAppGroupIdentifier</key><string>$(TeamIdentifierPrefix)app.paperloft.receipts</string>
 <key>PaperloftAppGroupEnabled</key><string>$(PAPERLOFT_APP_GROUP_ENABLED)</string>
+<!-- The pipeline's one signpost (UnderstandInboxBatch, no user data) is written to disk rather than the
+     shared memory buffer, which the on-device model's own signposts overrun within minutes. AC-10's
+     XCTOSSignpostMetric reads it back after a 100-document batch. -->
+<key>OSLogPreferences</key><dict><key>app.paperloft.receipts</key><dict><key>Pipeline</key><dict>
+<key>Signpost-Persisted</key><true/>
+</dict></dict></dict>
 </dict></plist>
