@@ -202,3 +202,7 @@ Added Tools/AccessibilityProbe as a separate Apple-only app/UI-test project to d
 
 ## 2026-11-18 — Include configuration in performance provenance
 Independent scoped review found the October signpost diagnostic commit marker omitted its dirty Info.plist change because both performance source lists excluded Configuration. Added Configuration to dirty detection and evidence source-equivalence checks; this strengthens provenance without changing thresholds. Fresh post-merge measurements required.
+
+## 2026-11-18 — Add actual inline Settings audit
+
+Added InlineSettingsAuditTests to the synchronized UI-test folder (no project-file change). It audits the sidebar page in Light/Dark using the unchanged frozen accessibility helper, attaches one main-window geometry snapshot and screenshot per section, and asserts visible coverage. Initial scroll-page diagnostic retained18 offscreen contrast failures and3 visible Free-copy contrast findings (evidence/inline-settings-audit/report.md). The new inline section layout is audited without adding any exception, suppressing contrast or modifying locked helpers. Targeted runs are diagnostic/regression evidence, not full CI or phase passes.
