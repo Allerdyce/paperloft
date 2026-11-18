@@ -1,3 +1,7 @@
+## 2026-11-18 — Integrated checks passed; API unblocked
+
+CI 448 tests passed, zero failures/skips; clean Debug/Release. Coverage 97.87%, privacy PASS. System performance 361.847/361.930 seconds, parser 24.480/23.934 seconds; all 100 documents each run, no failures. Required metrics captured; performance_evidence_check.py PASS. Evidence system-20261118T231955Z and parser-20261118T233237Z. API now returns ASC_NO_APP for app.paperloft.receipts (agreement restriction cleared). Next create ASC app record, local StoreKit purchase shakedown, independent P6/P7 reviews, remaining integration checks. No archive/upload/submission.
+
 ## 2026-11-18 — Owner tax and banking setup verified
 
 App Store Connect shows U.S. W-9 Active, submitted Nov 18. Payout bank account is Processing; Apple explicitly says changes should appear in 24 hours. API probe still returns 403 FORBIDDEN.REQUIRED_AGREEMENTS_MISSING_OR_EXPIRED. No additional owner input requested now. Recheck activation before release work. Local preflight passed: 42 PASS, 2 WARN, zero FAIL/TFAIL; all 185 locked hashes and append-only lock history pass. Integrated full CI/performance following the Settings repair remains next; no new full CI launched at this checkpoint. No archive/upload/release.

@@ -1,0 +1,42 @@
+[
+  {
+    "priorInboxCount": 0,
+    "completed": 100,
+    "inputCount": 100,
+    "recordedBackends": {
+      "system": 100
+    },
+    "longestGapEndedAtSeconds": 10.52355012499902,
+    "seconds": 361.84692008333514,
+    "backend": "system",
+    "lifetimePeakPhysicalBytes": 378406232,
+    "memoryReadFailures": 0,
+    "failures": [],
+    "maximumMainHeartbeatGapSeconds": 0.17398329166462645,
+    "heartbeatCount": 34982,
+    "finalLayoutSeconds": 0.00031925000075716525,
+    "persistedCompleted": 100,
+    "iteration": 1,
+    "synchronousIntakeSeconds": 4.760869500001718
+  },
+  {
+    "recordedBackends": {
+      "system": 100
+    },
+    "persistedCompleted": 100,
+    "priorInboxCount": 0,
+    "memoryReadFailures": 0,
+    "heartbeatCount": 35110,
+    "seconds": 361.92983137499687,
+    "synchronousIntakeSeconds": 4.314549541661108,
+    "completed": 100,
+    "finalLayoutSeconds": 0.00017929166642716154,
+    "longestGapEndedAtSeconds": 9.496240791668242,
+    "iteration": 2,
+    "maximumMainHeartbeatGapSeconds": 0.17096654167107772,
+    "backend": "system",
+    "lifetimePeakPhysicalBytes": 378406232,
+    "failures": [],
+    "inputCount": 100
+  }
+]

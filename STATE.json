@@ -1,6 +1,6 @@
 {
   "phase": "P6",
-  "step": "Integrated CI PASS 448 tests. Next fresh system/parser performance and independent readiness checks; Apple bank processing still blocks release API.",
+  "step": "Integrated CI 448 PASS; system/parser AC10 evidence PASS. ASC authentication now succeeds but ASC_NO_APP app.paperloft.receipts: create app record next, then remaining purchase/independent readiness checks.",
   "last_green_commit": "2627dca",
   "parked": [
     "StoreKitTest: owner chose option (a) on 2026-10-02. Mock-store XCUITests plus the shakedown purchase from the local .storekit file are AC-11's StoreKit evidence; StoreKitTest tests stay on local/commerce, unmerged.",
@@ -13,5 +13,5 @@
     "Apple W-9 active; payout bank processing (Apple estimates 24 hours); API agreement restriction persists.",
     "Website publication authorized at readiness; App Store link waits until live."
   ],
-  "updated": "2026-11-18T23:19:49.465750+00:00"
+  "updated": "2026-11-18T23:34:03.971683+00:00"
 }

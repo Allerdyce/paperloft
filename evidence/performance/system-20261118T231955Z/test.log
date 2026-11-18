@@ -1,0 +1,667 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project Paperloft.xcodeproj -scheme PaperloftPerformanceSystem -destination platform=macOS -derivedDataPath build/PerformanceDerivedData -configuration QA ENABLE_TESTABILITY=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES -parallel-testing-enabled NO -resultBundlePath build/Performance-system-20261118T231955Z.xcresult test
+
+Build settings from command line:
+    ENABLE_TESTABILITY = YES
+    SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  PaperloftHandoff: /Users/builder/Factory/paperloft/Packages/PaperloftHandoff @ local
+  PaperloftKit: /Users/builder/Factory/paperloft/Packages/PaperloftKit @ local
+
+Writing result bundle at path:
+	/Users/builder/Factory/paperloft/build/Performance-system-20261118T231955Z.xcresult
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (7 targets)
+    Target 'PaperloftPerformanceTests' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftApp' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftKit-product' in project 'PaperloftKit'
+    Target 'PaperloftApp' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftShare' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftKit-product' in project 'PaperloftKit'
+        ➜ Explicit dependency on target 'PaperloftHandoff-product' in project 'PaperloftHandoff'
+    Target 'PaperloftKit-product' in project 'PaperloftKit'
+        ➜ Explicit dependency on target 'PaperloftKit' in project 'PaperloftKit'
+    Target 'PaperloftKit' in project 'PaperloftKit' (no dependencies)
+    Target 'PaperloftShare' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftHandoff-product' in project 'PaperloftHandoff'
+    Target 'PaperloftHandoff-product' in project 'PaperloftHandoff'
+        ➜ Explicit dependency on target 'PaperloftHandoff' in project 'PaperloftHandoff'
+    Target 'PaperloftHandoff' in project 'PaperloftHandoff' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 5e3a5bae8163e77c4321d5b7ba4ea59d
+Build description path: /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/XCBuildData/5e3a5bae8163e77c4321d5b7ba4ea59d.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
+    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A/Resources/Info.plist /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/PaperloftKit.build/QA/PaperloftKit-product-t.build/empty-PaperloftKit_5CD798059AF8BAE1_PackageProduct.plist (in target 'PaperloftKitdynamic-product' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/PaperloftKit.build/QA/PaperloftKit-product-t.build/empty-PaperloftKit_5CD798059AF8BAE1_PackageProduct.plist -producttype com.apple.product-type.framework -expandbuildsettings -platform macosx -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A/Resources/Info.plist
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PaperloftShare.appex/Contents/Info.plist /Users/builder/Factory/paperloft/Configuration/Share-Info.plist (in target 'PaperloftShare' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft/Configuration/Share-Info.plist -producttype com.apple.product-type.app-extension -expandbuildsettings -platform macosx -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PaperloftShare.appex/Contents/Info.plist
+
+SwiftDriver PaperloftApp normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Paperloft_Receipts -O @/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList -DQA -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -warnings-as-errors -swift-version 6 -I /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA -F /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks -F /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/PaperloftApp-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/PerformanceDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-generated-files.hmap -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-own-target-headers.hmap -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/Paperloft-b93ddc6bcd4d234a5473ab01ad3589c4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-project-headers.hmap -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/include -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-Swift.h -working-directory /Users/builder/Factory/paperloft -experimental-emit-module-separately -disable-cmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_SwiftConcurrencyShims-8V09IPT49DVEK8MUCRQXS6FEO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_Builtin_float-8I0FTXNFNML4I7ZTAW41OMMRW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdbool-1I8WYNZ5JOOMDHOANYDR8FMIQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_Builtin_stddef-4Q12ZCIEA5DZ23BKEQN1H60FY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdarg-1TWR96VPEZVW8THUL5NMMEAKF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/ptrcheck-6R2H38RKSJR7WNJ07DMJUFA5S.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_AvailabilityInternal-D45H7H9Y565JL9IQI0F28ROSB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/ptrauth-516W29NTKHJ1B2LEOI5JZ1FDH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/DeveloperToolsSupport-7Z9QLNJDSXGXLTZBBFB85F82Z.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/SwiftShims-40ZOV6FODX4R0TLOEK86J5UJ2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation1-25JLVCI39HV18S0JLK78FWBZC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_Builtin_limits-3L05NY7N2H48NJ3RSUXN8055J.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation2-4OFQ0B977E1A0Q0CK007QJT4J.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/ExtensionFoundation-21Q9XTAMKUHIF8NSORWLXSSIW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/sys_types-BEPUAGOOJX8OXRV3Q61UNF6NE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_Builtin_tgmath-3PGB255F5FRTG9ELQRQBTJXCQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdint-BPPPZC22VZEGOO20LKUG3744C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/string_h-58V8U4TA9E73ZGBKARZT9YRGB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation3-7RANQ1VLVBB4NUQ6JTGF95NLQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/libDER-EO3NAFBBO44FDJZ1KZHWTMVNS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_Builtin_intrinsics-8OSB4AMUNKCRZLUKBDLW2TKIT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_Builtin_stdatomic-AQJ68RKYWDLTH0CXM27EEWCPW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_Builtin_inttypes-4SZSLPNF48DMZZLZUUVYRWPMB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Darwin-54EQJW8KWOIHBZ0QS50DKTPRO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/simd-51KRM93Z0IBQ0BJAR0LGZLCW8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/libkern-8KC49LZUF1DO86X12N86KVB26.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/launch-BLZ80A4CQQ4JEDKP079ASEYFV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Compression-P45E9RDF5QILYL6KS0ZKJO8L.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/MachO-DPNDAR3ZMPLMZYK79WWRJ9DIW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CUPS-EYKCL4I9H6YNA9RB8UELG9CEV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/ObjectiveC-ARS0HQ4E1IV23SRJ4WEVIEYHW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Spatial-6JW8SFD82TU1M7CSR7UD3NFGP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/os_object-BQ4W5T6KZ6SIKTVPF74H646DN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/os_workgroup-7EWZJC1RHFVKF0FX5VHL90CHM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Dispatch-D9S7COMLXC1O7NJKRP4NI1222.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/dnssd-9GIGP0WEMFXZXQZLNUZD3D7W6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreFoundation-8TTLBFNFRIK341BJ5MR54UD0B.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/XPC-6V8O4TL2G88O26TRLBI6G3PP1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/os-A14R7BX4T7ARZ4NBOLS3YK459.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/ColorSync-P8HXR6Y90R6UK02KWYZ53Y3Z.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreAudioTypes-5OY11MLTWSAHU1PVS0TW14OJ3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/IOKit-EXQCPT2SIZ5ZHZ247TLZVRKN6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Security-90FTZ64C32XIGUCGJ2F0Q79WO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CFNetwork-EAFFWT1HOCBDNWWKJJYO6CSTX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreGraphics-6YERPTCQYNV7C6BMO8BJXXBSW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/DiskArbitration-576HYDTFGG1BB9GA3YH3IMSZ9.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreServices-3QHERUAS7RVC5GACCKL5HB2OH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/ImageIO-69WFXUZCO62NDNOXWF24EUP9C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreText-J6DPMTH9EE9VIDXB124Q40GM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Foundation-1F03AJCUO7FN2460M4H3IOJZK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/JavaScriptCore-9LFMC7K3LA4DBU9H1LOGDNXE6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/AppIntentsTypeSupport-56JAGWXAAM80LEROFFER90NID.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-CV0C2V6WPZY6HK2YTU9B90HSF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/AppIntents-479TCXLKBLTEMR6C1XCAA71DQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreTransferable-8O0F8U4RXJGJAXIKRXSQ0JF43.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreMIDI-5G9WE6UNWOTO3AHE0D149MZ87.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/DataDetection-4B7AUVMUHV17EICCPZ2ZM6RSS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Network-6O1L70Z7UX3WZY88UM6MT7C14.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/BackgroundAssets-3SWO38WN3RVWJV4JDOLJS8K11.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreAudio-6C821JT29JBBD2VAEFKL831QD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreData-77DFK8S9WIZ66T8G9CS7Y36D1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/IOSurface-9QX1MRIP8FRHGBXVKC6NDSP7F.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Accessibility-B1RF2VTJX3WUG3310G8Y9F27Y.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/_LocationEssentials-2ED1A6N3T5LGK3JPP30Q8NNDU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/RelevanceKit-675IGLWS2HS2RFAH0ZKQ1D0FW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreSpotlight-1LHMYQ4WM378U15PSASML87WM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/LocalAuthentication-6UEC8NNWZHJJI3SIX1ZAFFLTZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/ApplicationServices-2Z9TXYRPBAON6NGIHM1KY3GRW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/OSLog-8WBZF7YMBUDI3DWGKW5T4A7LC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Symbols-37WI935OSS3XDYNQC58I5Q8CA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreLocation-323XUS2ZL2FTF4EPJDNMFTLNF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/OpenGL-4RA1YPML6JQEA7N04T4QKJAAN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Metal-5NVXGKLPET55X15GOBDM78K3M.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/QuickLook-755KNIDGVPHNDU833AAGVSDBF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Carbon-8HUEXC4I16XXBOK71GDELQKFN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreVideo-7S137LA4LLKPFN0H36MEWS9PU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/AudioToolbox-1462R150RZ760GWCZC2ZFG5I5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreML-46AXC6ZK5BROGWQNIWW1U9GV6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/QuartzCore-EECYUTT3RJXCTEMZHH19ZE9LY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Accelerate-CIH4J7KN3ME5O4P2GPSK17GIR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreImage-9K7M5M8UDZKX9JHK4HZ0333PL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/CoreMedia-21OJUJROORWBAQGHNZLV9AQ2D.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/SwiftUICore-4QRVL5N3FHQQ8D0OPJ6YNVXEV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Vision-39H5UJZGRQF90I5HEDFHCADAA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/VideoToolbox-EBPML8BG0R9X0RXDJJ7IPN4I2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/AppKit-2TPX5B2W31WJP8B4VG1KGZLOM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/MediaToolbox-5TIUCR1AP4VRZB94NLJNNSRU7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/AVFAudio-CD69OJQ58FP9B2LPHI2RU2ZRC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/AVFoundation-CNPAKUF2LFD7SNY7P4OG0PJUC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/StoreKit-F2LI39HWHHNJV12XOF0WLVG92.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Cocoa-E0PV77T08D62VER10C4GJZW25.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/SwiftUI-2RRRH42NXOZV53IVMZ01JTTM6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/WebKit-2ORYG9EJGJLBMV8G3IBQU0HIE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/PDFKit-16LXGUVJ430DWPJQYO2T2ANA4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/ImageCaptureCore-AYNE4RU8VO1F7DFR401R4GDFS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/QuickLookUI-6CLSXJZXROGFJ0PCG1LV9TP21.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules/Quartz-89D4F1DAAJKPRLK4NC7UFHUJH.pcm
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ Paperloft_Receipts (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    
+
+SwiftCompile normal arm64 Compiling\ LibraryView.swift /Users/builder/Factory/paperloft/Apps/PaperloftApp/LibraryView.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Apps/PaperloftApp/LibraryView.swift (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-SwiftPerFileCompile LibraryView.swift
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for Paperloft_Receipts (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriver\ Compilation\ Requirements PaperloftApp normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Paperloft_Receipts -O @/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList -DQA -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -warnings-as-errors -swift-version 6 -I /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA -F /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks -F /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/PaperloftApp-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/PerformanceDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-generated-files.hmap -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-own-target-headers.hmap -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/Paperloft-b93ddc6bcd4d234a5473ab01ad3589c4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-project-headers.hmap -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/include -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-Swift.h -working-directory /Users/builder/Factory/paperloft -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling LibraryView.swift (in target 'PaperloftApp' from project 'Paperloft')
+
+SwiftDriver\ Compilation PaperloftApp normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Paperloft_Receipts -O @/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList -DQA -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -warnings-as-errors -swift-version 6 -I /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA -F /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks -F /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/PaperloftApp-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/PerformanceDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/PaperloftApp_const_extract_protocols.json -Xcc -iquote -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-generated-files.hmap -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-own-target-headers.hmap -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/Paperloft-b93ddc6bcd4d234a5473ab01ad3589c4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts-project-headers.hmap -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/include -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts-Swift.h -working-directory /Users/builder/Factory/paperloft -experimental-emit-module-separately -disable-cmo
+
+Copy /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft_Receipts.swiftmodule/arm64-apple-macos.abi.json /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.abi.json (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.abi.json /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft_Receipts.swiftmodule/arm64-apple-macos.abi.json
+
+Ld /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts normal (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos27.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/QA -L/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA -F/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/QA -F/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks -F/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA -filelist /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts_lto.o -rdynamic -Xlinker -dependency_info -Xlinker /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftmodule /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A/PaperloftKit_5CD798059AF8BAE1_PackageProduct -Xlinker -no_adhoc_codesign -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts
+
+Copy /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft_Receipts.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftsourceinfo (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft_Receipts.swiftsourceinfo /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft_Receipts.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo
+
+ExtractAppIntentsMetadata (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name Paperloft_Receipts --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk --xcode-version 27A266a --platform-family macOS --deployment-target 27.0 --bundle-identifier app.paperloft.receipts --output /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Resources --target-triple arm64-apple-macos27.0 --binary-file /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts --dependency-file /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts_dependency_info.dat --stringsdata-file /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftFileList --metadata-file-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts.DependencyMetadataFileList --static-metadata-file-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts.DependencyStaticMetadataFileList --swift-const-vals-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Objects-normal/arm64/Paperloft\ Receipts.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-11-18 15:20:20.124 appintentsmetadataprocessor[67854:1163813] Starting appintentsmetadataprocessor export
+2026-11-18 15:20:20.180 appintentsmetadataprocessor[67854:1163813] Writing Metadata.appintents
+2026-11-18 15:20:20.180 appintentsmetadataprocessor[67854:1163813] Metadata root: /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft Receipts.app/Contents/Resources/Metadata.appintents
+
+CopySwiftLibs /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Frameworks --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Library/SystemExtensions --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Extensions --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Info.plist /Users/builder/Factory/paperloft/Configuration/Info.plist (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft/Configuration/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PkgInfo -expandbuildsettings -platform macosx -additionalcontentfile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/assetcatalog_generated_info.plist -scanforprivacyfile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework -scanforprivacyfile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftShare.appex -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Info.plist
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Info.plist /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/empty-PaperloftPerformanceTests.plist (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/empty-PaperloftPerformanceTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -platform macosx -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Info.plist
+
+CpResource /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Resources/PerformanceFixtures /Users/builder/Factory/paperloft/build/PerformanceFixtures (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft/build/PerformanceFixtures /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Resources
+
+Ld /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/MacOS/PaperloftPerformanceTests normal (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos27.0 -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/QA -L/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/QA -F/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks -F/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -filelist /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/Objects-normal/arm64/PaperloftPerformanceTests.LinkFileList -Xlinker -rpath -Xlinker @loader_path/../Frameworks -Xlinker -rpath -Xlinker @executable_path/../Frameworks -bundle_loader /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts -Xlinker -object_path_lto -Xlinker /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/Objects-normal/arm64/PaperloftPerformanceTests_lto.o -rdynamic -Xlinker -dependency_info -Xlinker /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/Objects-normal/arm64/PaperloftPerformanceTests_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/Objects-normal/arm64/PaperloftPerformanceTests.swiftmodule -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A/PaperloftKit_5CD798059AF8BAE1_PackageProduct -Xlinker -no_adhoc_codesign -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/MacOS/PaperloftPerformanceTests
+
+CodeSign /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A
+/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A: replacing existing signature
+
+CopySwiftLibs /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/MacOS/PaperloftPerformanceTests --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/PlugIns --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Library/SystemExtensions --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Extensions --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ExtractAppIntentsMetadata (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name PaperloftPerformanceTests --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk --xcode-version 27A266a --platform-family macOS --deployment-target 27.0 --bundle-identifier app.paperloft.PaperloftPerformanceTests --output /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Resources --target-triple arm64-apple-macos27.0 --binary-file /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/MacOS/PaperloftPerformanceTests --dependency-file /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/Objects-normal/arm64/PaperloftPerformanceTests_dependency_info.dat --stringsdata-file /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/Objects-normal/arm64/PaperloftPerformanceTests.SwiftFileList --metadata-file-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/PaperloftPerformanceTests.DependencyMetadataFileList --static-metadata-file-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/PaperloftPerformanceTests.DependencyStaticMetadataFileList --swift-const-vals-list /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/Objects-normal/arm64/PaperloftPerformanceTests.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-11-18 15:20:20.548 appintentsmetadataprocessor[67858:1163834] Starting appintentsmetadataprocessor export
+2026-11-18 15:20:20.600 appintentsmetadataprocessor[67858:1163834] Extracted no relevant App Intents symbols, skipping writing output
+
+CodeSign /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest
+
+CodeSign /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --entitlements /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts.app.xcent --timestamp\=none --generate-entitlement-der /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app
+
+Validate /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-validationUtility /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app -no-validate-extension -infoplist-subpath Contents/Info.plist
+
+RegisterWithLaunchServices /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-lsregisterurl --record-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/XCBuildData/registered-launchservices.txt -- /System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -f -R -trusted /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+2026-11-18 15:20:21.328433-0800 Paperloft Receipts[67862:1164020] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 15:20:21.328680-0800 Paperloft Receipts[67862:1164020] [Application] Error registering app with intents framework: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 15:20:21.331582-0800 Paperloft Receipts[67862:1164021] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 15:20:21.331615-0800 Paperloft Receipts[67862:1164021] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 15:20:21.334769-0800 Paperloft Receipts[67862:1164034] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 15:20:21.334797-0800 Paperloft Receipts[67862:1164034] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 15:20:21.337673-0800 Paperloft Receipts[67862:1164021] [Connection] Will NOT re-try to establish the connection
+2026-11-18 15:20:21.337732-0800 Paperloft Receipts[67862:1164031] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 15:20:21.337750-0800 Paperloft Receipts[67862:1164031] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 15:20:21.429483-0800 Paperloft Receipts[67862:1163978] ApplePersistenceIgnoreState: Existing state will not be touched. New state will be written to /Users/builder/Library/Containers/app.paperloft.receipts/Data/tmp/app.paperloft.receipts.savedState
+Test Suite 'All tests' started at 2026-11-18 15:20:21.794.
+Test Suite 'PaperloftPerformanceTests.xctest' started at 2026-11-18 15:20:21.794.
+Test Suite 'PipelinePerformanceTests' started at 2026-11-18 15:20:21.795.
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' started.
+2026-11-18 15:20:21.909202-0800 Paperloft Receipts[67862:1163978] [WarnOnce] It's not legal to call -layoutSubtreeIfNeeded on a view which is already being laid out.  If you are implementing the view's -layout method, you can call -[super layout] instead.  Break on void _NSDetectedLayoutRecursion(void) to debug.  This will be logged only once.  This may break in the future.
+PERFORMANCE_SETUP clearing temporary inbox records: 100
+2026-11-18 15:20:22.846763-0800 Paperloft Receipts[67862:1163978] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 15:20:22.847049-0800 Paperloft Receipts[67862:1163978] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 15:20:22.853081-0800 Paperloft Receipts[67862:1163978] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 15:20:22.853513-0800 Paperloft Receipts[67862:1163978] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 15:20:27.235026-0800 Paperloft Receipts[67862:1164099] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 830x1018
+2026-11-18 15:20:27.374536-0800 Paperloft Receipts[67862:1164099] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:27.379559-0800 Paperloft Receipts[67862:1164099] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:27.394681-0800 Paperloft Receipts[67862:1164099] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:27.398533-0800 Paperloft Receipts[67862:1164099] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:27.405354-0800 Paperloft Receipts[67862:1164099] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_tr_model_latincyrillic_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-11-18 15:20:27.405610-0800 Paperloft Receipts[67862:1164031] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_td_model_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-11-18 15:20:27.411449-0800 Paperloft Receipts[67862:1164021] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_orientation_model_v1_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-11-18 15:20:32.672053-0800 Paperloft Receipts[67862:1164096] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-11-18 15:20:32.688908-0800 Paperloft Receipts[67862:1164096] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-11-18 15:20:32.930396-0800 Paperloft Receipts[67862:1164534] [Common] Unable to obtain a task name port right for pid 467: (os/kern) failure (0x5)
+2026-11-18 15:20:36.839838-0800 Paperloft Receipts[67862:1164816] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:36.843898-0800 Paperloft Receipts[67862:1164816] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:43.357107-0800 Paperloft Receipts[67862:1164815] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:43.361077-0800 Paperloft Receipts[67862:1164815] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:52.052882-0800 Paperloft Receipts[67862:1164547] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:52.056848-0800 Paperloft Receipts[67862:1164547] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:58.817216-0800 Paperloft Receipts[67862:1165397] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:20:58.821225-0800 Paperloft Receipts[67862:1165397] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:04.792550-0800 Paperloft Receipts[67862:1164547] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 865x1032
+2026-11-18 15:21:04.821732-0800 Paperloft Receipts[67862:1164547] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:04.825744-0800 Paperloft Receipts[67862:1164547] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:11.465862-0800 Paperloft Receipts[67862:1164816] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:11.469865-0800 Paperloft Receipts[67862:1164816] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:19.121458-0800 Paperloft Receipts[67862:1164822] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:19.125525-0800 Paperloft Receipts[67862:1164822] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:22.318662-0800 Paperloft Receipts[67862:1164822] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x950
+2026-11-18 15:21:25.556299-0800 Paperloft Receipts[67862:1164547] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:25.560318-0800 Paperloft Receipts[67862:1164547] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:34.438289-0800 Paperloft Receipts[67862:1165376] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:34.442378-0800 Paperloft Receipts[67862:1165376] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:40.426964-0800 Paperloft Receipts[67862:1166535] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1096x992
+2026-11-18 15:21:40.460514-0800 Paperloft Receipts[67862:1166535] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:40.464533-0800 Paperloft Receipts[67862:1166535] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:47.307659-0800 Paperloft Receipts[67862:1166534] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:47.311714-0800 Paperloft Receipts[67862:1166534] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:54.339785-0800 Paperloft Receipts[67862:1166085] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:54.343907-0800 Paperloft Receipts[67862:1166085] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:21:57.736847-0800 Paperloft Receipts[67862:1166728] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x2052
+2026-11-18 15:22:02.007118-0800 Paperloft Receipts[67862:1166084] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:02.011060-0800 Paperloft Receipts[67862:1166084] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:08.660978-0800 Paperloft Receipts[67862:1166084] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:08.664896-0800 Paperloft Receipts[67862:1166084] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:14.692902-0800 Paperloft Receipts[67862:1165289] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1136x1030
+2026-11-18 15:22:14.723296-0800 Paperloft Receipts[67862:1165289] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:14.727286-0800 Paperloft Receipts[67862:1165289] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:21.487816-0800 Paperloft Receipts[67862:1165376] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:21.491858-0800 Paperloft Receipts[67862:1165376] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:28.822273-0800 Paperloft Receipts[67862:1167903] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:28.826281-0800 Paperloft Receipts[67862:1167903] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:32.495373-0800 Paperloft Receipts[67862:1167229] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x988
+2026-11-18 15:22:35.938007-0800 Paperloft Receipts[67862:1166084] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:35.941933-0800 Paperloft Receipts[67862:1166084] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:43.539755-0800 Paperloft Receipts[67862:1166084] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:43.543739-0800 Paperloft Receipts[67862:1166084] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:49.595377-0800 Paperloft Receipts[67862:1168372] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1369x1037
+2026-11-18 15:22:49.629931-0800 Paperloft Receipts[67862:1168372] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:22:49.634068-0800 Paperloft Receipts[67862:1168372] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:04.490490-0800 Paperloft Receipts[67862:1168374] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:04.494520-0800 Paperloft Receipts[67862:1168374] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:07.750657-0800 Paperloft Receipts[67862:1167472] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 920x2488
+2026-11-18 15:23:12.102571-0800 Paperloft Receipts[67862:1168374] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:12.106654-0800 Paperloft Receipts[67862:1168374] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:18.723613-0800 Paperloft Receipts[67862:1164810] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:18.727608-0800 Paperloft Receipts[67862:1164810] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:24.771318-0800 Paperloft Receipts[67862:1169076] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 971x1061
+2026-11-18 15:23:24.796931-0800 Paperloft Receipts[67862:1169076] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:24.800976-0800 Paperloft Receipts[67862:1169076] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:31.574769-0800 Paperloft Receipts[67862:1166555] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:31.578920-0800 Paperloft Receipts[67862:1166555] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:39.607973-0800 Paperloft Receipts[67862:1166891] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:39.611936-0800 Paperloft Receipts[67862:1166891] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:43.059507-0800 Paperloft Receipts[67862:1168376] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1000x988
+2026-11-18 15:23:46.479119-0800 Paperloft Receipts[67862:1169801] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:46.483179-0800 Paperloft Receipts[67862:1169801] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:53.933461-0800 Paperloft Receipts[67862:1168371] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:53.937518-0800 Paperloft Receipts[67862:1168371] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:23:59.989020-0800 Paperloft Receipts[67862:1166728] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 813x1006
+2026-11-18 15:24:00.005475-0800 Paperloft Receipts[67862:1166728] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:00.009451-0800 Paperloft Receipts[67862:1166728] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:07.663230-0800 Paperloft Receipts[67862:1166728] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:07.667211-0800 Paperloft Receipts[67862:1166728] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:14.306287-0800 Paperloft Receipts[67862:1164810] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:14.310235-0800 Paperloft Receipts[67862:1164810] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:30.060257-0800 Paperloft Receipts[67862:1164810] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:30.064217-0800 Paperloft Receipts[67862:1164810] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:36.173190-0800 Paperloft Receipts[67862:1166728] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 834x1044
+2026-11-18 15:24:36.199155-0800 Paperloft Receipts[67862:1166728] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:36.203116-0800 Paperloft Receipts[67862:1166728] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:43.059950-0800 Paperloft Receipts[67862:1169801] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:43.063937-0800 Paperloft Receipts[67862:1169801] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:50.623910-0800 Paperloft Receipts[67862:1171017] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:50.627918-0800 Paperloft Receipts[67862:1171017] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:54.051132-0800 Paperloft Receipts[67862:1168957] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x988
+2026-11-18 15:24:57.397813-0800 Paperloft Receipts[67862:1167472] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:24:57.401673-0800 Paperloft Receipts[67862:1167472] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:05.859760-0800 Paperloft Receipts[67862:1171037] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:05.863888-0800 Paperloft Receipts[67862:1171037] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:15.425745-0800 Paperloft Receipts[67862:1171019] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1114x1049
+2026-11-18 15:25:15.463280-0800 Paperloft Receipts[67862:1171019] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:15.467319-0800 Paperloft Receipts[67862:1171019] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:23.069390-0800 Paperloft Receipts[67862:1172466] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:23.073534-0800 Paperloft Receipts[67862:1172466] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:29.851252-0800 Paperloft Receipts[67862:1172462] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:29.855449-0800 Paperloft Receipts[67862:1172462] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:33.183813-0800 Paperloft Receipts[67862:1172462] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x1976
+2026-11-18 15:25:37.503480-0800 Paperloft Receipts[67862:1172461] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:37.507522-0800 Paperloft Receipts[67862:1172461] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:44.099149-0800 Paperloft Receipts[67862:1172242] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:44.103030-0800 Paperloft Receipts[67862:1172242] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:50.032652-0800 Paperloft Receipts[67862:1172758] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1153x1012
+2026-11-18 15:25:50.063533-0800 Paperloft Receipts[67862:1172758] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:50.067679-0800 Paperloft Receipts[67862:1172758] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:56.660047-0800 Paperloft Receipts[67862:1172247] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:25:56.664061-0800 Paperloft Receipts[67862:1172247] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:04.061174-0800 Paperloft Receipts[67862:1171019] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:04.065146-0800 Paperloft Receipts[67862:1171019] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:07.453145-0800 Paperloft Receipts[67862:1172759] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x950
+2026-11-18 15:26:10.915510-0800 Paperloft Receipts[67862:1172243] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:10.919592-0800 Paperloft Receipts[67862:1172243] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:18.217329-0800 Paperloft Receipts[67862:1173767] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:18.221392-0800 Paperloft Receipts[67862:1173767] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+PAPERLOFT_PERFORMANCE {"priorInboxCount":0,"completed":100,"inputCount":100,"recordedBackends":{"system":100},"longestGapEndedAtSeconds":10.52355012499902,"seconds":361.84692008333514,"backend":"system","lifetimePeakPhysicalBytes":378406232,"memoryReadFailures":0,"failures":[],"maximumMainHeartbeatGapSeconds":0.17398329166462645,"heartbeatCount":34982,"finalLayoutSeconds":0.00031925000075716525,"persistedCompleted":100,"iteration":1,"synchronousIntakeSeconds":4.760869500001718}
+PERFORMANCE_SETUP clearing temporary inbox records: 100
+2026-11-18 15:26:27.725552-0800 Paperloft Receipts[67862:1163978] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 15:26:27.727038-0800 Paperloft Receipts[67862:1163978] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 15:26:27.727534-0800 Paperloft Receipts[67862:1163978] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 15:26:27.734728-0800 Paperloft Receipts[67862:1163978] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 15:26:31.727617-0800 Paperloft Receipts[67862:1172466] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 830x1018
+2026-11-18 15:26:31.776130-0800 Paperloft Receipts[67862:1172466] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:31.780115-0800 Paperloft Receipts[67862:1172466] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:36.649481-0800 Paperloft Receipts[67862:1174337] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-11-18 15:26:36.666323-0800 Paperloft Receipts[67862:1172243] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-11-18 15:26:40.892148-0800 Paperloft Receipts[67862:1174505] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:40.896197-0800 Paperloft Receipts[67862:1174505] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:47.418849-0800 Paperloft Receipts[67862:1174349] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:47.422817-0800 Paperloft Receipts[67862:1174349] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:56.077626-0800 Paperloft Receipts[67862:1174928] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:26:56.081554-0800 Paperloft Receipts[67862:1174928] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:02.931829-0800 Paperloft Receipts[67862:1174955] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:02.935916-0800 Paperloft Receipts[67862:1174955] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:08.988364-0800 Paperloft Receipts[67862:1174952] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 865x1032
+2026-11-18 15:27:09.016935-0800 Paperloft Receipts[67862:1174952] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:09.021060-0800 Paperloft Receipts[67862:1174952] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:15.636099-0800 Paperloft Receipts[67862:1174504] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:15.640169-0800 Paperloft Receipts[67862:1174504] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:23.323651-0800 Paperloft Receipts[67862:1174893] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:23.327720-0800 Paperloft Receipts[67862:1174893] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:26.566454-0800 Paperloft Receipts[67862:1174932] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x950
+2026-11-18 15:27:29.824877-0800 Paperloft Receipts[67862:1174952] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:29.829013-0800 Paperloft Receipts[67862:1174952] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:38.685380-0800 Paperloft Receipts[67862:1175731] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:38.689555-0800 Paperloft Receipts[67862:1175731] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:44.723491-0800 Paperloft Receipts[67862:1176210] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1096x992
+2026-11-18 15:27:44.757327-0800 Paperloft Receipts[67862:1176210] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:44.761425-0800 Paperloft Receipts[67862:1176210] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:51.662586-0800 Paperloft Receipts[67862:1176213] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:51.666643-0800 Paperloft Receipts[67862:1176213] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:58.696582-0800 Paperloft Receipts[67862:1176210] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:27:58.700662-0800 Paperloft Receipts[67862:1176210] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:02.104766-0800 Paperloft Receipts[67862:1174931] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x2052
+2026-11-18 15:28:06.491029-0800 Paperloft Receipts[67862:1176209] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:06.495039-0800 Paperloft Receipts[67862:1176209] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:13.200040-0800 Paperloft Receipts[67862:1176210] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:13.204169-0800 Paperloft Receipts[67862:1176210] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:19.303788-0800 Paperloft Receipts[67862:1176210] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1136x1030
+2026-11-18 15:28:19.340558-0800 Paperloft Receipts[67862:1176210] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:19.344649-0800 Paperloft Receipts[67862:1176210] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:26.165918-0800 Paperloft Receipts[67862:1176209] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:26.169966-0800 Paperloft Receipts[67862:1176209] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:33.482070-0800 Paperloft Receipts[67862:1175732] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:33.486168-0800 Paperloft Receipts[67862:1175732] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:37.220699-0800 Paperloft Receipts[67862:1176210] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x988
+2026-11-18 15:28:40.832146-0800 Paperloft Receipts[67862:1174931] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:40.836127-0800 Paperloft Receipts[67862:1174931] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:48.367179-0800 Paperloft Receipts[67862:1174928] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:48.371139-0800 Paperloft Receipts[67862:1174928] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:54.375536-0800 Paperloft Receipts[67862:1174893] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1369x1037
+2026-11-18 15:28:54.409536-0800 Paperloft Receipts[67862:1174893] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:28:54.413626-0800 Paperloft Receipts[67862:1174893] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:09.295278-0800 Paperloft Receipts[67862:1178021] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:09.299325-0800 Paperloft Receipts[67862:1178021] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:12.622135-0800 Paperloft Receipts[67862:1174928] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 920x2488
+2026-11-18 15:29:16.996179-0800 Paperloft Receipts[67862:1178021] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:17.000241-0800 Paperloft Receipts[67862:1178021] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:23.683175-0800 Paperloft Receipts[67862:1178018] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:23.687304-0800 Paperloft Receipts[67862:1178018] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:29.692961-0800 Paperloft Receipts[67862:1177537] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 971x1061
+2026-11-18 15:29:29.721932-0800 Paperloft Receipts[67862:1177537] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:29.725814-0800 Paperloft Receipts[67862:1177537] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:36.462190-0800 Paperloft Receipts[67862:1176978] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:36.466222-0800 Paperloft Receipts[67862:1176978] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:44.624251-0800 Paperloft Receipts[67862:1174928] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:44.628218-0800 Paperloft Receipts[67862:1174928] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:48.125740-0800 Paperloft Receipts[67862:1179441] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1000x988
+2026-11-18 15:29:51.554158-0800 Paperloft Receipts[67862:1178757] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:51.558187-0800 Paperloft Receipts[67862:1178757] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:58.988639-0800 Paperloft Receipts[67862:1179309] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:29:58.992700-0800 Paperloft Receipts[67862:1179309] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:05.067357-0800 Paperloft Receipts[67862:1179445] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 813x1006
+2026-11-18 15:30:05.081802-0800 Paperloft Receipts[67862:1179445] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:05.085889-0800 Paperloft Receipts[67862:1179445] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:12.705085-0800 Paperloft Receipts[67862:1178022] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:12.709087-0800 Paperloft Receipts[67862:1178022] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:19.378998-0800 Paperloft Receipts[67862:1179696] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:19.383075-0800 Paperloft Receipts[67862:1179696] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:35.191412-0800 Paperloft Receipts[67862:1180674] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:35.195495-0800 Paperloft Receipts[67862:1180674] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:41.236290-0800 Paperloft Receipts[67862:1174893] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 834x1044
+2026-11-18 15:30:41.267830-0800 Paperloft Receipts[67862:1174893] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:41.271795-0800 Paperloft Receipts[67862:1174893] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:48.146818-0800 Paperloft Receipts[67862:1178023] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:48.150757-0800 Paperloft Receipts[67862:1178023] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:55.651384-0800 Paperloft Receipts[67862:1180517] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:55.655473-0800 Paperloft Receipts[67862:1180517] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:30:59.092168-0800 Paperloft Receipts[67862:1178023] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x988
+2026-11-18 15:31:02.466863-0800 Paperloft Receipts[67862:1181320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:02.470926-0800 Paperloft Receipts[67862:1181320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:11.025654-0800 Paperloft Receipts[67862:1181684] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:11.029736-0800 Paperloft Receipts[67862:1181684] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:20.487972-0800 Paperloft Receipts[67862:1181754] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1114x1049
+2026-11-18 15:31:20.525393-0800 Paperloft Receipts[67862:1181754] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:20.529258-0800 Paperloft Receipts[67862:1181754] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:28.096842-0800 Paperloft Receipts[67862:1181753] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:28.100897-0800 Paperloft Receipts[67862:1181753] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:34.823731-0800 Paperloft Receipts[67862:1179309] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:34.827727-0800 Paperloft Receipts[67862:1179309] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:38.183323-0800 Paperloft Receipts[67862:1180674] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x1976
+2026-11-18 15:31:42.495109-0800 Paperloft Receipts[67862:1181946] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:42.499185-0800 Paperloft Receipts[67862:1181946] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:49.093857-0800 Paperloft Receipts[67862:1182170] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:49.097938-0800 Paperloft Receipts[67862:1182170] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:55.055681-0800 Paperloft Receipts[67862:1181946] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1153x1012
+2026-11-18 15:31:55.083169-0800 Paperloft Receipts[67862:1181946] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:31:55.087257-0800 Paperloft Receipts[67862:1181946] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:32:01.734429-0800 Paperloft Receipts[67862:1181925] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:32:01.738485-0800 Paperloft Receipts[67862:1181925] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:32:09.039516-0800 Paperloft Receipts[67862:1182170] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:32:09.043581-0800 Paperloft Receipts[67862:1182170] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:32:12.450038-0800 Paperloft Receipts[67862:1182174] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x950
+2026-11-18 15:32:15.834971-0800 Paperloft Receipts[67862:1182175] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:32:15.838966-0800 Paperloft Receipts[67862:1182175] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:32:23.220035-0800 Paperloft Receipts[67862:1183554] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 15:32:23.224097-0800 Paperloft Receipts[67862:1183554] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+PAPERLOFT_PERFORMANCE {"recordedBackends":{"system":100},"persistedCompleted":100,"priorInboxCount":0,"memoryReadFailures":0,"heartbeatCount":35110,"seconds":361.92983137499687,"synchronousIntakeSeconds":4.314549541661108,"completed":100,"finalLayoutSeconds":0.00017929166642716154,"longestGapEndedAtSeconds":9.496240791668242,"iteration":2,"maximumMainHeartbeatGapSeconds":0.17096654167107772,"backend":"system","lifetimePeakPhysicalBytes":378406232,"failures":[],"inputCount":100}
+/Users/builder/Factory/paperloft/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Memory Physical, kB] average: 16629.760, relative standard deviation: 0.000%, values: [16629.760000], performanceMetricID:com.apple.dt.XCTMetric_Memory.physical, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+/Users/builder/Factory/paperloft/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Clock Monotonic Time, s] average: 356.139, relative standard deviation: 0.000%, values: [356.138988], performanceMetricID:com.apple.dt.XCTMetric_Clock.time.monotonic, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+/Users/builder/Factory/paperloft/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Duration (UnderstandInboxBatch), s] average: 357.467, relative standard deviation: 0.000%, values: [357.466799], performanceMetricID:com.apple.dt.XCTMetric_OSSignpost-UnderstandInboxBatch.duration, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+/Users/builder/Factory/paperloft/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Memory Peak Physical, kB] average: 341788.328, relative standard deviation: 0.000%, values: [341788.328000], performanceMetricID:com.apple.dt.XCTMetric_Memory.physical_peak, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' passed (729.901 seconds).
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests testSamplerDetectsBlockedMainThread]' started.
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests testSamplerDetectsBlockedMainThread]' passed (0.406 seconds).
+Test Suite 'PipelinePerformanceTests' passed at 2026-11-18 15:32:32.104.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 730.308 (730.309) seconds
+Test Suite 'PaperloftPerformanceTests.xctest' passed at 2026-11-18 15:32:32.105.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 730.308 (730.311) seconds
+Test Suite 'All tests' passed at 2026-11-18 15:32:32.106.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 730.308 (730.312) seconds
+2026-11-18 15:32:32.422 xcodebuild[67618:1162795] [MT] IDETestOperationsObserverDebug: 731.656 elapsed -- Testing started completed.
+2026-11-18 15:32:32.422 xcodebuild[67618:1162795] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-11-18 15:32:32.422 xcodebuild[67618:1162795] [MT] IDETestOperationsObserverDebug: 731.656 sec, +731.656 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/builder/Factory/paperloft/build/Performance-system-20261118T231955Z.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started
