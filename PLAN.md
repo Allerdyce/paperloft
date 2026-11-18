@@ -115,3 +115,12 @@ New App Intents approach is justified by paid same-team signing now available, u
 - V2: current instructions, 256 tokens
 Each arm gets 8 bills, 4 invoices, 4 receipts and 4 negatives, disjoint across arms. Tool: Tools/ClassifierProbe; results in build/classifier. Outcome: V0–V2 failed every bill (0/24, guardrailViolation). Arms V3–V5 and PROD were added as results came in (166 inputs, 6 runs, each input once). The adopted V5 design gets 28/32 fresh bills with no wrong labels. 150-fixture fallbacks went 16→4 with scores unchanged. See evidence/classifier/label-probe-20260929.md.
 2026-09-29 TAX INVOICE refusals: the trigger was isolated to the "TAX INVOICE" heading (single-use probe, runs 7–8). Two approaches were ineffective (response shape; not-tax-advice clarification). Parked with a safe review fallback; see evidence/classifier/label-probe-20260929.md.
+
+## Release resumption — 2026-11-18
+
+1. Complete signed regression CI on the persisted-signpost branch under exclusive GUI lock.
+2. Review and integrate the six-line Info.plist change only after green; preserve existing evidence.
+3. Refresh system/parser performance and P6 independent verification.
+4. Complete distribution prerequisites and remaining manual/final checks before authorized launch.
+
+Startup local preflight passes after owner cleared storage and connected wall power. No weakening of release requirements.

@@ -1,10 +1,10 @@
-Paperloft factory pre-flight  2026-10-02 04:08:27  user=builder  repo=/Users/builder/Factory/paperloft
+Paperloft factory pre-flight  2026-11-18 11:49:29  user=builder  repo=/Users/builder/Factory/paperloft
 
 == Machine ==
 PASS   macOS 27.0
 PASS   Apple silicon
-PASS   user 'builder' is a Standard user
-PASS   68 GB free
+WARN   user 'builder' is an admin; a Standard user named builder is recommended (section 3.1)
+PASS   92 GB free
 PASS   Retina-class display connected
 
 == Power, sleep, lock, updates ==
@@ -73,5 +73,5 @@ MANUAL Computer Use: Screen Recording and Accessibility granted; Locked use on; 
 MANUAL GitHub rulesets: no force-push to main; acceptance-* tags cannot be updated or deleted
 MANUAL App Store Connect: Paid Apps Agreement active; Small Business Program enrolled
 
-Summary: 40 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 14 MANUAL
+Summary: 39 PASS, 2 WARN, 0 FAIL, 0 TFAIL, 14 MANUAL
 GO: LOCAL DEVELOPMENT ONLY. Distribution signing, upload and release remain blocked.

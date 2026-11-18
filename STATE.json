@@ -1,7 +1,7 @@
 {
   "phase": "P6",
-  "step": "P6: AC-10 fix on local/signpost-persist (477711c, persisted pipeline signpost) passes every AC-10 check incl. signpost (system-20261009T154828Z in that worktree). Next: full CI on the branch once the screen is free (another agent's RedWax UI tests collided), merge, fresh system+parser evidence on run/1, gate.sh P6 --local. P6: AC-10 timing/memory/stall pass (owner Terminal run 2026-10-09: 364.5/366.3 s). Signpost metric uncollectable on this Mac from any shell (probe build/signpost-probe); owner to choose Developer Tools access for Terminal or an AC-10 evidence amendment (HANDOFF item 3). P6: AC-10 re-measured 2026-10-08 on cec2b50: system 366.9/366.0 s, parser 23.2/22.9 s, gaps <=179 ms, peak <=449 MB; a bisect found no code regression (the 429 s run was the first after idle). Only the UnderstandInboxBatch signpost is missing; it needs the owner's Terminal run. P3 and P4 local PASS (independent verifier; files locked, no tags). V4-01 fixed. P5 waits on the owner's StoreKitTest choice (PROPOSALS). P6 prep: AC-09 ResilienceTests and AC-14 privacy_check pass; AC-13 audits now also cover Help, the menu bar extra, the export sheet and the paywall (BUGS A6). The in-window Settings page audit waits on the sidebar Settings decision. AC-10 signposts need the owner's Terminal run. Distribution config ready (version 1.0, App Group on; team ID pending the membership). P5: owner chose StoreKit option (a); P5 closes after the supervised shakedown purchase (needs the Apple setup).",
-  "last_green_commit": "ab35001",
+  "step": "2026-11-18 full signed CI passed on signpost branch (44 UI tests, all unit tests, strict Debug/Release); independently reviewed fix merged. Performance provenance now includes Configuration. Next fresh system/parser performance, P6 verifier; remaining purchase/design/persona/release checks pending.",
+  "last_green_commit": "477711c73c41b5df93aee4fcfb80873927055ce6",
   "parked": [
     "StoreKitTest: owner chose option (a) on 2026-10-02. Mock-store XCUITests plus the shakedown purchase from the local .storekit file are AC-11's StoreKit evidence; StoreKitTest tests stay on local/commerce, unmerged.",
     "Native Mail promise drag automation never delivered source mouse events; wrapper isolated",
@@ -14,5 +14,5 @@
     "AC-10: signposts collectable since the account was made admin (2026-10-09); merge of local/signpost-persist waits on full CI with a clear screen (RedWax agent doesn't use the GUI lock).",
     "paperloft-site branch release/receipts-1.0-copy ready locally; publishing waits on owner OK"
   ],
-  "updated": "2026-10-09T16:40:57.914686+00:00"
+  "updated": "2026-11-18T12:20:00-08:00"
 }

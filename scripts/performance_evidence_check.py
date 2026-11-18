@@ -14,7 +14,7 @@ root = pathlib.Path.cwd()
 LIMIT_SECONDS = {"system": 400.0, "parser": 30.0}
 MAX_HANG_SECONDS = 0.25
 MAX_PEAK_BYTES = 600 * 1000 * 1000
-SOURCES = ["Apps", "Packages", "Paperloft.xcodeproj", "Tests/PaperloftPerformanceTests", "scripts/generate_performance_inputs.swift"]
+SOURCES = ["Apps", "Packages", "Configuration", "Paperloft.xcodeproj", "Tests/PaperloftPerformanceTests", "scripts/generate_performance_inputs.swift"]
 failures = []
 
 

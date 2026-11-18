@@ -1,3 +1,21 @@
+## Progress — 2026-11-18 regression complete
+
+Power/storage blockers cleared. Full signed CI on local/signpost-persist passed, including 44 UI tests and strict Debug/Release. Six-line persisted-signpost fix independently reviewed and merged into run/1. Fresh performance measurements next; provenance scripts now include Configuration. Release credentials and remaining purchase/design/persona/final checks remain incomplete. See evidence/ci/release-resume-20261118.md.
+
+## Startup recheck — 2026-11-18 11:48 PST
+
+Storage resolved: 93 GB free, PASS. Local preflight now exits 3 solely for power: battery 14%, discharging, approximately 19 minutes remaining. Connect wall power before regression tests. All 185 locked files still PASS. Apple distribution prerequisites remain deferred and unchanged.
+
+## Restart checkpoint — 2026-11-18
+
+Owner now authorizes finishing and launch ("Let's finihs and get it launched...."). This supersedes the earlier submission/public-release hold, conditional on readiness checks passing. No archive, upload, submission or release was performed in this session.
+
+Fresh local preflight exited 1: 21 GB free vs required 40 GB; wall power absent and battery insufficient for the local exception. Display and on-device model PASS. Protected baseline and all 185 locked files PASS. Per AGENTS startup rule, development/testing stopped; no acceptance criteria were weakened.
+
+Owner action: connect wall power and free at least 19 GB (prefer additional build headroom). Distribution prerequisites also remain locally unset: Apple Distribution and Mac Installer Distribution identities missing; ASC key/issuer/path/team remain placeholders. Confirm EvidencePair LLC conversion and provision the account/key/certificates described in docs/OWNER-RELEASE-SETUP.md. Do not share secrets in chat. Live Apple membership/account status was not verified.
+
+Resume: fresh local preflight and verify_lock, then finish local/signpost-persist regression in /Users/builder/Factory/paperloft-signpost under GUI lock, integrate only after green, and run fresh P6 evidence/independent verification. Full release preflight, remaining supervised/device/purchase checks and final verification must pass before authorized distribution and launch.
+
 # Owner summary — 2026-10-02
 
 **Where things stand:**

@@ -199,3 +199,6 @@ Added Tools/AccessibilityProbe as a separate Apple-only app/UI-test project to d
 - **The change:** `scripts/ci.sh` now also runs the PaperloftKit package's own tests unhosted (`xcodebuild test -scheme PaperloftKit-Package -enableCodeCoverage YES`). It merges that result with the app-hosted one (`xcresulttool merge`) and points `build/latest-test-result.txt` at the merged bundle. The unmerged path is kept in `latest-hosted-test-result.txt`.
 - **Effect:** the locked `scripts/coverage_check.py` is unchanged. It always finds exactly one whole PaperloftKit target, at 93.18% (all 25 sources) when the hosted run lists none and 94.09% when it does.
 - **Mistake:** a first attempt edited `scripts/coverage_check.py`, which is in ACCEPTANCE.lock (d349999). `verify_local_baseline.sh` caught it, and bb94ce3 restored the locked file byte for byte.
+
+## 2026-11-18 — Include configuration in performance provenance
+Independent scoped review found the October signpost diagnostic commit marker omitted its dirty Info.plist change because both performance source lists excluded Configuration. Added Configuration to dirty detection and evidence source-equivalence checks; this strengthens provenance without changing thresholds. Fresh post-merge measurements required.
