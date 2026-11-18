@@ -1132,9 +1132,28 @@ struct PaperloftSettings: View {
     @State private var tab = Tab.general
     var body: some View {
         if embedded {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) { generalSections; filingSections; categorySections }.padding(24)
-            }.frame(maxWidth: .infinity, maxHeight: .infinity).accessibilityIdentifier("settings.root")
+            VStack(alignment: .leading, spacing: 0) {
+                Picker("Settings section", selection: $tab) {
+                    Text("General").tag(Tab.general)
+                    Text("Filing").tag(Tab.filing)
+                    Text("Categories").tag(Tab.categories)
+                }
+                .pickerStyle(.segmented).labelsHidden()
+                .frame(maxWidth: 360).padding(.horizontal, 24).padding(.top, 16)
+                .accessibilityIdentifier("settings.section")
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        switch tab {
+                        case .general: generalSections
+                        case .filing: filingSections
+                        case .categories: categorySections
+                        }
+                    }.padding(24)
+                }
+                .id(tab)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .accessibilityIdentifier("settings.root")
+            }
         } else {
             // Standard Settings tabs keep every control inside the visible window; one long
             // scrolling pane left filing controls below the window edge.
@@ -1196,7 +1215,7 @@ struct PaperloftSettings: View {
                     Text(used >= UnderstandingQuota.monthlyLimit
                          ? "Automatic reads start again on \(model.quotaResetDate.formatted(.dateTime.month(.wide).day())). New documents wait in the Inbox for you to fill in."
                          : "Filling in details yourself, browsing and undo are always free.")
-                        .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                        .font(.callout).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
                 }
                 HStack {
                     Button(model.isPro ? "Manage Pro…" : "Upgrade…") { showPaywall = true }.accessibilityIdentifier("settings.upgrade")

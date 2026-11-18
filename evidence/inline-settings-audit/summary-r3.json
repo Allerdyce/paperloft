@@ -1,0 +1,69 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "00006000-000458260AFA401E",
+        "deviceName" : "My Mac",
+        "modelName" : "MacBook Pro",
+        "osBuildNumber" : "26A428",
+        "osVersion" : "27.0",
+        "platform" : "macOS"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 2,
+      "passedTests" : 0,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "PaperloftApp · Built with macOS 27.0",
+  "expectedFailures" : 0,
+  "failedTests" : 2,
+  "finishTime" : 1795035020.444,
+  "passedTests" : 0,
+  "result" : "Failed",
+  "runtimeWarnings" : [
+
+  ],
+  "skippedTests" : 0,
+  "startTime" : 1795034809.175,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+    {
+      "failureText" : "Contrast failed",
+      "targetName" : "PaperloftUITests",
+      "testIdentifier" : 1,
+      "testIdentifierString" : "InlineSettingsAuditTests/testInlineSettingsDarkAtEverySection()",
+      "testIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/InlineSettingsAuditTests/testInlineSettingsDarkAtEverySection",
+      "testName" : "testInlineSettingsDarkAtEverySection()"
+    },
+    {
+      "failureText" : "Contrast nearly passed",
+      "targetName" : "PaperloftUITests",
+      "testIdentifier" : 2,
+      "testIdentifierString" : "InlineSettingsAuditTests/testInlineSettingsLightAtEverySection()",
+      "testIdentifierURL" : "test://com.apple.xcode/Paperloft/PaperloftUITests/InlineSettingsAuditTests/testInlineSettingsLightAtEverySection",
+      "testName" : "testInlineSettingsLightAtEverySection()"
+    }
+  ],
+  "title" : "Test - PaperloftApp",
+  "topInsights" : [
+    {
+      "category" : "Common Failures",
+      "impact" : "100% of failures",
+      "text" : "18 runs of 2 tests failed with Contrast failed"
+    },
+    {
+      "category" : "Common Failures",
+      "impact" : "50% of failures",
+      "text" : "3 runs of 1 test failed with Contrast nearly passed"
+    }
+  ],
+  "totalTestCount" : 2
+}

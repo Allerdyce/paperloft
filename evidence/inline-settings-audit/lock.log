@@ -1,0 +1,17 @@
+PASS local acceptance-v1 matches origin
+PASS ACCEPTANCE.md matches acceptance-v1
+PASS AGENTS.md matches acceptance-v1
+PASS SPEC.md matches acceptance-v1
+PASS scripts/verify_lock.sh matches acceptance-v1
+PASS scripts/lock_add.sh matches acceptance-v1
+PASS scripts/score_eval.py matches acceptance-v1
+PASS .codex/agents/verifier.toml matches acceptance-v1
+PASS .codex/agents/qa_explorer.toml matches acceptance-v1
+PASS .codex/agents/critic.toml matches acceptance-v1
+PASS .codex/agents/release_checker.toml matches acceptance-v1
+PASS prompts/1-shakedown.md matches acceptance-v1
+PASS prompts/2-shakedown-after-reboot.md matches acceptance-v1
+PASS prompts/3-run.md matches acceptance-v1
+PASS prompts/4-final-verification.md matches acceptance-v1
+PASS 185 locked file(s) match their hashes
+PASS ACCEPTANCE.lock has only grown
