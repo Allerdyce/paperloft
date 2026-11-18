@@ -1,6 +1,6 @@
 {
   "phase": "P6",
-  "step": "2026-11-18 full signed CI passed on signpost branch (44 UI tests, all unit tests, strict Debug/Release); independently reviewed fix merged. Performance provenance now includes Configuration. Next fresh system/parser performance, P6 verifier; remaining purchase/design/persona/release checks pending.",
+  "step": "2026-11-18 signed CI green (446 tests, 44 UI, no failures/skips); persisted-signpost fix merged. Fresh AC-10 evidence PASS: system360.84/361.28s, parser24.46/24.36s, all100 completed. First system418.37s failure retained. Inline Settings additional audit underway in paperloft-inline-audit. Owner confirms LLC conversion done; local certificates/API placeholders remain. Independent phase/design/persona/purchase/final checks pending.",
   "last_green_commit": "477711c73c41b5df93aee4fcfb80873927055ce6",
   "parked": [
     "StoreKitTest: owner chose option (a) on 2026-10-02. Mock-store XCUITests plus the shakedown purchase from the local .storekit file are AC-11's StoreKit evidence; StoreKitTest tests stay on local/commerce, unmerged.",
@@ -14,5 +14,5 @@
     "AC-10: signposts collectable since the account was made admin (2026-10-09); merge of local/signpost-persist waits on full CI with a clear screen (RedWax agent doesn't use the GUI lock).",
     "paperloft-site branch release/receipts-1.0-copy ready locally; publishing waits on owner OK"
   ],
-  "updated": "2026-11-18T12:20:00-08:00"
+  "updated": "2026-11-18T12:42:00-08:00"
 }

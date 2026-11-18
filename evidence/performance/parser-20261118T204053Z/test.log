@@ -1,0 +1,418 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project Paperloft.xcodeproj -scheme PaperloftPerformanceParser -destination platform=macOS -derivedDataPath build/PerformanceDerivedData -configuration QA ENABLE_TESTABILITY=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES -parallel-testing-enabled NO -resultBundlePath build/Performance-parser-20261118T204053Z.xcresult test
+
+Build settings from command line:
+    ENABLE_TESTABILITY = YES
+    SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  PaperloftHandoff: /Users/builder/Factory/paperloft/Packages/PaperloftHandoff @ local
+  PaperloftKit: /Users/builder/Factory/paperloft/Packages/PaperloftKit @ local
+
+Writing result bundle at path:
+	/Users/builder/Factory/paperloft/build/Performance-parser-20261118T204053Z.xcresult
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (7 targets)
+    Target 'PaperloftPerformanceTests' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftApp' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftKit-product' in project 'PaperloftKit'
+    Target 'PaperloftApp' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftShare' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftKit-product' in project 'PaperloftKit'
+        ➜ Explicit dependency on target 'PaperloftHandoff-product' in project 'PaperloftHandoff'
+    Target 'PaperloftKit-product' in project 'PaperloftKit'
+        ➜ Explicit dependency on target 'PaperloftKit' in project 'PaperloftKit'
+    Target 'PaperloftKit' in project 'PaperloftKit' (no dependencies)
+    Target 'PaperloftShare' in project 'Paperloft'
+        ➜ Explicit dependency on target 'PaperloftHandoff-product' in project 'PaperloftHandoff'
+    Target 'PaperloftHandoff-product' in project 'PaperloftHandoff'
+        ➜ Explicit dependency on target 'PaperloftHandoff' in project 'PaperloftHandoff'
+    Target 'PaperloftHandoff' in project 'PaperloftHandoff' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 44f8bcab1be5686045195f237d53f199
+Build description path: /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/XCBuildData/44f8bcab1be5686045195f237d53f199.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
+    cd /Users/builder/Factory/paperloft/Paperloft.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A/Resources/Info.plist /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/PaperloftKit.build/QA/PaperloftKit-product-t.build/empty-PaperloftKit_5CD798059AF8BAE1_PackageProduct.plist (in target 'PaperloftKitdynamic-product' from project 'PaperloftKit')
+    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/PaperloftKit.build/QA/PaperloftKit-product-t.build/empty-PaperloftKit_5CD798059AF8BAE1_PackageProduct.plist -producttype com.apple.product-type.framework -expandbuildsettings -platform macosx -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A/Resources/Info.plist
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PaperloftShare.appex/Contents/Info.plist /Users/builder/Factory/paperloft/Configuration/Share-Info.plist (in target 'PaperloftShare' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft/Configuration/Share-Info.plist -producttype com.apple.product-type.app-extension -expandbuildsettings -platform macosx -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PaperloftShare.appex/Contents/Info.plist
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Info.plist /Users/builder/Factory/paperloft/Configuration/Info.plist (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft/Configuration/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PkgInfo -expandbuildsettings -platform macosx -additionalcontentfile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/assetcatalog_generated_info.plist -scanforprivacyfile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework -scanforprivacyfile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftShare.appex -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Info.plist
+
+CopySwiftLibs /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/MacOS/Paperloft\ Receipts --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Frameworks --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Library/SystemExtensions --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Extensions --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ProcessInfoPlistFile /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Info.plist /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/empty-PaperloftPerformanceTests.plist (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-infoPlistUtility /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/empty-PaperloftPerformanceTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -platform macosx -o /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Info.plist
+
+CpResource /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Resources/PerformanceFixtures /Users/builder/Factory/paperloft/build/PerformanceFixtures (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/builder/Factory/paperloft/build/PerformanceFixtures /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Resources
+
+CodeSign /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A
+/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework/Versions/A: replacing existing signature
+
+CopySwiftLibs /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/MacOS/PaperloftPerformanceTests --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/PlugIns --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Library/SystemExtensions --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Extensions --scan-folder /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/PackageFrameworks/PaperloftKit_5CD798059AF8BAE1_PackageProduct.framework --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest/Contents/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftPerformanceTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+CodeSign /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest (in target 'PaperloftPerformanceTests' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest
+/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft Receipts.app/Contents/PlugIns/PaperloftPerformanceTests.xctest: replacing existing signature
+
+CodeSign /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --entitlements /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/Paperloft.build/QA/PaperloftApp.build/Paperloft\ Receipts.app.xcent --timestamp\=none --generate-entitlement-der /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app
+/Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft Receipts.app: replacing existing signature
+
+Validate /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-validationUtility /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app -no-validate-extension -infoplist-subpath Contents/Info.plist
+
+RegisterWithLaunchServices /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app (in target 'PaperloftApp' from project 'Paperloft')
+    cd /Users/builder/Factory/paperloft
+    builtin-lsregisterurl --record-path /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/XCBuildData/registered-launchservices.txt -- /System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -f -R -trusted /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Products/QA/Paperloft\ Receipts.app
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/PerformanceDerivedData/SDKExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/PerformanceDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+2026-11-18 12:41:04.362536-0800 Paperloft Receipts[26298:884120] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 12:41:04.362817-0800 Paperloft Receipts[26298:884120] [Application] Error registering app with intents framework: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 12:41:04.365352-0800 Paperloft Receipts[26298:884122] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 12:41:04.365374-0800 Paperloft Receipts[26298:884122] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 12:41:04.368378-0800 Paperloft Receipts[26298:884120] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 12:41:04.368418-0800 Paperloft Receipts[26298:884120] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 12:41:04.371217-0800 Paperloft Receipts[26298:884122] [Connection] Will NOT re-try to establish the connection
+2026-11-18 12:41:04.371262-0800 Paperloft Receipts[26298:884119] [Connection] Unable to get synchronousRemoteObjectProxy, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 12:41:04.371278-0800 Paperloft Receipts[26298:884119] [Connection] Unable to re-register with Process Instance Registry, error: Error Domain=NSCocoaErrorDomain Code=4097 "connection to service named com.apple.linkd.autoShortcut" UserInfo={NSDebugDescription=connection to service named com.apple.linkd.autoShortcut}
+2026-11-18 12:41:04.465550-0800 Paperloft Receipts[26298:884085] ApplePersistenceIgnoreState: Existing state will not be touched. New state will be written to /Users/builder/Library/Containers/app.paperloft.receipts/Data/tmp/app.paperloft.receipts.savedState
+Test Suite 'All tests' started at 2026-11-18 12:41:04.860.
+Test Suite 'PaperloftPerformanceTests.xctest' started at 2026-11-18 12:41:04.860.
+Test Suite 'PipelinePerformanceTests' started at 2026-11-18 12:41:04.861.
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' started.
+2026-11-18 12:41:04.978556-0800 Paperloft Receipts[26298:884085] [WarnOnce] It's not legal to call -layoutSubtreeIfNeeded on a view which is already being laid out.  If you are implementing the view's -layout method, you can call -[super layout] instead.  Break on void _NSDetectedLayoutRecursion(void) to debug.  This will be logged only once.  This may break in the future.
+PERFORMANCE_SETUP clearing temporary inbox records: 100
+2026-11-18 12:41:06.184192-0800 Paperloft Receipts[26298:884085] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 12:41:06.185757-0800 Paperloft Receipts[26298:884085] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 12:41:06.186421-0800 Paperloft Receipts[26298:884085] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 12:41:06.202293-0800 Paperloft Receipts[26298:884085] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 12:41:10.613780-0800 Paperloft Receipts[26298:884179] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 830x1018
+2026-11-18 12:41:10.751092-0800 Paperloft Receipts[26298:884179] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:10.755887-0800 Paperloft Receipts[26298:884179] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:10.771661-0800 Paperloft Receipts[26298:884179] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:10.775612-0800 Paperloft Receipts[26298:884179] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:10.783076-0800 Paperloft Receipts[26298:884179] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_tr_model_latincyrillic_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-11-18 12:41:10.783322-0800 Paperloft Receipts[26298:884119] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_td_model_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-11-18 12:41:10.788834-0800 Paperloft Receipts[26298:884399] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_orientation_model_v1_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+2026-11-18 12:41:11.096012-0800 Paperloft Receipts[26298:884429] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-11-18 12:41:11.112228-0800 Paperloft Receipts[26298:884429] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-11-18 12:41:11.369472-0800 Paperloft Receipts[26298:884179] [Common] Unable to obtain a task name port right for pid 467: (os/kern) failure (0x5)
+2026-11-18 12:41:11.389637-0800 Paperloft Receipts[26298:884176] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:11.393413-0800 Paperloft Receipts[26298:884176] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:11.786728-0800 Paperloft Receipts[26298:884176] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:11.790640-0800 Paperloft Receipts[26298:884176] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:12.197428-0800 Paperloft Receipts[26298:884176] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:12.201148-0800 Paperloft Receipts[26298:884176] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:12.550138-0800 Paperloft Receipts[26298:884177] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:12.554074-0800 Paperloft Receipts[26298:884177] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:12.927829-0800 Paperloft Receipts[26298:884429] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 865x1032
+2026-11-18 12:41:12.952264-0800 Paperloft Receipts[26298:884429] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:12.956333-0800 Paperloft Receipts[26298:884429] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:13.244171-0800 Paperloft Receipts[26298:884736] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:13.248226-0800 Paperloft Receipts[26298:884736] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:13.697806-0800 Paperloft Receipts[26298:884499] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:13.701736-0800 Paperloft Receipts[26298:884499] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:13.854612-0800 Paperloft Receipts[26298:884499] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x950
+2026-11-18 12:41:14.039948-0800 Paperloft Receipts[26298:884499] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:14.043944-0800 Paperloft Receipts[26298:884499] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:14.516789-0800 Paperloft Receipts[26298:884177] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:14.520595-0800 Paperloft Receipts[26298:884177] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:14.880088-0800 Paperloft Receipts[26298:884496] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1096x992
+2026-11-18 12:41:14.907904-0800 Paperloft Receipts[26298:884496] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:14.911876-0800 Paperloft Receipts[26298:884496] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:15.242491-0800 Paperloft Receipts[26298:884736] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:15.246467-0800 Paperloft Receipts[26298:884736] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:15.643823-0800 Paperloft Receipts[26298:884401] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:15.647533-0800 Paperloft Receipts[26298:884401] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:15.838685-0800 Paperloft Receipts[26298:884401] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x2052
+2026-11-18 12:41:16.048816-0800 Paperloft Receipts[26298:884400] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:16.052780-0800 Paperloft Receipts[26298:884400] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:16.376850-0800 Paperloft Receipts[26298:884494] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:16.380781-0800 Paperloft Receipts[26298:884494] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:16.733731-0800 Paperloft Receipts[26298:884403] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1136x1030
+2026-11-18 12:41:16.764635-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:16.768689-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:17.074659-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:17.078668-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:17.449035-0800 Paperloft Receipts[26298:884177] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:17.453044-0800 Paperloft Receipts[26298:884177] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:17.613554-0800 Paperloft Receipts[26298:884177] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x988
+2026-11-18 12:41:17.794845-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:17.798836-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:18.168933-0800 Paperloft Receipts[26298:884736] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:18.172944-0800 Paperloft Receipts[26298:884736] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:18.541671-0800 Paperloft Receipts[26298:884494] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1369x1037
+2026-11-18 12:41:18.574241-0800 Paperloft Receipts[26298:884494] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:18.578245-0800 Paperloft Receipts[26298:884494] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:19.318658-0800 Paperloft Receipts[26298:884402] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:19.322745-0800 Paperloft Receipts[26298:884402] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:19.494229-0800 Paperloft Receipts[26298:884402] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 920x2488
+2026-11-18 12:41:19.699667-0800 Paperloft Receipts[26298:884402] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:19.703647-0800 Paperloft Receipts[26298:884402] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:20.017444-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:20.021473-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:20.393806-0800 Paperloft Receipts[26298:884403] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 971x1061
+2026-11-18 12:41:20.417963-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:20.421958-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:20.773481-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:20.777514-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:21.207368-0800 Paperloft Receipts[26298:884494] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:21.211351-0800 Paperloft Receipts[26298:884494] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:21.373553-0800 Paperloft Receipts[26298:884494] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1000x988
+2026-11-18 12:41:21.541259-0800 Paperloft Receipts[26298:884494] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:21.545246-0800 Paperloft Receipts[26298:884494] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:21.946278-0800 Paperloft Receipts[26298:884495] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:21.950287-0800 Paperloft Receipts[26298:884495] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:22.312803-0800 Paperloft Receipts[26298:885615] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 813x1006
+2026-11-18 12:41:22.326706-0800 Paperloft Receipts[26298:885615] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:22.330706-0800 Paperloft Receipts[26298:885615] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:22.676882-0800 Paperloft Receipts[26298:885616] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:22.680862-0800 Paperloft Receipts[26298:885616] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:23.076268-0800 Paperloft Receipts[26298:885616] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:23.080072-0800 Paperloft Receipts[26298:885616] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:23.851243-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:23.855334-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:24.219951-0800 Paperloft Receipts[26298:884433] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 834x1044
+2026-11-18 12:41:24.246260-0800 Paperloft Receipts[26298:884433] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:24.250293-0800 Paperloft Receipts[26298:884433] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:24.535896-0800 Paperloft Receipts[26298:884736] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:24.539917-0800 Paperloft Receipts[26298:884736] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:24.964722-0800 Paperloft Receipts[26298:884400] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:24.968614-0800 Paperloft Receipts[26298:884400] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:25.130961-0800 Paperloft Receipts[26298:884400] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x988
+2026-11-18 12:41:25.318708-0800 Paperloft Receipts[26298:884400] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:25.322633-0800 Paperloft Receipts[26298:884400] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:25.704351-0800 Paperloft Receipts[26298:884429] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:25.708360-0800 Paperloft Receipts[26298:884429] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:26.061664-0800 Paperloft Receipts[26298:884433] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1114x1049
+2026-11-18 12:41:26.097713-0800 Paperloft Receipts[26298:884433] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:26.101636-0800 Paperloft Receipts[26298:884433] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:26.439905-0800 Paperloft Receipts[26298:884433] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:26.443812-0800 Paperloft Receipts[26298:884433] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:26.798329-0800 Paperloft Receipts[26298:884433] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:26.802305-0800 Paperloft Receipts[26298:884433] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:26.984818-0800 Paperloft Receipts[26298:884433] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x1976
+2026-11-18 12:41:27.201150-0800 Paperloft Receipts[26298:884433] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:27.204834-0800 Paperloft Receipts[26298:884433] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:27.527075-0800 Paperloft Receipts[26298:884177] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:27.531098-0800 Paperloft Receipts[26298:884177] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:27.917665-0800 Paperloft Receipts[26298:884497] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1153x1012
+2026-11-18 12:41:27.945272-0800 Paperloft Receipts[26298:884497] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:27.949232-0800 Paperloft Receipts[26298:884497] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:28.301587-0800 Paperloft Receipts[26298:884176] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:28.305535-0800 Paperloft Receipts[26298:884176] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:28.730614-0800 Paperloft Receipts[26298:884176] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:28.734532-0800 Paperloft Receipts[26298:884176] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:28.895895-0800 Paperloft Receipts[26298:884402] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x950
+2026-11-18 12:41:29.070693-0800 Paperloft Receipts[26298:884739] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:29.074646-0800 Paperloft Receipts[26298:884739] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:29.448904-0800 Paperloft Receipts[26298:884402] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:29.452924-0800 Paperloft Receipts[26298:884402] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+PAPERLOFT_PERFORMANCE {"heartbeatCount":1143,"backend":"parser","lifetimePeakPhysicalBytes":414074416,"iteration":1,"recordedBackends":{"parser":100},"longestGapEndedAtSeconds":5.934290666667948,"inputCount":100,"failures":[],"synchronousIntakeSeconds":5.09196191666706,"seconds":24.459973666667793,"persistedCompleted":100,"priorInboxCount":0,"maximumMainHeartbeatGapSeconds":0.23547008333480335,"memoryReadFailures":0,"finalLayoutSeconds":0.00029983333297423087,"completed":100}
+PERFORMANCE_SETUP clearing temporary inbox records: 100
+2026-11-18 12:41:32.699609-0800 Paperloft Receipts[26298:884085] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 12:41:32.699836-0800 Paperloft Receipts[26298:884085] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 12:41:32.701731-0800 Paperloft Receipts[26298:884085] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 12:41:32.701949-0800 Paperloft Receipts[26298:884085] [Invalid Configuration] onChange(of: Array<UUID>) action tried to update multiple times per frame.
+2026-11-18 12:41:37.415661-0800 Paperloft Receipts[26298:884495] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 830x1018
+2026-11-18 12:41:37.459113-0800 Paperloft Receipts[26298:884495] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:37.463045-0800 Paperloft Receipts[26298:884495] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:37.725001-0800 Paperloft Receipts[26298:887183] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-11-18 12:41:37.742003-0800 Paperloft Receipts[26298:887186] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 1800 is larger than image-dimension: 830x1018
+2026-11-18 12:41:37.950046-0800 Paperloft Receipts[26298:887201] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:37.953988-0800 Paperloft Receipts[26298:887201] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:38.348877-0800 Paperloft Receipts[26298:887186] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:38.352940-0800 Paperloft Receipts[26298:887186] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:38.758409-0800 Paperloft Receipts[26298:887219] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:38.762485-0800 Paperloft Receipts[26298:887219] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:39.119202-0800 Paperloft Receipts[26298:887186] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:39.123097-0800 Paperloft Receipts[26298:887186] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:39.501963-0800 Paperloft Receipts[26298:887186] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 865x1032
+2026-11-18 12:41:39.526234-0800 Paperloft Receipts[26298:887186] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:39.530363-0800 Paperloft Receipts[26298:887186] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:39.839466-0800 Paperloft Receipts[26298:887218] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:39.843197-0800 Paperloft Receipts[26298:887218] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:40.277943-0800 Paperloft Receipts[26298:887218] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:40.281730-0800 Paperloft Receipts[26298:887218] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:40.440863-0800 Paperloft Receipts[26298:887218] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x950
+2026-11-18 12:41:40.623251-0800 Paperloft Receipts[26298:887218] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:40.627087-0800 Paperloft Receipts[26298:887218] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:41.041799-0800 Paperloft Receipts[26298:887184] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:41.045852-0800 Paperloft Receipts[26298:887184] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:41.415446-0800 Paperloft Receipts[26298:884403] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1096x992
+2026-11-18 12:41:41.445519-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:41.449720-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:41.780343-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:41.784187-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:42.173189-0800 Paperloft Receipts[26298:887317] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:42.177203-0800 Paperloft Receipts[26298:887317] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:42.360804-0800 Paperloft Receipts[26298:887221] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x2052
+2026-11-18 12:41:42.574276-0800 Paperloft Receipts[26298:884497] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:42.578234-0800 Paperloft Receipts[26298:884497] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:42.910703-0800 Paperloft Receipts[26298:884495] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:42.914849-0800 Paperloft Receipts[26298:884495] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:43.301455-0800 Paperloft Receipts[26298:884497] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1136x1030
+2026-11-18 12:41:43.333094-0800 Paperloft Receipts[26298:884497] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:43.337141-0800 Paperloft Receipts[26298:884497] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:43.636839-0800 Paperloft Receipts[26298:884497] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:43.640792-0800 Paperloft Receipts[26298:884497] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:44.071832-0800 Paperloft Receipts[26298:884497] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:44.075819-0800 Paperloft Receipts[26298:884497] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:44.306737-0800 Paperloft Receipts[26298:884400] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x988
+2026-11-18 12:41:44.519193-0800 Paperloft Receipts[26298:887220] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:44.523384-0800 Paperloft Receipts[26298:887220] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:44.919007-0800 Paperloft Receipts[26298:887220] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:44.923064-0800 Paperloft Receipts[26298:887220] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:45.255725-0800 Paperloft Receipts[26298:884402] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1369x1037
+2026-11-18 12:41:45.284237-0800 Paperloft Receipts[26298:884402] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:45.288052-0800 Paperloft Receipts[26298:884402] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:45.980595-0800 Paperloft Receipts[26298:884402] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:45.984792-0800 Paperloft Receipts[26298:884402] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:46.152145-0800 Paperloft Receipts[26298:888023] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 920x2488
+2026-11-18 12:41:46.360856-0800 Paperloft Receipts[26298:887219] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:46.364867-0800 Paperloft Receipts[26298:887219] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:46.678386-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:46.682454-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:47.065760-0800 Paperloft Receipts[26298:884403] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 971x1061
+2026-11-18 12:41:47.091246-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:47.095212-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:47.431235-0800 Paperloft Receipts[26298:887184] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:47.435262-0800 Paperloft Receipts[26298:887184] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:47.872772-0800 Paperloft Receipts[26298:887223] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:47.876776-0800 Paperloft Receipts[26298:887223] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:48.036297-0800 Paperloft Receipts[26298:887223] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1000x988
+2026-11-18 12:41:48.203806-0800 Paperloft Receipts[26298:887184] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:48.207814-0800 Paperloft Receipts[26298:887184] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:48.616115-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:48.620107-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:48.996541-0800 Paperloft Receipts[26298:884403] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 813x1006
+2026-11-18 12:41:49.009053-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:49.013074-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:49.368701-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:49.372694-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:49.769047-0800 Paperloft Receipts[26298:887184] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:49.773086-0800 Paperloft Receipts[26298:887184] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:50.518504-0800 Paperloft Receipts[26298:887184] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:50.522598-0800 Paperloft Receipts[26298:887184] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:50.899596-0800 Paperloft Receipts[26298:887198] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 834x1044
+2026-11-18 12:41:50.924399-0800 Paperloft Receipts[26298:887198] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:50.928464-0800 Paperloft Receipts[26298:887198] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:51.250751-0800 Paperloft Receipts[26298:887198] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:51.254903-0800 Paperloft Receipts[26298:887198] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:51.685402-0800 Paperloft Receipts[26298:887320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:51.689485-0800 Paperloft Receipts[26298:887320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:51.861041-0800 Paperloft Receipts[26298:887320] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1180x988
+2026-11-18 12:41:52.048321-0800 Paperloft Receipts[26298:887320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:52.052405-0800 Paperloft Receipts[26298:887320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:52.474770-0800 Paperloft Receipts[26298:887320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:52.478762-0800 Paperloft Receipts[26298:887320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:52.843965-0800 Paperloft Receipts[26298:887320] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1114x1049
+2026-11-18 12:41:52.877827-0800 Paperloft Receipts[26298:887320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:52.881919-0800 Paperloft Receipts[26298:887320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:53.223604-0800 Paperloft Receipts[26298:887316] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:53.227855-0800 Paperloft Receipts[26298:887316] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:53.578180-0800 Paperloft Receipts[26298:887316] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:53.582233-0800 Paperloft Receipts[26298:887316] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:53.750844-0800 Paperloft Receipts[26298:884403] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1120x1976
+2026-11-18 12:41:53.960960-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:53.964782-0800 Paperloft Receipts[26298:884403] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:54.284285-0800 Paperloft Receipts[26298:887316] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:54.288380-0800 Paperloft Receipts[26298:887316] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:54.662298-0800 Paperloft Receipts[26298:887316] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1153x1012
+2026-11-18 12:41:54.688424-0800 Paperloft Receipts[26298:887316] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:54.692370-0800 Paperloft Receipts[26298:887316] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:55.030082-0800 Paperloft Receipts[26298:887320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:55.034076-0800 Paperloft Receipts[26298:887320] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:55.471419-0800 Paperloft Receipts[26298:888023] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:55.475689-0800 Paperloft Receipts[26298:888023] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:55.649148-0800 Paperloft Receipts[26298:887220] [Paperloft Receipts] createThumbnailAtIndex:2615: *** ERROR: kCGImageSourceThumbnailMaxPixelSize: 3000 is larger than image-dimension: 1200x950
+2026-11-18 12:41:55.827553-0800 Paperloft Receipts[26298:888023] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:55.831682-0800 Paperloft Receipts[26298:888023] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:56.230094-0800 Paperloft Receipts[26298:887220] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+2026-11-18 12:41:56.233864-0800 Paperloft Receipts[26298:887220] mdb_txn_commit error: MDB_MAP_FULL: Environment mapsize limit reached
+PAPERLOFT_PERFORMANCE {"persistedCompleted":100,"lifetimePeakPhysicalBytes":447923904,"synchronousIntakeSeconds":5.030524124998919,"recordedBackends":{"parser":100},"priorInboxCount":0,"seconds":24.36256508333463,"heartbeatCount":1111,"completed":100,"memoryReadFailures":0,"backend":"parser","maximumMainHeartbeatGapSeconds":0.16485608333459822,"iteration":2,"failures":[],"inputCount":100,"longestGapEndedAtSeconds":12.085578124999302,"finalLayoutSeconds":0.00016020833209040575}
+/Users/builder/Factory/paperloft/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Memory Physical, kB] average: 51101.696, relative standard deviation: 0.000%, values: [51101.696000], performanceMetricID:com.apple.dt.XCTMetric_Memory.physical, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+/Users/builder/Factory/paperloft/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Clock Monotonic Time, s] average: 23.973, relative standard deviation: 0.000%, values: [23.972803], performanceMetricID:com.apple.dt.XCTMetric_Clock.time.monotonic, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+/Users/builder/Factory/paperloft/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Duration (UnderstandInboxBatch), s] average: 19.160, relative standard deviation: 0.000%, values: [19.159621], performanceMetricID:com.apple.dt.XCTMetric_OSSignpost-UnderstandInboxBatch.duration, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+/Users/builder/Factory/paperloft/Tests/PaperloftPerformanceTests/PipelinePerformanceTests.swift:49: Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' measured [Memory Peak Physical, kB] average: 447923.904, relative standard deviation: 0.000%, values: [447923.904000], performanceMetricID:com.apple.dt.XCTMetric_Memory.physical_peak, baselineName: "", baselineAverage: , polarity: prefers smaller, maxPercentRegression: 10.000%, maxPercentRelativeStandardDeviation: 10.000%, maxRegression: 0.000, maxStandardDeviation: 0.000
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests test100MixedDocuments]' passed (53.857 seconds).
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests testSamplerDetectsBlockedMainThread]' started.
+Test Case '-[PaperloftPerformanceTests.PipelinePerformanceTests testSamplerDetectsBlockedMainThread]' passed (0.404 seconds).
+Test Suite 'PipelinePerformanceTests' passed at 2026-11-18 12:41:59.123.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 54.260 (54.262) seconds
+Test Suite 'PaperloftPerformanceTests.xctest' passed at 2026-11-18 12:41:59.125.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 54.260 (54.265) seconds
+Test Suite 'All tests' passed at 2026-11-18 12:41:59.127.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 54.260 (54.267) seconds
+2026-11-18 12:41:59.498 xcodebuild[26219:883477] [MT] IDETestOperationsObserverDebug: 55.661 elapsed -- Testing started completed.
+2026-11-18 12:41:59.498 xcodebuild[26219:883477] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-11-18 12:41:59.498 xcodebuild[26219:883477] [MT] IDETestOperationsObserverDebug: 55.661 sec, +55.661 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/builder/Factory/paperloft/build/Performance-parser-20261118T204053Z.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started

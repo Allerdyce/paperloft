@@ -1,3 +1,7 @@
+## Owner update — 2026-11-18
+
+Owner confirms Apple membership conversion to EvidencePair LLC is complete. Do not keep migration approval listed as pending. Local distribution certificates/API configuration still need verification/setup. Owner also closed Storage/System Settings after heavy background CPU activity was observed during performance testing.
+
 ## Progress — 2026-11-18 regression complete
 
 Power/storage blockers cleared. Full signed CI on local/signpost-persist passed, including 44 UI tests and strict Debug/Release. Six-line persisted-signpost fix independently reviewed and merged into run/1. Fresh performance measurements next; provenance scripts now include Configuration. Release credentials and remaining purchase/design/persona/final checks remain incomplete. See evidence/ci/release-resume-20261118.md.

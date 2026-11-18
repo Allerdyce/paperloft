@@ -1,4 +1,4 @@
-Paperloft factory pre-flight  2026-11-18 11:49:29  user=builder  repo=/Users/builder/Factory/paperloft
+Paperloft factory pre-flight  2026-11-18 12:40:53  user=builder  repo=/Users/builder/Factory/paperloft
 
 == Machine ==
 PASS   macOS 27.0

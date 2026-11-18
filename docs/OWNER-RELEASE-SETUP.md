@@ -1,3 +1,20 @@
+## Current checkpoint — November 18, 2026
+
+Owner confirms the EvidencePair LLC membership conversion is complete. The acceptance tag/lock baseline is also established. Historical FAIL counts and migration-pending instructions below are superseded by this checkpoint.
+
+Current local preflight: development identity present; Apple Distribution and Mac Installer Distribution identities missing; ASC key ID, issuer ID, key path and team ID still placeholders. No live account/API verification yet. The owner authorizes submission/public launch after readiness checks pass.
+
+Remaining account setup follows steps 3–4 below; do not repeat organization enrollment. Verify the actual organization Team ID rather than assuming it changed or stayed the same. Never paste private keys/passwords into chat.
+
+Official references checked November 18:
+- [Create signing certificates in Xcode](https://help.apple.com/xcode/mac/current/en.lproj/dev154b28f09.html)
+- [Certificate types](https://developer.apple.com/help/account/certificates/certificates-overview/)
+- [App Store Connect API access](https://developer.apple.com/help/app-store-connect/get-started/app-store-connect-api/)
+
+The older guide below is historical where it conflicts with this checkpoint. Bank/tax answers must come from the account holder; app metadata and authorized release actions can be handled by the agent when access is available.
+
+---
+
 # Owner guide: clearing the release preflight blockers
 
 Written 2026-09-30 from the release check in `evidence/release/readiness-20260929.md`. It follows `SPEC.md` sections 3.3–3.8 and 4, trimmed to what is still open. Everything here is yours to do; the agent can't sign in, create accounts, set prices or accept agreements on your behalf. **Never paste keys, passwords or `.p8` contents into chat.**

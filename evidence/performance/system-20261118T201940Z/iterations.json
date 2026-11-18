@@ -1,0 +1,22 @@
+[
+  {
+    "priorInboxCount": 0,
+    "heartbeatCount": 40720,
+    "memoryReadFailures": 0,
+    "finalLayoutSeconds": 0.0002908333335653879,
+    "maximumMainHeartbeatGapSeconds": 0.23181070833379636,
+    "completed": 100,
+    "seconds": 418.3665837916669,
+    "backend": "system",
+    "persistedCompleted": 100,
+    "synchronousIntakeSeconds": 4.451356666664651,
+    "lifetimePeakPhysicalBytes": 367314408,
+    "inputCount": 100,
+    "failures": [],
+    "recordedBackends": {
+      "system": 100
+    },
+    "longestGapEndedAtSeconds": 67.00809629166906,
+    "iteration": 1
+  }
+]
