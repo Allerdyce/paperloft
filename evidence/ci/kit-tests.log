@@ -1,18 +1,18 @@
 Command line invocation:
-    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -scheme PaperloftKit-Package -destination platform=macOS -derivedDataPath ../../build/KitCoverageDerivedData -enableCodeCoverage YES -resultBundlePath ../../build/KitCoverage-20261002-043312.xcresult SWIFT_TREAT_WARNINGS_AS_ERRORS=YES
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -scheme PaperloftKit-Package -destination platform=macOS -derivedDataPath ../../build/KitCoverageDerivedData -enableCodeCoverage YES -resultBundlePath ../../build/KitCoverage-20261118-151738.xcresult SWIFT_TREAT_WARNINGS_AS_ERRORS=YES
 
 Build settings from command line:
     SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
 
 Resolve Package Graph
-2026-10-02 04:33:13.736 xcodebuild[59396:7735272] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+2026-11-18 15:17:39.756 xcodebuild[66021:1155246] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
 
 
 Resolved source packages:
   PaperloftKit: /Users/builder/Factory/paperloft/Packages/PaperloftKit
 
 Writing result bundle at path:
-	/Users/builder/Factory/paperloft/build/KitCoverage-20261002-043312.xcresult
+	/Users/builder/Factory/paperloft/build/KitCoverage-20261118-151738.xcresult
 
 --- xcodebuild: WARNING: Using the first of multiple matching destinations:
 { platform:macOS, arch:arm64, id:00006000-000458260AFA401E, name:My Mac }
@@ -21,8 +21,8 @@ Writing result bundle at path:
 { platform:macOS, arch:x86_64, variant:Mac Catalyst, id:00006000-000458260AFA401E, name:My Mac }
 { platform:macOS, arch:arm64, variant:DriverKit, id:00006000-000458260AFA401E, name:My Mac }
 { platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:00006000-000458260AFA401E, name:My Mac }
-{ platform:macOS, arch:arm64_32, variant:Designed for [iPad,iPhone], id:00006000-000458260AFA401E, name:My Mac }
 { platform:macOS, arch:arm64e.x1, variant:Designed for [iPad,iPhone], id:00006000-000458260AFA401E, name:My Mac }
+{ platform:macOS, arch:arm64_32, variant:Designed for [iPad,iPhone], id:00006000-000458260AFA401E, name:My Mac }
 ComputePackagePrebuildTargetDependencyGraph
 
 Prepare packages
@@ -56,171 +56,12 @@ ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD
 
 ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
 
-Build description signature: 3f85370d2f104f976bb7f7278c28b7f7
-Build description path: /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/XCBuildData/3f85370d2f104f976bb7f7278c28b7f7.xcbuilddata
+Build description signature: f5ba6e9cb2556fd84cebbf8529468d41
+Build description path: /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/XCBuildData/f5ba6e9cb2556fd84cebbf8529468d41.xcbuilddata
 ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -o /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.LinkFileList (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.LinkFileList
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json
-
-SwiftDriver PaperloftKit normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftKit -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-Swift.h -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-SwiftCompile normal arm64 Compiling\ AccountantPack.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/AccountantPack.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/AccountantPack.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile AccountantPack.swift
-
-SwiftEmitModule normal arm64 Emitting\ module\ for\ PaperloftKit (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    
-
-SwiftCompile normal arm64 Compiling\ ZipArchive.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/ZipArchive.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/ZipArchive.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ZipArchive.swift
-
-SwiftDriverJobDiscovery normal arm64 Compiling ZipArchive.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 Compiling\ LibraryFiles.swift,\ LibraryStore.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/LibraryFiles.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/LibraryStore.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/LibraryFiles.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile LibraryFiles.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/LibraryStore.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile LibraryStore.swift
-
-SwiftCompile normal arm64 Compiling\ MailAttachmentSupport.swift,\ MailDeliveryLedger.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/MailAttachmentSupport.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/MailDeliveryLedger.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/MailAttachmentSupport.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailAttachmentSupport.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/MailDeliveryLedger.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailDeliveryLedger.swift
-
-SwiftCompile normal arm64 Compiling\ ReceiptIndex.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/ReceiptIndex.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/ReceiptIndex.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ReceiptIndex.swift
-
-SwiftCompile normal arm64 Compiling\ MailImport.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/MailImport.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/MailImport.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailImport.swift
-
-SwiftCompile normal arm64 Compiling\ MailEnvelope.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/MailEnvelope.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/MailEnvelope.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailEnvelope.swift
-
-SwiftCompile normal arm64 Compiling\ ScanImport.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/ScanImport.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/ScanImport.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ScanImport.swift
-
-SwiftCompile normal arm64 Compiling\ IntakeQueue.swift,\ LibraryAccess.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/IntakeQueue.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/LibraryAccess.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/IntakeQueue.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile IntakeQueue.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/LibraryAccess.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile LibraryAccess.swift
-
-SwiftCompile normal arm64 Compiling\ UnderstandingQuota.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/UnderstandingQuota.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/UnderstandingQuota.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile UnderstandingQuota.swift
-
-SwiftCompile normal arm64 Compiling\ WatchedFolderScanner.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/WatchedFolderScanner.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/WatchedFolderScanner.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile WatchedFolderScanner.swift
-
-SwiftDriverJobDiscovery normal arm64 Compiling AccountantPack.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 Compiling\ MailDocument.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/MailDocument.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Sources/PaperloftKit/MailDocument.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailDocument.swift
-
-SwiftDriverJobDiscovery normal arm64 Emitting module for PaperloftKit (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftDriver\ Compilation\ Requirements PaperloftKit normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftKit -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-Swift.h -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-SwiftDriverJobDiscovery normal arm64 Compiling UnderstandingQuota.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-Copy /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.swiftmodule /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.swiftmodule
-
-Copy /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.swiftdoc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftdoc (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftdoc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.swiftdoc
-
-Copy /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.abi.json /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.abi.json (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.abi.json /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/arm64-apple-macos.abi.json
-
-Copy /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftsourceinfo (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftsourceinfo /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo
-
-SwiftDriverJobDiscovery normal arm64 Compiling MailEnvelope.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling ScanImport.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling MailImport.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling ReceiptIndex.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling MailAttachmentSupport.swift, MailDeliveryLedger.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling IntakeQueue.swift, LibraryAccess.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling MailDocument.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling LibraryFiles.swift, LibraryStore.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling WatchedFolderScanner.swift (in target 'PaperloftKit' from project 'PaperloftKit')
-
-SwiftDriver\ Compilation PaperloftKit normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKit' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftKit -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit-Swift.h -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
+Base directory status changed. Regenerating...
 
 Ld /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.o normal (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
@@ -229,286 +70,16 @@ Ld /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/
 ExtractAppIntentsMetadata (in target 'PaperloftKit' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name PaperloftKit --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk --xcode-version 27A266a --platform-family macOS --deployment-target 27.0 --bundle-identifier paperloftkit.PaperloftKit --output /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.appintents --target-triple arm64-apple-macos27.0 --binary-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKit.o --dependency-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit_dependency_info.dat --stringsdata-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftFileList --metadata-file-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.DependencyMetadataFileList --static-metadata-file-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/PaperloftKit.DependencyStaticMetadataFileList --swift-const-vals-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKit-t.build/Objects-normal/arm64/PaperloftKit.SwiftConstValuesFileList --force --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
-2026-10-02 04:33:18.407 appintentsmetadataprocessor[59460:7735598] Starting appintentsmetadataprocessor export
-2026-10-02 04:33:18.464 appintentsmetadataprocessor[59460:7735598] Extracted no relevant App Intents symbols, skipping writing output
+2026-11-18 15:17:41.965 appintentsmetadataprocessor[66082:1155551] Starting appintentsmetadataprocessor export
+2026-11-18 15:17:42.015 appintentsmetadataprocessor[66082:1155551] Extracted no relevant App Intents symbols, skipping writing output
 
-SwiftDriver PaperloftEval normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftEval-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftEval -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-SwiftDriver PaperloftCrashWorker normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftCrashWorker-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftCrashWorker -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.LinkFileList (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
+Ld /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/MacOS/PaperloftKitTests normal (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.LinkFileList
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.SwiftConstValuesFileList (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.SwiftConstValuesFileList
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.SwiftFileList (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.SwiftFileList
-
-WriteAuxiliaryFile /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests-OutputFileMap.json (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    write-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests-OutputFileMap.json
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -Xlinker -reproducible -target arm64-apple-macos27.0 -Xlinker -bundle -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -Xlinker -no_warn_duplicate_libraries -L/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug -L/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug -F/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Fsystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.LinkFileList -Xlinker -rpath -Xlinker @loader_path -Xlinker -rpath -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -Xlinker -rpath -Xlinker @loader_path/../../.. -Xlinker -rpath -Xlinker @loader_path/Frameworks -Xlinker -rpath -Xlinker @loader_path/../Frameworks -Xlinker -object_path_lto -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests_lto.o -Xclang-linker -rdynamic -Xlinker -no_deduplicate -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests_dependency_info.dat -link-objc-runtime -profile-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftmodule -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport -o /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/MacOS/PaperloftKitTests
 
 ProcessInfoPlistFile /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/Info.plist /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/empty-PaperloftKitTests.plist (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     builtin-infoPlistUtility /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/empty-PaperloftKitTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -platform macosx -o /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/Info.plist
-
-SwiftDriver PaperloftKitTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftKitTests -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-SwiftEmitModule normal arm64 Emitting\ module\ for\ PaperloftEval (in target 'PaperloftEval-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 (in target 'PaperloftEval-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    
-
-SwiftCompile normal arm64 Compiling\ main.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tools/PaperloftEval/main.swift (in target 'PaperloftEval-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tools/PaperloftEval/main.swift (in target 'PaperloftEval-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile main.swift
-
-SwiftEmitModule normal arm64 Emitting\ module\ for\ PaperloftCrashWorker (in target 'PaperloftCrashWorker-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 (in target 'PaperloftCrashWorker-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    
-
-SwiftCompile normal arm64 Compiling\ main.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tools/PaperloftCrashWorker/main.swift (in target 'PaperloftCrashWorker-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tools/PaperloftCrashWorker/main.swift (in target 'PaperloftCrashWorker-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile main.swift
-
-SwiftCompile normal arm64 Compiling\ IndexTests.swift,\ Intake11MailSafetyTests.swift,\ IntakeQueueReviewTests.swift,\ IntakeQueueTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/IndexTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/Intake11MailSafetyTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/IntakeQueueReviewTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/IntakeQueueTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/IndexTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile IndexTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/Intake11MailSafetyTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile Intake11MailSafetyTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/IntakeQueueReviewTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile IntakeQueueReviewTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/IntakeQueueTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile IntakeQueueTests.swift
-
-SwiftEmitModule normal arm64 Emitting\ module\ for\ PaperloftKitTests (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    
-
-SwiftCompile normal arm64 Compiling\ LibraryRenameTests.swift,\ LibraryTests.swift,\ MailAttachmentNameTests.swift,\ MailBodyExtractionTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryRenameTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailAttachmentNameTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailBodyExtractionTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryRenameTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile LibraryRenameTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/LibraryTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile LibraryTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailAttachmentNameTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailAttachmentNameTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailBodyExtractionTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailBodyExtractionTests.swift
-
-SwiftCompile normal arm64 Compiling\ NameTemplateTests.swift,\ PDFRasterizationTests.swift,\ ParserDocumentEvidenceTests.swift,\ ParserRobustnessTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/NameTemplateTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/PDFRasterizationTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ParserDocumentEvidenceTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ParserRobustnessTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/NameTemplateTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile NameTemplateTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/PDFRasterizationTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile PDFRasterizationTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ParserDocumentEvidenceTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ParserDocumentEvidenceTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ParserRobustnessTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ParserRobustnessTests.swift
-
-SwiftCompile normal arm64 Compiling\ MailFieldHintsTests.swift,\ MailFixtureCorpusTests.swift,\ MailImageAttachmentTests.swift,\ MailImportTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailFieldHintsTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailFixtureCorpusTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailImageAttachmentTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailImportTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailFieldHintsTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailFieldHintsTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailFixtureCorpusTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailFixtureCorpusTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailImageAttachmentTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailImageAttachmentTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailImportTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailImportTests.swift
-
-SwiftCompile normal arm64 Compiling\ ReceiptTests.swift,\ ResilienceTests.swift,\ ScanImportTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ReceiptTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ResilienceTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ScanImportTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ReceiptTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ReceiptTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ResilienceTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ResilienceTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ScanImportTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ScanImportTests.swift
-
-SwiftCompile normal arm64 Compiling\ ClassificationProvenanceTests.swift,\ ClassificationRecoveryTests.swift,\ ClassifierLabelTests.swift,\ DeletedReceiptTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ClassificationProvenanceTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ClassificationRecoveryTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ClassifierLabelTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/DeletedReceiptTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ClassificationProvenanceTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ClassificationProvenanceTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ClassificationRecoveryTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ClassificationRecoveryTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ClassifierLabelTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ClassifierLabelTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/DeletedReceiptTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile DeletedReceiptTests.swift
-
-SwiftDriverJobDiscovery normal arm64 Emitting module for PaperloftEval (in target 'PaperloftEval-product' from project 'PaperloftKit')
-
-SwiftDriver\ Compilation\ Requirements PaperloftEval normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftEval-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftEval -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-SwiftDriverJobDiscovery normal arm64 Emitting module for PaperloftCrashWorker (in target 'PaperloftCrashWorker-product' from project 'PaperloftKit')
-
-SwiftDriver\ Compilation\ Requirements PaperloftCrashWorker normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftCrashWorker-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftCrashWorker -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-SwiftCompile normal arm64 Compiling\ TaxExportTests.swift,\ TaxSourceEvidenceTests.swift,\ TextLayoutTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/TaxExportTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/TaxSourceEvidenceTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/TextLayoutTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/TaxExportTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile TaxExportTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/TaxSourceEvidenceTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile TaxSourceEvidenceTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/TextLayoutTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile TextLayoutTests.swift
-
-SwiftCompile normal arm64 Compiling\ MailCandidateSelectionTests.swift,\ MailCorpusMutationTests.swift,\ MailDeliveryLedgerTests.swift,\ MailDocumentTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailCandidateSelectionTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailCorpusMutationTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailDeliveryLedgerTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailDocumentTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailCandidateSelectionTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailCandidateSelectionTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailCorpusMutationTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailCorpusMutationTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailDeliveryLedgerTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailDeliveryLedgerTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/MailDocumentTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile MailDocumentTests.swift
-
-SwiftDriverJobDiscovery normal arm64 Compiling main.swift (in target 'PaperloftCrashWorker-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 Compiling\ ExportNamingTests.swift,\ ExportTests.swift,\ ExportZipTests.swift,\ ExtractionTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ExportNamingTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ExportTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ExportZipTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ExtractionTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ExportNamingTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ExportNamingTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ExportTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ExportTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ExportZipTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ExportZipTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ExtractionTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ExtractionTests.swift
-
-SwiftDriverJobDiscovery normal arm64 Compiling main.swift (in target 'PaperloftEval-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 Compiling\ UnderstandingQuotaTests.swift,\ ValidationTests.swift,\ WatchedFolderTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/UnderstandingQuotaTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ValidationTests.swift /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/WatchedFolderTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/UnderstandingQuotaTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile UnderstandingQuotaTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/ValidationTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile ValidationTests.swift
-
-SwiftCompile normal arm64 /Users/builder/Factory/paperloft/Packages/PaperloftKit/Tests/PaperloftKitTests/WatchedFolderTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-SwiftPerFileCompile WatchedFolderTests.swift
-
-SwiftDriverJobDiscovery normal arm64 Emitting module for PaperloftKitTests (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftDriver\ Compilation\ Requirements PaperloftKitTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftKitTests -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-SwiftDriverJobDiscovery normal arm64 Compiling TaxExportTests.swift, TaxSourceEvidenceTests.swift, TextLayoutTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftDriver\ Compilation PaperloftEval normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftEval-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftEval -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/Objects-normal/arm64/PaperloftEval_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftEval-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-SwiftDriver\ Compilation PaperloftCrashWorker normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftCrashWorker-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftCrashWorker -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-Copy /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.swiftmodule/arm64-apple-macos.swiftmodule /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftmodule (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftmodule /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.swiftmodule/arm64-apple-macos.swiftmodule
-
-Copy /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.swiftmodule/arm64-apple-macos.swiftdoc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftdoc (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftdoc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.swiftmodule/arm64-apple-macos.swiftdoc
-
-Copy /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.swiftmodule/arm64-apple-macos.abi.json /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.abi.json (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.abi.json /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.swiftmodule/arm64-apple-macos.abi.json
-
-Copy /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftsourceinfo (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftsourceinfo /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo
 
 Ld /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftEval normal (in target 'PaperloftEval-product' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
@@ -518,14 +89,6 @@ Ld /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -Xlinker -reproducible -target arm64-apple-macos27.0 -emit-executable -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -Xlinker -no_warn_duplicate_libraries -L/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug -L/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug -F/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Fsystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker.LinkFileList -Xlinker -rpath -Xlinker @loader_path -Xlinker -rpath -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -Xlinker -rpath -Xlinker @executable_path/../lib -Xlinker -object_path_lto -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker_lto.o -Xclang-linker -rdynamic -Xlinker -no_deduplicate -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker_dependency_info.dat -link-objc-runtime -profile-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftCrashWorker-p.build/Objects-normal/arm64/PaperloftCrashWorker.swiftmodule -o /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftCrashWorker
 
-SwiftDriverJobDiscovery normal arm64 Compiling ReceiptTests.swift, ResilienceTests.swift, ScanImportTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling LibraryRenameTests.swift, LibraryTests.swift, MailAttachmentNameTests.swift, MailBodyExtractionTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling NameTemplateTests.swift, PDFRasterizationTests.swift, ParserDocumentEvidenceTests.swift, ParserRobustnessTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling ClassificationProvenanceTests.swift, ClassificationRecoveryTests.swift, ClassifierLabelTests.swift, DeletedReceiptTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
 RegisterExecutionPolicyException /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftEval (in target 'PaperloftEval-product' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     builtin-RegisterExecutionPolicyException /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftEval
@@ -533,24 +96,6 @@ RegisterExecutionPolicyException /Users/builder/Factory/paperloft/build/KitCover
 RegisterExecutionPolicyException /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftCrashWorker (in target 'PaperloftCrashWorker-product' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     builtin-RegisterExecutionPolicyException /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftCrashWorker
-
-SwiftDriverJobDiscovery normal arm64 Compiling ExportNamingTests.swift, ExportTests.swift, ExportZipTests.swift, ExtractionTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling MailCandidateSelectionTests.swift, MailCorpusMutationTests.swift, MailDeliveryLedgerTests.swift, MailDocumentTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling MailFieldHintsTests.swift, MailFixtureCorpusTests.swift, MailImageAttachmentTests.swift, MailImportTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling IndexTests.swift, Intake11MailSafetyTests.swift, IntakeQueueReviewTests.swift, IntakeQueueTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftDriverJobDiscovery normal arm64 Compiling UnderstandingQuotaTests.swift, ValidationTests.swift, WatchedFolderTests.swift (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-
-SwiftDriver\ Compilation PaperloftKitTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode
-    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -parse-as-library -module-name PaperloftKitTests -Onone @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DXcode -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -target arm64-apple-macos27.0 -g -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -warnings-as-errors -index-store-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache -output-file-map /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name paperloftkit -emit-const-values -const-gather-protocols-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests_const_extract_protocols.json -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/include -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/DerivedSources-normal/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/DerivedSources/arm64 -Xcc -I/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -working-directory /Users/builder/Factory/paperloft/Packages/PaperloftKit/.swiftpm/xcode -experimental-emit-module-separately -disable-cmo
-
-Ld /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/MacOS/PaperloftKitTests normal (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
-    cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
-    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -Xlinker -reproducible -target arm64-apple-macos27.0 -Xlinker -bundle -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -Xlinker -no_warn_duplicate_libraries -L/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug -L/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug -F/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -F/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug -Fsystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks @/Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.LinkFileList -Xlinker -rpath -Xlinker @loader_path -Xlinker -rpath -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PackageFrameworks -Xlinker -rpath -Xlinker @loader_path/../../.. -Xlinker -rpath -Xlinker @loader_path/Frameworks -Xlinker -rpath -Xlinker @loader_path/../Frameworks -Xlinker -object_path_lto -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests_lto.o -Xclang-linker -rdynamic -Xlinker -no_deduplicate -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests_dependency_info.dat -link-objc-runtime -profile-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.swiftmodule -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport -o /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/MacOS/PaperloftKitTests
 
 CopySwiftLibs /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.xctest (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
@@ -560,64 +105,64 @@ Ignoring --strip-bitcode because --sign was not passed
 ExtractAppIntentsMetadata (in target 'PaperloftKitTests-product' from project 'PaperloftKit')
     cd /Users/builder/Factory/paperloft/Packages/PaperloftKit
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name PaperloftKitTests --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk --xcode-version 27A266a --platform-family macOS --deployment-target 27.0 --bundle-identifier paperloftkit.PaperloftKitTests --output /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/Resources --target-triple arm64-apple-macos27.0 --binary-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Products/Debug/PaperloftKitTests.xctest/Contents/MacOS/PaperloftKitTests --dependency-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests_dependency_info.dat --stringsdata-file /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.SwiftFileList --metadata-file-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/PaperloftKitTests.DependencyMetadataFileList --static-metadata-file-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/PaperloftKitTests.DependencyStaticMetadataFileList --swift-const-vals-list /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/PaperloftKit.build/Debug/PaperloftKitTests-p.build/Objects-normal/arm64/PaperloftKitTests.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
-2026-10-02 04:33:21.565 appintentsmetadataprocessor[59521:7735819] Starting appintentsmetadataprocessor export
-2026-10-02 04:33:21.618 appintentsmetadataprocessor[59521:7735819] Extracted no relevant App Intents symbols, skipping writing output
-
-PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+2026-11-18 15:17:42.464 appintentsmetadataprocessor[66131:1155660] Starting appintentsmetadataprocessor export
+2026-11-18 15:17:42.516 appintentsmetadataprocessor[66131:1155660] Extracted no relevant App Intents symbols, skipping writing output
 
 PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/SDKExplicitPrecompiledModules
 
+PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
 PruneExplicitPrecompiledModules /Users/builder/Factory/paperloft/build/KitCoverageDerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
 
-2026-10-02 04:33:21.682 xcodebuild[59396:7735307]  DVTAssertions: Warning in IDEFrameworks/IDEFoundation/Execution/LaunchSystem/IDELaunchSession.m:395
+2026-11-18 15:17:42.590 xcodebuild[66021:1155310]  DVTAssertions: Warning in IDEFrameworks/IDEFoundation/Execution/LaunchSystem/IDELaunchSession.m:395
 Details:  setRunnablePIDWithDiagnostics:logSection:andCompletionHandler: called without a completion handler - blocking until diagnostics setup completes. Callers should migrate to using a completion handler for better performance.
-Object:   <IDELaunchSession: 0x7b3dee5e00>
+Object:   <IDELaunchSession: 0x76cb009980>
 Method:   -setRunnablePIDWithDiagnostics:logSection:andCompletionHandler:
-Thread:   <NSThread: 0x7b3dc34900>{number = 4, name = (null)}
+Thread:   <NSThread: 0x76ca2f5800>{number = 4, name = (null)}
 Please file a bug at https://feedbackassistant.apple.com with this warning message and any useful information you can provide.
-Test Suite 'All tests' started at 2026-10-02 04:33:21.938.
-Test Suite 'PaperloftKitTests.xctest' started at 2026-10-02 04:33:21.938.
-Test Suite 'ExportNamingTests' started at 2026-10-02 04:33:21.938.
+Test Suite 'All tests' started at 2026-11-18 15:17:43.163.
+Test Suite 'PaperloftKitTests.xctest' started at 2026-11-18 15:17:43.164.
+Test Suite 'ExportNamingTests' started at 2026-11-18 15:17:43.164.
 Test Case '-[PaperloftKitTests.ExportNamingTests testPackUsesReadableLibraryNamesWithNumberedCollisions]' started.
-Test Case '-[PaperloftKitTests.ExportNamingTests testPackUsesReadableLibraryNamesWithNumberedCollisions]' passed (0.030 seconds).
-Test Suite 'ExportNamingTests' passed at 2026-10-02 04:33:21.968.
-	 Executed 1 test, with 0 failures (0 unexpected) in 0.030 (0.030) seconds
-Test Suite 'ExportTests' started at 2026-10-02 04:33:21.969.
+Test Case '-[PaperloftKitTests.ExportNamingTests testPackUsesReadableLibraryNamesWithNumberedCollisions]' passed (0.029 seconds).
+Test Suite 'ExportNamingTests' passed at 2026-11-18 15:17:43.193.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.029 (0.029) seconds
+Test Suite 'ExportTests' started at 2026-11-18 15:17:43.194.
 Test Case '-[PaperloftKitTests.ExportTests testCollisionUnicodeCategoriesAndRepeatedExportNeverOverwrite]' started.
-Test Case '-[PaperloftKitTests.ExportTests testCollisionUnicodeCategoriesAndRepeatedExportNeverOverwrite]' passed (0.051 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testCollisionUnicodeCategoriesAndRepeatedExportNeverOverwrite]' passed (0.036 seconds).
 Test Case '-[PaperloftKitTests.ExportTests testEmptyAndMultipageSummary]' started.
 Test Case '-[PaperloftKitTests.ExportTests testEmptyAndMultipageSummary]' passed (0.083 seconds).
 Test Case '-[PaperloftKitTests.ExportTests testHashChangesDuplicateIDsAndTraversalAreRejected]' started.
 Test Case '-[PaperloftKitTests.ExportTests testHashChangesDuplicateIDsAndTraversalAreRejected]' passed (0.007 seconds).
 Test Case '-[PaperloftKitTests.ExportTests testInclusiveRangeCSVExactCurrencyTotalsPDFAndOriginalHashes]' started.
-Test Case '-[PaperloftKitTests.ExportTests testInclusiveRangeCSVExactCurrencyTotalsPDFAndOriginalHashes]' passed (0.011 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testInclusiveRangeCSVExactCurrencyTotalsPDFAndOriginalHashes]' passed (0.013 seconds).
 Test Case '-[PaperloftKitTests.ExportTests testOptionalSystemZIPContainsCSVAndOriginalBytes]' started.
-Test Case '-[PaperloftKitTests.ExportTests testOptionalSystemZIPContainsCSVAndOriginalBytes]' passed (0.079 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testOptionalSystemZIPContainsCSVAndOriginalBytes]' passed (0.074 seconds).
 Test Case '-[PaperloftKitTests.ExportTests testOverflowRejectedAndCurrenciesWithDifferentPrecision]' started.
 Test Case '-[PaperloftKitTests.ExportTests testOverflowRejectedAndCurrenciesWithDifferentPrecision]' passed (0.009 seconds).
 Test Case '-[PaperloftKitTests.ExportTests testSymlinkFilesDirectoriesAndDestinationRejected]' started.
-Test Case '-[PaperloftKitTests.ExportTests testSymlinkFilesDirectoriesAndDestinationRejected]' passed (0.004 seconds).
+Test Case '-[PaperloftKitTests.ExportTests testSymlinkFilesDirectoriesAndDestinationRejected]' passed (0.003 seconds).
 Test Case '-[PaperloftKitTests.ExportTests testTraverseOnlyAncestorsAndSymlinkRejection]' started.
 Test Case '-[PaperloftKitTests.ExportTests testTraverseOnlyAncestorsAndSymlinkRejection]' passed (0.007 seconds).
 Test Case '-[PaperloftKitTests.ExportTests testYearQuarterLeapCustomAndInvalidRanges]' started.
 Test Case '-[PaperloftKitTests.ExportTests testYearQuarterLeapCustomAndInvalidRanges]' passed (0.005 seconds).
-Test Suite 'ExportTests' passed at 2026-10-02 04:33:22.227.
-	 Executed 9 tests, with 0 failures (0 unexpected) in 0.255 (0.258) seconds
-Test Suite 'ExportZipTests' started at 2026-10-02 04:33:22.227.
+Test Suite 'ExportTests' passed at 2026-11-18 15:17:43.432.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.236 (0.239) seconds
+Test Suite 'ExportZipTests' started at 2026-11-18 15:17:43.432.
 Test Case '-[PaperloftKitTests.ExportZipTests testZipNamesAreNFCWithUTF8FlagAndContentsMatchThePack]' started.
 Test Case '-[PaperloftKitTests.ExportZipTests testZipNamesAreNFCWithUTF8FlagAndContentsMatchThePack]' passed (0.012 seconds).
-Test Suite 'ExportZipTests' passed at 2026-10-02 04:33:22.239.
-	 Executed 1 test, with 0 failures (0 unexpected) in 0.012 (0.012) seconds
-Test Suite 'IntakeQueueReviewTests' started at 2026-10-02 04:33:22.239.
+Test Suite 'ExportZipTests' passed at 2026-11-18 15:17:43.445.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.012 (0.013) seconds
+Test Suite 'IntakeQueueReviewTests' started at 2026-11-18 15:17:43.445.
 Test Case '-[PaperloftKitTests.IntakeQueueReviewTests testSourcePathReplacementDuringCopyCannotPublish]' started.
 Test Case '-[PaperloftKitTests.IntakeQueueReviewTests testSourcePathReplacementDuringCopyCannotPublish]' passed (0.005 seconds).
 Test Case '-[PaperloftKitTests.IntakeQueueReviewTests testSymlinkedManifestCannotAuthorizeDiscard]' started.
-Test Case '-[PaperloftKitTests.IntakeQueueReviewTests testSymlinkedManifestCannotAuthorizeDiscard]' passed (0.005 seconds).
+Test Case '-[PaperloftKitTests.IntakeQueueReviewTests testSymlinkedManifestCannotAuthorizeDiscard]' passed (0.004 seconds).
 Test Case '-[PaperloftKitTests.IntakeQueueReviewTests testSymlinkedSourceAncestorCannotPublish]' started.
-Test Case '-[PaperloftKitTests.IntakeQueueReviewTests testSymlinkedSourceAncestorCannotPublish]' passed (0.003 seconds).
-Test Suite 'IntakeQueueReviewTests' passed at 2026-10-02 04:33:22.253.
-	 Executed 3 tests, with 0 failures (0 unexpected) in 0.013 (0.013) seconds
-Test Suite 'IntakeQueueTests' started at 2026-10-02 04:33:22.253.
+Test Case '-[PaperloftKitTests.IntakeQueueReviewTests testSymlinkedSourceAncestorCannotPublish]' passed (0.002 seconds).
+Test Suite 'IntakeQueueReviewTests' passed at 2026-11-18 15:17:43.457.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.011 (0.012) seconds
+Test Suite 'IntakeQueueTests' started at 2026-11-18 15:17:43.458.
 Test Case '-[PaperloftKitTests.IntakeQueueTests testBoundsEmptyAndSymlinkFailWithoutPublication]' started.
 Test Case '-[PaperloftKitTests.IntakeQueueTests testBoundsEmptyAndSymlinkFailWithoutPublication]' passed (0.003 seconds).
 Test Case '-[PaperloftKitTests.IntakeQueueTests testCancellationAfterPartialCopyCleansStage]' started.
@@ -631,383 +176,380 @@ Test Case '-[PaperloftKitTests.IntakeQueueTests testConflictPreservesFirstPublic
 Test Case '-[PaperloftKitTests.IntakeQueueTests testCorruptionAndUnexpectedDiscardContentsFailClosed]' started.
 Test Case '-[PaperloftKitTests.IntakeQueueTests testCorruptionAndUnexpectedDiscardContentsFailClosed]' passed (0.004 seconds).
 Test Case '-[PaperloftKitTests.IntakeQueueTests testEscapedMetadataExpansionCannotPublishUnreadableRecord]' started.
-Test Case '-[PaperloftKitTests.IntakeQueueTests testEscapedMetadataExpansionCannotPublishUnreadableRecord]' passed (0.003 seconds).
+Test Case '-[PaperloftKitTests.IntakeQueueTests testEscapedMetadataExpansionCannotPublishUnreadableRecord]' passed (0.002 seconds).
 Test Case '-[PaperloftKitTests.IntakeQueueTests testFailedPublicationSyncIsRetriedForExistingID]' started.
-Test Case '-[PaperloftKitTests.IntakeQueueTests testFailedPublicationSyncIsRetriedForExistingID]' passed (0.006 seconds).
+Test Case '-[PaperloftKitTests.IntakeQueueTests testFailedPublicationSyncIsRetriedForExistingID]' passed (0.005 seconds).
 Test Case '-[PaperloftKitTests.IntakeQueueTests testInitializationRequiresExistingOwnedParent]' started.
 Test Case '-[PaperloftKitTests.IntakeQueueTests testInitializationRequiresExistingOwnedParent]' passed (0.001 seconds).
 Test Case '-[PaperloftKitTests.IntakeQueueTests testOwnedPublicationRetryRecoveryAndExplicitDiscard]' started.
-Test Case '-[PaperloftKitTests.IntakeQueueTests testOwnedPublicationRetryRecoveryAndExplicitDiscard]' passed (0.006 seconds).
+Test Case '-[PaperloftKitTests.IntakeQueueTests testOwnedPublicationRetryRecoveryAndExplicitDiscard]' passed (0.005 seconds).
 Test Case '-[PaperloftKitTests.IntakeQueueTests testSourceMutationDuringCopyFailsAndCleansStage]' started.
 Test Case '-[PaperloftKitTests.IntakeQueueTests testSourceMutationDuringCopyFailsAndCleansStage]' passed (0.004 seconds).
 Test Case '-[PaperloftKitTests.IntakeQueueTests testTraversalOnlySourceAncestor]' started.
-Test Case '-[PaperloftKitTests.IntakeQueueTests testTraversalOnlySourceAncestor]' passed (0.004 seconds).
+Test Case '-[PaperloftKitTests.IntakeQueueTests testTraversalOnlySourceAncestor]' passed (0.003 seconds).
 Test Case '-[PaperloftKitTests.IntakeQueueTests testUnpublishedCrashStageIsNotARecordAndDoesNotBlockRetry]' started.
-Test Case '-[PaperloftKitTests.IntakeQueueTests testUnpublishedCrashStageIsNotARecordAndDoesNotBlockRetry]' passed (0.004 seconds).
-Test Suite 'IntakeQueueTests' passed at 2026-10-02 04:33:22.304.
-	 Executed 13 tests, with 0 failures (0 unexpected) in 0.048 (0.051) seconds
-Test Suite 'TaxExportTests' started at 2026-10-02 04:33:22.304.
+Test Case '-[PaperloftKitTests.IntakeQueueTests testUnpublishedCrashStageIsNotARecordAndDoesNotBlockRetry]' passed (0.003 seconds).
+Test Suite 'IntakeQueueTests' passed at 2026-11-18 15:17:43.505.
+	 Executed 13 tests, with 0 failures (0 unexpected) in 0.044 (0.047) seconds
+Test Suite 'TaxExportTests' started at 2026-11-18 15:17:43.505.
 Test Case '-[PaperloftKitTests.TaxExportTests testPackPDFAndCSVPreserveMissingVersusZeroAndCurrencyPrecision]' started.
-Test Case '-[PaperloftKitTests.TaxExportTests testPackPDFAndCSVPreserveMissingVersusZeroAndCurrencyPrecision]' passed (0.008 seconds).
+Test Case '-[PaperloftKitTests.TaxExportTests testPackPDFAndCSVPreserveMissingVersusZeroAndCurrencyPrecision]' passed (0.007 seconds).
 Test Case '-[PaperloftKitTests.TaxExportTests testRecordedZeroMissingCurrencyAndDateBoundariesStayDistinct]' started.
 Test Case '-[PaperloftKitTests.TaxExportTests testRecordedZeroMissingCurrencyAndDateBoundariesStayDistinct]' passed (0.001 seconds).
 Test Case '-[PaperloftKitTests.TaxExportTests testTaxOverflowIsRejected]' started.
 Test Case '-[PaperloftKitTests.TaxExportTests testTaxOverflowIsRejected]' passed (0.001 seconds).
-Test Suite 'TaxExportTests' passed at 2026-10-02 04:33:22.314.
+Test Suite 'TaxExportTests' passed at 2026-11-18 15:17:43.515.
 	 Executed 3 tests, with 0 failures (0 unexpected) in 0.009 (0.010) seconds
-Test Suite 'UnderstandingQuotaTests' started at 2026-10-02 04:33:22.314.
+Test Suite 'UnderstandingQuotaTests' started at 2026-11-18 15:17:43.515.
 Test Case '-[PaperloftKitTests.UnderstandingQuotaTests testPersistenceAndCalendarYearBoundary]' started.
-Test Case '-[PaperloftKitTests.UnderstandingQuotaTests testPersistenceAndCalendarYearBoundary]' passed (0.004 seconds).
+Test Case '-[PaperloftKitTests.UnderstandingQuotaTests testPersistenceAndCalendarYearBoundary]' passed (0.003 seconds).
 Test Case '-[PaperloftKitTests.UnderstandingQuotaTests testTwentySixthBlockedSamplesExemptAndRetryIdempotent]' started.
 Test Case '-[PaperloftKitTests.UnderstandingQuotaTests testTwentySixthBlockedSamplesExemptAndRetryIdempotent]' passed (0.001 seconds).
-Test Suite 'UnderstandingQuotaTests' passed at 2026-10-02 04:33:22.319.
-	 Executed 2 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds
-Test Suite 'PaperloftKitTests.xctest' passed at 2026-10-02 04:33:22.319.
-	 Executed 32 tests, with 0 failures (0 unexpected) in 0.371 (0.381) seconds
-Test Suite 'All tests' passed at 2026-10-02 04:33:22.320.
-	 Executed 32 tests, with 0 failures (0 unexpected) in 0.371 (0.382) seconds
+Test Suite 'UnderstandingQuotaTests' passed at 2026-11-18 15:17:43.520.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.004 (0.005) seconds
+Test Suite 'PaperloftKitTests.xctest' passed at 2026-11-18 15:17:43.520.
+	 Executed 32 tests, with 0 failures (0 unexpected) in 0.346 (0.356) seconds
+Test Suite 'All tests' passed at 2026-11-18 15:17:43.520.
+	 Executed 32 tests, with 0 failures (0 unexpected) in 0.346 (0.357) seconds
 ◇ Test run started.
 ↳ Testing Library Version: 2084
 ↳ Target Platform: arm64e-apple-macos14.0
-◇ Suite MailFieldHintsTests started.
-◇ Suite MailImportTests started.
-◇ Suite LibraryRenameTests started.
-◇ Suite Intake11WatchedSafetyTests started.
-◇ Suite MailCandidateSelectionTests started.
-◇ Test calendarValidation() started.
-◇ Suite NameTemplateTests started.
-◇ Test parserUsesFinalTotalRatherThanTenderedCash() started.
-◇ Suite ResilienceTests started.
-◇ Test explicitForeignTaxCurrencyRequiresReview() started.
-◇ Suite MailDocumentTests started.
-◇ Suite MailFixtureCorpusTests started.
-◇ Suite PDFRasterizationTests started.
-◇ Suite MailImageAttachmentTests started.
-◇ Suite MailDeliveryLedgerTests started.
-◇ Suite ScanImportTests started.
-◇ Test cardPaymentAndAmountDueAreRecognized() started.
-◇ Suite ParserDocumentEvidenceTests started.
-◇ Suite MailCorpusMutationTests started.
-◇ Suite MailBodyExtractionTests started.
-◇ Suite WatchedFolderTests started.
-◇ Suite Intake11MailSafetyTests started.
-◇ Test decodedDatesAreValidated() started.
-◇ Test deletedReceiptRejectsChangedBytesAndSymlinkPayload() started.
-◇ Test moveAndUndoRestoreOriginalIdentityAndBytes() started.
-◇ Test amountsKeepTheirCents() started.
-◇ Test successfulNegativeClassificationKeepsExistingAssessment() started.
-◇ Test extractionPayloadWithoutClassificationDiagnosticRemainsReadable() started.
 ◇ Suite MailAttachmentNameTests started.
+◇ Suite WatchedFolderTests started.
+◇ Suite ScanImportTests started.
+◇ Suite MailImportTests started.
+◇ Suite ParserDocumentEvidenceTests started.
+◇ Suite MailImageAttachmentTests started.
+◇ Suite Intake11MailSafetyTests started.
+◇ Suite MailFixtureCorpusTests started.
+◇ Suite LibraryRenameTests started.
+◇ Test savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals() started.
+◇ Suite MailFieldHintsTests started.
+◇ Suite MailBodyExtractionTests started.
+◇ Suite PDFRasterizationTests started.
+◇ Suite Intake11WatchedSafetyTests started.
+◇ Test parserPrefersIssueDateOverDueDate() started.
+◇ Test assessmentRequiresAgreementAndValidFields() started.
+◇ Suite NameTemplateTests started.
+◇ Test symlinkedCategoryCannotEscapeLibrary() started.
+◇ Suite MailDeliveryLedgerTests started.
+◇ Test classifierStatementLabelMapsToBillAndOtherLabelsPassThrough() started.
+◇ Test engineReviewFileSearchUndoAndSourceChange() started.
+◇ Suite MailCandidateSelectionTests started.
+◇ Test rotatedRowsAreNotMistakenForAdjacentLines() started.
+◇ Suite MailCorpusMutationTests started.
+◇ Suite MailDocumentTests started.
+◇ Test filenameDoesNotTraversePaths() started.
+◇ Suite ResilienceTests started.
+◇ Test restoreConflictPreservesBothFilesAndCanRetry() started.
+◇ Test combinedTaxesRetainedButNeverAutomaticallyApproved() started.
+◇ Test parserRecognizesNonFinancialText() started.
+◇ Test explicitForeignTaxCurrencyRequiresReview() started.
+◇ Test amountsKeepTheirCents() started.
+◇ Test undoAlreadyDeletedMoveRestoresOriginalAndConsumesRecoveryEntry() started.
+◇ Test copyCollisionsAndUndoPreserveExistingFiles() started.
+◇ Test randomizedThousandFileOperationsPreserveEveryOriginal() started.
+◇ Test deletedReceiptSurvivesRestartAndRestoresWithoutTouchingOriginal() started.
+◇ Test exactMoneyRejectsRoundingAndOverflow() started.
+◇ Test explicitZeroAndSingleTaxRemainSupported() started.
+◇ Test invoiceOpticalCharacterConfusionIsRecognized() started.
+◇ Test deletedReceiptRejectsChangedBytesAndSymlinkPayload() started.
+◇ Test partialClassificationFailurePreservesReviewButNeverAutoFiles() started.
+◇ Test stubReturnsInjectedFields() started.
+◇ Test taxReviewDiagnosticPersistsAndOlderExtractionStillDecodes() started.
+◇ Test indexRebuildRestoresSearchFromLibraryAlone() started.
+XCTestOutputBarrier◇ Test currencyPrecisionAndUnicodeFilenames() started.
+◇ Test separateColumnsPreserveAmountsOnTheirRows() started.
 ◇ Test unsupportedTaxInMultipleChargesRequiresReview() started.
+◇ Test calendarValidation() started.
 ◇ Test interruptedDeletionAndRestoreReplayAfterRename() started.
 ◇ Test successfulReceiptClassificationStillAllowsValidatedAutoFiling() started.
-◇ Test classifierStatementLabelMapsToBillAndOtherLabelsPassThrough() started.
-◇ Test undoAlreadyDeletedMoveRestoresOriginalAndConsumesRecoveryEntry() started.
-◇ Test adjacentHeaderDoesNotBecomePartOfVendor() started.
-◇ Test explicitZeroAndSingleTaxRemainSupported() started.
-◇ Test engineReviewFileSearchUndoAndSourceChange() started.
-◇ Test indexRebuildRestoresSearchFromLibraryAlone() started.
-◇ Test restoreConflictPreservesBothFilesAndCanRetry() started.
-◇ Test emptyAndInvalidFragmentsDoNotCreateText() started.
-◇ Test taxReviewDiagnosticPersistsAndOlderExtractionStillDecodes() started.
-◇ Test stubReturnsInjectedFields() started.
-◇ Test parserRecognizesNonFinancialText() started.
-◇ Test copyCollisionsAndUndoPreserveExistingFiles() started.
-◇ Test currencyPrecisionAndUnicodeFilenames() started.
-◇ Test surroundingTotalsAndRepeatedTaxLinesStayUnderReview() started.
-◇ Test rotatedRowsAreNotMistakenForAdjacentLines() started.
+◇ Test decodedDatesAreValidated() started.
 ◇ Test finderRenamedReceiptCanBeDeletedAndRestoredAtCurrentPath() started.
-◇ Test savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals() started.
-◇ Test invoiceOpticalCharacterConfusionIsRecognized() started.
-◇ Test deletedReceiptSurvivesRestartAndRestoresWithoutTouchingOriginal() started.
-◇ Test filenameDoesNotTraversePaths() started.
-◇ Test parserPrefersIssueDateOverDueDate() started.
-◇ Test separateColumnsPreserveAmountsOnTheirRows() started.
-◇ Test exactMoneyRejectsRoundingAndOverflow() started.
-◇ Test duplicatesAndModifiedDestinationsAreNeverOverwritten() started.
-◇ Test symlinkedCategoryCannotEscapeLibrary() started.
-◇ Test partialClassificationFailurePreservesReviewButNeverAutoFiles() started.
-◇ Test assessmentRequiresAgreementAndValidFields() started.
-◇ Test partialClassificationDiagnosticSurvivesEveryKind(_:) started.
 ◇ Test RatesInvoiceTitlesAndOtherAmountsDoNotGroundTax() started.
-◇ Test randomizedThousandFileOperationsPreserveEveryOriginal() started.
-◇ Test combinedTaxesRetainedButNeverAutomaticallyApproved() started.
-◇ Test materializedBodyAndAttachmentsAreExactUniqueAndLeaveEmailUntouched() started.
-◇ Test bodyPDFPaginatesWithoutDroppingLastLine() started.
-◇ Test boundedReadRejectsSparseOversizeSymlinkAndMalformedEmailWithoutOutput() started.
-◇ Test staleBookmarkForRenamedFolderResolvesToTheNewNameAndRenews() started.
-◇ Test renamedIdentityUsesLatestHashInsteadOfHistoricalFilenameHash() started.
-◇ Test fiftyBurstFilesWaitForCompletionAndAcknowledgedRenameStaysConsumed() started.
-◇ Test legacyFilenameHistoryStillSkipsUnchangedFileWithoutIdentity() started.
-◇ Test domainFallbackAndInvalidHeaders() started.
-◇ Test absentFieldsUseReviewableHintsAndPreserveLocalDay() started.
-◇ Test neverReplacesDocumentFieldsOrPromotesNonReceipts() started.
-◇ Test attachmentOnlyNonReceiptEmailProducesOneItem() started.
-◇ Test nonReceiptAttachmentsFallBackToOneBodyAndUnresolvedFilesStayVisible() started.
-◇ Test receiptAttachmentAlwaysSuppressesBodyAcrossMixedSelections() started.
-◇ Test emptyCorruptLockedAndLongPDFsFailClearly() started.
-◇ Test allResourceBoundsAreEnforced() started.
-◇ Test transferEncodingsAndCharsets() started.
-◇ Test alternativeDoesNotDuplicateBodyOrLoadHTML() started.
-◇ Test mailBodyAndPDFRemainExactAndSafe() started.
-◇ Test htmlBodyIsReadWithoutResourcesOrHiddenContent() started.
-◇ Test malformedEncodingAndHeadersAreRejected() started.
-◇ Test genericBinaryPDFAttachmentRequiresNameAndSignature() started.
-◇ Test unsupportedAttachmentsNeverBecomeBody() started.
-◇ Test boundariesMustBeWholeLinesAndBinaryIsPreserved() started.
-◇ Test rejectsTraversalUnknownTokensAndMissingMetadata() started.
-◇ Test boundsExpandedUTF8FilenameWithoutDroppingRequiredFields() started.
-◇ Test defaultAndCustomNamesPreserveMetadata() started.
-◇ Test rawHTMLIsRetainedWhilePlaintextAlternativeStaysCompatible() started.
-◇ Test multiPageTIFFDoesNotSilentlyDiscardLaterPages() started.
-◇ Test tinyAndHTMLReferencedInlineImagesAreExcluded() started.
-◇ Test allFourImageFormatsSurviveMaterializationExactly() started.
-◇ Test TIFFCandidateUsesNormalRecognitionAndFilingValidation() started.
-◇ Test malformedFilenameContinuationsAndExcessiveImagesFailBoundedly() started.
-◇ Test encodedFilenamesAreDecodedBeforeTypeSelectionAndSanitized() started.
-◇ Test malformedIDsNeverCollapseIntoOneDuplicateKey() started.
-◇ Test committedMessageIDSurvivesRelaunchEvenWhenMessageBytesDiffer() started.
-◇ Test corpusMixPartsSelectableTextAndSourcePreservation() started.
-◇ Test durableInboxProofCanBeReplayedAfterCrashBeforeLedgerCommit() started.
-◇ Test unsafeOrOversizedLedgerIsNeverAcknowledged() started.
-◇ Test failedAndCancelledAttemptsRemainRetryableAcrossRelaunch() started.
-◇ Test independentInstancesDoNotOverwriteEachOthersDeliveries() started.
-◇ Test corruptLedgerFailsClosedAndCanRetryAfterRestoration() started.
+◇ Test duplicatesAndModifiedDestinationsAreNeverOverwritten() started.
+◇ Test surroundingTotalsAndRepeatedTaxLinesStayUnderReview() started.
+◇ Test extractionPayloadWithoutClassificationDiagnosticRemainsReadable() started.
+◇ Test adjacentHeaderDoesNotBecomePartOfVendor() started.
+◇ Test cardPaymentAndAmountDueAreRecognized() started.
+◇ Test successfulNegativeClassificationKeepsExistingAssessment() started.
+◇ Test moveAndUndoRestoreOriginalIdentityAndBytes() started.
+◇ Test emptyAndInvalidFragmentsDoNotCreateText() started.
+◇ Test partialClassificationDiagnosticSurvivesEveryKind(_:) started.
+◇ Test parserUsesFinalTotalRatherThanTenderedCash() started.
+◇ Test everyImageFormatCanBeStagedUnderBothPageModes() started.
 ◇ Test invalidScansLeaveNoHalfWrittenOutputs() started.
 ◇ Test outputBudgetAndProviderCaptureAreBoundedAndCleanUp() started.
 ◇ Test pdfPagesSeparateByDefaultOrPreserveCombinedBytes() started.
-◇ Test everyImageFormatCanBeStagedUnderBothPageModes() started.
-✔ Test calendarValidation() passed after 0.021 seconds.
-◇ Test tenThousandDiverseCorpusMutationsRemainBoundedAndDeterministic() started.
-◇ Test tenThousandBoundedMIMEMutationsFinishWithoutCrash() started.
-◇ Test ignoresDirectoriesHiddenAndUnsupportedFilesAndReportsUnsafeOnEveryScan() started.
-◇ Test rotatesWholePageWithoutClippingOrMirroring() started.
-◇ Test forwardedMessagesPreserveBodiesAndPDFBytesAcrossEncodings() started.
-◇ Test stateTamperingIsNotOverwrittenAndSecondScannerIsExcluded() started.
-◇ Test enlargesContentAndHandlesNonzeroMediaOrigin() started.
-◇ Test fiftyMiBMessageReadBoundaryAndRemoteHTMLRemainLocal() started.
-◇ Test byteAndEntryBudgetsAreBounded() started.
+◇ Test attachmentsCarrySanitizedDisplayNamesButUUIDPaths() started.
+◇ Test materializedBodyAndAttachmentsAreExactUniqueAndLeaveEmailUntouched() started.
+◇ Test boundedReadRejectsSparseOversizeSymlinkAndMalformedEmailWithoutOutput() started.
+◇ Test bodyPDFPaginatesWithoutDroppingLastLine() started.
 ◇ Test acknowledgedFilesDoNotStarveLaterFilesUnderMemoryBudget() started.
-◇ Test veryLargePagesStayWithinExistingPixelBudget() started.
-◇ Test failedAcknowledgmentDoesNotConsumeCandidate() started.
-◇ Test envelopeEncodedWordsAreDisplayMetadataWithoutReplacingBody() started.
+◇ Test stateTamperingIsNotOverwrittenAndSecondScannerIsExcluded() started.
 ◇ Test durableAcknowledgmentSurvivesRestartAndChangedContentRequeues() started.
-◇ Test corruptHistoryAndUnsafePathsFailClearly() started.
+◇ Test ignoresDirectoriesHiddenAndUnsupportedFilesAndReportsUnsafeOnEveryScan() started.
+◇ Test failedAcknowledgmentDoesNotConsumeCandidate() started.
 ◇ Test partialWritesNeedTwoSpacedStableObservations() started.
-◇ Test paidInvoiceAndItsTermsRetainInvoiceType() started.
 ◇ Test replacedRootAndStateSymlinkAreRejected() started.
+◇ Test corruptHistoryAndUnsafePathsFailClearly() started.
 ◇ Test documentHeadingsAndTransactionEvidenceRemainRecognized() started.
-◇ Test emptyRecognizedTextThrowsBeforeBackendAndPreservesSource() started.
+◇ Test byteAndEntryBudgetsAreBounded() started.
 ◇ Test explicitNonFinancialHeadingWinsEvenWithPricesAndTotals() started.
+◇ Test emptyRecognizedTextThrowsBeforeBackendAndPreservesSource() started.
+◇ Test paidInvoiceAndItsTermsRetainInvoiceType() started.
+◇ Test multiPageTIFFDoesNotSilentlyDiscardLaterPages() started.
 ◇ Test incidentalFinancialWordsDoNotClassifyTermsOrCoverNotes() started.
+◇ Test fiftyMiBMessageReadBoundaryAndRemoteHTMLRemainLocal() started.
+◇ Test TIFFCandidateUsesNormalRecognitionAndFilingValidation() started.
+◇ Test allFourImageFormatsSurviveMaterializationExactly() started.
+◇ Test forwardedMessagesPreserveBodiesAndPDFBytesAcrossEncodings() started.
+◇ Test rawHTMLIsRetainedWhilePlaintextAlternativeStaysCompatible() started.
+◇ Test malformedFilenameContinuationsAndExcessiveImagesFailBoundedly() started.
+◇ Test envelopeEncodedWordsAreDisplayMetadataWithoutReplacingBody() started.
+◇ Test tinyAndHTMLReferencedInlineImagesAreExcluded() started.
+◇ Test encodedFilenamesAreDecodedBeforeTypeSelectionAndSanitized() started.
+◇ Test corpusMixPartsSelectableTextAndSourcePreservation() started.
+◇ Test tenThousandBoundedMIMEMutationsFinishWithoutCrash() started.
 ◇ Test transportHeadersAreNotUsedAsConfidentReceiptFields() started.
+◇ Test enlargesContentAndHandlesNonzeroMediaOrigin() started.
+◇ Test rotatesWholePageWithoutClippingOrMirroring() started.
+◇ Test renamedIdentityUsesLatestHashInsteadOfHistoricalFilenameHash() started.
+◇ Test fiftyBurstFilesWaitForCompletionAndAcknowledgedRenameStaysConsumed() started.
+◇ Test legacyFilenameHistoryStillSkipsUnchangedFileWithoutIdentity() started.
+◇ Test veryLargePagesStayWithinExistingPixelBudget() started.
+◇ Test domainFallbackAndInvalidHeaders() started.
+◇ Test absentFieldsUseReviewableHintsAndPreserveLocalDay() started.
+◇ Test neverReplacesDocumentFieldsOrPromotesNonReceipts() started.
+◇ Test staleBookmarkForRenamedFolderResolvesToTheNewNameAndRenews() started.
+◇ Test rejectsTraversalUnknownTokensAndMissingMetadata() started.
+◇ Test defaultAndCustomNamesPreserveMetadata() started.
+◇ Test boundsExpandedUTF8FilenameWithoutDroppingRequiredFields() started.
+◇ Test failedAndCancelledAttemptsRemainRetryableAcrossRelaunch() started.
+◇ Test unsafeOrOversizedLedgerIsNeverAcknowledged() started.
+◇ Test durableInboxProofCanBeReplayedAfterCrashBeforeLedgerCommit() started.
+◇ Test independentInstancesDoNotOverwriteEachOthersDeliveries() started.
+◇ Test committedMessageIDSurvivesRelaunchEvenWhenMessageBytesDiffer() started.
+◇ Test corruptLedgerFailsClosedAndCanRetryAfterRestoration() started.
+◇ Test malformedIDsNeverCollapseIntoOneDuplicateKey() started.
+◇ Test receiptAttachmentAlwaysSuppressesBodyAcrossMixedSelections() started.
+◇ Test attachmentOnlyNonReceiptEmailProducesOneItem() started.
+◇ Test nonReceiptAttachmentsFallBackToOneBodyAndUnresolvedFilesStayVisible() started.
+◇ Test tenThousandDiverseCorpusMutationsRemainBoundedAndDeterministic() started.
+◇ Test htmlBodyIsReadWithoutResourcesOrHiddenContent() started.
 ◇ Test case passing 1 argument kind → "receipt" to partialClassificationDiagnosticSurvivesEveryKind(_:) started.
-​◇ Test case passing 1 argument kind → "invoice" to partialClassificationDiagnosticSurvivesEveryKind(_:) started.
-​◇ Test case passing 1 argument kind → "bill" to partialClassificationDiagnosticSurvivesEveryKind(_:) started.
-​◇ Test case passing 1 argument kind → "not_receipt" to partialClassificationDiagnosticSurvivesEveryKind(_:) started.
-​◇ Test attachmentsCarrySanitizedDisplayNamesButUUIDPaths() started.
+​◇ Test malformedEncodingAndHeadersAreRejected() started.
+◇ Test case passing 1 argument kind → "invoice" to partialClassificationDiagnosticSurvivesEveryKind(_:) started.
+​◇ Test genericBinaryPDFAttachmentRequiresNameAndSignature() started.
+◇ Test case passing 1 argument kind → "bill" to partialClassificationDiagnosticSurvivesEveryKind(_:) started.
+​◇ Test boundariesMustBeWholeLinesAndBinaryIsPreserved() started.
+◇ Test alternativeDoesNotDuplicateBodyOrLoadHTML() started.
+◇ Test mailBodyAndPDFRemainExactAndSafe() started.
+◇ Test case passing 1 argument kind → "not_receipt" to partialClassificationDiagnosticSurvivesEveryKind(_:) started.
+◇ Test transferEncodingsAndCharsets() started.
+◇ Test unsupportedAttachmentsNeverBecomeBody() started.
 ◇ Test case passing 1 argument kind → "unknown" to partialClassificationDiagnosticSurvivesEveryKind(_:) started.
-​✔ Test extractionPayloadWithoutClassificationDiagnosticRemainsReadable() passed after 0.035 seconds.
-✔ Test successfulReceiptClassificationStillAllowsValidatedAutoFiling() passed after 0.034 seconds.
-✔ Test decodedDatesAreValidated() passed after 0.035 seconds.
-✔ Test classifierStatementLabelMapsToBillAndOtherLabelsPassThrough() passed after 0.035 seconds.
-XCTestOutputBarr✔ Test amountsKeepTheirCents() passed after 0.034 seconds.
-ier✔ Test successfulNegativeClassificationKeepsExistingAssessment() passed after 0.035 seconds.
-✔ Test adjacentHeaderDoesNotBecomePartOfVendor() passed after 0.040 seconds.
-2026-10-02 04:33:22.366966-0700 xctest[59522:7735854] [logging-persist] cannot open file at line 53009 of [8fa8248e30]
-2026-10-02 04:33:22.366985-0700 xctest[59522:7735854] [logging-persist] os_unix.c:53009: (2) open(/private/var/db/DetachedSignatures) - No such file or directory
-✔ Test cardPaymentAndAmountDueAreRecognized() passed after 0.043 seconds.
-✔ Test taxReviewDiagnosticPersistsAndOlderExtractionStillDecodes() passed after 0.044 seconds.
-✔ Test parserUsesFinalTotalRatherThanTenderedCash() passed after 0.044 seconds.
-✔ Test stubReturnsInjectedFields() passed after 0.044 seconds.
-✔ Test explicitForeignTaxCurrencyRequiresReview() passed after 0.045 seconds.
+​​◇ Test allResourceBoundsAreEnforced() started.
+◇ Test emptyCorruptLockedAndLongPDFsFailClearly() started.
+✔ Test classifierStatementLabelMapsToBillAndOtherLabelsPassThrough() passed after 0.045 seconds.
+✔ Test filenameDoesNotTraversePaths() passed after 0.045 seconds.
+✔ Test rotatedRowsAreNotMistakenForAdjacentLines() passed after 0.045 seconds.
+✔ Test exactMoneyRejectsRoundingAndOverflow() passed after 0.044 seconds.
+✔ Test assessmentRequiresAgreementAndValidFields() passed after 0.045 seconds.
+✔ Test parserRecognizesNonFinancialText() passed after 0.045 seconds.
+✔ Test parserPrefersIssueDateOverDueDate() passed after 0.045 seconds.
+✔ Test combinedTaxesRetainedButNeverAutomaticallyApproved() passed after 0.045 seconds.
+✔ Test savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals() passed after 0.047 seconds.
+✔ Test invoiceOpticalCharacterConfusionIsRecognized() passed after 0.046 seconds.
+✔ Test explicitZeroAndSingleTaxRemainSupported() passed after 0.046 seconds.
+✔ Test explicitForeignTaxCurrencyRequiresReview() passed after 0.046 seconds.
+✔ Test partialClassificationFailurePreservesReviewButNeverAutoFiles() passed after 0.046 seconds.
+✔ Test amountsKeepTheirCents() passed after 0.045 seconds.
+✔ Test stubReturnsInjectedFields() passed after 0.046 seconds.
 CoreGraphics PDF has logged an error. Set environment variable "CG_PDF_VERBOSE" to learn more.
-✔ Test unsupportedTaxInMultipleChargesRequiresReview() passed after 0.051 seconds.
-✔ Test parserRecognizesNonFinancialText() passed after 0.051 seconds.
-✔ Test rotatedRowsAreNotMistakenForAdjacentLines() passed after 0.052 seconds.
-✔ Test currencyPrecisionAndUnicodeFilenames() passed after 0.053 seconds.
-✔ Test explicitZeroAndSingleTaxRemainSupported() passed after 0.053 seconds.
-✔ Test savingsRefundsAndDecimalSeparatorsDoNotBecomeWrongTotals() passed after 0.052 seconds.
-✔ Test invoiceOpticalCharacterConfusionIsRecognized() passed after 0.052 seconds.
-✔ Test emptyAndInvalidFragmentsDoNotCreateText() passed after 0.054 seconds.
-✔ Test separateColumnsPreserveAmountsOnTheirRows() passed after 0.089 seconds.
-✔ Test surroundingTotalsAndRepeatedTaxLinesStayUnderReview() passed after 0.089 seconds.
-✔ Test exactMoneyRejectsRoundingAndOverflow() passed after 0.089 seconds.
-✔ Test parserPrefersIssueDateOverDueDate() passed after 0.089 seconds.
-✔ Test filenameDoesNotTraversePaths() passed after 0.089 seconds.
-✔ Test partialClassificationFailurePreservesReviewButNeverAutoFiles() passed after 0.090 seconds.
-✔ Test assessmentRequiresAgreementAndValidFields() passed after 0.090 seconds.
-✔ Test moveAndUndoRestoreOriginalIdentityAndBytes() passed after 0.123 seconds.
-2026-10-02 04:33:22.465665-0700 xctest[59522:7735836] 210937039831 11 AVE : Compiled AppleAVE2-913.43.1 on Aug 11 2026 20:48:30
-2026-10-02 04:33:22.465718-0700 xctest[59522:7735836] 210937040312 11 AVE : Temporary Path: /var/folders/y3/wdj_11nx7qgbpnxss17nvmq40000gn/T/
-2026-10-02 04:33:22.465747-0700 xctest[59522:7735836] 210937040343 11 AVE INFO: AVE_Plugin_HEVC_CreateInstance Enter 1752589105 0x1f297af70 0x776d979ef0 0
-2026-10-02 04:33:22.465855-0700 xctest[59522:7735836] 210937040394 12 AVE INFO: AVE_Session_HEVC_Create Enter 0x776d254020 0x0
-2026-10-02 04:33:22.465801-0700 xctest[59522:7735854] 210937039967 11 AVE : Compiled AppleAVE2-913.43.1 on Aug 11 2026 20:48:30
-2026-10-02 04:33:22.466180-0700 xctest[59522:7735854] 210937040741 11 AVE : Temporary Path: /var/folders/y3/wdj_11nx7qgbpnxss17nvmq40000gn/T/
-2026-10-02 04:33:22.466263-0700 xctest[59522:7735854] 210937040812 11 AVE INFO: AVE_Plugin_HEVC_CreateInstance Enter 1752589105 0x1f297af70 0x776d97bf50 0
-2026-10-02 04:33:22.466286-0700 xctest[59522:7735836] 210937040812 12 AVE INFO: AVE_Session_HEVC_Create Exit 0x776d254020 0x0 62640 418 0
-2026-10-02 04:33:22.466566-0700 xctest[59522:7735854] 210937040917 12 AVE INFO: AVE_Session_HEVC_Create Enter 0x776e800020 0x0
-2026-10-02 04:33:22.466605-0700 xctest[59522:7735836] 210937040913 11 AVE INFO: AVE_Plugin_HEVC_CreateInstance Exit 1752589105 0x1f297af70 0x776d979ef0 62640 0x776d254000 0x776d254020 1868 0 0
-2026-10-02 04:33:22.466852-0700 xctest[59522:7735836] 210937041251 11 AVE INFO: AVE_Plugin_HEVC_StartTileSession Enter 0x776d254000 0x776d979ee0 0x776e23c080 32 32 0x1f297af70 0
-2026-10-02 04:33:22.466886-0700 xctest[59522:7735836] 210937041481 12 AVE INFO: AVE_Session_HEVC_StartTileSession Enter 0x776d254020 0x16bd938c0
-2026-10-02 04:33:22.467538-0700 xctest[59522:7735854] 210937041448 12 AVE INFO: AVE_Session_HEVC_Create Exit 0x776e800020 0x0 62650 531 0
-2026-10-02 04:33:22.467601-0700 xctest[59522:7735836] 210937041870 12 AVE INFO: AVE_Session_HEVC_StartTileSession Exit 0x776d254020 0x16bd938c0 0
-2026-10-02 04:33:22.467683-0700 xctest[59522:7735836] 210937042249 11 AVE INFO: AVE_Plugin_HEVC_StartTileSession Exit 0x776d254000 0x776d979ee0 0x776e23c080 32 32 0x1f297af70 62640 998 0 0
-2026-10-02 04:33:22.467854-0700 xctest[59522:7735836] 210937042439 11 AVE INFO: AVE_Plugin_HEVC_PrepareToEncodeTiles Enter 0x776d254000 0 0
-2026-10-02 04:33:22.467890-0700 xctest[59522:7735836] 210937042485 12 AVE INFO: AVE_Session_HEVC_Prepare Enter 0x776d254020
-2026-10-02 04:33:22.468294-0700 xctest[59522:7735836] 210937042887 12 AVE INFO: AVE_Session_HEVC_Prepare Exit 0x776d254020 0
-2026-10-02 04:33:22.468322-0700 xctest[59522:7735836] 210937042918 11 AVE INFO: AVE_Plugin_HEVC_PrepareToEncodeTiles Exit 0x776d254000 0 62640 478 0 0
-2026-10-02 04:33:22.468968-0700 xctest[59522:7735854] 210937042178 11 AVE INFO: AVE_Plugin_HEVC_CreateInstance Exit 1752589105 0x1f297af70 0x776d97bf50 62650 0x776e800000 0x776e800020 3198 0 0
-2026-10-02 04:33:22.469611-0700 xctest[59522:7735854] 210937043802 11 AVE INFO: AVE_Plugin_HEVC_StartTileSession Enter 0x776e800000 0x776d97bf40 0x776e23c280 256 256 0x1f297af70 0
-2026-10-02 04:33:22.469887-0700 xctest[59522:7735854] 210937044449 12 AVE INFO: AVE_Session_HEVC_StartTileSession Enter 0x776e800020 0x16c04ed80
-2026-10-02 04:33:22.469993-0700 xctest[59522:7735854] 210937044559 12 AVE INFO: AVE_Session_HEVC_StartTileSession Exit 0x776e800020 0x16c04ed80 0
-2026-10-02 04:33:22.470806-0700 xctest[59522:7735854] 210937044624 11 AVE INFO: AVE_Plugin_HEVC_StartTileSession Exit 0x776e800000 0x776d97bf40 0x776e23c280 256 256 0x1f297af70 62650 822 0 0
-2026-10-02 04:33:22.470896-0700 xctest[59522:7735854] 210937045488 11 AVE INFO: AVE_Plugin_HEVC_PrepareToEncodeTiles Enter 0x776e800000 0 0
-2026-10-02 04:33:22.470923-0700 xctest[59522:7735854] 210937045518 12 AVE INFO: AVE_Session_HEVC_Prepare Enter 0x776e800020
-2026-10-02 04:33:22.471319-0700 xctest[59522:7735854] 210937045911 12 AVE INFO: AVE_Session_HEVC_Prepare Exit 0x776e800020 0
-2026-10-02 04:33:22.471348-0700 xctest[59522:7735854] 210937045944 11 AVE INFO: AVE_Plugin_HEVC_PrepareToEncodeTiles Exit 0x776e800000 0 62650 456 0 0
-2026-10-02 04:33:22.497269-0700 xctest[59522:7735836] 210937071822 11 AVE INFO: AVE_Plugin_HEVC_Invalidate Enter 0x776d254000 0
-2026-10-02 04:33:22.497312-0700 xctest[59522:7735836] 210937071907 12 AVE INFO: AVE_Session_HEVC_Stop Enter 0x776d254020
-2026-10-02 04:33:22.497623-0700 xctest[59522:7735836] 210937072212 12 AVE INFO: AVE_Session_HEVC_Stop Exit 0x776d254020 0
-2026-10-02 04:33:22.497658-0700 xctest[59522:7735836] 210937072253 11 AVE INFO: AVE_Plugin_HEVC_Invalidate Exit 0x776d254000 62640 431 0 0
-2026-10-02 04:33:22.497819-0700 xctest[59522:7735836] 210937072413 11 AVE INFO: AVE_Plugin_HEVC_Finalize Enter 0x776d254000 0
-2026-10-02 04:33:22.497847-0700 xctest[59522:7735836] 210937072442 12 AVE INFO: AVE_Session_HEVC_Destroy Enter 0x776d254020
-2026-10-02 04:33:22.498177-0700 xctest[59522:7735854] 210937072770 11 AVE INFO: AVE_Plugin_HEVC_Invalidate Enter 0x776e800000 0
-2026-10-02 04:33:22.498205-0700 xctest[59522:7735854] 210937072801 12 AVE INFO: AVE_Session_HEVC_Stop Enter 0x776e800020
-2026-10-02 04:33:22.498574-0700 xctest[59522:7735854] 210937073078 12 AVE INFO: AVE_Session_HEVC_Stop Exit 0x776e800020 0
-2026-10-02 04:33:22.498613-0700 xctest[59522:7735854] 210937073204 11 AVE INFO: AVE_Plugin_HEVC_Invalidate Exit 0x776e800000 62650 433 0 0
-2026-10-02 04:33:22.498690-0700 xctest[59522:7735854] 210937073284 11 AVE INFO: AVE_Plugin_HEVC_Finalize Enter 0x776e800000 0
-2026-10-02 04:33:22.498717-0700 xctest[59522:7735854] 210937073312 12 AVE INFO: AVE_Session_HEVC_Destroy Enter 0x776e800020
-2026-10-02 04:33:22.499775-0700 xctest[59522:7735836] 210937074364 2 AVE : ID: 62640 Type: 1 Enc: 2 | Input: 1 Proc: 1 Drop: 0
-2026-10-02 04:33:22.500726-0700 xctest[59522:7735836] 210937075310 12 AVE INFO: AVE_Session_HEVC_Destroy Exit 0x776d254020 0
-2026-10-02 04:33:22.500757-0700 xctest[59522:7735836] 210937075352 11 AVE INFO: AVE_Plugin_HEVC_Finalize Exit 0x776d254000 62640 2939 0 0
-2026-10-02 04:33:22.501551-0700 xctest[59522:7735854] 210937076129 2 AVE : ID: 62650 Type: 1 Enc: 2 | Input: 1 Proc: 1 Drop: 0
-2026-10-02 04:33:22.504688-0700 xctest[59522:7735854] 210937079253 12 AVE INFO: AVE_Session_HEVC_Destroy Exit 0x776e800020 0
-2026-10-02 04:33:22.504734-0700 xctest[59522:7735854] 210937079329 11 AVE INFO: AVE_Plugin_HEVC_Finalize Exit 0x776e800000 62650 6045 0 0
-✔ Test RatesInvoiceTitlesAndOtherAmountsDoNotGroundTax() passed after 0.179 seconds.
-2026-10-02 04:33:22.507709-0700 xctest[59522:7735859] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_tr_model_latincyrillic_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
-✔ Test deletedReceiptRejectsChangedBytesAndSymlinkPayload() passed after 0.263 seconds.
-✔ Test partialClassificationDiagnosticSurvivesEveryKind(_:) with 5 test cases passed after 0.314 seconds.
-✔ Test symlinkedCategoryCannotEscapeLibrary() passed after 0.315 seconds.
-✔ Test combinedTaxesRetainedButNeverAutomaticallyApproved() passed after 0.314 seconds.
-✔ Test restoreConflictPreservesBothFilesAndCanRetry() passed after 0.345 seconds.
-✔ Test undoAlreadyDeletedMoveRestoresOriginalAndConsumesRecoveryEntry() passed after 0.347 seconds.
-✔ Test duplicatesAndModifiedDestinationsAreNeverOverwritten() passed after 0.346 seconds.
-✔ Test interruptedDeletionAndRestoreReplayAfterRename() passed after 0.347 seconds.
-✔ Test finderRenamedReceiptCanBeDeletedAndRestoredAtCurrentPath() passed after 0.346 seconds.
-✔ Test domainFallbackAndInvalidHeaders() passed after 0.343 seconds.
-✔ Test neverReplacesDocumentFieldsOrPromotesNonReceipts() passed after 0.343 seconds.
-✔ Test attachmentOnlyNonReceiptEmailProducesOneItem() passed after 0.343 seconds.
-✔ Test nonReceiptAttachmentsFallBackToOneBodyAndUnresolvedFilesStayVisible() passed after 0.343 seconds.
-✔ Test absentFieldsUseReviewableHintsAndPreserveLocalDay() passed after 0.343 seconds.
-✔ Test receiptAttachmentAlwaysSuppressesBodyAcrossMixedSelections() passed after 0.343 seconds.
-✔ Test copyCollisionsAndUndoPreserveExistingFiles() passed after 0.347 seconds.
-✔ Test deletedReceiptSurvivesRestartAndRestoresWithoutTouchingOriginal() passed after 0.347 seconds.
-✔ Test transferEncodingsAndCharsets() passed after 0.341 seconds.
-✔ Test alternativeDoesNotDuplicateBodyOrLoadHTML() passed after 0.341 seconds.
-✔ Test mailBodyAndPDFRemainExactAndSafe() passed after 0.341 seconds.
-✔ Test htmlBodyIsReadWithoutResourcesOrHiddenContent() passed after 0.341 seconds.
-✔ Test boundedReadRejectsSparseOversizeSymlinkAndMalformedEmailWithoutOutput() passed after 0.344 seconds.
-✔ Test genericBinaryPDFAttachmentRequiresNameAndSignature() passed after 0.341 seconds.
-✔ Test malformedEncodingAndHeadersAreRejected() passed after 0.341 seconds.
-✔ Test boundariesMustBeWholeLinesAndBinaryIsPreserved() passed after 0.345 seconds.
-✔ Test unsupportedAttachmentsNeverBecomeBody() passed after 0.345 seconds.
-✔ Test rejectsTraversalUnknownTokensAndMissingMetadata() passed after 0.341 seconds.
-✔ Test boundsExpandedUTF8FilenameWithoutDroppingRequiredFields() passed after 0.341 seconds.
-✔ Test defaultAndCustomNamesPreserveMetadata() passed after 0.341 seconds.
-✔ Test rawHTMLIsRetainedWhilePlaintextAlternativeStaysCompatible() passed after 0.341 seconds.
-✔ Test staleBookmarkForRenamedFolderResolvesToTheNewNameAndRenews() passed after 0.348 seconds.
-✔ Test emptyCorruptLockedAndLongPDFsFailClearly() passed after 0.346 seconds.
-✔ Test bodyPDFPaginatesWithoutDroppingLastLine() passed after 0.374 seconds.
-✔ Test malformedIDsNeverCollapseIntoOneDuplicateKey() passed after 0.364 seconds.
-✔ Test materializedBodyAndAttachmentsAreExactUniqueAndLeaveEmailUntouched() passed after 0.376 seconds.
-✔ Test encodedFilenamesAreDecodedBeforeTypeSelectionAndSanitized() passed after 0.364 seconds.
-✔ Test tinyAndHTMLReferencedInlineImagesAreExcluded() passed after 0.366 seconds.
-✔ Test committedMessageIDSurvivesRelaunchEvenWhenMessageBytesDiffer() passed after 0.365 seconds.
-✔ Test failedAndCancelledAttemptsRemainRetryableAcrossRelaunch() passed after 0.365 seconds.
-✔ Test durableInboxProofCanBeReplayedAfterCrashBeforeLedgerCommit() passed after 0.367 seconds.
-✔ Test unsafeOrOversizedLedgerIsNeverAcknowledged() passed after 0.367 seconds.
-✔ Test invalidScansLeaveNoHalfWrittenOutputs() passed after 0.367 seconds.
-✔ Test corruptLedgerFailsClosedAndCanRetryAfterRestoration() passed after 0.367 seconds.
-✔ Test outputBudgetAndProviderCaptureAreBoundedAndCleanUp() passed after 0.366 seconds.
-✔ Test malformedFilenameContinuationsAndExcessiveImagesFailBoundedly() passed after 0.367 seconds.
-✔ Test ignoresDirectoriesHiddenAndUnsupportedFilesAndReportsUnsafeOnEveryScan() passed after 0.359 seconds.
-✔ Test pdfPagesSeparateByDefaultOrPreserveCombinedBytes() passed after 0.366 seconds.
-✔ Test forwardedMessagesPreserveBodiesAndPDFBytesAcrossEncodings() passed after 0.359 seconds.
-✔ Test everyImageFormatCanBeStagedUnderBothPageModes() passed after 0.366 seconds.
-✔ Test fiftyMiBMessageReadBoundaryAndRemoteHTMLRemainLocal() passed after 0.355 seconds.
-✔ Test enlargesContentAndHandlesNonzeroMediaOrigin() passed after 0.355 seconds.
-✔ Test rotatesWholePageWithoutClippingOrMirroring() passed after 0.359 seconds.
-✔ Test envelopeEncodedWordsAreDisplayMetadataWithoutReplacingBody() passed after 0.348 seconds.
-✔ Test corruptHistoryAndUnsafePathsFailClearly() passed after 0.348 seconds.
-✔ Test paidInvoiceAndItsTermsRetainInvoiceType() passed after 0.349 seconds.
-✔ Test replacedRootAndStateSymlinkAreRejected() passed after 0.349 seconds.
-✔ Test documentHeadingsAndTransactionEvidenceRemainRecognized() passed after 0.349 seconds.
-✔ Test explicitNonFinancialHeadingWinsEvenWithPricesAndTotals() passed after 0.349 seconds.
-✔ Test incidentalFinancialWordsDoNotClassifyTermsOrCoverNotes() passed after 0.349 seconds.
-✔ Test attachmentsCarrySanitizedDisplayNamesButUUIDPaths() passed after 0.347 seconds.
-✔ Suite MailFieldHintsTests passed after 0.416 seconds.
-✔ Suite MailCandidateSelectionTests passed after 0.416 seconds.
-✔ Suite MailImportTests passed after 0.417 seconds.
-✔ Suite NameTemplateTests passed after 0.417 seconds.
-✔ Suite LibraryRenameTests passed after 0.417 seconds.
-✔ Test independentInstancesDoNotOverwriteEachOthersDeliveries() passed after 0.404 seconds.
-✔ Suite ScanImportTests passed after 0.418 seconds.
-✔ Test stateTamperingIsNotOverwrittenAndSecondScannerIsExcluded() passed after 0.396 seconds.
-✔ Test byteAndEntryBudgetsAreBounded() passed after 0.392 seconds.
-✔ Test failedAcknowledgmentDoesNotConsumeCandidate() passed after 0.386 seconds.
-✔ Suite MailAttachmentNameTests passed after 0.418 seconds.
+✔ Test currencyPrecisionAndUnicodeFilenames() passed after 0.049 seconds.
+✔ Test separateColumnsPreserveAmountsOnTheirRows() passed after 0.049 seconds.
+✔ Test taxReviewDiagnosticPersistsAndOlderExtractionStillDecodes() passed after 0.059 seconds.
+✔ Test unsupportedTaxInMultipleChargesRequiresReview() passed after 0.060 seconds.
+✔ Test calendarValidation() passed after 0.067 seconds.
+✔ Test successfulReceiptClassificationStillAllowsValidatedAutoFiling() passed after 0.072 seconds.
+✔ Test symlinkedCategoryCannotEscapeLibrary() passed after 0.075 seconds.
+✔ Test decodedDatesAreValidated() passed after 0.084 seconds.
+✔ Test RatesInvoiceTitlesAndOtherAmountsDoNotGroundTax() passed after 0.091 seconds.
+✔ Test surroundingTotalsAndRepeatedTaxLinesStayUnderReview() passed after 0.122 seconds.
+2026-11-18 15:17:43.663344-0800 xctest[66132:1155676] 40334641420 11 AVE : Compiled AppleAVE2-913.43.1 on Aug 11 2026 20:48:30
+2026-11-18 15:17:43.663397-0800 xctest[66132:1155676] 40334645268 11 AVE : Temporary Path: /var/folders/y3/wdj_11nx7qgbpnxss17nvmq40000gn/T/
+2026-11-18 15:17:43.663424-0800 xctest[66132:1155676] 40334645296 11 AVE INFO: AVE_Plugin_HEVC_CreateInstance Enter 1752589105 0x1edf4ef70 0x787b1417f0 0
+2026-11-18 15:17:43.663485-0800 xctest[66132:1155676] 40334645353 12 AVE INFO: AVE_Session_HEVC_Create Enter 0x787ae14020 0x0
+2026-11-18 15:17:43.663318-0800 xctest[66132:1155717] 40334640462 11 AVE : Compiled AppleAVE2-913.43.1 on Aug 11 2026 20:48:30
+2026-11-18 15:17:43.663612-0800 xctest[66132:1155717] 40334645484 11 AVE : Temporary Path: /var/folders/y3/wdj_11nx7qgbpnxss17nvmq40000gn/T/
+2026-11-18 15:17:43.663644-0800 xctest[66132:1155717] 40334645516 11 AVE INFO: AVE_Plugin_HEVC_CreateInstance Enter 1752589105 0x1edf4ef70 0x787b1410f0 0
+2026-11-18 15:17:43.663674-0800 xctest[66132:1155717] 40334645547 12 AVE INFO: AVE_Session_HEVC_Create Enter 0x787af30020 0x0
+2026-11-18 15:17:43.664129-0800 xctest[66132:1155676] 40334645770 12 AVE INFO: AVE_Session_HEVC_Create Exit 0x787ae14020 0x0 2810 417 0
+2026-11-18 15:17:43.664229-0800 xctest[66132:1155717] 40334646006 12 AVE INFO: AVE_Session_HEVC_Create Exit 0x787af30020 0x0 2820 459 0
+2026-11-18 15:17:43.664332-0800 xctest[66132:1155717] 40334646173 11 AVE INFO: AVE_Plugin_HEVC_CreateInstance Exit 1752589105 0x1edf4ef70 0x787b1410f0 2820 0x787af30000 0x787af30020 6661 0 0
+2026-11-18 15:17:43.664485-0800 xctest[66132:1155717] 40334646251 11 AVE INFO: AVE_Plugin_HEVC_StartTileSession Enter 0x787af30000 0x787b1410e0 0x787b45ae80 32 32 0x1edf4ef70 0
+2026-11-18 15:17:43.664523-0800 xctest[66132:1155717] 40334646394 12 AVE INFO: AVE_Session_HEVC_StartTileSession Enter 0x787af30020 0x16b7cf8c0
+2026-11-18 15:17:43.664574-0800 xctest[66132:1155717] 40334646447 12 AVE INFO: AVE_Session_HEVC_StartTileSession Exit 0x787af30020 0x16b7cf8c0 0
+2026-11-18 15:17:43.666231-0800 xctest[66132:1155717] 40334647837 11 AVE INFO: AVE_Plugin_HEVC_StartTileSession Exit 0x787af30000 0x787b1410e0 0x787b45ae80 32 32 0x1edf4ef70 2820 1586 0 0
+2026-11-18 15:17:43.666343-0800 xctest[66132:1155717] 40334648213 11 AVE INFO: AVE_Plugin_HEVC_PrepareToEncodeTiles Enter 0x787af30000 0 0
+2026-11-18 15:17:43.666369-0800 xctest[66132:1155717] 40334648242 12 AVE INFO: AVE_Session_HEVC_Prepare Enter 0x787af30020
+2026-11-18 15:17:43.664682-0800 xctest[66132:1155676] 40334646031 11 AVE INFO: AVE_Plugin_HEVC_CreateInstance Exit 1752589105 0x1edf4ef70 0x787b1417f0 2810 0x787ae14000 0x787ae14020 4980 0 0
+2026-11-18 15:17:43.666610-0800 xctest[66132:1155676] 40334648275 11 AVE INFO: AVE_Plugin_HEVC_StartTileSession Enter 0x787ae14000 0x787b1417e0 0x787b454020 256 256 0x1edf4ef70 0
+2026-11-18 15:17:43.666641-0800 xctest[66132:1155676] 40334648513 12 AVE INFO: AVE_Session_HEVC_StartTileSession Enter 0x787ae14020 0x16b6b6d80
+2026-11-18 15:17:43.666676-0800 xctest[66132:1155676] 40334648548 12 AVE INFO: AVE_Session_HEVC_StartTileSession Exit 0x787ae14020 0x16b6b6d80 0
+2026-11-18 15:17:43.666765-0800 xctest[66132:1155717] 40334648636 12 AVE INFO: AVE_Session_HEVC_Prepare Exit 0x787af30020 0
+2026-11-18 15:17:43.667810-0800 xctest[66132:1155676] 40334649671 11 AVE INFO: AVE_Plugin_HEVC_StartTileSession Exit 0x787ae14000 0x787b1417e0 0x787b454020 256 256 0x1edf4ef70 2810 1396 0 0
+2026-11-18 15:17:43.667888-0800 xctest[66132:1155676] 40334649760 11 AVE INFO: AVE_Plugin_HEVC_PrepareToEncodeTiles Enter 0x787ae14000 0 0
+2026-11-18 15:17:43.667915-0800 xctest[66132:1155676] 40334649787 12 AVE INFO: AVE_Session_HEVC_Prepare Enter 0x787ae14020
+2026-11-18 15:17:43.668195-0800 xctest[66132:1155717] 40334649675 11 AVE INFO: AVE_Plugin_HEVC_PrepareToEncodeTiles Exit 0x787af30000 0 2820 1462 0 0
+2026-11-18 15:17:43.668275-0800 xctest[66132:1155676] 40334650146 12 AVE INFO: AVE_Session_HEVC_Prepare Exit 0x787ae14020 0
+2026-11-18 15:17:43.668302-0800 xctest[66132:1155676] 40334650175 11 AVE INFO: AVE_Plugin_HEVC_PrepareToEncodeTiles Exit 0x787ae14000 0 2810 415 0 0
+2026-11-18 15:17:43.699223-0800 xctest[66132:1155676] 40334681055 11 AVE INFO: AVE_Plugin_HEVC_Invalidate Enter 0x787ae14000 0
+2026-11-18 15:17:43.699265-0800 xctest[66132:1155676] 40334681137 12 AVE INFO: AVE_Session_HEVC_Stop Enter 0x787ae14020
+2026-11-18 15:17:43.699470-0800 xctest[66132:1155717] 40334681180 11 AVE INFO: AVE_Plugin_HEVC_Invalidate Enter 0x787af30000 0
+2026-11-18 15:17:43.699497-0800 xctest[66132:1155717] 40334681370 12 AVE INFO: AVE_Session_HEVC_Stop Enter 0x787af30020
+2026-11-18 15:17:43.699778-0800 xctest[66132:1155676] 40334681613 12 AVE INFO: AVE_Session_HEVC_Stop Exit 0x787ae14020 0
+2026-11-18 15:17:43.699880-0800 xctest[66132:1155676] 40334681724 11 AVE INFO: AVE_Plugin_HEVC_Invalidate Exit 0x787ae14000 2810 669 0 0
+2026-11-18 15:17:43.700199-0800 xctest[66132:1155676] 40334682042 11 AVE INFO: AVE_Plugin_HEVC_Finalize Enter 0x787ae14000 0
+2026-11-18 15:17:43.700266-0800 xctest[66132:1155676] 40334682111 12 AVE INFO: AVE_Session_HEVC_Destroy Enter 0x787ae14020
+2026-11-18 15:17:43.700564-0800 xctest[66132:1155717] 40334682427 12 AVE INFO: AVE_Session_HEVC_Stop Exit 0x787af30020 0
+2026-11-18 15:17:43.700595-0800 xctest[66132:1155717] 40334682467 11 AVE INFO: AVE_Plugin_HEVC_Invalidate Exit 0x787af30000 2820 1287 0 0
+2026-11-18 15:17:43.700657-0800 xctest[66132:1155717] 40334682529 11 AVE INFO: AVE_Plugin_HEVC_Finalize Enter 0x787af30000 0
+2026-11-18 15:17:43.700683-0800 xctest[66132:1155717] 40334682555 12 AVE INFO: AVE_Session_HEVC_Destroy Enter 0x787af30020
+2026-11-18 15:17:43.703132-0800 xctest[66132:1155676] 40334684986 2 AVE : ID: 2810 Type: 1 Enc: 2 | Input: 1 Proc: 1 Drop: 0
+2026-11-18 15:17:43.704573-0800 xctest[66132:1155676] 40334686430 12 AVE INFO: AVE_Session_HEVC_Destroy Exit 0x787ae14020 0
+2026-11-18 15:17:43.704609-0800 xctest[66132:1155676] 40334686481 11 AVE INFO: AVE_Plugin_HEVC_Finalize Exit 0x787ae14000 2810 4439 0 0
+2026-11-18 15:17:43.704696-0800 xctest[66132:1155717] 40334686566 2 AVE : ID: 2820 Type: 1 Enc: 2 | Input: 1 Proc: 1 Drop: 0
+2026-11-18 15:17:43.708903-0800 xctest[66132:1155717] 40334690754 12 AVE INFO: AVE_Session_HEVC_Destroy Exit 0x787af30020 0
+2026-11-18 15:17:43.708941-0800 xctest[66132:1155717] 40334690813 11 AVE INFO: AVE_Plugin_HEVC_Finalize Exit 0x787af30000 2820 8284 0 0
+✔ Test restoreConflictPreservesBothFilesAndCanRetry() passed after 0.183 seconds.
+✔ Test adjacentHeaderDoesNotBecomePartOfVendor() passed after 0.182 seconds.
+2026-11-18 15:17:43.711576-0800 xctest[66132:1155675] [logging-persist] cannot open file at line 53009 of [8fa8248e30]
+2026-11-18 15:17:43.711586-0800 xctest[66132:1155675] [logging-persist] os_unix.c:53009: (2) open(/private/var/db/DetachedSignatures) - No such file or directory
+✔ Test successfulNegativeClassificationKeepsExistingAssessment() passed after 0.198 seconds.
+✔ Test cardPaymentAndAmountDueAreRecognized() passed after 0.223 seconds.
+2026-11-18 15:17:43.753965-0800 xctest[66132:1155721] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_tr_model_latincyrillic_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+✔ Test undoAlreadyDeletedMoveRestoresOriginalAndConsumesRecoveryEntry() passed after 0.231 seconds.
+✔ Test partialClassificationDiagnosticSurvivesEveryKind(_:) with 5 test cases passed after 0.230 seconds.
+✔ Test extractionPayloadWithoutClassificationDiagnosticRemainsReadable() passed after 0.232 seconds.
+✔ Test parserUsesFinalTotalRatherThanTenderedCash() passed after 0.231 seconds.
+✔ Test deletedReceiptRejectsChangedBytesAndSymlinkPayload() passed after 0.233 seconds.
+✔ Test duplicatesAndModifiedDestinationsAreNeverOverwritten() passed after 0.233 seconds.
+✔ Test deletedReceiptSurvivesRestartAndRestoresWithoutTouchingOriginal() passed after 0.247 seconds.
+✔ Test emptyAndInvalidFragmentsDoNotCreateText() passed after 0.246 seconds.
+✔ Test finderRenamedReceiptCanBeDeletedAndRestoredAtCurrentPath() passed after 0.246 seconds.
+✔ Test outputBudgetAndProviderCaptureAreBoundedAndCleanUp() passed after 0.239 seconds.
+✔ Test interruptedDeletionAndRestoreReplayAfterRename() passed after 0.246 seconds.
+✔ Test copyCollisionsAndUndoPreserveExistingFiles() passed after 0.247 seconds.
+✔ Test moveAndUndoRestoreOriginalIdentityAndBytes() passed after 0.245 seconds.
+✔ Test invalidScansLeaveNoHalfWrittenOutputs() passed after 0.240 seconds.
+✔ Test boundedReadRejectsSparseOversizeSymlinkAndMalformedEmailWithoutOutput() passed after 0.239 seconds.
+✔ Test ignoresDirectoriesHiddenAndUnsupportedFilesAndReportsUnsafeOnEveryScan() passed after 0.238 seconds.
+✔ Test attachmentsCarrySanitizedDisplayNamesButUUIDPaths() passed after 0.240 seconds.
+✔ Test replacedRootAndStateSymlinkAreRejected() passed after 0.239 seconds.
+✔ Test corruptHistoryAndUnsafePathsFailClearly() passed after 0.239 seconds.
+✔ Test explicitNonFinancialHeadingWinsEvenWithPricesAndTotals() passed after 0.243 seconds.
+✔ Test pdfPagesSeparateByDefaultOrPreserveCombinedBytes() passed after 0.244 seconds.
+✔ Test materializedBodyAndAttachmentsAreExactUniqueAndLeaveEmailUntouched() passed after 0.244 seconds.
+✔ Test incidentalFinancialWordsDoNotClassifyTermsOrCoverNotes() passed after 0.242 seconds.
+✔ Test documentHeadingsAndTransactionEvidenceRemainRecognized() passed after 0.243 seconds.
+✔ Test paidInvoiceAndItsTermsRetainInvoiceType() passed after 0.242 seconds.
+✔ Test forwardedMessagesPreserveBodiesAndPDFBytesAcrossEncodings() passed after 0.242 seconds.
+✔ Test rawHTMLIsRetainedWhilePlaintextAlternativeStaysCompatible() passed after 0.247 seconds.
+✔ Test envelopeEncodedWordsAreDisplayMetadataWithoutReplacingBody() passed after 0.247 seconds.
+✔ Test bodyPDFPaginatesWithoutDroppingLastLine() passed after 0.250 seconds.
+✔ Test encodedFilenamesAreDecodedBeforeTypeSelectionAndSanitized() passed after 0.229 seconds.
+✔ Test tinyAndHTMLReferencedInlineImagesAreExcluded() passed after 0.247 seconds.
+✔ Test fiftyMiBMessageReadBoundaryAndRemoteHTMLRemainLocal() passed after 0.248 seconds.
+✔ Test malformedFilenameContinuationsAndExcessiveImagesFailBoundedly() passed after 0.247 seconds.
+✔ Test enlargesContentAndHandlesNonzeroMediaOrigin() passed after 0.229 seconds.
+✔ Test domainFallbackAndInvalidHeaders() passed after 0.228 seconds.
+✔ Test absentFieldsUseReviewableHintsAndPreserveLocalDay() passed after 0.228 seconds.
+✔ Test neverReplacesDocumentFieldsOrPromotesNonReceipts() passed after 0.229 seconds.
+✔ Test everyImageFormatCanBeStagedUnderBothPageModes() passed after 0.252 seconds.
+✔ Test rejectsTraversalUnknownTokensAndMissingMetadata() passed after 0.228 seconds.
+✔ Test defaultAndCustomNamesPreserveMetadata() passed after 0.228 seconds.
+✔ Test staleBookmarkForRenamedFolderResolvesToTheNewNameAndRenews() passed after 0.228 seconds.
+✔ Test boundsExpandedUTF8FilenameWithoutDroppingRequiredFields() passed after 0.231 seconds.
+✔ Test failedAndCancelledAttemptsRemainRetryableAcrossRelaunch() passed after 0.231 seconds.
+✔ Test unsafeOrOversizedLedgerIsNeverAcknowledged() passed after 0.231 seconds.
+✔ Test durableInboxProofCanBeReplayedAfterCrashBeforeLedgerCommit() passed after 0.246 seconds.
+✔ Test committedMessageIDSurvivesRelaunchEvenWhenMessageBytesDiffer() passed after 0.244 seconds.
+✔ Test malformedIDsNeverCollapseIntoOneDuplicateKey() passed after 0.244 seconds.
+✔ Test receiptAttachmentAlwaysSuppressesBodyAcrossMixedSelections() passed after 0.244 seconds.
+✔ Test corruptLedgerFailsClosedAndCanRetryAfterRestoration() passed after 0.244 seconds.
+✔ Test nonReceiptAttachmentsFallBackToOneBodyAndUnresolvedFilesStayVisible() passed after 0.244 seconds.
+✔ Test attachmentOnlyNonReceiptEmailProducesOneItem() passed after 0.245 seconds.
+✔ Test rotatesWholePageWithoutClippingOrMirroring() passed after 0.254 seconds.
+✔ Test malformedEncodingAndHeadersAreRejected() passed after 0.245 seconds.
+✔ Test genericBinaryPDFAttachmentRequiresNameAndSignature() passed after 0.244 seconds.
+✔ Test boundariesMustBeWholeLinesAndBinaryIsPreserved() passed after 0.243 seconds.
+✔ Test alternativeDoesNotDuplicateBodyOrLoadHTML() passed after 0.243 seconds.
+✔ Test mailBodyAndPDFRemainExactAndSafe() passed after 0.243 seconds.
+✔ Test transferEncodingsAndCharsets() passed after 0.243 seconds.
+✔ Test htmlBodyIsReadWithoutResourcesOrHiddenContent() passed after 0.245 seconds.
+✔ Test unsupportedAttachmentsNeverBecomeBody() passed after 0.243 seconds.
+✔ Test emptyCorruptLockedAndLongPDFsFailClearly() passed after 0.238 seconds.
+✔ Test emptyRecognizedTextThrowsBeforeBackendAndPreservesSource() passed after 0.277 seconds.
+✔ Suite ScanImportTests passed after 0.330 seconds.
+✔ Suite MailImportTests passed after 0.330 seconds.
+✔ Suite MailAttachmentNameTests passed after 0.330 seconds.
+✔ Test stateTamperingIsNotOverwrittenAndSecondScannerIsExcluded() passed after 0.322 seconds.
+✔ Test failedAcknowledgmentDoesNotConsumeCandidate() passed after 0.321 seconds.
+✔ Test byteAndEntryBudgetsAreBounded() passed after 0.321 seconds.
+✔ Suite MailFieldHintsTests passed after 0.331 seconds.
+✔ Suite NameTemplateTests passed after 0.330 seconds.
+✔ Suite LibraryRenameTests passed after 0.331 seconds.
+✔ Test independentInstancesDoNotOverwriteEachOthersDeliveries() passed after 0.293 seconds.
+✔ Suite MailCandidateSelectionTests passed after 0.331 seconds.
+✔ Suite ParserDocumentEvidenceTests passed after 0.331 seconds.
+✔ Suite MailDeliveryLedgerTests passed after 0.333 seconds.
 ◇ Test fiftyMegapixelImageIsRejectedBeforeOCR() started.
-✔ Suite MailDeliveryLedgerTests passed after 0.423 seconds.
-✔ Test acknowledgedFilesDoNotStarveLaterFilesUnderMemoryBudget() passed after 0.434 seconds.
-✔ Test legacyFilenameHistoryStillSkipsUnchangedFileWithoutIdentity() passed after 0.456 seconds.
-✔ Test partialWritesNeedTwoSpacedStableObservations() passed after 0.431 seconds.
-✔ Test renamedIdentityUsesLatestHashInsteadOfHistoricalFilenameHash() passed after 0.459 seconds.
-✔ Test tenThousandBoundedMIMEMutationsFinishWithoutCrash() passed after 0.458 seconds.
-✔ Suite Intake11MailSafetyTests passed after 0.480 seconds.
-2026-10-02 04:33:22.807250-0700 xctest[59522:7735876] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_orientation_model_v1_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
-✔ Test emptyRecognizedTextThrowsBeforeBackendAndPreservesSource() passed after 0.460 seconds.
-✔ Test transportHeadersAreNotUsedAsConfidentReceiptFields() passed after 0.460 seconds.
-✔ Suite ParserDocumentEvidenceTests passed after 0.493 seconds.
-✔ Suite MailBodyExtractionTests passed after 0.493 seconds.
-✔ Test multiPageTIFFDoesNotSilentlyDiscardLaterPages() passed after 0.482 seconds.
-✔ Test engineReviewFileSearchUndoAndSourceChange() passed after 0.498 seconds.
-2026-10-02 04:33:22.825476-0700 xctest[59522:7735862] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_td_model_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
-✔ Test indexRebuildRestoresSearchFromLibraryAlone() passed after 0.500 seconds.
-✔ Test durableAcknowledgmentSurvivesRestartAndChangedContentRequeues() passed after 0.498 seconds.
-✔ Suite WatchedFolderTests passed after 0.531 seconds.
-✔ Test allFourImageFormatsSurviveMaterializationExactly() passed after 0.563 seconds.
-✔ Test veryLargePagesStayWithinExistingPixelBudget() passed after 0.616 seconds.
-✔ Suite PDFRasterizationTests passed after 0.643 seconds.
-✔ Test TIFFCandidateUsesNormalRecognitionAndFilingValidation() passed after 0.685 seconds.
-✔ Suite MailImageAttachmentTests passed after 0.699 seconds.
-✔ Test fiftyMegapixelImageIsRejectedBeforeOCR() passed after 0.385 seconds.
+✔ Test partialWritesNeedTwoSpacedStableObservations() passed after 0.359 seconds.
+✔ Test acknowledgedFilesDoNotStarveLaterFilesUnderMemoryBudget() passed after 0.360 seconds.
+✔ Test legacyFilenameHistoryStillSkipsUnchangedFileWithoutIdentity() passed after 0.342 seconds.
+✔ Test multiPageTIFFDoesNotSilentlyDiscardLaterPages() passed after 0.391 seconds.
+2026-11-18 15:17:43.930010-0800 xctest[66132:1155744] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_orientation_model_v1_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+✔ Test transportHeadersAreNotUsedAsConfidentReceiptFields() passed after 0.379 seconds.
+✔ Test durableAcknowledgmentSurvivesRestartAndChangedContentRequeues() passed after 0.400 seconds.
+✔ Suite MailBodyExtractionTests passed after 0.408 seconds.
+✔ Suite WatchedFolderTests passed after 0.409 seconds.
+✔ Test renamedIdentityUsesLatestHashInsteadOfHistoricalFilenameHash() passed after 0.378 seconds.
+✔ Test engineReviewFileSearchUndoAndSourceChange() passed after 0.417 seconds.
+✔ Test indexRebuildRestoresSearchFromLibraryAlone() passed after 0.421 seconds.
+✔ Test tenThousandBoundedMIMEMutationsFinishWithoutCrash() passed after 0.412 seconds.
+✔ Suite Intake11MailSafetyTests passed after 0.442 seconds.
+2026-11-18 15:17:43.968961-0800 xctest[66132:1155719] [e5rt] Unable to find a valid E5 in provided path /System/Library/PrivateFrameworks/TextRecognition.framework/Resources/cr_td_model_v3_e5.mlmodelc.bundle/. Found bundles : { }. Expected : { H13S.bundle H13C.bundle H13G.bundle H13D.bundle H13.bundle H13P.bundle universal.bundle jit.bundle }. @ GetE5PathFromCompositeBundle
+✔ Test allFourImageFormatsSurviveMaterializationExactly() passed after 0.548 seconds.
+✔ Test veryLargePagesStayWithinExistingPixelBudget() passed after 0.541 seconds.
+✔ Suite PDFRasterizationTests passed after 0.572 seconds.
+✔ Test TIFFCandidateUsesNormalRecognitionAndFilingValidation() passed after 0.641 seconds.
+✔ Suite MailImageAttachmentTests passed after 0.651 seconds.
+✔ Test fiftyMegapixelImageIsRejectedBeforeOCR() passed after 0.373 seconds.
 ◇ Test ordinaryImageAndPDFCompleteWithoutCrashing() started.
-✔ Test ordinaryImageAndPDFCompleteWithoutCrashing() passed after 0.195 seconds.
+✔ Test ordinaryImageAndPDFCompleteWithoutCrashing() passed after 0.165 seconds.
 ◇ Test missingLibraryAndInvalidPermissionHaveActionableErrors() started.
-2026-10-02 04:33:23.330813-0700 xctest[59522:7735862] [bookmark] BookmarkData: invalid header
+2026-11-18 15:17:44.398809-0800 xctest[66132:1155673] [bookmark] BookmarkData: invalid header
 ✔ Test missingLibraryAndInvalidPermissionHaveActionableErrors() passed after 0.001 seconds.
-✔ Suite ResilienceTests passed after 1.006 seconds.
-✔ Test allResourceBoundsAreEnforced() passed after 1.448 seconds.
-✔ Suite MailDocumentTests passed after 1.455 seconds.
-✔ Test corpusMixPartsSelectableTextAndSourcePreservation() passed after 1.692 seconds.
-✔ Suite MailFixtureCorpusTests passed after 1.706 seconds.
-✔ Test fiftyBurstFilesWaitForCompletionAndAcknowledgedRenameStaysConsumed() passed after 6.595 seconds.
-✔ Suite Intake11WatchedSafetyTests passed after 6.599 seconds.
-✔ Test randomizedThousandFileOperationsPreserveEveryOriginal() passed after 15.301 seconds.
-Corpus MIME mutations: 3159 parsed, 6841 safely rejected; elapsed 45.744150416 seconds.
-✔ Test tenThousandDiverseCorpusMutationsRemainBoundedAndDeterministic() passed after 46.602 seconds.
-✔ Suite MailCorpusMutationTests passed after 46.624 seconds.
-✔ Test run with 116 tests in 19 suites passed after 46.624 seconds.
-2026-10-02 04:34:09.245 xcodebuild[59396:7737080]  IDETestOperationsObserverDebug: Failure collecting logarchive: Error Domain=OSLogErrorDomain Code=13 "Log archive creation failed with error 13, warnings during creation: failed to read version.plist
-" UserInfo={NSLocalizedDescription=Log archive creation failed with error 13, warnings during creation: failed to read version.plist
-}
-2026-10-02 04:34:09.274 xcodebuild[59396:7735272] [MT] IDETestOperationsObserverDebug: 47.628 elapsed -- Testing started completed.
-2026-10-02 04:34:09.274 xcodebuild[59396:7735272] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
-2026-10-02 04:34:09.274 xcodebuild[59396:7735272] [MT] IDETestOperationsObserverDebug: 47.628 sec, +47.628 sec -- end
+✔ Suite ResilienceTests passed after 0.873 seconds.
+✔ Test allResourceBoundsAreEnforced() passed after 1.386 seconds.
+✔ Suite MailDocumentTests passed after 1.431 seconds.
+✔ Test corpusMixPartsSelectableTextAndSourcePreservation() passed after 1.590 seconds.
+✔ Suite MailFixtureCorpusTests passed after 1.620 seconds.
+✔ Test fiftyBurstFilesWaitForCompletionAndAcknowledgedRenameStaysConsumed() passed after 6.551 seconds.
+✔ Suite Intake11WatchedSafetyTests passed after 6.582 seconds.
+✔ Test randomizedThousandFileOperationsPreserveEveryOriginal() passed after 13.993 seconds.
+Corpus MIME mutations: 3159 parsed, 6841 safely rejected; elapsed 41.469035417 seconds.
+✔ Test tenThousandDiverseCorpusMutationsRemainBoundedAndDeterministic() passed after 42.357 seconds.
+✔ Suite MailCorpusMutationTests passed after 42.395 seconds.
+✔ Test run with 116 tests in 19 suites passed after 42.396 seconds.
+2026-11-18 15:18:31.860 xcodebuild[66021:1155246] [MT] IDETestOperationsObserverDebug: 49.302 elapsed -- Testing started completed.
+2026-11-18 15:18:31.860 xcodebuild[66021:1155246] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-11-18 15:18:31.860 xcodebuild[66021:1155246] [MT] IDETestOperationsObserverDebug: 49.302 sec, +49.302 sec -- end
 
 Test session results, code coverage, and logs:
-	/Users/builder/Factory/paperloft/build/KitCoverage-20261002-043312.xcresult
+	/Users/builder/Factory/paperloft/build/KitCoverage-20261118-151738.xcresult
 
 ** TEST SUCCEEDED **
 

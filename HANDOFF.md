@@ -1,3 +1,31 @@
+## 2026-11-18 — Owner tax and banking setup verified
+
+App Store Connect shows U.S. W-9 Active, submitted Nov 18. Payout bank account is Processing; Apple explicitly says changes should appear in 24 hours. API probe still returns 403 FORBIDDEN.REQUIRED_AGREEMENTS_MISSING_OR_EXPIRED. No additional owner input requested now. Recheck activation before release work. Local preflight passed: 42 PASS, 2 WARN, zero FAIL/TFAIL; all 185 locked hashes and append-only lock history pass. Integrated full CI/performance following the Settings repair remains next; no new full CI launched at this checkpoint. No archive/upload/release.
+
+## 2026-11-18 — Paid Apps Agreement accepted
+
+Owner gave action-time approval. Submitted agreement; Apple now shows effective Nov 18, 2026–Jul 14, 2027, Pending User Info. U.S. Form W-9 is Missing Tax Info; no payout bank account shown. Owner asked to complete Add Tax Info and Add Bank Account directly in Apple. A second old Pending (New Legal Entity) row remains; do not assume fully resolved. Screenshot: build/paid-apps-agreement-accepted.jpg. No upload or release performed.
+
+## 2026-11-18 — Release credentials completed; Apple agreement pending
+
+Owner approved all three credentials. Apple Distribution and Mac Installer Distribution certificates were issued and imported into the login keychain. Paperloft Release App Store Connect API key (App Manager) was created and stored locally with restricted permissions. Ignored local team configuration and protected asc.env were updated. No private key contents were logged or committed.
+
+Full preflight: 48 PASS, 2 WARN, 1 FAIL, 0 TFAIL, 5 MANUAL. The remaining API failure is HTTP 403 FORBIDDEN.REQUIRED_AGREEMENTS_MISSING_OR_EXPIRED, not an invalid key. EvidencePair LLC Paid Apps Agreement is Pending (New Legal Entity). Its agreement dialog is open in App Store Connect. Action-time approval requested under the computer-use tool's mandatory legal-agreement policy; acceptance has NOT occurred. Organization membership itself is active.
+
+No release archive, upload, submission, or public release performed. Integrated CI/performance after the Settings repair and remaining independent release checks are still required. Resume from the pending agreement approval; do not recreate credentials.
+
+## Staged Apple credential requests — November 18, 2026
+
+Live Apple portal confirms EvidencePair LLC organization, Team GQ4UA5C6RQ, Account Holder, renewal July15 2027; latest Program License Agreement accepted November18. Xcode creation menu remains disabled, but web portal accepts CSR staging. No issuance performed yet.
+
+Prepared two local RSA keys/CSRs in ~/Factory/.secrets/paperloft-signing-20261118 (restricted permissions; NEVER commit/read key contents into logs). In-app browser tabs:1 Apple Distribution CSR staged at Continue;3 Mac Installer CSR staged at Continue;2 ASC Generate API Key modal named Paperloft Release with App Manager role, Generate not pressed. Owner confirmation requested because computer-use tool requires action-time confirmation for new security-sensitive credentials. Team-wide access disclosed. Existing unrelated keys untouched. Persist/mark tabs again after future turn if needed.
+
+After approval: issue/download/install certificates, create/download API key once, securely set asc.env real key/issuer/team (issuer visible in ASC; never log key contents), verify full preflight and remaining account setup. No readiness or upload claims yet. Integrated CI/performance on latest Settings change still pending.
+
+## Apple setup checkpoint — November 18, 2026
+
+Owner signed into Xcode. UI verifies EvidencePair LLC, Admin, Certificates/Identifiers/Profiles access. Manage Certificates lists only Apple Development identities; all creation menu choices disabled, reason not established. Opened developer.apple.com/account in in-app browser; separate sign-in required. Owner asked to sign in; browser handoff pending. No certificate/account mutations performed. GUI free for owner; integrated regression postponed during sign-in.
+
 ## Latest restart point — November 18, 2026
 
 Settings repair `4c361ce` is independently scoped-reviewed and merged into run/1. Five targeted UI tests, including all inline Settings tabs in Light/Dark, and strict signed Debug/Release builds pass. No audit exceptions added. Earlier full CI (446 tests) and fresh AC-10 passed before this UI change; integrated regression/performance must be refreshed before claiming final current-source readiness.

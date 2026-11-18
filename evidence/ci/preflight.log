@@ -1,14 +1,14 @@
-Paperloft factory pre-flight  2026-10-02 04:34:33  user=builder  repo=/Users/builder/Factory/paperloft
+Paperloft factory pre-flight  2026-11-18 15:18:51  user=builder  repo=/Users/builder/Factory/paperloft
 
 == Machine ==
 PASS   macOS 27.0
 PASS   Apple silicon
-PASS   user 'builder' is a Standard user
-PASS   67 GB free
+WARN   user 'builder' is an admin; a Standard user named builder is recommended (section 3.1)
+PASS   89 GB free
 PASS   Retina-class display connected
 
 == Power, sleep, lock, updates ==
-PASS   on wall power
+WARN   local development on battery (94%); stop below 30%; release still requires wall power
 PASS   pmset sleep 0
 PASS   pmset displaysleep 0
 PASS   pmset disksleep 0
@@ -32,8 +32,8 @@ PASS   UI automation needs no password
 
 == Signing and keychain ==
 PASS   identity: Apple Development
-MANUAL DEFERRED (local development only): no valid 'Apple Distribution' identity; create it in Xcode > Settings > Accounts > Manage Certificates (section 3.3)
-MANUAL DEFERRED (local development only): no Mac Installer Distribution identity; create it in Xcode > Settings > Accounts > Manage Certificates
+PASS   identity: Apple Distribution
+PASS   identity: Mac Installer Distribution
 PASS   login keychain does not auto-lock
 
 == Secrets and App Store Connect ==
@@ -47,8 +47,7 @@ PASS   APP_NAME set
 PASS   SUPPORT_EMAIL set
 PASS   SITE_DOMAIN set
 PASS   LEGAL_ENTITY set
-MANUAL DEFERRED (local development only): App Store Connect key file not found at '/Users/builder/.appstoreconnect/private_keys/AuthKey_ABC123DEFG.p8'
-MANUAL DEFERRED (local development only): no signing identity for team ABCDE12345
+PASS   App Store Connect key file present
 MANUAL DEFERRED (local development only): App Store Connect API, app record and products require full preflight before release
 
 == Apple Intelligence ==
@@ -73,5 +72,5 @@ MANUAL Computer Use: Screen Recording and Accessibility granted; Locked use on; 
 MANUAL GitHub rulesets: no force-push to main; acceptance-* tags cannot be updated or deleted
 MANUAL App Store Connect: Paid Apps Agreement active; Small Business Program enrolled
 
-Summary: 39 PASS, 1 WARN, 0 FAIL, 0 TFAIL, 15 MANUAL
+Summary: 40 PASS, 3 WARN, 0 FAIL, 0 TFAIL, 11 MANUAL
 GO: LOCAL DEVELOPMENT ONLY. Distribution signing, upload and release remain blocked.
